@@ -194,37 +194,3 @@ cluster, embedding = compartment(network, chromsize, nc=4)
 print(time.time() - start_time)
 print(ARI(label, cluster))
 
-
-56.43739366531372
-75.48667979240417
-39.40321183204651
-51.541046380996704
-381065.965
-
-cg = np.loadtxt('/cellar/users/zhoujt1994/genome/mm9/bin/mm9.1mb.bin.CpG.txt', dtype=np.str, skiprows=1, usecols=(0,9,11,12))
-cgdata = cg[:,1:].astype(float)
-cgdata = cgdata[:,2]/(cgdata[:,1]-cgdata[:,0])
-cgdata[np.isnan(cgdata)] = 0.0
-chrcg = {c:cgdata[cg[:,0]=='chr'+c] for c in chrom}
-ctlist = ['NSN', 'SN', 'ZygP', 'ZygM']
-network = {ct:np.loadtxt('/cellar/users/zhoujt1994/projects/scHiC/Flyamer2017/cell_matrix/1mb_resolution/'+ct+'/sample_list.txt', dtype=np.str) for ct in ctlist}
-label = np.concatenate([[ct for i in range(len(network[ct]))] for ct in ctlist]).astype('U8')
-label[label == 'NSN'] = 'Oocyte'
-label[label == 'SN'] = 'Oocyte'
-network = np.concatenate([network[ct] for ct in ctlist])
-mm9dim = [197195432,181748087,159599783,155630120,152537259,149517037,152524553,131738871,124076172,129993255,121843856,121257530,120284312,125194864,103494974,98319150,95272651,90772031,61342430]
-chrom = [str(i+1) for i in range(19)]
-chromsize = {chrom[i]:mm9dim[i] for i in range(len(chrom))}
-start_time = time.time()
-cluster, embedding = pca(network, chromsize, nc=3)
-print(time.time() - start_time)
-kmeans = KMeans(n_clusters = 3, n_init = 200).fit(embedding[:, :20])
-print(ARI(label, kmeans.labels_))
-
-
-25.54651141166687
-30.359964847564697
-20.048206090927124
-29.159992933273315
-31783.053
-
