@@ -33,6 +33,22 @@ def random_walk_gpu(A, rp):
 			break
 	return Q
 
+def impute_gpu(args):
+	cell, c, ngene, pad, rp, prct = args
+	D = np.loadtxt(cell + '_chr' + c + '.txt')
+	A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
+	A = np.log2(A + A.T + 1)
+	A = neighbor_ave_gpu(A, pad)
+	if rp==-1:
+		Q = A[:]
+	else:
+		Q = random_walk_gpu(A, rp)
+	if prct==-1:
+		Q = Q.reshape(ngene * ngene)
+	else:
+		Q = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
+	return Q
+
 def hicluster_gpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, ndim=20):
 	matrix=[]
 	for i, c in enumerate(chromsize):
@@ -40,18 +56,7 @@ def hicluster_gpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 		start_time = time.time()
 		Q_concat = torch.zeros(len(network), ngene * ngene).float().cuda()
 		for j, cell in enumerate(network):
-			D = np.loadtxt(cell + '_chr' + c + '.txt')
-			A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
-			A = np.log2(A + A.T + 1)
-			A = neighbor_ave_gpu(A, pad)
-			if rp==-1:
-				Q = A[:]
-			else:
-				Q = random_walk_gpu(A, rp)
-			if prct==-1:
-				Q_concat[j, :] = Q.reshape(ngene * ngene)
-			else:
-				Q_concat[j, :] = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
+			Q_concat[j] = impute_gpu([cell, c, ngene, pad, rp, prct])
 		end_time = time.time()
 		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
 		ndim = int(min(Q_concat.shape) * 0.2) - 1
@@ -96,7 +101,7 @@ def random_walk_cpu(A, rp):
 			break
 	return Q
 
-def impute(args):
+def impute_cpu(args):
 	cell, c, ngene, pad, rp, prct = args
 	D = np.loadtxt(cell + '_chr' + c + '.txt')
 	A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
@@ -194,29 +199,30 @@ def ds_pca(network, chromsize, nc, res=1000000, ndim=20):
 	kmeans = KMeans(n_clusters = nc, n_init = 200).fit(matrix_reduce[:, :ndim])
 	return kmeans.labels_, matrix_reduce
 
-def comp_comp(Q, cg):
-	ngene = Q.shape[0]
-	C = torch.zeros(ngene, ngene).float().cuda()
+def comp_comp(O, cg):
+	ngene, _ = Q.shape
+	N = torch.zeros(ngene, ngene).float().cuda()
 	for k in range(ngene):
-		diagsum = torch.sum(torch.diag(Q, k)) / (ngene - k)
-		C = C + torch.diag(torch.diag(Q, k) / diagsum, k)
-	D = torch.diag(torch.diag(C))
-	C = C + torch.t(C) - D
-	C[C!=C] = 0.0
-	C = corrcoef(C).cpu().numpy()
+		diagsum = torch.sum(torch.diag(O, k)) / (ngene - k)
+		N = N + torch.diag(torch.diag(O, k) / diagsum, k)
+	D = torch.diag(torch.diag(N))
+	N = N + torch.t(N) - D
+	N[N!=N] = 0.0
+	C = corrcoef(N).cpu().numpy()
 	pca = PCA(n_components=2)
 	pc = pca.fit_transform(C)
-	# corr = np.abs([np.corrcoef(chrcg[c], pc[:,i])[0,1] for i in range(2)])
+	corr = np.abs([np.corrcoef(cg, pc[:,i])[0,1] for i in range(2)])
 	# if corr[0] > corr[1]:
 	# 	k = 0
 	# else:
 	# 	k = 1
 	k = 0
-	pc = pc[:,k]
-	if np.mean(cg[pc>0]) > np.mean(cg[pc<0]):
-		return -pc
+	pc, corr = pc[:,k], corr[k]
+	comp = torch.mean(N[pc>0][:,pc<0]).item() * 2 / (torch.mean(N[pc>0][:,pc>0]).item() + torch.mean(N[pc<0][:,pc<0]).item())
+	if np.corrcoef(cg, pc)[0,1] < 0:
+		return [C, -pc, corr, comp]
 	else:
-		return pc
+		return [C, pc, corr, comp]
 
 def compartment(network, chromsize, nc, res=1000000, ndim=20):
 	global chrcg
@@ -266,6 +272,44 @@ def decay(network, chromsize, nc, res=1000000, ndim=20):
 	kmeans = KMeans(n_clusters = nc, n_init = 200).fit(matrix_reduce[:, :ndim])
 	return kmeans.labels_, matrix_reduce
 
+def merge_gpu(network, c, res, pad=1, rp=0.5, prct=-1):
+	global chromsize
+	ngene = int(chromsize[c] / res) + 1
+	start_time = time.time()
+	Q_sum = torch.zeros(ngene * ngene).float().cuda()
+	for cell in network:
+		Q_sum = Q_sum + impute_gpu([cell, c, ngene, pad, rp, prct])
+	end_time = time.time()
+	print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
+	Q_sum = Q_sum.cpu().numpy().reshape(ngene, ngene)
+	return Q_sum
+
+def merge_cpu(network, c, res, pad=1, rp=0.5, prct=-1):
+	global chromsize
+	ngene = int(chromsize[c] / res) + 1
+	start_time = time.time()
+	Q_sum = torch.zeros(ngene * ngene).float().cuda()
+	for cell in network:
+		Q_sum = Q_sum + impute_cpu([cell, c, ngene, pad, rp, prct])[1]
+	end_time = time.time()
+	print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
+	Q_sum = Q_sum.reshape(ngene, ngene)
+	return Q_sum
+
+def output_topdom(cell, c, Q, res):
+	global chromsize
+	ngene, _ = Q.shape
+	B = [['chr' + c, i * res, (i + 1) * res] for i in range(ngene)]
+	B[-1][-1] = chromsize[c]
+	C = np.concatenate((B, Q), axis=1)
+	np.savetxt(cell + '_chr' + c + '.topdommatrix', C, fmt = '%s', delimiter = '\t')
+	return
+
+def output_sparse(cell, c, Q, res):
+	idx = np.where(Q>0)
+	C = np.concatenate(((idx[0]*res)[:, None], (idx[1]*res)[:,None], Q[idx][:, None]), axis=1)
+	np.savetxt(cell + '_chr' + c + '.sparsematrix', C, fmt = '%d\t%d\t%s', delimiter = '\n')
+	return
 
 mm9dim = [197195432,181748087,159599783,155630120,152537259,149517037,152524553,131738871,124076172,129993255,121843856,121257530,120284312,125194864,103494974,98319150,95272651,90772031,61342430]
 hg19dim = [249250621,243199373,198022430,191154276,180915260,171115067,159138663,146364022,141213431,135534747,135006516,133851895,115169878,107349540,102531392,90354753,81195210,78077248,59128983,63025520,48129895,51304566,155270560]
