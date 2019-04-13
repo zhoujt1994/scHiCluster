@@ -97,31 +97,39 @@ def random_walk_cpu(A, rp):
 	return Q
 
 def impute(args):
-	c, res, pad, rp, prct = args
-	global network, chromsize
-	ngene = int(chromsize[c] / res)+1
-	start_time = time.time()
-	Q_concat = np.zeros((len(network), ngene * ngene)).astype(float)
-	for j, cell in enumerate(network):
-		D = np.loadtxt(cell + '_chr' + c + '.txt')
-		A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
-		A = np.log2(A + A.T + 1)
-		A = neighbor_ave_cpu(A, pad)
+	cell, c, ngene, pad, rp, prct = args
+	D = np.loadtxt(cell + '_chr' + c + '.txt')
+	A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
+	A = np.log2(A + A.T + 1)
+	A = neighbor_ave_cpu(A, pad)
+	if rp==-1:
+		Q = A[:]
+	else:
 		Q = random_walk_cpu(A, rp)
-		Q_concat[j, :] = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
-	end_time = time.time()
-	print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
-	ndim = int(min(Q_concat.shape) * 0.2) - 1
-	pca = PCA(n_components = ndim)
-	R_reduce = pca.fit_transform(Q_concat)
-	print(c)
-	return R_reduce
+	if prct==-1:
+		Q = Q.reshape(ngene * ngene)
+	else:
+		Q = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
+	return [cell, Q]
 
 def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, ndim=20, ncpus=10):
-	# p = Pool(ncpus)
-	# matrix = p.map(impute, [[c, res, pad, rp, prct] for c in chromsize])
-	# p.close()
-	matrix = [impute([c, res, pad, rp, prct]) for c in chromsize]
+	matrix=[]
+	for i, c in enumerate(chromsize):
+		ngene = int(chromsize[c] / res)+1
+		start_time = time.time()
+		paras = [[cell, c, ngene, pad, rp, prct] for cell in network]
+		p = Pool(ncpus)
+		result = p.map(impute, paras)
+		p.close()
+		index = {x[0]:j for j,x in enumerate(result)}
+		Q_concat = np.array([result[index[x]][1] for x in network])
+		end_time = time.time()
+		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
+		ndim = int(min(Q_concat.shape) * 0.2) - 1
+		pca = PCA(n_components = ndim)
+		R_reduce = pca.fit_transform(Q_concat)
+		matrix.append(R_reduce)
+		print(c)
 	matrix = np.concatenate(matrix, axis = 1)
 	pca = PCA(n_components = min(matrix.shape) - 1)
 	matrix_reduce = pca.fit_transform(matrix)
