@@ -25,10 +25,12 @@ pip install .
 You need to prepare your Hi-C contact matrices in a sparse matrix format. You need three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be your cell name, followed by the chromosome name.
 For example, at 1mb resolution, if there are 10 reads supporting the interaction between chr1:1000000-2000000 and chr1:5000000-6000000, then you should have a line as
 > 1 5 10.0
+
 in a file named as cellname_chr1.txt
 
 Then you will need a sample list providing to the program that contains all the cell names you want to analyze, without the chromosome names. For instance, you need to provide an array variable named network, where each element is format like
 > directory/cell_i
+
 the program will load the files directory/cell_i_chr1.txt to cell_i_chr22.txt for human cells.
 And you also need a dictionary variable chromsize, to provide the length of each chromosome in the samples you want to analyze.
 
