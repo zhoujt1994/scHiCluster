@@ -15,7 +15,7 @@ And install pytorch for your cuda and python version according to the instructio
 Finally install scHiCluster by
 ```
 git clone https://github.com/zhoujt1994/HiCluster.git
-cd cemba_data
+cd HiCluster
 pip install .
 ```
 
@@ -49,4 +49,20 @@ The function will return the discrete cluster assignment and the embedding, whic
 
 ### Merge single cells
 
+When you have a list of cells that you're interested in, either determined from clustering result or from expriment labels, you can merge the contact matrices of all those single cells to generate a pseudo bulk data.
+If you want to merge the scHiCluster imputed matrices, the command should be
+```
+Q = merge_gpu(network, c, res, pad=1, rp=0.5, prct=-1)
+```
+If you want to merge the raw contact matrices directly, you can use
+```
+Q = merge_raw(network, c, res)
+```
+c represents the chromosome, and res represent the resolution.
 
+When having the merged matrix, you can output it in a sparse matrix format, or the format that Topdom required as input by
+```
+output_topdom(cell, c, Q, res)
+output_sparse(cell, c, Q, res)
+```
+where cell is the path and cell name of the output file.
