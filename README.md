@@ -15,7 +15,7 @@ And install pytorch for your cuda and python version according to the instructio
 Finally install scHiCluster by
 ```
 git clone https://github.com/zhoujt1994/HiCluster.git
-cd schicluster
+cd HiCluster
 pip install .
 ```
 
