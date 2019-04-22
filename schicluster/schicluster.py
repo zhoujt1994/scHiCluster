@@ -34,7 +34,7 @@ def random_walk_gpu(A, rp):
 	return Q
 
 def impute_gpu(args):
-	cell, c, ngene, pad, rp, prct = args
+	cell, c, ngene, pad, rp = args
 	D = np.loadtxt(cell + '_chr' + c + '.txt')
 	A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
 	A = np.log2(A + A.T + 1)
@@ -43,11 +43,7 @@ def impute_gpu(args):
 		Q = A[:]
 	else:
 		Q = random_walk_gpu(A, rp)
-	if prct==-1:
-		Q = Q.reshape(ngene * ngene)
-	else:
-		Q = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
-	return Q
+	return Q.reshape(ngene*ngene)
 
 def hicluster_gpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, ndim=20):
 	matrix=[]
@@ -56,13 +52,16 @@ def hicluster_gpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 		start_time = time.time()
 		Q_concat = torch.zeros(len(network), ngene * ngene).float().cuda()
 		for j, cell in enumerate(network):
-			Q_concat[j] = impute_gpu([cell, c, ngene, pad, rp, prct])
+			Q_concat[j] = impute_gpu([cell, c, ngene, pad, rp])
+		Q_concat = Q_concat.cpu().numpy()
+		if prct>-1:
+			thres = np.percentile(Q_concat, prct, axis=1)
+		Q_concat = (Q_concat > thres[:, None])
 		end_time = time.time()
 		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
 		ndim = int(min(Q_concat.shape) * 0.2) - 1
 		# U, S, V = torch.svd(Q_concat, some=True)
 		# R_reduce = torch.mm(U[:, :ndim], torch.diag(S[:ndim])).cuda().numpy()
-		Q_concat = Q_concat.cpu().numpy()
 		pca = PCA(n_components = ndim)
 		R_reduce = pca.fit_transform(Q_concat)
 		matrix.append(R_reduce)
