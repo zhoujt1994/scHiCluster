@@ -31,7 +31,7 @@ print(time.time() - start_time)
 
 # scHiCluster CPU
 start_time = time.time()
-cluster, embedding = hicluster_cpu(network, chromsize, nc=nc, ncpus=1)
+cluster, embedding = hicluster_cpu(network, chromsize, nc=nc, ncpus=5)
 print(time.time() - start_time)
 [ARI(label, KMeans(n_clusters = nc, n_init = 200).fit(embedding[:, :ndim]).labels_) for ndim in [2,5,10,20,50]]
 
