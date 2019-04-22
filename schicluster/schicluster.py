@@ -55,7 +55,7 @@ def hicluster_gpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 			Q_concat[j] = impute_gpu([cell, c, ngene, pad, rp])
 		Q_concat = Q_concat.cpu().numpy()
 		if prct>-1:
-			thres = np.percentile(Q_concat, prct, axis=1)
+			thres = np.percentile(Q_concat, 100 - prct, axis=1)
 		Q_concat = (Q_concat > thres[:, None])
 		end_time = time.time()
 		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
@@ -101,7 +101,7 @@ def random_walk_cpu(A, rp):
 	return Q
 
 def impute_cpu(args):
-	cell, c, ngene, pad, rp, prct = args
+	cell, c, ngene, pad, rp = args
 	D = np.loadtxt(cell + '_chr' + c + '.txt')
 	A = csr_matrix((D[:, 2], (D[:, 0], D[:, 1])), shape = (ngene, ngene)).toarray()
 	A = np.log2(A + A.T + 1)
@@ -110,10 +110,6 @@ def impute_cpu(args):
 		Q = A[:]
 	else:
 		Q = random_walk_cpu(A, rp)
-	if prct==-1:
-		Q = Q.reshape(ngene * ngene)
-	else:
-		Q = ((Q > np.percentile(Q, 100 - prct)) * (Q < 1.0)).reshape(ngene * ngene)
 	return [cell, Q]
 
 def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, ndim=20, ncpus=10):
@@ -121,12 +117,15 @@ def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 	for i, c in enumerate(chromsize):
 		ngene = int(chromsize[c] / res)+1
 		start_time = time.time()
-		paras = [[cell, c, ngene, pad, rp, prct] for cell in network]
+		paras = [[cell, c, ngene, pad, rp] for cell in network]
 		p = Pool(ncpus)
 		result = p.map(impute, paras)
 		p.close()
 		index = {x[0]:j for j,x in enumerate(result)}
 		Q_concat = np.array([result[index[x]][1] for x in network])
+		if prct>-1:
+			thres = np.percentile(Q_concat, 100 - prct, axis=1)
+		Q_concat = (Q_concat > thres[:, None])
 		end_time = time.time()
 		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
 		ndim = int(min(Q_concat.shape) * 0.2) - 1
