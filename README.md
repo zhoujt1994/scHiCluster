@@ -4,7 +4,7 @@ Running scHiCluster requries numpy, scipy, scikit-learn.
 Running the GPU version requires pytorch in addition.
 First, creat a new conda environment and activate it by
 ```
-conda create --name schicluster python==3.6
+conda create --name schicluster python==3.6.1
 source activate schicluster
 ```
 Then install the prerequsite packages by
