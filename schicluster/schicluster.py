@@ -110,7 +110,7 @@ def impute_cpu(args):
 		Q = A[:]
 	else:
 		Q = random_walk_cpu(A, rp)
-	return [cell, Q]
+	return [cell, Q.reshape(ngene*ngene)]
 
 def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, ndim=20, ncpus=10):
 	matrix=[]
@@ -125,7 +125,7 @@ def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 		Q_concat = np.array([result[index[x]][1] for x in network])
 		if prct>-1:
 			thres = np.percentile(Q_concat, 100 - prct, axis=1)
-		Q_concat = (Q_concat > thres[:, None])
+			Q_concat = (Q_concat > thres[:, None])
 		end_time = time.time()
 		print('Load and impute chromosome', c, 'take', end_time - start_time, 'seconds')
 		ndim = int(min(Q_concat.shape) * 0.2) - 1
