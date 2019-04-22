@@ -119,7 +119,7 @@ def hicluster_cpu(network, chromsize, nc, res=1000000, pad=1, rp=0.5, prct=20, n
 		start_time = time.time()
 		paras = [[cell, c, ngene, pad, rp] for cell in network]
 		p = Pool(ncpus)
-		result = p.map(impute, paras)
+		result = p.map(impute_cpu, paras)
 		p.close()
 		index = {x[0]:j for j,x in enumerate(result)}
 		Q_concat = np.array([result[index[x]][1] for x in network])
