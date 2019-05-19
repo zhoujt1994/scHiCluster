@@ -85,7 +85,7 @@ in R to get the domain calling result. The output format will be
 > 325000 425000 domain
 > 425000 650000 domain
 
-### Differential domain between cell types
+### Differential domain boundaries between cell types
 
 Suppose you have the domain calling results output by Topdom in each single cells, you can identify the differential domain boundaries across cell types on a single chromosome by  
 ```
