@@ -62,9 +62,32 @@ Q = merge_raw(network, c, res)
 ```
 c represents the chromosome, and res represent the resolution.
 
-When having the merged matrix, you can output it in a sparse matrix format, or the format that Topdom required as input by
+### Single cell domain calling
+
+We haven't incooperate the domain calling function directly in the package, but you can output the imputed contact matrices or raw contact matrices and use them as input for other domain calling software. Here we provided two output format, including a sparse matrix format, and the format that Topdom required. You can use
 ```
 output_topdom(cell, c, Q, res)
 output_sparse(cell, c, Q, res)
 ```
-where cell is the path and cell name of the output file.
+where cell is the path and cell name of the output file. And the function can be used for both single cell matrices and merged matrices. One may also need to notice that 
+1. We suggest to use only cells with greater than 50k contacts for this analysis.
+2. The imputed matrices are usually not sparse even for a single cell, so you may consider save with less float points, or only save the contacts within certain distance from the diagnol when the matrices are large.
+
+After we have a contact matrix in text format, we can run Topdom(http://zhoulab.usc.edu/TopDom/) to find domains. Run
+```
+source('/gale/netapp/home/zhoujt/software/TopDom_v0.0.2.R')
+tad = TopDom(matrix.file = 'cell_1_chr1.matrix', window.size = 5)
+write.table(tad$bed[1:dim(tad$bed)[1],2:4], file='cell_1_chr1.w5.domain', quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
+```
+in R to get the domain calling result. The output format will be 
+
+> 0 325000  domain
+
+### Differential domain between cell types
+
+Suppose you have the domain calling results output by Topdom in each single cells, you can identify the differential domain boundaries across cell types by   
+```
+dom_prob, fdr = diff_dom(domain_list, )
+```
+Thus, you need to prepare 
+
