@@ -81,13 +81,40 @@ write.table(tad$bed[1:dim(tad$bed)[1],2:4], file='cell_1_chr1.w5.domain', quote 
 ```
 in R to get the domain calling result. The output format will be 
 
-> 0 325000  domain
+> 0 325000  gap
+> 325000 425000 domain
+> 425000 650000 domain
 
 ### Differential domain between cell types
 
-Suppose you have the domain calling results output by Topdom in each single cells, you can identify the differential domain boundaries across cell types by   
+Suppose you have the domain calling results output by Topdom in each single cells, you can identify the differential domain boundaries across cell types on a single chromosome by  
 ```
-dom_prob, fdr = diff_dom(domain_list, )
+sc_dom, dom_prob, bins, pvalue = diff_dom(domlist, cluster, celltypelist, res, chrom, chromsize)
 ```
-Thus, you need to prepare 
+Input:
+domlist: a list of all the topdom output.
+cluster: the cluster assignment of each cell with the same order of domlist.
+celltypelist: a list of all possible cell type label.
+res: the resolution of domains.
+chrom: the chromosome.
 
+Returns:
+sc_dom: domain boundaries in each single cell indicated by a binary matrix.
+dom_prob: domain boundary frequency in each cluster with the same order as in celltypelist.
+bins: The tested bins, since the bins with 0.0 or 1.0 domain frequency in any of the clusters were not tested.
+pvalue: The p-value of each bin in bins.
+
+We define the function on single chromosome level to allow user to parallel processing all the chromosomes together. After getting results from all chromosomes, FDR correction and other thresholding on prob_dom should be applied. 
+```
+from statsmodels.sandbox.stats.multicomp import multipletests as FDR
+fdr = FDR(pvalue, 0.01, 'fdr_bh')[1]
+sigfilter = filter_bins(dom_prob, fdr, fdr_cutoff, diff_cutoff, max_cutoff, min_cutoff)
+```
+diff_cutoff is the minimal boundary probability difference between the cluster with highest boundary probability minus the cluster with lowest boundary probability.
+max_cutoff is the minimal boundary probability of the cluster with highest boundary probability.
+min_cutoff is the maximal boundary probability of the cluster with lowest boundary probability.
+
+Since the domain boundaries sometimes shift for a few bins, we suggest to filter the differential domains considering the flanking bins. You can use the following function to compute the p-value again using the flanking w bins including the bin being tested.
+```
+dom_prob, pvalue, bins = diff_dom_flank(sigbins, scdom, cluster, celltypelist, res, chrom, chromsize)
+```
