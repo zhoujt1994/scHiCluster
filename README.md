@@ -116,5 +116,11 @@ min_cutoff is the maximal boundary probability of the cluster with lowest bounda
 
 Since the domain boundaries sometimes shift for a few bins, we suggest to filter the differential domains considering the flanking bins. You can use the following function to compute the p-value again using the flanking w bins including the bin being tested.
 ```
-dom_prob, pvalue, bins = diff_dom_flank(sigbins, scdom, cluster, celltypelist, res, chrom, chromsize)
+flank_dom_prob, flank_pvalue, bins = diff_dom_flank(sigbins, scdom, cluster, celltypelist, res, chrom, chromsize)
 ```
+After concatenating result from all chromosomes. You can run
+```
+sigfilter = filter_bins(flank_dom_prob, fdr, fdr_cutoff, diff_cutoff, max_cutoff, min_cutoff)
+sigbins = bins[sigfilter]
+```
+to get the final differential domain boundary calling.
