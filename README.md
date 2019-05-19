@@ -75,7 +75,7 @@ where cell is the path and cell name of the output file. And the function can be
 
 After we have a contact matrix in text format, we can run Topdom(http://zhoulab.usc.edu/TopDom/) to find domains. Run
 ```
-source('/gale/netapp/home/zhoujt/software/TopDom_v0.0.2.R')
+source('TopDom_v0.0.2.R')
 tad = TopDom(matrix.file = 'cell_1_chr1.matrix', window.size = 5)
 write.table(tad$bed[1:dim(tad$bed)[1],2:4], file='cell_1_chr1.w5.domain', quote = FALSE, sep = "\t", row.names = FALSE, col.names = FALSE)
 ```
