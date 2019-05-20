@@ -6,6 +6,7 @@ import torch
 import torch.nn.functional as F
 from multiprocessing import Pool
 from scipy.sparse import csr_matrix
+from scipy.stats import chi2_contingency
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans, SpectralClustering
 from sklearn.metrics.cluster import adjusted_rand_score as ARI
@@ -308,3 +309,54 @@ def output_sparse(cell, c, Q, res):
 	C = np.concatenate(((idx[0]*res)[:, None], (idx[1]*res)[:,None], Q[idx][:, None]), axis=1)
 	np.savetxt(cell + '_chr' + c + '.sparsematrix', C, fmt = '%d\t%d\t%s', delimiter = '\n')
 	return
+
+def diff_dom(args):
+	domlist, cluster, ctlist, res, c, chromsize = args
+	start_time = time.time()
+	ctdict = {x:i for i,x in enumerate(ctlist)}
+	ngene = int(chromsize[c] / res) + 1
+	bound = np.zeros((len(cluster), ngene))
+	for i,cell in enumerate(domlist):
+		domain = np.loadtxt(cell, dtype = np.str)
+		C = domain[domain[:,-1]=='domain', :2].astype(int) / res
+		if len(C) > int(chromsize[c] / 10000000) + 1:
+			bound[i, np.array(list(set(C.flatten())),dtype=int)] += 1
+	cellfilter = (np.sum(bound, axis=1)>0)
+	count = np.array([np.sum(np.logical_and(cluster==k, cellfilter)) for k in ctlist])
+	prob = np.array([np.sum(bound[cluster==k], axis=0) for k in ctlist])
+	ptmp, btmp = [],[]
+	for i in range(ngene):
+		contig = [[prob[j,i], count[j]-prob[j,i]] for j in range(ctlist)]
+		if np.sum(np.sum(contig, axis=0)==0)==0:
+			ptmp.append(chi2_contingency(contig)[1])
+			btmp.append('\t'.join([c, str(i*res), str(i*res+res)]))
+	print(c, time.time()-start_time)
+	return [bound, prob/count[:,None], btmp, ptmp]
+
+def chrflankpv(args):
+	bins, prob, cluster, ctlist, res, c, chromsize, w = args
+	start_time = time.time()
+	sel = (np.sum(prob, axis=1)>0)
+	tmpclust = cluster[sel]
+	prob = prob[sel]
+	flankpv = []
+	for x in bins:
+		x = x.split('\t')
+		mid = int(x[1])//res
+		tmpcount = np.max(prob[:, (mid-w):(mid+w+1)], axis=1)
+		contig = np.array([[np.sum(tmpcount[tmpclust==j]), np.sum(tmpclust==j) - np.sum(tmpcount[tmpclust==j])] for j in ctlist])
+		r = contig[:,0]/np.sum(contig,axis=1)
+		if np.sum(contig==0)==0:
+			flankpv.append(x + [chi2_contingency(contig)[1]] + r)
+	flankpv = np.array(flankpv)
+	print(c, time.time()-start_time)
+	return [flankpv[:,4:].astype(float), flankpv[:,3].astype(float), flankpv[:,:3]]
+
+def filter_bins(prob, fdr, fdr_cutoff=0.05, diff_cutoff=0, max_cutoff=0, min_cutoff=1):
+	maxp = np.max(prob, axis=0)
+	minp = np.min(prob, axis=0)
+	ans = np.logical_and(maxp > max_cutoff, minp < min_cutoff)
+	ans = np.logical_and(ans, maxp - minp > diff_cutoff)
+	ans = np.logical_and(ans, fdr < fdr_cutoff)
+	return ans
+
