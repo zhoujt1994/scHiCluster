@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-schicluster_version = '1.0'
+schicluster_version = '1.1'
 
 setup(
     name='schicluster',
