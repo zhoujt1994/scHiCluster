@@ -1,0 +1,7 @@
+recursive-include schicluster
+include LICENSE.txt
+recursive-exclude * __pycache__
+exclude docs
+exclude doc
+exclude example
+exclude test
