@@ -119,3 +119,4 @@ test/file/.DS_Store
 .DS_Store
 ALLCools/_version.py
 schicluster/_version.py
+*.scool

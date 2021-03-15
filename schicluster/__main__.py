@@ -276,6 +276,32 @@ def merge_cell_register_subparser(subparser):
     return
 
 
+def generate_scool_register_subparser(subparser):
+    parser = subparser.add_parser('generate-scool',
+                                  aliases=['scool'],
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--contacts_table', type=str, required=True, default=None,
+                            help='tab-separated table containing tow columns, 1) cell id, '
+                                 '2) cell contact file path (juicer-pre format). No header')
+    parser_req.add_argument('--output_prefix', type=str, required=True, default=None,
+                            help='Output prefix of the scool files. '
+                                 'Output path will be {output_prefix}.{resolution_str}.scool')
+    parser_req.add_argument('--chrom_size_path', type=str, required=True, default=None,
+                            help='Path to the chromosome size file, this file should be in UCSC chrom.sizes format. '
+                                 'We will use this file as the reference to create matrix. '
+                                 'It is recommended to remove small contigs or chrM from this file.')
+    parser_req.add_argument('--resolutions', type=int, nargs='+', required=True, default=[],
+                            help='Resolutions to generate the matrix. '
+                                 'You can provide multiple resolutions separated by space, '
+                                 '(e.g., "--resolutions 10000 100000"). '
+                                 'Each resolution will be stored in a separate file.')
+    parser.add_argument('--cpu', type=int, default=1, help='number of cpus to parallel.')
+    parser.add_argument('--batch_n', type=int, default=50, help='number of cells to deal with in each cpu process.')
+
+
 def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION,
                                      epilog=EPILOG,
@@ -329,6 +355,8 @@ def main():
         from .dev.loop_sc import loop_sc as func
     elif cur_command in ['merge-cell']:
         from .dev.merge_cell import merge_cell as func
+    elif cur_command in ['generate-scool', 'scool']:
+        from .scool import generate_scool as func
     else:
         log.debug(f'{cur_command} is not an valid sub-command')
         parser.parse_args(["-h"])
