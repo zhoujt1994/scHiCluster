@@ -268,13 +268,27 @@ def merge_cell_register_subparser(subparser):
     parser.add_argument('--max_dist', type=int, default=10000000, help='Maximum distance threshold of loop')
     parser.add_argument('--pad', type=int, default=5, help='One direction size of larger square for donut background')
     parser.add_argument('--gap', type=int, default=2, help='One direction size of smaller square for donut background')
-    parser.add_argument('--thres_bl', type=int, default=1.33,
-                        help='Fold change threshold against bottom left background')
+    return
+
+def merge_chr_loop_register_subparser(subparser):
+    parser = subparser.add_parser('merge-chr-loop',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--indir', type=str, default=None, help='Directory of chromosomal loop candidate')
+    parser_req.add_argument('--group', type=str, default=None, help='Name of cell group to be merged')
+    parser_req.add_argument('--cell_list', type=str, default=None, help='List of cell identifiers in the group')
+    parser_req.add_argument('--chrom_list', type=str, default=None, help='List of chromosomes to merge')
+    parser_req.add_argument('--res', type=int, default=None, help='Bin size as integer to generate contact matrix')
+    parser_req.add_argument('--impute_mode', type=str, default=None, help='Suffix of imputed matrix file names')
+
+    parser.add_argument('--norm_mode', type=str, default='dist_trim', help='Suffix of normalized file names')
+    parser.add_argument('--thres_bl', type=int, default=1.33, help='Fold change threshold against bottom left background')
     parser.add_argument('--thres_d', type=int, default=1.33, help='Fold change threshold against donut background')
     parser.add_argument('--thres_h', type=int, default=1.2, help='Fold change threshold against horizontal background')
     parser.add_argument('--thres_v', type=int, default=1.2, help='Fold change threshold against vertical background')
     return
-
 
 def generate_scool_register_subparser(subparser):
     parser = subparser.add_parser('generate-scool',
@@ -355,6 +369,8 @@ def main():
         from .dev.loop_sc import loop_sc as func
     elif cur_command in ['merge-cell']:
         from .dev.merge_cell import merge_cell as func
+    elif cur_command in ['merge-chr-loop']:
+        from .dev.merge_chr_loop import merge_chr_loop as func
     elif cur_command in ['generate-scool', 'scool']:
         from .scool import generate_scool as func
     else:
