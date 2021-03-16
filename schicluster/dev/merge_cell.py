@@ -19,11 +19,8 @@ def merge_cell(indir,
                min_dist=50000,
                max_dist=10000000,
                pad=5,
-               gap=2,
-               thres_bl=1.33,
-               thres_d=1.33,
-               thres_h=1.2,
-               thres_v=1.2):
+               gap=2):
+
     if chrom[:3] == 'chr':
         c = chrom[3:]
     else:
@@ -113,48 +110,11 @@ def merge_cell(indir,
     Elr = cv2.filter2D(E, -1, kernel=kernel_lr) * (E > 0)
     Ebu = cv2.filter2D(E, -1, kernel=kernel_bu) * (E > 0)
 
-    bkfilter = np.logical_and(np.logical_and(E / Ebl > thres_bl, E / Edonut > thres_d),
-                              np.logical_and(E / Elr > thres_h, E / Ebu > thres_v))
-    del Ebl, Edonut, Elr, Ebu, E
-
-    data = np.array([loop[0], loop[1], bkfilter[loop].astype(int), pvr, pvt]).T
+    data = np.array([loop[0], loop[1], pvr, pvt, (E/Ebl)[loop], (E/Edonut)[loop], (E/Elr)[loop], (E/Ebu)[loop]]).T
     np.save(indir + 'merged/' + group + '_' + impute_mode + '_' + norm_mode + '.chr' + c + '.loop.npy',
             data)
     print('Filter loop', time.time() - start_time)
 
-    start_time = time.time()
-    Q = Qsum.tocoo()
-    data = np.array([np.zeros(len(Q.data)).astype(int),
-                     np.repeat(['chr' + c], len(Q.data)),
-                     Q.row * res,
-                     np.zeros(len(Q.data)).astype(int),
-                     np.ones(len(Q.data)).astype(int),
-                     np.repeat(['chr' + c], len(Q.data)),
-                     Q.col * res,
-                     np.ones(len(Q.data)).astype(int),
-                     np.around(Q.data * 100, decimals=4)]).T
-    data = pd.DataFrame(data, columns=['str1', 'chr1', 'x1', 'frag1', 'str2', 'chr2', 'y1', 'frag2', 'score'])
-    data.to_csv(
-        indir + 'merged/' + group + '_' + impute_mode + '_' + norm_mode + '.chr' + c + '.Q.txt.gz',
-        index=False, header=None, sep='\t', compression='gzip')
-    print('Write Q', time.time() - start_time)
-
-    start_time = time.time()
-    O = coo_matrix(O)
-    data = np.array([np.zeros(len(O.data)).astype(int),
-                     np.repeat(['chr' + c], len(O.data)),
-                     O.row * res,
-                     np.zeros(len(O.data)).astype(int),
-                     np.ones(len(O.data)).astype(int),
-                     np.repeat(['chr' + c], len(O.data)),
-                     O.col * res,
-                     np.ones(len(O.data)).astype(int),
-                     np.around(O.data * 100, decimals=2)]).T
-    data = pd.DataFrame(data, columns=['str1', 'chr1', 'x1', 'frag1', 'str2', 'chr2', 'y1', 'frag2', 'score'])
-    data.to_csv(
-        indir + 'merged/' + group + '_' + impute_mode + '_' + norm_mode + '.chr' + c + '.O.txt.gz',
-        index=False, header=None, sep='\t', compression='gzip')
-    print('Write O', time.time() - start_time)
     return
 
 
