@@ -1,3 +1,5 @@
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --res ${res} --impute_mode pad1_std1_rp0.5_sqrtvc
+
 import sys
 import h5py
 import time
@@ -5,7 +7,7 @@ import cv2
 cv2.useOptimized()
 import argparse
 import numpy as np
-from scipy.sparse import load_npz, save_npz
+from scipy.sparse import save_npz, csr_matrix
 from sklearn.preprocessing import RobustScaler
 
 def loop_cell(indir, cell, chrom, impute_mode, res, 
@@ -16,9 +18,12 @@ def loop_cell(indir, cell, chrom, impute_mode, res,
 	else:
 		c = chrom
 
+	start_time = time.time()
 	with h5py.File(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}.hdf5', 'r') as f:
 		g = f['Matrix']
-		E = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
+		E = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
+
+	print('Load', time.time() - start_time)
 
 	start_time = time.time()
 	ave, std, top, count = np.zeros((4, dist // res + pad + 1))
@@ -70,6 +75,7 @@ parser.add_argument('--cell', type=str, default=None, help='Specific identifier 
 parser.add_argument('--chrom', type=str, default=None, help='Chromosome imputed')
 parser.add_argument('--impute_mode', type=str, default=None, help='Suffix of imputed matrix file names')
 parser.add_argument('--res', type=int, default=None, help='Bin size as integer to generate contact matrix')
+
 parser.add_argument('--dist', type=int, default=10050000, help='Maximum distance threshold of contacts to use')
 parser.add_argument('--cap', type=int, default=5, help='Trim Z-scores over the threshold')
 parser.add_argument('--pad', type=int, default=5, help='One direction size of larger square for donut background')
