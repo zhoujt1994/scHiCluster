@@ -107,6 +107,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
         g.create_dataset('indptr', data=E.indptr, dtype=int, compression='gzip')
         g.attrs['shape'] = E.shape
         f.close()
+    return
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of the contact matrix')

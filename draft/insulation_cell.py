@@ -24,6 +24,7 @@ def is_cell(indir, cell, chrom, mode, w=10):
 			inter = A[(i-w):i, i:(i+w)].sum() / (w*w)
 		score[i] = inter / (inter + intra)
 	np.save(f'{indir}chr{c}/{cell}_chr{c}_{mode}.is.npy', score)
+	return
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrices end with /')

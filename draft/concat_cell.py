@@ -42,6 +42,7 @@ def concat_cell(indir, cell_list, chrom, res, mode, dist=10000000, save_raw=True
 	matrix_reduce = svd.fit_transform(matrix)
 	matrix_reduce = matrix_reduce / svd.singular_values_
 	np.save(f'{indir}merged/{mode}_chr{c}.svd50.npy', matrix_reduce)
+	return
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrices end with /')

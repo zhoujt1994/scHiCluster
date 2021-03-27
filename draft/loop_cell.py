@@ -60,8 +60,9 @@ def loop_cell(indir, cell, chrom, impute_mode, res,
 	N = E - N
 	print('Bkg', time.time() - start_time)
 
-	save_npz(indir + cell + '_chr' + c + '_' + impute_mode + '_' + norm_mode + '.E.npz', E)
-	save_npz(indir + cell + '_chr' + c + '_' + impute_mode + '_' + norm_mode + '.T.npz', N)
+	save_npz(f'{indir}{cell}_chr{c}_{impute_mode}_{norm_mode}.E.npz', E)
+	save_npz(f'{indir}{cell}_chr{c}_{impute_mode}_{norm_mode}.T.npz', N)
+	return
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrix')
