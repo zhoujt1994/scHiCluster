@@ -51,7 +51,7 @@ parser.add_argument('--chrom', type=str, default=None, help='Chromosome to imput
 parser.add_argument('--mode', type=str, default=None, help='Suffix of imputed matrix file names')
 parser.add_argument('--res', type=int, default=None, help='Bin size as integer to generate contact matrix')
 parser.add_argument('--dist', type=int, default=10000000, help='Maximum distance threshold of contacts to use')
-parser.add_argument('--save_raw', type=bool, default=True, help='Whether to save cell-by-feature matrix before SVD')
+parser.add_argument('--save_raw', dest='save_raw', action='store_false', help='Not to save cell-by-feature matrix before SVD')
 opt = parser.parse_args()
 
 concat_cell(opt.indir, opt.cell_list, opt.chrom, opt.res, opt.mode, opt.dist, opt.save_raw)

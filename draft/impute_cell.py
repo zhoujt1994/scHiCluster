@@ -11,7 +11,7 @@ from scipy.sparse.linalg import norm
 
 def impute_cell(indir, outdir, cell, chrom, res, genome, 
                 logscale=False, pad=1, std=1, rp=0.5, tol=0.01, 
-                output_dist=10000000, output_format='hdf5', mode):
+                output_dist=10000000, output_format='hdf5', mode=None):
 
     def random_walk_cpu(P, rp, tol):
         if rp==1:
@@ -77,11 +77,11 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     B = B + diags((B.sum(axis=0).A.ravel()==0).astype(int))
     d = diags(1 / B.sum(axis=0).A.ravel())
     P = d.dot(B)
-    Q = random_walk_cpu(P, rp, tol)
+    E = random_walk_cpu(P, rp, tol)
     print('RWR', time.time() - start_time)
 
     start_time = time.time()
-    E = Q + Q.T
+    E = E + E.T
     d = E.sum(axis=0).A.ravel()
     d[d==0] = 1
     b = diags(1 / np.sqrt(d))
@@ -117,7 +117,7 @@ parser.add_argument('--chrom', type=str, default=None, help='Chromosome to imput
 parser.add_argument('--res', type=int, default=None, help='Bin size as integer to generate contact matrix')
 parser.add_argument('--genome', type=str, default=None, help='Genome assembly version') ## mm10 or hg38
 
-parser.add_argument('--logscale', type=bool, default=False, help='Whether to log transform raw count or not')
+parser.add_argument('--logscale', dest='logscale', action='store_true', help='To log transform raw count')
 parser.add_argument('--pad', type=int, default=1, help='Gaussian kernal size')
 parser.add_argument('--std', type=float, default=1, help='Gaussian kernal standard deviation')
 
