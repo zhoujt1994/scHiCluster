@@ -47,7 +47,7 @@ def cpgcomp_cell(indir, outdir, cell, chrom, mode, cpg_file):
 	return
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrices end with /')
+parser.add_argument('--indir', type=str, default=None, help='Directory of raw/imputed matrices end with /')
 parser.add_argument('--outdir', type=str, default=None, help='Directory of compartment matrix end with /')
 parser.add_argument('--cell', type=str, default=None, help='Full path of a file containing a list of cell identifiers to be concatenate')
 parser.add_argument('--chrom', type=str, default=None, help='Chromosome to impute')
