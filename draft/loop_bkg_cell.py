@@ -1,4 +1,4 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/loop_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --res ${res} --impute_mode pad1_std1_rp0.5_sqrtvc
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_bkg_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --res ${res} --impute_mode pad1_std1_rp0.5_sqrtvc
 
 import sys
 import h5py
@@ -10,7 +10,7 @@ import numpy as np
 from scipy.sparse import save_npz, csr_matrix
 from sklearn.preprocessing import RobustScaler
 
-def loop_cell(indir, cell, chrom, impute_mode, res, 
+def loop_bkg_cell(indir, cell, chrom, impute_mode, res, 
 			dist=10050000, cap=5, pad=5, gap=2, norm_mode='dist_trim'):
 
 	if chrom[:3]=='chr':
@@ -83,5 +83,5 @@ parser.add_argument('--gap', type=int, default=2, help='One direction size of sm
 parser.add_argument('--norm_mode', type=str, default='dist_trim', help='Suffix of normalized file names')
 opt = parser.parse_args()
 
-loop_cell(opt.indir, opt.cell, opt.chrom, opt.impute_mode, opt.res, 
+loop_bkg_cell(opt.indir, opt.cell, opt.chrom, opt.impute_mode, opt.res, 
 		opt.dist, opt.cap, opt.pad, opt.gap, opt.norm_mode)

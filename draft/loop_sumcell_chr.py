@@ -1,5 +1,5 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/merge_cell.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_covgroup${i}_pad1_std1_rp0.5_sqrtvc_chr${c}_looplist.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_pad1_std1_rp0.5_sqrtvc_dist_trim.chr${c} --res 10000
-# command time python /gale/ddn/snm3C/humanPFC/code/merge_cell.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_pad1_std1_rp0.5_sqrtvc_chr${c}_looplist.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_pad1_std1_rp0.5_sqrtvc_dist_trim.chr${c} --res 10000 --grouplist /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_pad1_std1_rp0.5_sqrtvc_chr${c}_grouplist.txt
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_sumcell_chr.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_covgroup${i}_pad1_std1_rp0.5_sqrtvc_chr${c}_looplist.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_pad1_std1_rp0.5_sqrtvc_dist_trim.chr${c} --res 10000
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_sumcell_chr.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_pad1_std1_rp0.5_sqrtvc_chr${c}_looplist.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_pad1_std1_rp0.5_sqrtvc_dist_trim.chr${c} --res 10000 --grouplist /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_pad1_std1_rp0.5_sqrtvc_chr${c}_grouplist.txt
 
 import time
 import cv2
@@ -10,7 +10,7 @@ import pandas as pd
 from scipy import stats
 from scipy.sparse import save_npz, load_npz, csr_matrix, coo_matrix
 
-def merge_cell(cell_list, outprefix, res, group_list=None, matrix='QEO',
+def loop_sumcell_chr(cell_list, outprefix, res, group_list=None, matrix='QEO',
             norm_mode='dist_trim', min_dist=50000, max_dist=10000000, pad=5, gap=2):
 
     thres = stats.norm(0, 1).isf(0.025)
@@ -138,5 +138,5 @@ parser.add_argument('--pad', type=int, default=5, help='One direction size of la
 parser.add_argument('--gap', type=int, default=2, help='One direction size of smaller square for donut background')
 opt = parser.parse_args()
 
-merge_cell(opt.cell_list, opt.outprefix, opt.res, opt.group_list, opt.matrix,
+loop_sumcell_chr(opt.cell_list, opt.outprefix, opt.res, opt.group_list, opt.matrix,
         opt.norm_mode, opt.min_dist, opt.max_dist, opt.pad, opt.gap)

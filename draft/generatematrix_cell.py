@@ -1,5 +1,5 @@
-# python /gale/ddn/snm3C/humanPFC/code/generate_matrix.py --infile /gale/netapp/seq4/illumina_runs/ENTEx/Pool_BX_BY/mapping/output/TrCo_A9HOW_Plate1-1-H22/hic/TrCo_A9HOW_Plate1-1-H22-A13.3C.sorted_contacts_old.txt --outdir /gale/ddn/snm3C/humanPFC/cell_matrix/test/10kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --split_file /gale/netapp/home/zhoujt/genome/hg19/hg19.chrsplit.bed --res 10000 --cell TrCo_A9HOW_Plate1-1-H22-A13
-# python /gale/ddn/snm3C/humanPFC/code/generate_matrix.py --infile /gale/netapp/seq4/illumina_runs/ENTEx/Pool_BX_BY/mapping/output/TrCo_A9HOW_Plate1-1-H22/hic/TrCo_A9HOW_Plate1-1-H22-A13.3C.sorted_contacts_old.txt --outdir /gale/ddn/snm3C/humanPFC/cell_matrix/test/100kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --res 100000 --cell TrCo_A9HOW_Plate1-1-H22-A13
+# python /gale/ddn/snm3C/humanPFC/code/generatematrix_cell.py --infile /gale/netapp/seq4/illumina_runs/ENTEx/Pool_BX_BY/mapping/output/TrCo_A9HOW_Plate1-1-H22/hic/TrCo_A9HOW_Plate1-1-H22-A13.3C.sorted_contacts_old.txt --outdir /gale/ddn/snm3C/humanPFC/cell_matrix/test/10kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --split_file /gale/netapp/home/zhoujt/genome/hg19/hg19.chrsplit.bed --res 10000 --cell TrCo_A9HOW_Plate1-1-H22-A13
+# python /gale/ddn/snm3C/humanPFC/code/generatematrix_cell.py --infile /gale/netapp/seq4/illumina_runs/ENTEx/Pool_BX_BY/mapping/output/TrCo_A9HOW_Plate1-1-H22/hic/TrCo_A9HOW_Plate1-1-H22-A13.3C.sorted_contacts_old.txt --outdir /gale/ddn/snm3C/humanPFC/cell_matrix/test/100kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --res 100000 --cell TrCo_A9HOW_Plate1-1-H22-A13
 
 import os
 import argparse
@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 #from collections import Counter
 
-def generate_matrix(infile, outdir, cell, res, chrom_file, 
+def generatematrix_cell(infile, outdir, cell, res, chrom_file, 
 					chr1=1, pos1=2, chr2=5, pos2=6, split_file=None, dist=2500):
 
 	chrom = np.loadtxt(chrom_file, dtype=np.str)[:,0]
@@ -95,5 +95,5 @@ parser.add_argument('--split_file', type=str, default=None, help='Path to the be
 parser.add_argument('--dist', type=int, default=2500, help='Minimum distance threshold of contacts to use')
 opt = parser.parse_args()
 
-generate_matrix(opt.infile, opt.outdir, opt.cell, opt.res, opt.chrom_file, 
+generatematrix_cell(opt.infile, opt.outdir, opt.cell, opt.res, opt.chrom_file, 
 				opt.chr1-1, opt.pos1-1, opt.chr2-1, opt.pos2-1, opt.split_file, opt.dist)

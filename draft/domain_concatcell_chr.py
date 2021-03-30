@@ -1,4 +1,4 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/concat_ins.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/filelist/inslist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/merged/pad1_std1_rp0.5_sqrtvc_chr${c} --ncpus 10
+# command time python /gale/ddn/snm3C/humanPFC/code/domain_concatcell_chr.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/filelist/inslist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/merged/pad1_std1_rp0.5_sqrtvc_chr${c} --ncpus 10
 
 import argparse
 import numpy as np

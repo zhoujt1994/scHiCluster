@@ -1,11 +1,11 @@
-# command python /gale/ddn/snm3C/humanPFC/code/is_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell $(cat /gale/ddn/snm3C/humanPFC/smoothed_matrix/celllist_long.txt | head -${SGE_TASK_ID} | tail -1) --chrom ${c} --mode pad1_std1_rp0.5_sqrtvc --w 10
+# command python /gale/ddn/snm3C/humanPFC/code/domain_insulation_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell $(cat /gale/ddn/snm3C/humanPFC/smoothed_matrix/celllist_long.txt | head -${SGE_TASK_ID} | tail -1) --chrom ${c} --mode pad1_std1_rp0.5_sqrtvc --w 10
 
 import h5py
 import argparse
 import numpy as np
 from scipy.sparse import csr_matrix
 
-def is_cell(indir, cell, chrom, mode, w=10):
+def domain_insulation_cell(indir, cell, chrom, mode, w=10):
 
 	if chrom[:3]=='chr':
 		c = chrom[3:]
@@ -34,4 +34,4 @@ parser.add_argument('--mode', type=str, default=None, help='Suffix of imputed ma
 parser.add_argument('--w', type=int, default=10, help='Window size for insulation score')
 opt = parser.parse_args()
 
-is_cell(opt.indir, opt.cell, opt.chrom, opt.mode, opt.w)
+domain_insulation_cell(opt.indir, opt.cell, opt.chrom, opt.mode, opt.w)

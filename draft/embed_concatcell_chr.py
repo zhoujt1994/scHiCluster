@@ -1,4 +1,4 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/concat_cell.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/merged/pad1_std1_rp0.5_sqrtvc_chr${c} --chrom ${c} --res ${res}
+# command time python /gale/ddn/snm3C/humanPFC/code/embed_concatcell_chr.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/merged/pad1_std1_rp0.5_sqrtvc_chr${c} --chrom ${c} --res ${res}
 
 import time
 import h5py
@@ -7,7 +7,7 @@ import numpy as np
 from scipy.sparse import load_npz, save_npz, csr_matrix, vstack
 from sklearn.decomposition import TruncatedSVD
 
-def concat_cell(cell_list, outprefix, res, dist=10000000, save_raw=True):
+def embed_concatcell_chr(cell_list, outprefix, res, dist=10000000, save_raw=True):
 
 	celllist = np.loadtxt(cell_list, dtype=np.str)
 
