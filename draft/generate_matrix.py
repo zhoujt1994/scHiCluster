@@ -35,8 +35,8 @@ def generate_matrix(infile, outdir, cell, res, chrom_file,
 		datasplit.loc[datasplit[pos2]<datasplit['p'], chr2] += 'p'	
 		datasplit.loc[datasplit[pos1]>datasplit['q'], chr1] += 'q'
 		datasplit.loc[datasplit[pos2]>datasplit['q'], chr2] += 'q'
-		datasplit.loc[datasplit[pos1]>datasplit['q'], pos1] -= datasplit['q']
-		datasplit.loc[datasplit[pos2]>datasplit['q'], pos2] -= datasplit['q']
+		datasplit.loc[datasplit[pos1]>datasplit['q'], pos1] -= datasplit['q'] // res * res
+		datasplit.loc[datasplit[pos2]>datasplit['q'], pos2] -= datasplit['q'] // res * res
 		data = pd.concat([datasplit[data.columns], data[~splitfilter]], axis=0)
 	data[[pos1, pos2]] = data[[pos1,pos2]] // res
 	data = data[(data[chr1]==data[chr2]) & (data[chr1].isin(chrom_split)) & (data[pos1]!=data[pos2])]

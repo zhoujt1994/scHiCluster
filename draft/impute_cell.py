@@ -1,5 +1,6 @@
 # command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/raidix/rdx-5/zhoujt/projects/methylHiC/PFC_batch_merged/smoothed_matrix/1cell/${res0}b_resolution/chr${c}/ --outdir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/chr${c}/ --cell ${sample} --chrom ${c} --res ${res} --genome hg19 --mode pad2_std1_rp0.5_sqrtvc
 
+import os
 import time
 import h5py
 import cv2
@@ -29,6 +30,10 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
             if delta < tol:
                 break
         return Q
+
+    if not os.path.exists(outdir):
+        print('Output directory does not exist')
+        return
 
     if chrom[:3]=='chr':
         c = chrom[3:]
