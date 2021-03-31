@@ -76,7 +76,7 @@ def loop_mergechr(inprefix, outprefix, chrom_file, split_file, res=10000,
 	start_time = time.time()
 	loopall = []
 	for c in chrom_split:
-		data = pd.read_hdf(f'{inprefix}.{c}.loop.hdf5', key='loop')
+		data = pd.read_hdf(f'{inprefix}_{c}.loop.hdf5', key='loop')
 		data['bkfilter'] = (((data['E']/data['E_bl'] > thres_bl) | (data['E_bl']<0)) & ((data['E']/data['E_donut'] > thres_d) | (data['E_donut']<0)) & ((data['E']/data['E_h'] > thres_h) | (data['E_h']<0)) & ((data['E']/data['E_v'] > thres_v) | (data['E_v']<0)))
 		data['x1'] = data['x1'].astype(int) * res
 		data['y1'] = data['y1'].astype(int) * res

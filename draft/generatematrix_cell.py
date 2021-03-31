@@ -11,12 +11,15 @@ def generatematrix_cell(infile, outdir, cell, res, chrom_file,
 					chr1=1, pos1=2, chr2=5, pos2=6, split_file=None, dist=2500):
 
 	chrom = np.loadtxt(chrom_file, dtype=np.str)[:,0]
+
+	# add p/q arm to split chromosomes
 	if not split_file:
 		chrom_split = chrom.copy() 
 	else:
 		splitbed = pd.read_csv(split_file, sep='\t', header=None, index_col=0)
 		chrom_split = np.concatenate([[c+'p', c+'q'] if c in splitbed.index else [c] for c in chrom])
 
+	# create a folder per chromosome, containing all cells
 	for c in chrom_split:
 		if c[:3]=='chr':
 			os.makedirs(f'{outdir}{c}/', exist_ok=True)
@@ -24,22 +27,27 @@ def generatematrix_cell(infile, outdir, cell, res, chrom_file,
 			os.makedirs(f'{outdir}chr{c}/', exist_ok=True)
 
 	data = pd.read_csv(infile, sep='\t', header=None)
+	# make pos1 < pos2
 	data.loc[data[pos1]>data[pos2], [pos1, pos2]] = data.loc[data[pos1]>data[pos2], [pos2, pos1]]
+	# filter intra autosomal contacts with insertion size threshold
 	data = data[(data[chr1]==data[chr2]) & (data[chr1].isin(chrom)) & (data[pos2] - data[pos1] > dist)]
 	if split_file:
 		splitfilter = data[chr1].isin(splitbed.index)
 		datasplit = data[splitfilter]
+		# end position of p and start position of q
 		datasplit['p'] = splitbed.loc[datasplit[chr1], 1].values
 		datasplit['q'] = splitbed.loc[datasplit[chr1], 2].values
 		datasplit.loc[datasplit[pos1]<datasplit['p'], chr1] += 'p'
 		datasplit.loc[datasplit[pos2]<datasplit['p'], chr2] += 'p'	
 		datasplit.loc[datasplit[pos1]>datasplit['q'], chr1] += 'q'
 		datasplit.loc[datasplit[pos2]>datasplit['q'], chr2] += 'q'
+		# fully divide to ensure bins consistency between p and q
 		datasplit.loc[datasplit[pos1]>datasplit['q'], pos1] -= datasplit['q'] // res * res
 		datasplit.loc[datasplit[pos2]>datasplit['q'], pos2] -= datasplit['q'] // res * res
 		data = pd.concat([datasplit[data.columns], data[~splitfilter]], axis=0)
 	data[[pos1, pos2]] = data[[pos1,pos2]] // res
 	data = data[(data[chr1]==data[chr2]) & (data[chr1].isin(chrom_split)) & (data[pos1]!=data[pos2])]
+	# count contacts at each pixel
 	data = data.groupby(by=[chr1, pos1, pos2])[chr2].count().reset_index()
 	for c, tmp in data.groupby(by=chr1):
 		if c[:3]=='chr':

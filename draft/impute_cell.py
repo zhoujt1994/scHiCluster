@@ -59,6 +59,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     start_time = time.time()
     ngene = int(chromsize[c] // res) + 1
     D = np.loadtxt(f'{indir}{cell}_chr{c}.txt')
+    # to avoid bugs on chromosomes with 0/1 read
     if len(D)==0:
         D = np.array([[0,0,0]])
     elif len(D.shape)==1:
@@ -77,6 +78,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     print('Convolution chr', c, 'take', end_time-start_time, 'seconds')
 
     start_time = time.time()
+    # remove diagonal before rwr
     B = csr_matrix(B)
     B = B - diags(B.diagonal())
     B = B + diags((B.sum(axis=0).A.ravel()==0).astype(int))
@@ -93,6 +95,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     E = b.dot(E).dot(b)
     print('SQRTVC', time.time() - start_time)
 
+    # longest distance filter mask
     start_time = time.time()
     if (output_dist // res + 1) < ngene:
         idx = np.triu_indices(E.shape[0], 0)

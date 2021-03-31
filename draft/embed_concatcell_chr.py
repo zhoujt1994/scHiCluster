@@ -18,13 +18,13 @@ def embed_concatcell_chr(cell_list, outprefix, res, dist=10000000, save_raw=True
 	idx = (idx[0][idxfilter], idx[1][idxfilter])
 
 	start_time = time.time()
-	#matrix = np.zeros((len(celllist), np.sum(idxfilter)))
+	# matrix = np.zeros((len(celllist), np.sum(idxfilter)))
 	matrix = []
 	for i,cell in enumerate(celllist):
 		with h5py.File(cell, 'r') as f:
 			g = f['Matrix']
 			A = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
-		#matrix[i] = A[idx]
+		# matrix[i] = A[idx]
 		matrix.append(csr_matrix(A[idx]))
 		if i%100==0:
 			print(i, 'cells loaded', time.time() - start_time, 'seconds')
