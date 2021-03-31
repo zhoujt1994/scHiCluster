@@ -1,3 +1,5 @@
+# command time python /gale/ddn/snm3C/humanPFC/code/embed_mergechr.py --embed_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/100kb_resolution/merged/pad1_std1_rp0.5_sqrtvc
+
 import h5py
 import argparse
 import numpy as np
