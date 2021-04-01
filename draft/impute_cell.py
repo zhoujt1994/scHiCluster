@@ -1,4 +1,4 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/raidix/rdx-5/zhoujt/projects/methylHiC/PFC_batch_merged/smoothed_matrix/1cell/${res0}b_resolution/chr${c}/ --outdir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/chr${c}/ --cell ${sample} --chrom ${c} --res ${res} --genome hg19 --mode pad2_std1_rp0.5_sqrtvc
+# command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/raidix/rdx-5/zhoujt/projects/methylHiC/PFC_batch_merged/smoothed_matrix/1cell/${res0}b_resolution/chr${c}/ --outdir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/chr${c}/ --cell ${sample} --chrom ${c} --res ${res} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --mode pad2_std1_rp0.5_sqrtvc
 
 import os
 import time
@@ -7,12 +7,13 @@ import cv2
 cv2.useOptimized()
 import argparse
 import numpy as np
+import pandas as pd
 from scipy.sparse import csr_matrix, save_npz, diags, eye
 from scipy.sparse.linalg import norm
 
-def impute_cell(indir, outdir, cell, chrom, res, genome, 
+def impute_cell(indir, outdir, cell, chrom, res, chrom_file, 
                 logscale=False, pad=1, std=1, rp=0.5, tol=0.01, 
-                output_dist=10000000, output_format='hdf5', mode=None):
+                output_dist=500000000, output_format='hdf5', mode=None):
 
     def random_walk_cpu(P, rp, tol):
         if rp==1:
@@ -36,29 +37,17 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
         return
 
     if chrom[:3]=='chr':
-        c = chrom[3:]
-    else:
         c = chrom
+    else:
+        c = 'chr' + chrom
     if not mode:
         mode = f'pad{str(pad)}_std{str(std)}_rp{str(rp)}_sqrtvc'
 
-    hg38dim = [248956422, 242193529, 198295559, 190214555, 181538259, 170805979, 159345973, 145138636, 138394717, 133797422, 135086622, 133275309, 114364328, 107043718, 101991189, 90338345, 83257441, 80373285, 58617616, 64444167, 46709983, 50818468]
-    hg19dim = [249250621, 243199373, 198022430, 191154276, 180915260, 171115067, 159138663, 146364022, 141213431, 135534747, 135006516, 133851895, 115169878, 107349540, 102531392, 90354753, 81195210, 78077248, 59128983, 63025520, 48129895, 51304566]
-    mm10dim = [195471971, 182113224, 160039680, 156508116, 151834684, 149736546, 145441459, 129401213, 124595110, 130694993, 122082543, 120129022, 120421639, 124902244, 104043685, 98207768, 94987271, 90702639, 61431566]
-
-    if genome=='hg38':
-        chrom = [str(i+1) for i in range(22)]
-        chromsize = {x:y for x,y in zip(chrom, hg38dim)}
-    elif genome=='hg19':
-        chrom = [str(i+1) for i in range(22)]
-        chromsize = {x:y for x,y in zip(chrom, hg19dim)}
-    elif genome=='mm10':
-        chrom = [str(i+1) for i in range(19)]
-        chromsize = {x:y for x,y in zip(chrom, mm10dim)}
+    chromsize = pd.read_csv(chrom_file, sep='\t', header=None, index_col=0).to_dict()[1]
 
     start_time = time.time()
     ngene = int(chromsize[c] // res) + 1
-    D = np.loadtxt(f'{indir}{cell}_chr{c}.txt')
+    D = np.loadtxt(f'{indir}{cell}_{c}.txt')
     # to avoid bugs on chromosomes with 0/1 read
     if len(D)==0:
         D = np.array([[0,0,0]])
@@ -70,12 +59,12 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
         A.data = np.log2(A.data + 1)
 
     end_time = time.time()
-    print('Loading chr', c, 'takes', end_time-start_time, 'seconds')
+    print('Loading takes', end_time-start_time, 'seconds')
 
     start_time = time.time()
     B = cv2.GaussianBlur((A + A.T).astype(np.float32).toarray(), (pad*2+1, pad*2+1), std)
     end_time = time.time()
-    print('Convolution chr', c, 'take', end_time-start_time, 'seconds')
+    print('Convolution takes', end_time-start_time, 'seconds')
 
     start_time = time.time()
     # remove diagonal before rwr
@@ -85,7 +74,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     d = diags(1 / B.sum(axis=0).A.ravel())
     P = d.dot(B)
     E = random_walk_cpu(P, rp, tol)
-    print('RWR', time.time() - start_time)
+    print('RWR takes', time.time() - start_time, 'seconds')
 
     start_time = time.time()
     E = E + E.T
@@ -93,7 +82,7 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
     d[d==0] = 1
     b = diags(1 / np.sqrt(d))
     E = b.dot(E).dot(b)
-    print('SQRTVC', time.time() - start_time)
+    print('SQRTVC takes', time.time() - start_time, 'seconds')
 
     # longest distance filter mask
     start_time = time.time()
@@ -103,12 +92,12 @@ def impute_cell(indir, outdir, cell, chrom, res, genome,
         idx = (idx[0][idxfilter], idx[1][idxfilter])
         mask = csr_matrix((np.ones(len(idx[0])), (idx[0], idx[1])), E.shape)
         E = E.tocsr().multiply(mask)
-    print('Filter', time.time() - start_time)
+    print('Filter takes', time.time() - start_time, 'seconds')
 
     if output_format=='npz':
-        save_npz(f'{outdir}{cell}_chr{c}_{mode}.npz', E.astype(np.float32))
+        save_npz(f'{outdir}{cell}_{c}_{mode}.npz', E.astype(np.float32))
     else:
-        f = h5py.File(f'{outdir}{cell}_chr{c}_{mode}.hdf5', 'w')
+        f = h5py.File(f'{outdir}{cell}_{c}_{mode}.hdf5', 'w')
         g = f.create_group('Matrix')
         g.create_dataset('data', data=E.data, dtype='float32', compression='gzip')
         g.create_dataset('indices', data=E.indices, dtype=int, compression='gzip') 
@@ -123,7 +112,7 @@ parser.add_argument('--outdir', type=str, default=None, help='Output directory e
 parser.add_argument('--cell', type=str, default=None, help='Specific identifier of a cell')
 parser.add_argument('--chrom', type=str, default=None, help='Chromosome to impute')
 parser.add_argument('--res', type=int, default=None, help='Bin size as integer to generate contact matrix')
-parser.add_argument('--genome', type=str, default=None, help='Genome assembly version') ## mm10 or hg38
+parser.add_argument('--chrom_file', type=str, default=None, help='Path to the chromosome size files containing all chromosomes to be analyzed')
 
 parser.add_argument('--logscale', dest='logscale', action='store_true', help='To log transform raw count')
 parser.add_argument('--pad', type=int, default=1, help='Gaussian kernal size')
@@ -137,6 +126,6 @@ parser.add_argument('--output_format', type=str, default='hdf5', help='Output fi
 parser.add_argument('--mode', type=str, default=None, help='Suffix of output file name')
 opt = parser.parse_args()
 
-impute_cell(opt.indir, opt.outdir, opt.cell, opt.chrom, opt.res, opt.genome, 
+impute_cell(opt.indir, opt.outdir, opt.cell, opt.chrom, opt.res, opt.chrom_file, 
             opt.logscale, opt.pad, opt.std, opt.rp, opt.tol, 
             opt.output_dist, opt.output_format, opt.mode)

@@ -1,4 +1,4 @@
-# command python /gale/ddn/snm3C/humanPFC/code/domain_insulation_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell $(cat /gale/ddn/snm3C/humanPFC/smoothed_matrix/celllist_long.txt | head -${SGE_TASK_ID} | tail -1) --chrom ${c} --mode pad1_std1_rp0.5_sqrtvc --w 10
+# command time python /gale/ddn/snm3C/humanPFC/code/domain_insulation_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --mode pad2_std1_rp0.5_sqrtvc --w 10
 
 import h5py
 import argparse
@@ -8,10 +8,10 @@ from scipy.sparse import csr_matrix
 def domain_insulation_cell(indir, cell, chrom, mode, w=10):
 
 	if chrom[:3]=='chr':
-		c = chrom[3:]
-	else:
 		c = chrom
-	with h5py.File(f'{indir}chr{c}/{cell}_chr{c}_{mode}.hdf5', 'r') as f:
+	else:
+		c = 'chr' + chrom
+	with h5py.File(f'{indir}{c}/{cell}_{c}_{mode}.hdf5', 'r') as f:
 		g = f['Matrix']
 		A = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
 	score = np.ones(A.shape[0])
@@ -23,7 +23,7 @@ def domain_insulation_cell(indir, cell, chrom, mode, w=10):
 			intra = (A[(i-w):i, (i-w):i].sum() + A[i:(i+w), i:(i+w)].sum()) / (w*(w+1))
 			inter = A[(i-w):i, i:(i+w)].sum() / (w*w)
 		score[i] = inter / (inter + intra)
-	np.save(f'{indir}chr{c}/{cell}_chr{c}_{mode}.is.npy', score)
+	np.save(f'{indir}{c}/{cell}_{c}_{mode}.w{w}.ins.npy', score)
 	return
 
 parser = argparse.ArgumentParser()

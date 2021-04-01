@@ -25,6 +25,7 @@ def loop_bkg_cell(indir, cell, chrom, impute_mode, res,
 
 	print('Load', time.time() - start_time)
 
+	# TODO numba optimize
 	start_time = time.time()
 	ave, std, top, count = np.zeros((4, dist // res + pad + 1))
 	for i in range(dist // res + pad + 1):
