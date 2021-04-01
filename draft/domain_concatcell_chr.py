@@ -11,15 +11,24 @@ from multiprocessing import Pool
 from scipy.sparse import csr_matrix, save_npz
 
 def load_insulation(i):
-	data = np.load(celllist[i])
+	try:
+		data = np.load(celllist[i])
+	except:
+		print(celllist[i])
+		data = 0
 	return [i, data]
 
 def load_boundary(i):
-	tmp = pd.read_csv(celllist[i], sep='\t', header=None)
-	data = np.zeros(int(tmp.iloc[-1,2] // rs) + 1)
-	tmp = tmp[tmp[3]=='domain'][[1,2]].values // rs
-	data[tmp[:,0]] += 1
-	data[tmp[:,1]] += 1
+	try:
+		tmp = pd.read_csv(celllist[i], sep='\t', header=None)
+	except:
+		print(celllist[i])
+		data = 0
+	else:
+		data = np.zeros(int(tmp.iloc[-1,2] // rs) + 1)
+		tmp = tmp[tmp[3]=='domain'][[1,2]].values // rs
+		data[tmp[:,0]] += 1
+		data[tmp[:,1]] += 1
 	return [i, data]
 
 def domain_concatcell_chr(cell_list, outprefix, res, input_type='insulation', ncpus=10):
@@ -35,7 +44,8 @@ def domain_concatcell_chr(cell_list, outprefix, res, input_type='insulation', nc
 		result = p.map(load_boundary, np.arange(len(celllist)))
 	ins = np.zeros((len(celllist), len(result[0][1])))
 	for i,x in result:
-		ins[i] = x.copy()
+		if not isinstance(x, int):
+			ins[i] = x.copy()
 	if input_type=='insulation':
 		np.save(f'{outprefix}.{input_type}.npy', ins)
 	elif input_type=='boundary':
