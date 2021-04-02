@@ -5,8 +5,8 @@ scHiCluster is a comprehensive python package for single-cell chromosome contact
 <img src="example/plot/Introduction.png" width="700" height="200" />  
 
 ## Installation
-Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.
-In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne.
+Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.  
+In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne.  
 First, creat a new conda environment and activate it by
 ```
 conda create --n schicluster python==3.6.8
@@ -21,11 +21,11 @@ pip install schicluster
 ### Clustering
 HiCluster uses linear convolution and random walk with restart to impute the chromatin contact matrices for each cell and each chromosome separately. The imputed matrices are then concatenated and used for embedding, visualation and clustering.
 #### Data format
-The impute file format for scHiCluster is the sparse format contact matrices. For each cell and each chromosome, the input file should contain three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be in the format of '{cell_id}_{chromosome}.txt'.
-For example, at 1mb resolution, if there are 10 reads supporting the interaction between chr1:1000000-2000000 and chr1:5000000-6000000, then you should have a line as
+The impute file format for scHiCluster is the sparse format contact matrices. For each cell and each chromosome, the input file should contain three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be in the format of '{cell_id}_{chromosome}.txt'.  
+As an example, at 1mb resolution, if there are 10 reads in cell_1 supporting the interaction between chr1:1000000-2000000 and chr1:5000000-6000000, this should be represented as
 > 1 5 10.0
 
-in a file named as cellname_chr1.txt
+in a single line of the file named as chr1/cell_1_chr1.txt
 
 Then you will need a sample list providing to the program that contains all the cell names you want to analyze, without the chromosome names. For instance, you need to provide an array variable named network, where each element is format like
 > directory/cell_i
