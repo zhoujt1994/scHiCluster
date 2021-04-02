@@ -5,14 +5,12 @@ scHiCluster is a comprehensive python package for single-cell chromosome contact
 <img src="example/plot/Introduction.png" width="700" height="200" />  
 
 ## Installation
-Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.
-In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne.
-First, creat a new conda environment and activate it by
+ Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.
+ In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne.
+ First, creat a new conda environment and activate it by
 ```
 conda create --n schicluster python==3.6.8
 conda activate schicluster
-pip install --upgrade pip setuptools wheel
-conda install numpy scipy pandas matplotlib scikit-learn h5py statsmodels multicore-tsne umap-learn
 ```
 Then install install scHiCluster by
 ```
