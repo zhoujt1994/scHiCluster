@@ -1,22 +1,22 @@
 # scHiCluster
+## Introduction
+scHiCluster is a comprehensive python package for single-cell chromosome contact data analysis. It includes the identification of cell types (clusters), loop calling in cell types, and domain and compartment calling in single cells.
+
+<img src="example/plot/humanPFC_cell_4238_100k.png" width="350" height="350" />  
+
 ## Installation
-Running scHiCluster requries numpy, scipy, scikit-learn.
-Running the GPU version requires pytorch in addition.
+Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.
+In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne.
 First, creat a new conda environment and activate it by
 ```
-conda create --name schicluster python==3.6.1
-source activate schicluster
+conda create --n schicluster python==3.6.8
+conda activate schicluster
+pip install --upgrade pip setuptools wheel
+conda install numpy scipy pandas matplotlib scikit-learn h5py statsmodels multicore-tsne umap-learn
 ```
-Then install the prerequsite packages by
+Then install install scHiCluster by
 ```
-conda install -c anaconda numpy scipy scikit-learn
-```
-And install pytorch for your cuda and python version according to the instruction on https://pytorch.org/get-started/locally/
-Finally install scHiCluster by
-```
-git clone https://github.com/zhoujt1994/HiCluster.git
-cd HiCluster
-pip install .
+pip install schicluster
 ```
 
 ## Usage

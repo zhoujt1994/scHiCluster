@@ -13,7 +13,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/zhoujt1994/scHiCluster',
     include_package_data=True,
-    install_requires=['numpy', 'scipy', 'scikit-learn', 'h5py', 'opencv-python', 'tables', 'cooler'],
+    install_requires=['numpy', 'scipy', 'scikit-learn', 'h5py', 'opencv-python', 'tables', 'cooler', 'pandas', 'statsmodels'],
     entry_points={
         'console_scripts': ['hicluster=schicluster.__main__:main'],
     }
