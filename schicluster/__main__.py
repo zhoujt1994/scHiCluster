@@ -484,27 +484,27 @@ def main():
     cur_command = args_vars.pop('command').lower().replace('_', '-')
     # Do real import here:
     if cur_command in ['generatematrix-cell']:
-        from ..draft.generatematrix_cell import generatematrix_cell as func
+        from .draft.generatematrix_cell import generatematrix_cell as func
     elif cur_command in ['impute-cell']:
-        from ..draft.impute_cell import impute_cell as func
+        from .draft.impute_cell import impute_cell as func
     elif cur_command in ['embed-concatcell-chr']:
-        from ..draft.embed_concatcell_chr import embed_concatcell_chr as func
+        from .draft.embed_concatcell_chr import embed_concatcell_chr as func
     elif cur_command in ['embed-mergechr']:
-        from ..draft.embed_mergechr import embed_mergechr as func
+        from .draft.embed_mergechr import embed_mergechr as func
     elif cur_command in ['loop-bkg-cell']:
-        from ..draft.loop_bkg_cell import loop_bkg_cell as func
+        from .draft.loop_bkg_cell import loop_bkg_cell as func
     elif cur_command in ['loop-sumcell-chr']:
-        from ..draft.loop_sumcell_chr import loop_sumcell_chr as func
+        from .draft.loop_sumcell_chr import loop_sumcell_chr as func
     elif cur_command in ['loop-mergechr']:
-        from ..draft.loop_mergechr import loop_mergechr as func
+        from .draft.loop_mergechr import loop_mergechr as func
     elif cur_command in ['domain-insulation-cell']:
-        from ..draft.domain_insulation_cell import domain_insulation_cell as func
+        from .draft.domain_insulation_cell import domain_insulation_cell as func
     elif cur_command in ['domain-concatcell-chr']:
-        from ..draft.domain_concatcell_chr import domain_concatcell_chr as func
+        from .draft.domain_concatcell_chr import domain_concatcell_chr as func
     elif cur_command in ['comp-cpg-cell']:
-        from ..draft.comp_cpg_cell import comp_cpg_cell as func
+        from .draft.comp_cpg_cell import comp_cpg_cell as func
     elif cur_command in ['comp-concatcell-chr']:
-        from ..draft.comp_concatcell_chr import comp_concatcell_chr as func        
+        from .draft.comp_concatcell_chr import comp_concatcell_chr as func        
     elif cur_command in ['generate-scool', 'scool']:
         from .scool import generate_scool as func
     else:
