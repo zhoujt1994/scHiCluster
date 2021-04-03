@@ -31,7 +31,7 @@ As an example, at 1mb resolution, if there are 10 reads in cell_1 supporting the
 
 in a single line of the file named as cell_1_chr1.txt. 
 
-Alternatively, if you have the chromatin contact file of a single cell, the following command can be used to generate the input matrices at a specific resolution. The contact file should have the chromosome names and positions of the two interaction anchors of each contact in a single line. The option --chr1 --pos1 --chr2 --pos2 are used to indicate which columns of the file contains these information. Note that the columns should be counted start from 0. As an example, if using the juicer-pre short format, the conmmand should be
+Alternatively, if you have the chromatin contact file of a single cell, the following command can be used to generate the input matrices at a specific resolution. The contact file should have the chromosome names and positions of the two interaction anchors of each contact in a single line. The option --chr1 --pos1 --chr2 --pos2 are used to indicate which columns of the file contain these information. Note that the columns should be counted start from 0. As an example, if using the [juicer-pre short format](https://github.com/aidenlab/juicer/wiki/Pre#short-format), the conmmand should be
 ```
 hicluster generatematrix-cell --infile {input_dir}{contact_file} --outdir {output_dir} --chrom_file {chromosome_size_file} --res {resolution} --cell {cell_id} --chr1 1 --pos1 2 --chr2 5 --pos2 6
 ```
