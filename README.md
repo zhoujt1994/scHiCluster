@@ -18,15 +18,24 @@ pip install schicluster
 ```
 
 ## Usage
+### General file
+HiCluster requires a the chromosome size file in several following steps, where the first column is the chromosome name and the second column is the size of the chromosome in bps. The files for hg38, hg19, and mm10 are provided in file/ folder of this repo.
+
 ### Clustering
 HiCluster uses linear convolution and random walk with restart to impute the chromatin contact matrices for each cell and each chromosome separately. The imputed matrices are then concatenated and used for embedding, visualation and clustering.
+
 #### Data format
-The impute file format for scHiCluster is the sparse format contact matrices. For each cell and each chromosome, the input file should contain three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be in the format of '{cell_id}_{chromosome}.txt'.  
+The input file format for scHiCluster is the sparse format contact matrices. For each cell and each chromosome, the input file should contain three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be in the format of '{cell_id}_{chromosome}.txt'.  
+
 As an example, at 1mb resolution, if there are 10 reads in cell_1 supporting the interaction between chr1:1000000-2000000 and chr1:5000000-6000000, this should be represented as
-> 1 5 10.0
+> 1 5 10
 
-in a single line of the file named as chr1/cell_1_chr1.txt
+in a single line of the file named as cell_1_chr1.txt. 
 
+Alternatively, if you have the chromatin contact file of a single cell, the following command can be used to generate the input matrices at a specific resolution.
+```
+hicluster generatematrix-cell --infile {input_dir}{contact_file} --outdir {output_dir} --chrom_file {chromosome_size_file} --res {resolution} --cell {cell_id}
+```
 Then you will need a sample list providing to the program that contains all the cell names you want to analyze, without the chromosome names. For instance, you need to provide an array variable named network, where each element is format like
 > directory/cell_i
 
