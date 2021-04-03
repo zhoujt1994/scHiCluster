@@ -512,7 +512,7 @@ def main():
         parser.parse_args(["-h"])
         return
 
-    validate_environment()
+    # validate_environment()
 
     # run the command
     log.info(f"hicluster: Executing {cur_command}...")
