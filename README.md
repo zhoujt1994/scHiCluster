@@ -46,7 +46,7 @@ After imputation, the following command can be used to concatenate all single-ce
 ls {impute_dir}/*{imputation_mode}_{chromosome}.hdf5 > {impute_file_list}
 hicluster embed-concatcell-chr --cell_list {impute_file_list} --outprefix {embed_dir}{imputation_mode}_{chromosome} --res ${resolution}
 
-ls {embed_dir}{imputation_mode}_* > {embed_file_list}
+ls {embed_dir}{imputation_mode}_*npy > {embed_file_list}
 hicluster embed-mergechr --embed_list {embed_file_list} --outprefix {embed_dir}{imputation_mode}
 ```
 where the imputation_mode is a name that can be defined by the user in the impute-cell command, and default to be 'pad?_std?_rp?_sqrtvc' based on the imputation parameters.
