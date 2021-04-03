@@ -62,7 +62,10 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
     print('Loading takes', end_time-start_time, 'seconds')
 
     start_time = time.time()
-    B = cv2.GaussianBlur((A + A.T).astype(np.float32).toarray(), (pad*2+1, pad*2+1), std)
+    if pad > 0:
+        B = cv2.GaussianBlur((A + A.T).astype(np.float32).toarray(), (pad*2+1, pad*2+1), std)
+    else:
+        B = (A + A.T).astype(np.float32)
     end_time = time.time()
     print('Convolution takes', end_time-start_time, 'seconds')
 
@@ -73,7 +76,10 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
     B = B + diags((B.sum(axis=0).A.ravel()==0).astype(int))
     d = diags(1 / B.sum(axis=0).A.ravel())
     P = d.dot(B)
-    E = random_walk_cpu(P, rp, tol)
+    if rp==-1:
+        E = P.copy()
+    else:
+        E = random_walk_cpu(P, rp, tol)
     print('RWR takes', time.time() - start_time, 'seconds')
 
     start_time = time.time()
