@@ -89,6 +89,7 @@ def generatematrix_cell(infile, outdir, cell, res, chrom_file,
 	'''
 	return
 
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--infile', type=str, default=None, help='Path to the short format contact file')
 parser.add_argument('--chr1', type=int, default=2, help='Column of fragment1 chromosome')
@@ -105,3 +106,4 @@ opt = parser.parse_args()
 
 generatematrix_cell(opt.infile, opt.outdir, opt.cell, opt.res, opt.chrom_file, 
 				opt.chr1-1, opt.pos1-1, opt.chr2-1, opt.pos2-1, opt.split_file, opt.dist)
+'''

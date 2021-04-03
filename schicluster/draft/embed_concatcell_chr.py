@@ -41,7 +41,7 @@ def embed_concatcell_chr(cell_list, outprefix, res, dist=10000000, save_raw=True
 	matrix_reduce = matrix_reduce / svd.singular_values_
 	np.save(f'{outprefix}.svd{dim}.npy', matrix_reduce)
 	return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path to all imputed matrices to be concatenate')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of concatenated matrix including directory')
@@ -53,3 +53,4 @@ parser.add_argument('--dim', type=int, default=50, help='Number of dimensions to
 opt = parser.parse_args()
 
 concat_cell(opt.cell_list, opt.outprefix, opt.res, opt.dist, opt.save_raw, opt.dim)
+'''

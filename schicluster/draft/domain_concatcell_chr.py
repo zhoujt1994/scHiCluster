@@ -52,7 +52,7 @@ def domain_concatcell_chr(cell_list, outprefix, res, input_type='insulation', nc
 		save_npz(f'{outprefix}.{input_type}.npz', csr_matrix(ins))
 	p.close()
 	return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path of all insulation npy or domain txt files to be concatenate')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of concatenated matrix including directory')
@@ -62,3 +62,4 @@ parser.add_argument('--ncpus', type=int, default=10, help='# threads for paralle
 opt = parser.parse_args()
 
 domain_concatcell_chr(opt.cell_list, opt.outprefix, opt.res, opt.input_type, opt.ncpus)
+'''

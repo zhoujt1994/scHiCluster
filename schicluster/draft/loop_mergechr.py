@@ -107,7 +107,7 @@ def loop_mergechr(inprefix, outprefix, chrom_file, split_file, res=10000,
 	summit.sort_values(by=['chr', 'x1', 'y1'])[['chr', 'x1', 'x2', 'chr', 'y1', 'y2', 'E', 'size']].to_csv(f'{outprefix}.loopsummit.bedpe', sep='\t', index=False, header=None)
 
 	return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--inprefix', type=str, default=None, help='Full path of a file containing the full path of all imputed files to be merged without .hdf5 suffix')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of merged matrix including directory')
@@ -125,4 +125,4 @@ opt = parser.parse_args()
 
 loop_mergechr(opt.inprefix, opt.outprefix, opt.chrom_file, opt.split_file, opt.res, 
 		opt.thres_bl, opt.thres_d, opt.thres_h, opt.thres_v, opt.fdr_thres, opt.dist_thres, opt.size_thres)
-
+'''

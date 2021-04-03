@@ -124,7 +124,7 @@ def loop_sumcell_chr(cell_list, outprefix, res, group_list=None, matrix='QEO',
     print('Bulk bkg', time.time() - start_time)
 
     return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path of all imputed files to be merged without .hdf5 suffix')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of merged matrix including directory')
@@ -140,3 +140,4 @@ opt = parser.parse_args()
 
 loop_sumcell_chr(opt.cell_list, opt.outprefix, opt.res, opt.group_list, opt.matrix,
         opt.norm_mode, opt.min_dist, opt.max_dist, opt.pad, opt.gap)
+'''

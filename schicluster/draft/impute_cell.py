@@ -111,7 +111,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
         g.attrs['shape'] = E.shape
         f.close()
     return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of the contact matrix')
 parser.add_argument('--outdir', type=str, default=None, help='Output directory end with /')
@@ -135,3 +135,4 @@ opt = parser.parse_args()
 impute_cell(opt.indir, opt.outdir, opt.cell, opt.chrom, opt.res, opt.chrom_file, 
             opt.logscale, opt.pad, opt.std, opt.rp, opt.tol, 
             opt.output_dist, opt.output_format, opt.mode)
+'''

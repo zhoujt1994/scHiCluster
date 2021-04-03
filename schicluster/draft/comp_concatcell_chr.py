@@ -21,7 +21,7 @@ def comp_concatcell_chr(cell_list, outprefix, ncpus=10):
 		score[i] = s.copy()
 	np.save(f'{outprefix}.cpgcomp.npy', comp)
 	np.save(f'{outprefix}.cpgcompstr.npy', score)
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path of all CpG npy files to be concatenate')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of concatenated matrix including directory')
@@ -29,3 +29,4 @@ parser.add_argument('--ncpus', type=int, default=10, help='# threads for paralle
 opt = parser.parse_args()
 
 comp_concatcell_chr(opt.cell_list, opt.outprefix, opt.ncpus)
+'''

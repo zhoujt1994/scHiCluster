@@ -69,7 +69,7 @@ def loop_bkg_cell(indir, cell, chrom, impute_mode, res,
 	save_npz(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}_{norm_mode}.E.npz', E)
 	save_npz(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}_{norm_mode}.T.npz', N)
 	return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrix')
 parser.add_argument('--cell', type=str, default=None, help='Specific identifier of a cell')
@@ -86,3 +86,4 @@ opt = parser.parse_args()
 
 loop_bkg_cell(opt.indir, opt.cell, opt.chrom, opt.impute_mode, opt.res, 
 		opt.dist, opt.cap, opt.pad, opt.gap, opt.norm_mode)
+'''

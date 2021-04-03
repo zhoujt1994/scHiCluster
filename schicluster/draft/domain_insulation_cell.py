@@ -25,7 +25,7 @@ def domain_insulation_cell(indir, cell, chrom, mode, w=10):
 		score[i] = inter / (inter + intra)
 	np.save(f'{indir}{c}/{cell}_{c}_{mode}.w{w}.ins.npy', score)
 	return
-
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrices end with /')
 parser.add_argument('--cell', type=str, default=None, help='Full path of a file containing a list of cell identifiers to be concatenate')
@@ -35,3 +35,4 @@ parser.add_argument('--w', type=int, default=10, help='Window size for insulatio
 opt = parser.parse_args()
 
 domain_insulation_cell(opt.indir, opt.cell, opt.chrom, opt.mode, opt.w)
+'''
