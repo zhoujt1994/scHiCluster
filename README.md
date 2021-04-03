@@ -24,38 +24,34 @@ HiCluster requires a the chromosome size file in several following steps, where 
 ### Clustering
 HiCluster uses linear convolution and random walk with restart to impute the chromatin contact matrices for each cell and each chromosome separately. The imputed matrices are then concatenated and used for embedding, visualation and clustering.
 
-#### Data format
 The input file format for scHiCluster is the sparse format contact matrices. For each cell and each chromosome, the input file should contain three columns separated by tab, representing the interacting bins and the number of reads supporting the interaction. The name of the file need to be in the format of '{cell_id}_{chromosome}.txt'.  
 
 As an example, at 1mb resolution, if there are 10 reads in cell_1 supporting the interaction between chr1:1000000-2000000 and chr1:5000000-6000000, this should be represented as
-> 1 5 10
+> 1	5	10
 
 in a single line of the file named as cell_1_chr1.txt. 
 
-Alternatively, if you have the chromatin contact file of a single cell, the following command can be used to generate the input matrices at a specific resolution.
+Alternatively, if you have the chromatin contact file of a single cell, the following command can be used to generate the input matrices at a specific resolution. The contact file should have the chromosome names and positions of the two interaction anchors of each contact in a single line. The option --chr1 --pos1 --chr2 --pos2 are used to indicate which columns of the file contains these information. Note that the columns should be counted start from 0. As an example, if using the juicer-pre short format, the conmmand should be
 ```
-hicluster generatematrix-cell --infile {input_dir}{contact_file} --outdir {output_dir} --chrom_file {chromosome_size_file} --res {resolution} --cell {cell_id}
+hicluster generatematrix-cell --infile {input_dir}{contact_file} --outdir {output_dir} --chrom_file {chromosome_size_file} --res {resolution} --cell {cell_id} --chr1 1 --pos1 2 --chr2 5 --pos2 6
 ```
-Then you will need a sample list providing to the program that contains all the cell names you want to analyze, without the chromosome names. For instance, you need to provide an array variable named network, where each element is format like
-> directory/cell_i
+Then you can impute a single-cell contact matrix by
+```
+hicluster impute-cell --indir {raw_dir} --outdir {impute_dir}/ --cell ${cell_id} --chrom ${chromosome} --res ${resolution} --chrom_file {chromosome_size_file}
+```
+This can be easily parrelized across cells and chromosomes with your own server system.
 
-the program will load the files directory/cell_i_chr1.txt to cell_i_chr22.txt for human cells.
-And you also need a dictionary variable chromsize, to provide the length of each chromosome in the samples you want to analyze.
+After imputation, the following command can be used to concatenate all single-cell imputed matrices. You need to provide a list of imputed files need to be concatenated.
+```
+ls {impute_dir}/*{imputation_mode}_{chromosome}.hdf5 > {impute_file_list}
+hicluster embed-concatcell-chr --cell_list {impute_file_list} --outprefix {embed_dir}{imputation_mode}_{chromosome} --chrom {chromosome} --res ${resolution}
 
-With those information ready, scHiCluster can be run by
+ls {embed_dir}{imputation_mode}_* > {embed_file_list}
+hicluster embed-mergechr --embed_list {embed_file_list} --outprefix {embed_dir}{imputation_mode}
 ```
-cluster, embedding = hicluster_gpu(network, chromsize, nc=nc, pad=1, rp=0.5, prct=20)
-```
-or
-```
-cluster, embedding = hicluster_cpu(network, chromsize, nc=nc, pad=1, rp=0.5, prct=20, ncpus=5)
-```
-nc represents the number of clusters
-pad represent the window size for linear convolution
-rp represent the 1 - restart probablity
-prct represent the percentage of largest values that kept for each cell
+where the imputation_mode is a name that can be defined by the user in the impute-cell command, and default to be 'pad?_std?_rp?_sqrtvc' based on the imputation parameters.
 
-The function will return the discrete cluster assignment and the embedding, which can be used for other analysis and visualization.
+The embedding generated here could be further used for batch-effect correction, clustering, and visulization.
 
 ### Merge single cells
 
