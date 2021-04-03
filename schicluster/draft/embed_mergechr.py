@@ -5,8 +5,8 @@ import argparse
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
 
-def embed_mergechr(embed_list, outprefix, dim=50):
-	embedlist = np.loadtxt(embed_file, dtype=np.str)[:,0]
+def embed_mergechr(embed_file, outprefix, dim=50):
+	embedlist = np.loadtxt(embed_file, dtype=np.str)
 	matrix_reduce = np.concatenate([np.load(x) for x in embedlist], axis=1)
 	svd = TruncatedSVD(n_components=dim, algorithm='arpack')
 	matrix_reduce = svd.fit_transform(matrix_reduce)

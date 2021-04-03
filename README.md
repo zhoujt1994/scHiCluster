@@ -44,7 +44,7 @@ This can be easily parrelized across cells and chromosomes with your own server 
 After imputation, the following command can be used to concatenate all single-cell imputed matrices. You need to provide a list of imputed files need to be concatenated.
 ```
 ls {impute_dir}/*{imputation_mode}_{chromosome}.hdf5 > {impute_file_list}
-hicluster embed-concatcell-chr --cell_list {impute_file_list} --outprefix {embed_dir}{imputation_mode}_{chromosome} --chrom {chromosome} --res ${resolution}
+hicluster embed-concatcell-chr --cell_list {impute_file_list} --outprefix {embed_dir}{imputation_mode}_{chromosome} --res ${resolution}
 
 ls {embed_dir}{imputation_mode}_* > {embed_file_list}
 hicluster embed-mergechr --embed_list {embed_file_list} --outprefix {embed_dir}{imputation_mode}
