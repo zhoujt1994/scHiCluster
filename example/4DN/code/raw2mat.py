@@ -1,7 +1,7 @@
 import sys
 import pandas as pd
 
-chrom_file = '/gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes'
+chrom_file = sys.argv[4]
 chromsize = pd.read_csv(chrom_file, sep='\t', header=None, index_col=0).to_dict()[1]
 res = 500000
 size = [0]
@@ -13,7 +13,6 @@ size = {xx:yy for xx,yy in zip(chromsize, size)}
 infile = sys.argv[1]
 outdir = sys.argv[2]
 cell = sys.argv[3]
-#infile = '/gale/ddn/snm3C/4DN/raw/GM12878_IMR90.R1/human_10031_CGCATGGC-CGAATTGC_500000.matrix'
 data = pd.read_csv(infile, sep='\t', header=None, index_col=None)
 data = data[data[4]==data[5]]
 data[4] = data[4].str.split('_', expand=True)[1]
