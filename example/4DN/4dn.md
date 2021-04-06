@@ -22,7 +22,7 @@ for c in `seq 1 22`; do mkdir -p cell_matrix/chr${c}/; mkdir -p imputed_matrix/c
 res=500000
 infile=$(cat raw_list.txt | head -${SGE_TASK_ID} | tail -1)
 cell=$(echo $infile | sed 's/.R1/_R1/g' | sed 's/.R2/_R2/g' | cut -d/ -f2-3 | sed 's|/|_|g' | sed 's/_500000.matrix//g')
-command time python code/raw2mat.py ${infile} cell_matrix/ ${cell}
+command time python code/raw2mat.py ${infile} cell_matrix/ ${cell} hg19.autosomal.chrom.sizes
 for c in `seq 1 22`; do command time hicluster impute-cell --indir cell_matrix/chr${c}/ --outdir imputed_matrix/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --pad 1 --chrom_file hg19.autosomal.chrom.sizes; done
 ```
 ## Generate embedding
