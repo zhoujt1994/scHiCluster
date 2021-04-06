@@ -23,18 +23,18 @@ res=500000
 infile=$(cat raw_list.txt | head -${SGE_TASK_ID} | tail -1)
 cell=$(echo $infile | sed 's/.R1/_R1/g' | sed 's/.R2/_R2/g' | cut -d/ -f2-3 | sed 's|/|_|g' | sed 's/_500000.matrix//g')
 command time python code/raw2mat.py ${infile} cell_matrix/ ${cell}
-for c in `seq 1 22`; do command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/ddn/snm3C/4DN/cell_matrix/chr${c}/ --outdir /gale/ddn/snm3C/4DN/imputed_matrix/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --pad 1 --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes; done
+for c in `seq 1 22`; do command time hicluster impute-cell --indir cell_matrix/chr${c}/ --outdir imputed_matrix/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --pad 1 --chrom_file hg19.autosomal.chrom.sizes; done
 ```
 ## Generate embedding
 ```bash
-for c in `seq 1 22`; do awk -v c=$c '{printf("/gale/ddn/snm3C/4DN/imputed_matrix/chr%s/%s_chr%s_pad1_std1_rp0.5_sqrtvc.hdf5\n",c,$1,c)}' cell_list.txt > imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt; echo $c; done
+for c in `seq 1 22`; do awk -v c=$c '{printf("imputed_matrix/chr%s/%s_chr%s_pad1_std1_rp0.5_sqrtvc.hdf5\n",c,$1,c)}' cell_list.txt > imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt; echo $c; done
 # parallelize at chromosome level
 c=${SGE_TASK_ID}
-command time python code/embed_concatcell_chr.py --cell_list /gale/ddn/snm3C/4DN/imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/4DN/imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc_chr${c} --res ${res}
+command time hicluster embed-concatcell-chr --cell_list imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc_chr${c} --res ${res}
 
 # merge chromosome together
 ls imputed_matrix/merged/embed/*npy > imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
-command time python code/embed_mergechr.py --embed_list imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc
+command time hicluster embed-mergechr --embed_list imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
 ## Plot result
 ```python
