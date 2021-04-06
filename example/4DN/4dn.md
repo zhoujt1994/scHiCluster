@@ -100,7 +100,7 @@ for i,x in enumerate(label['batch'].value_counts().index):
 
 ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
 plt.tight_layout()
-plt.savefig(f'{indir}cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u{ndim}_nn25.label.pdf', transparent=True)
+plt.savefig(f'{indir}cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u{ndim}_nn25.label.png', transparent=True)
 plt.close()
 ```
-<img src="cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u8_nn25.label.pdf" width="600" height="200" />  
+<img src="cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u8_nn25.label.png" width="600" height="200" />  
