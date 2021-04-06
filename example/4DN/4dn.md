@@ -43,7 +43,6 @@ import numpy as np
 import pandas as pd
 from scipy.stats import ks_2samp
 from UMAP import UMAP
-from MulticoreTSNE import MulticoreTSNE
 from itertools import cycle, islice
 import matplotlib as mpl
 mpl.use('Agg')
