@@ -1,4 +1,5 @@
 # 4DN data clustering
+This is an example of clustering using 4DN cell line data. This framework uses all the cells without filtering based on coverage.
 ## Download data 
 ```bash
 wget -np -r -R "index.html*" https://noble.gs.washington.edu/proj/schic-topic-model/data/matrix_files/
@@ -17,7 +18,7 @@ for c in `seq 1 22`; do mkdir -p cell_matrix/chr${c}/; mkdir -p imputed_matrix/c
 ```
 ## Impute cell
 ```bash
-# parrelize at cell level
+# parallelize at cell level
 res=500000
 infile=$(cat raw_list.txt | head -${SGE_TASK_ID} | tail -1)
 cell=$(echo $infile | sed 's/.R1/_R1/g' | sed 's/.R2/_R2/g' | cut -d/ -f2-3 | sed 's|/|_|g' | sed 's/_500000.matrix//g')
@@ -27,12 +28,12 @@ for c in `seq 1 22`; do command time python /gale/ddn/snm3C/humanPFC/code/impute
 ## Generate embedding
 ```bash
 for c in `seq 1 22`; do awk -v c=$c '{printf("/gale/ddn/snm3C/4DN/imputed_matrix/chr%s/%s_chr%s_pad1_std1_rp0.5_sqrtvc.hdf5\n",c,$1,c)}' cell_list.txt > imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt; echo $c; done
-# parrelize at chromosome level
+# parallelize at chromosome level
 c=${SGE_TASK_ID}
 command time python code/embed_concatcell_chr.py --cell_list /gale/ddn/snm3C/4DN/imputed_matrix/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix /gale/ddn/snm3C/4DN/imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc_chr${c} --res ${res}
 
+# merge chromosome together
 ls imputed_matrix/merged/embed/*npy > imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
-
 command time python code/embed_mergechr.py --embed_list imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
 ## Plot result
@@ -103,4 +104,4 @@ plt.tight_layout()
 plt.savefig(f'{indir}cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u{ndim}_nn25.label.png', transparent=True)
 plt.close()
 ```
-<img src="cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u8_nn25.label.png" width="600" height="200" />  
+<img src="cell_19388_500k_pad1_std1_rp0.5_sqrtvc_u8_nn25.label.png" width="900" height="300" />  
