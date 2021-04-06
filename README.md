@@ -53,6 +53,12 @@ where the imputation_mode is a name that can be defined by the user in the imput
 
 The embedding generated here could be further used for batch-effect correction, clustering, and visulization.
 
+### Loop calling
+
+The loop calling framework is modified from SnapHiC. When using these functions, please cite [this work](https://www.biorxiv.org/content/10.1101/2020.12.13.422543v1). The algorithm uses single-cell imputed matrices as input. It first normalize the matrices by distance decay, and compute the difference between each normalized element and its local background next. Finally the single-cell level matrices of the same cell type are merged, and paired t-test across cells and other ad-hoc filters are applied to identify loops.  
+
+
+
 ### Merge single cells
 
 When you have a list of cells that you're interested in, either determined from clustering result or from expriment labels, you can merge the contact matrices of all those single cells to generate a pseudo bulk data.
