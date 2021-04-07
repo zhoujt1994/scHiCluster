@@ -1,5 +1,5 @@
 # 4DN data clustering
-This is an example of clustering using 4DN cell line data. This framework uses all the 19,388 cells without filtering based on coverage.
+This is an example of the clustering framework using 4DN cell line data. All the 19,388 cells were included here. The separation between clusters will be better with additional filtering based on cell coverage.
 ## Download data 
 ```bash
 wget -np -r -R "index.html*" https://noble.gs.washington.edu/proj/schic-topic-model/data/matrix_files/
