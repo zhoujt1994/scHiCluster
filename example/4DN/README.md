@@ -10,7 +10,7 @@ mv noble.gs.washington.edu/proj/schic-topic-model/data/matrix_labels/* raw/
 for f in $(ls raw/*tsv.gz); do tar -zxvf ${f}; done
 mv raw/GM12878_IMR90.R1/ raw/GM12878-IMR90.R1/
 ```
-## Prepare directory
+## Prepare directories
 ```bash
 ls raw/*/*matrix > raw_list.txt
 cat <(for f in $(ls raw/*labeled); do awk -v f=$f '{printf("%s_%s\n",f,$0)}' $f; done) | sed 's/_500000.matrix//g' | sed 's|raw/||g' | sed 's/.R1.labeled/_R1/g' | sed 's/.R2.labeled/_R2/' > cell_list.txt
@@ -38,7 +38,7 @@ command time hicluster embed-concatcell-chr --cell_list imputed_matrix/filelist/
 ls imputed_matrix/merged/embed/*npy > imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
 command time hicluster embed-mergechr --embed_list imputed_matrix/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
-## Plot result
+## Plot results
 ```python
 import h5py
 import numpy as np
