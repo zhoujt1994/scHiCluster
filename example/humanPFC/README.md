@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-
+This is an example of analyzing 4238 cells from human prefrontal cortex. It includes embedding and clustering at 100kb resolution, loop calling at 10kb resolution, domain calling at 25kb resolution, and compartment calling at 100kb resolution.
 ## Prepare directory
 ```bash
 for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}; mkdir -p imputed_matrix/${r}b_resolution/chr${c}; done; mkdir imputed_matrix/${r}b_resolution/merged/; done
@@ -9,9 +9,27 @@ for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_res
 
 ## Clustering
 ### Impute at 100kb resolution
-
+```bash
+# parallelize at cell level
+cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
+res0=100k
+res=100000
+for c in `seq 1 22`; 
+do 
+command time hicluster impute-cell --indir cell_matrix/${res0}b_resolution/chr${c}/ --outdir imputed_matrix/${res0}b_resolution/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --pad 1 --chrom_file hg19.autosomal.chrom.sizes; 
+done
+```
 ### Generate embedding
+```bash
+for c in `seq 1 22`; do awk -v c=$c '{printf("imputed_matrix/100kb_resolution/chr%s/%s_chr%s_pad1_std1_rp0.5_sqrtvc.hdf5\n",c,$1,c)}' cell_4238_meta_cluster.txt > imputed_matrix/100kb_resolution/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt; echo $c; done
+# parallelize at chromosome level
+c=${SGE_TASK_ID}
+command time hicluster embed-concatcell-chr --cell_list imputed_matrix/100kb_resolution/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt --outprefix imputed_matrix/100kb_resolution/merged/embed/pad1_std1_rp0.5_sqrtvc_chr${c} --res ${res}
 
+# merge chromosomes together
+ls imputed_matrix/100kb_resolution/merged/embed/*npy > imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
+command time hicluster embed-mergechr --embed_list imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/100kb_resolution/merged/embed/pad1_std1_rp0.5_sqrtvc
+```
 ### Plot result
 
 ## Loop calling
