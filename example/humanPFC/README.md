@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution.
+This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage, and the feature calling is performed within each group.
 ## Prepare directory
 ```bash
 mkdir raw/ cell_matrix/ imputed_matrix/
@@ -38,6 +38,97 @@ ls imputed_matrix/100kb_resolution/merged/embed/*npy > imputed_matrix/100kb_reso
 command time hicluster embed-mergechr --embed_list imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/100kb_resolution/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
 ### Plot result
+```python
+import h5py
+import numpy as np
+import pandas as pd
+from itertools import cycle, islice
+import harmonypy as hm
+from MulticoreTSNE import MulticoreTSNE
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+from matplotlib import cm as cm
+mpl.style.use('default')
+mpl.rcParams['pdf.fonttype'] = 42
+mpl.rcParams['ps.fonttype'] = 42
+mpl.rcParams['axes.linewidth'] = 2
+
+color = np.array(list(islice(cycle(['#e6194b','#3cb44b','#ffe119','#0082c8','#f58231','#911eb4','#46f0f0','#f032e6','#d2f53c','#fabebe','#008080','#e6beff','#aa6e28','#800000','#aaffc3','#808000','#ffd8b1','#000080','#808080','#fffac8','#000000']), 100)))
+
+meta = pd.read_csv('cell_4238_meta_cluster.txt', sep='\t', header=0)
+meta.index = ['_'.join([x.split('_')[i] for i in [0,3,-3,-2,-1]]) for x in meta['cell_id']]
+meta['date'] = np.array([x.split('_')[0] for x in meta.index])
+meta['indiv'] = np.array([x.split('_')[1] for x in meta.index])
+meta['batch'] = meta['date'] + meta['indiv']
+
+res0 = '100k'
+res = 100000
+mode = 'pad1_std1_rp0.5_sqrtvc'
+with h5py.File(f'imputed_matrix/100kb_resolution/merged/embed/{mode}.svd50.hdf5', 'r') as f:
+	matrix_reduce = f['data'][()]
+
+ndim = 15
+tsne = MulticoreTSNE(perplexity=50, verbose=3, random_state=0, n_jobs=10, init=matrix_reduce[:, :2]/np.std(matrix_reduce[:, 0])*0.0001)
+yu = tsne.fit_transform(matrix_reduce[:, :ndim])
+
+# batch effect correction with harmonypy
+ho = hm.run_harmony(matrix_reduce[:,:ndim], meta, 'batch', max_iter_harmony=30, random_state=0)
+matrix_reduce_hm = ho.Z_corr.T
+tsne = MulticoreTSNE(perplexity=50, verbose=3, random_state=0, n_jobs=10, init=matrix_reduce_hm[:, :2]/np.std(matrix_reduce_hm[:, 0])*0.0001)
+yhmu = tsne.fit_transform(matrix_reduce_hm[:, :ndim])
+
+leg = np.array(['L2/3', 'L4', 'L5', 'L6', 'Ndnf', 'Vip', 'Pvalb', 'Sst', 'Astro', 'ODC', 'OPC', 'MG', 'MP', 'Endo'])
+ds = 3
+fig, axes = plt.subplots(2,4,figsize=(24,8))
+for k,y in enumerate([yu, yhmu]):
+	for ax in axes[k]:
+		ax.set_xlabel('t-SNE-1', fontsize=20)
+		ax.set_ylabel('t-SNE-2', fontsize=20)
+		ax.spines['right'].set_visible(False)
+		ax.spines['top'].set_visible(False)
+		ax.tick_params(axis='both', which='both', length=0)
+		ax.set_xticklabels([])
+		ax.set_yticklabels([])
+	ax = axes[k,0]
+	for i,x in enumerate(leg):
+		cell = (meta['clusters']==x)
+		ax.scatter(y[cell, 0], y[cell, 1], c=color[i], s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+	divider = make_axes_locatable(ax)
+	cax = divider.append_axes('right', size='5%', pad='5%')
+	cax.axis('off')
+	ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+	ax = axes[k,1]
+	for i,x in enumerate(np.sort(list(set(meta['date'])))):
+		cell = (meta['date']==x)
+		ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+	divider = make_axes_locatable(ax)
+	cax = divider.append_axes('right', size='5%', pad='5%')
+	cax.axis('off')
+	ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+	ax = axes[k,2]
+	for i,x in enumerate(np.sort(list(set(meta['indiv'])))):
+		cell = (meta['indiv']==x)
+		ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+	divider = make_axes_locatable(ax)
+	cax = divider.append_axes('right', size='5%', pad='5%')
+	cax.axis('off')
+	ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+	ax = axes[k,3]
+	mch = np.log10(meta['#contact'].values)
+	vmin, vmax = np.around([np.percentile(mch,5), np.percentile(mch,95)], decimals=2)
+	plot = ax.scatter(y[:, 0], y[:, 1], s=ds, c=mch, alpha=0.8, edgecolors='none', cmap=cm.bwr, vmin=vmin, vmax=vmax, rasterized=True)
+	divider = make_axes_locatable(ax)
+	cax = divider.append_axes('right', size='5%', pad='5%')
+	cbar = plt.colorbar(plot, cax=cax)
+	cbar.solids.set_clim([vmin, vmax])
+	cbar.set_ticks([vmin, vmax])
+	cbar.draw_all()
+
+plt.tight_layout()
+plt.savefig(f'plot/cell_4238_100k_{mode}_dist10M_u{ndim}.batch_cluster.pdf', transparent=True)
+plt.close()
+```
+<img src="plot/cell_4238_100k_pad1_std1_rp0.5_sqrtvc_dist10M_u15.batch_cluster.png" width="900" height="300" />  
 
 ## Loop calling
 ### Impute at 10kb resolution

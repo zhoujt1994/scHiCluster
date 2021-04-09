@@ -47,7 +47,6 @@ from scipy.stats import ks_2samp
 from UMAP import UMAP
 from itertools import cycle, islice
 import matplotlib as mpl
-mpl.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib import cm as cm
 mpl.style.use('default')
