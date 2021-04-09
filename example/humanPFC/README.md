@@ -67,21 +67,3 @@ mode=$(cut -f2 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
 command time python /gale/ddn/snm3C/humanPFC/code/loop_sumcell_chr.py --cell_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_${mode}_chr${c}_looplist.txt --group_list /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/filelist/L23_${mode}_chr${c}_grouplist.txt --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim_chr${c} --res 10000
 ```
 
-mode=pad2_std1_rp0.5_sqrtvc
-cd merged/L23_${mode}_dist_trim/
-for c in `seq 13 22`; do ln -s /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_pad2_std1_rp0.5_sqrtvc_dist_trim/L23_pad2_std1_rp0.5_sqrtvc_dist_trim_chr${c}.loop.hdf5 L23_${mode}_dist_trim_chr${c}.loop.hdf5; done
-
-command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes
-
-command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim.split --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --split_file /gale/netapp/home/zhoujt/genome/hg19/hg19.chrsplit.bed
-
-for i in range(5):
-	for c in chrom:
-		loop = pd.read_hdf(f'/gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup{i}_pad2_std1_rp0.5_sqrtvc_dist_trim/L23_covgroup{i}_pad2_std1_rp0.5_sqrtvc_dist_trim_chr{c}.loop.hdf5', key='chr'+c)
-		loop.to_hdf(f'/gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup{i}_pad2_std1_rp0.5_sqrtvc_dist_trim/L23_covgroup{i}_pad2_std1_rp0.5_sqrtvc_dist_trim_chr{c}.loop.hdf5', key='loop', mode='w')
-		print(i, c)
-
-mode=pad2_std1_rp0.5_sqrtvc
-for i in `seq 0 4`; do command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}_dist_trim/L23_covgroup${i}_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}_dist_trim/L23_covgroup${i}_${mode}_dist_trim --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes; done
-for i in `seq 0 4`; do command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}_dist_trim/L23_covgroup${i}_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}_dist_trim/L23_covgroup${i}_${mode}_dist_trim.split --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --split_file /gale/netapp/home/zhoujt/genome/hg19/hg19.chrsplit.bed; done
-
