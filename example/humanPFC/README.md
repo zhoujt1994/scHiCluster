@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, loop calling at 10kb resolution.
+This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution.
 ## Prepare directory
 ```bash
 for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}; mkdir -p imputed_matrix/${r}b_resolution/chr${c}; done; mkdir imputed_matrix/${r}b_resolution/merged/; done
