@@ -38,7 +38,7 @@ def embed_concatcell_chr(cell_list, outprefix, res, dist=10000000, save_raw=True
 	matrix.data = matrix.data * scalefactor
 	svd = TruncatedSVD(n_components=dim, algorithm='arpack')
 	matrix_reduce = svd.fit_transform(matrix)
-	matrix_reduce = matrix_reduce / svd.singular_values_
+	matrix_reduce = np.concatenate((svd.singular_values_[None,:], matrix_reduce), axis=0)
 	np.save(f'{outprefix}.svd{dim}.npy', matrix_reduce)
 	return
 

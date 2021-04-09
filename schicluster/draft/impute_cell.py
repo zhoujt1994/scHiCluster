@@ -155,6 +155,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
     output()
     return
 
+'''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of the contact matrix')
 parser.add_argument('--outdir', type=str, default=None, help='Output directory end with /')
@@ -164,6 +165,7 @@ parser.add_argument('--res', type=int, default=None, help='Bin size as integer t
 parser.add_argument('--chrom_file', type=str, default=None, help='Path to the chromosome size files containing all chromosomes to be analyzed')
 
 parser.add_argument('--logscale', dest='logscale', action='store_true', help='To log transform raw count')
+parser.set_defaults(logscale=False)
 parser.add_argument('--pad', type=int, default=1, help='Gaussian kernal size')
 parser.add_argument('--std', type=float, default=1, help='Gaussian kernal standard deviation')
 
@@ -180,3 +182,4 @@ opt = parser.parse_args()
 impute_cell(opt.indir, opt.outdir, opt.cell, opt.chrom, opt.res, opt.chrom_file, 
             opt.logscale, opt.pad, opt.std, opt.rp, opt.tol, opt.window_size, opt.step_size,
             opt.output_dist, opt.output_format, opt.mode)
+'''

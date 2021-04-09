@@ -206,6 +206,9 @@ def embed_mergechr_register_subparser(subparser):
     parser.add_argument('--dim', type=int, default=50, 
         help='Number of dimensions to return from SVD')
 
+    parser.add_argument('--use_pc', dest='norm_sig', action='store_false', 
+        help='Not to normalize PCs by singular values')
+    parser.set_defaults(norm_sig=True)
 
 def generatematrix_cell_register_subparser(subparser):
     parser = subparser.add_parser('generatematrix-cell',
@@ -287,6 +290,12 @@ def impute_cell_register_subparser(subparser):
     parser.add_argument('--tol', type=float, default=0.01, 
         help='Convergence tolerance of RWR')
 
+    parser.add_argument('--window_size', type=int, default=500000000, 
+        help='Size of RWR sliding window')
+
+    parser.add_argument('--step_size', type=int, default=10000000, 
+        help='Step length of RWR sliding window')
+
     parser.add_argument('--output_dist', type=int, default=500000000, 
         help='Maximum distance threshold of contacts when writing output file')
     
@@ -350,11 +359,19 @@ def loop_sumcell_chr_register_subparser(subparser):
         help='Bin size as integer of imputed matrices')
     
     parser.add_argument('--group_list', type=str, default=None, 
-        help='Full path of a file containing the full path of all summed files to be summed')
+        help='Full path of a file containing the full path of all summed imputed files to be merged without .hdf5 suffix')
     
     parser.add_argument('--matrix', type=str, default='QEO', 
         help='Types of matrices to merge (Q: imputed matrix; E: OVE matrix; O: Outlier matrix)')
     
+    parser.add_argument('--sum_only', dest='sum_only', action='store_true', 
+        help='Sum cells only and do not test for loops')
+    parser.set_defaults(sum_only=False)
+
+    parser.add_argument('--test_only', dest='test_only', action='store_true', 
+        help='Sum of cells already exist and do loop test only')
+    parser.set_defaults(test_only=False)
+
     parser.add_argument('--norm_mode', type=str, default='dist_trim', 
         help='Suffix of normalized file names')
     
