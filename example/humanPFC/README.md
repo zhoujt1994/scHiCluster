@@ -259,5 +259,8 @@ mkdir -p imputed_matrix/merged/L23_${mode}/;
 c=${SGE_TASK_ID}
 mode=pad2_std1_rp0.5_sqrtvc
 command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resolution/filelist/L23_${mode}_chr${c}_looplist.txt --group_list imputed_matrix/10kb_resolution/filelist/L23_${mode}_chr${c}_grouplist.txt --outprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim_chr${c} --res 10000
+
+# merge chromosomes to generate final loop summary
+command time hicluster loop-mergechr --inprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --outprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --chrom_file hg19.autosomal.chrom.sizes
 ```
 
