@@ -1,4 +1,4 @@
-# 4DN data clustering
+# 4DN cell line sci-HiC clustering
 This is an example of the clustering framework using 4DN cell line data. All the 19,388 cells were included here. The separation between clusters will be better with additional filtering based on cell coverage.
 ## Download data 
 ```bash
@@ -18,7 +18,7 @@ for c in `seq 1 22`; do mkdir -p cell_matrix/chr${c}/; mkdir -p imputed_matrix/c
 mkdir imputed_matrix/filelist/
 mkdir -p imputed_matrix/merged/embed/
 ```
-## Impute cell
+## Impute
 ```bash
 # parallelize at cell level
 res=500000
