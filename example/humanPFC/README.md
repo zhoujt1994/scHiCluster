@@ -12,7 +12,7 @@ for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_res
 
 ### Generate embedding
 
-### Plot results
+### Plot result
 
 ## Loop calling
 ### Impute at 10kb resolution
