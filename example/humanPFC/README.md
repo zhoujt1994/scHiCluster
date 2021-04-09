@@ -37,7 +37,7 @@ command time hicluster embed-concatcell-chr --cell_list imputed_matrix/100kb_res
 ls imputed_matrix/100kb_resolution/merged/embed/*npy > imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
 command time hicluster embed-mergechr --embed_list imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/100kb_resolution/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
-### Plot result
+### Plot results
 ```python
 import h5py
 import numpy as np
@@ -165,7 +165,7 @@ do
 done
 ```
 
-### Sum cell
+### Sum cells
 The next step is to sum the matrices of single cells within the same coverage group.
 ```bash
 mode=pad2_std1_rp0.5_sqrtvc
@@ -190,7 +190,7 @@ do
 	command time hicluster loop-mergechr --inprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim --chrom_file hg19.autosomal.chrom.sizes;
 done
 ```
-### Plot result
+### Plot results
 The following python script visualize the loop calling result at the flanking region of SATB2 gene in each coverage group. 'clustermeta' and 'binedge' are defined [above](#group-l23-cells-based-on-coverage).
 ```python
 import h5py
@@ -247,7 +247,8 @@ plt.close()
 ```
 <img src="plot/L23_10kb_pad2_std1_rp0.5_sqrtvc_dist_trim.covgroup.loop.png" width="1000" height="600" />  
 
-
+### Sum groups
+```bash
 # write group list
 for c in `seq 1 22`; do ls /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup?_pad2_std1_rp0.5_sqrtvc_dist_trim/L23_covgroup?_pad2_std1_rp0.5_sqrtvc_dist_trim_chr${c}.hdf5 | sed 's/.hdf5//g' > filelist/L23_pad2_std1_rp0.5_sqrtvc_chr${c}_grouplist.txt; done
 for c in `seq 1 12`; do for w in 30 40; do ls /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup?_pad2_std1_rp0.5_ws${w}_dist_trim/L23_covgroup?_pad2_std1_rp0.5_ws${w}_dist_trim_chr${c}.hdf5 | sed 's/.hdf5//g' > filelist/L23_pad2_std1_rp0.5_ws${w}_chr${c}_grouplist.txt; done; done
