@@ -2,11 +2,18 @@
 This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution.
 ## Prepare directory
 ```bash
-for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}; mkdir -p imputed_matrix/${r}b_resolution/chr${c}; done; mkdir imputed_matrix/${r}b_resolution/merged/; done
+mkdir raw/ cell_matrix/ imputed_matrix/
+for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}/; mkdir -p imputed_matrix/${r}b_resolution/chr${c}/; done; mkdir imputed_matrix/${r}b_resolution/merged/; done
 ```
 ## Generate matrix at multiple resolutions
-
-
+```bash
+# parallelize at cell level
+cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
+for r in 10 25 100; 
+do
+command time hicluster generatematrix-cell --infile raw/${cell}.3C.sorted_contacts.txt.gz --outdir cell_matrix/${r}kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --res ${r}000 --cell ${cell} --chr1 1 --pos1 2 --chr2 3 --pos2 4;
+done
+```
 ## Clustering
 ### Impute at 100kb resolution
 ```bash
