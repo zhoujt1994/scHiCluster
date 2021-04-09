@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage, and the feature calling is performed within each group.
+This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, domain calling at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
 ## Prepare directory
 ```bash
 mkdir raw/ cell_matrix/ imputed_matrix/
@@ -164,6 +164,7 @@ do
 	command time hicluster loop-bkg-cell --indir imputed_matrix/${res0}b_resolution/ --cell ${cell} --chrom ${c} --res ${res} --impute_mode pad2_std1_rp0.5_sqrtvc; 
 done
 ```
+
 ### Sum cell
 The next step is to sum the matrices of single cells within the same coverage group.
 ```bash
@@ -205,6 +206,7 @@ mpl.rcParams['pdf.fonttype'] = 42
 mpl.rcParams['ps.fonttype'] = 42
 mpl.rcParams['axes.linewidth'] = 2
 
+res = 10000
 l, r = 196000000, 204000000
 mode = 'pad2_std1_rp0.5_sqrtvc'
 dstall = []
@@ -216,14 +218,10 @@ for i in range(5):
 	dst = nd.rotate(tmp, 45, order=0, reshape=True, prefilter=False, cval=0)
 	dstall.append(dst)
 
-thres_bl, thres_d, thres_h, thres_v = 1.33, 1.33, 1.2, 1.2
 loop = []
 for i in range(5):
-	data = pd.read_hdf(f'/gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup{i}_{mode}_dist_trim/L23_covgroup{i}_{mode}_dist_trim.chr2.loop.hdf5', key='loop')
-	data['bkfilter'] = (((data['E']/data['E_bl'] > thres_bl) | (data['E_bl']<0)) & ((data['E']/data['E_donut'] > thres_d) | (data['E_donut']<0)) & ((data['E']/data['E_h'] > thres_h) | (data['E_h']<0)) & ((data['E']/data['E_v'] > thres_v) | (data['E_v']<0)))
-	data['tFDR'] = FDR(data['tpv'], 0.1, 'fdr_bh')[1]
-	data = data[(data['bkfilter']==1) & (data['tFDR']<0.1)][['x1', 'y1']]
-	data = data[(data['y1']<=r//res) & (data['x1']>=l//res) & (data['y1']-data['x1']>5)].values
+	data = pd.read_csv(f'imputed_matrix/10kb_resolution/merged/L23_covgroup{i}_{mode}/L23_covgroup{i}_{mode}_dist_trim.loop.bedpe', sep='\t', header=None, index_col=None)
+	data = data[(data[4]<r) & (data[1]>=l) & (data[4]-data[1]>(5*res))][[1,4]].values // res
 	loop.append(np.array([(data[:,1]+data[:,0]-2*l//res)/np.sqrt(2), (data[:,1]-data[:,0])/np.sqrt(2)]))
 
 fig, axes = plt.subplots(5, 1, figsize=(20, 12))
@@ -244,9 +242,11 @@ for i, ax in enumerate(axes):
 	ax.set_title(str(np.around(binedge[i])) + '-' + str(np.around(binedge[i+1])) + ' (' + str(np.around(clustermeta[group==i]['#contact'].mean())) + ')', fontsize=15)
 
 axes[-1].set_xticklabels([str(x/1000000)+' M' for x in range(l,r+1,1000000)], fontsize=15)
-plt.savefig(f'plot/L23_10k_{mode}_dist_trim.covgroup.loop.pdf', transparent=True)
+plt.savefig(f'plot/L23_10kb_{mode}_dist_trim.covgroup.loop.pdf', transparent=True)
 plt.close()
 ```
+<img src="plot/L23_10kb_pad2_std1_rp0.5_sqrtvc_dist_trim.covgroup.loop.png" width="1000" height="600" />  
+
 
 # write group list
 for c in `seq 1 22`; do ls /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup?_pad2_std1_rp0.5_sqrtvc_dist_trim/L23_covgroup?_pad2_std1_rp0.5_sqrtvc_dist_trim_chr${c}.hdf5 | sed 's/.hdf5//g' > filelist/L23_pad2_std1_rp0.5_sqrtvc_chr${c}_grouplist.txt; done
