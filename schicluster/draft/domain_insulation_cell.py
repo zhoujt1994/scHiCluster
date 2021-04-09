@@ -25,6 +25,7 @@ def domain_insulation_cell(indir, cell, chrom, mode, w=10):
 		score[i] = inter / (inter + intra)
 	np.save(f'{indir}{c}/{cell}_{c}_{mode}.w{w}.ins.npy', score)
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrices end with /')

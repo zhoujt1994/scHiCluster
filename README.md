@@ -9,7 +9,7 @@ Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-py
 In order to visualize the results, we also need matplotlib, umap-learn, multicore-tsne, and harmonypy to account for potential batch effects.  
 First, creat a new conda environment and activate it by
 ```
-conda create --n schicluster python==3.6.8
+conda create -n schicluster python==3.6.8
 conda activate schicluster
 ```
 Then install install scHiCluster by
@@ -55,7 +55,20 @@ The embedding generated here could be further used for batch-effect correction, 
 
 ### Loop calling
 
-The loop calling framework is modified from SnapHiC. When using these functions, please cite [this work](https://www.biorxiv.org/content/10.1101/2020.12.13.422543v1). The algorithm uses single-cell imputed matrices as input. It first normalize the matrices by distance decay, and compute the difference between each normalized element and its local background next. Finally the single-cell level matrices of the same cell type are merged, and paired t-test across cells and other ad-hoc filters are applied to identify loops.  
+The loop calling framework is modified from SnapHiC. When using these functions, please cite [this work](https://www.biorxiv.org/content/10.1101/2020.12.13.422543v1). The algorithm uses single-cell imputed matrices as input. It first normalize the matrices by distance decay, and next compute the difference between each element in the normalized matrix and its local background to allow for a paired t-test across cells in the next step. Finally the single-cell level matrices of the same cell type are merged, and the paired t-test and other ad-hoc filters are applied to identify loops.  
+
+First, use the imputed matrix (Q) of each single cell to compute the distance normalized matrix (E) and its differences with local background (T).
+```
+hicluster loop-bkg-cell --indir {impute_dir}/ --cell {cell_id} --chrom {chromosome} --res {resolution} --impute_mode {imputation_mode}
+```
+Next for each chromosome, merge a group of cells to generate the pseudobulk level impute matrix (Q), normalized matrix (E), outlier proportion matrix (O). Then it performs the paired t-test across cells and compute fold changes against different types of local backgrounds to generate summary statistics for loop candidates.
+```
+hicluster loop-sumcell-chr --cell_list {} --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_covgroup${i}_pad1_std1_rp0.5_sqrtvc_dist_trim_chr${c} --res 10000
+```
+Lastly, merge the summary to generate a final loop list with given thresholds, and find the summits of loops.
+```
+hicluster loop-mergechr --inprefix {chromosome_loop_summary_prefix} --outprefix {} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes 
+```
 
 
 

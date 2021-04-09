@@ -45,6 +45,7 @@ def comp_cpg_cell(indir, outdir, cell, chrom, mode, cpg_file):
 	score = [E[np.ix_(Apos, Apos)].sum(), E[np.ix_(Bpos, Bpos)].sum(), E[np.ix_(Apos, Bpos)].sum()]
 	np.save(f'{outdir}chr{c}/{cell}_chr{c}_{mode}.cpgcomp.npy', comp.tolist() + score)
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of raw/imputed matrices end with /')

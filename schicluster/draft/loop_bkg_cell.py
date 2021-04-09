@@ -1,4 +1,4 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/loop_bkg_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --res ${res} --impute_mode pad1_std1_rp0.5_sqrtvc
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_bkg_cell.py --indir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/ --cell ${sample} --chrom ${c} --res ${res} --impute_mode pad2_std1_rp0.5_ws40
 
 import sys
 import h5py
@@ -14,12 +14,12 @@ def loop_bkg_cell(indir, cell, chrom, impute_mode, res,
 			dist=10050000, cap=5, pad=5, gap=2, norm_mode='dist_trim'):
 
 	if chrom[:3]=='chr':
-		c = chrom[3:]
-	else:
 		c = chrom
+	else:
+		c = 'chr' + chrom
 
 	start_time = time.time()
-	with h5py.File(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}.hdf5', 'r') as f:
+	with h5py.File(f'{indir}{c}/{cell}_{c}_{impute_mode}.hdf5', 'r') as f:
 		g = f['Matrix']
 		E = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
 
@@ -66,9 +66,10 @@ def loop_bkg_cell(indir, cell, chrom, impute_mode, res,
 	N = E - N
 	print('Bkg', time.time() - start_time)
 
-	save_npz(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}_{norm_mode}.E.npz', E)
-	save_npz(f'{indir}chr{c}/{cell}_chr{c}_{impute_mode}_{norm_mode}.T.npz', N)
+	save_npz(f'{indir}{c}/{cell}_{c}_{impute_mode}_{norm_mode}.E.npz', E)
+	save_npz(f'{indir}{c}/{cell}_{c}_{impute_mode}_{norm_mode}.T.npz', N)
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--indir', type=str, default=None, help='Directory of imputed matrix')

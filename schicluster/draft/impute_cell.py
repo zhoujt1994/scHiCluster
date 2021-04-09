@@ -1,4 +1,5 @@
 # command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/raidix/rdx-5/zhoujt/projects/methylHiC/PFC_batch_merged/smoothed_matrix/1cell/${res0}b_resolution/chr${c}/ --outdir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/chr${c}/ --cell ${sample} --chrom ${c} --res ${res} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --mode pad2_std1_rp0.5_sqrtvc
+# command time python /gale/ddn/snm3C/humanPFC/code/impute_cell.py --indir /gale/ddn/snm3C/humanPFC/cell_matrix/${res0}b_resolution/chr${c}/ --outdir /gale/ddn/snm3C/humanPFC/smoothed_matrix/${res0}b_resolution/chr${c}/ --cell ${sample} --chrom ${c} --res ${res} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --pad 2 --output_dist 10050000 --window_size 40000000 --step_size 10000000 --mode pad2_std1_rp0.5_ws40
 
 import os
 import time
@@ -68,7 +69,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
     D = np.loadtxt(f'{indir}{cell}_{c}.txt')
     # to avoid bugs on chromosomes with 0/1 read
     if len(D)==0:
-        E = eye(ngene)
+        E = eye(ngene).tocsr()
         output()
         return
 
@@ -143,7 +144,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
 
     # longest distance filter mask
     start_time = time.time()
-    if ((output_dist // res + 1) < ngene) and (ws >= ngene):
+    if (output_dist // res + 1) < ngene:
         idx = np.triu_indices(E.shape[0], 0)
         idxfilter = ((idx[1] - idx[0]) < (output_dist // res + 1))
         idx = (idx[0][idxfilter], idx[1][idxfilter])

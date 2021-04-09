@@ -1,4 +1,5 @@
-# command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_pad1_std1_rp0.5_sqrtvc_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_pad1_std1_rp0.5_sqrtvc_dist_trim --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes 
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes
+# command time python /gale/ddn/snm3C/humanPFC/code/loop_mergechr.py --inprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim --outprefix /gale/ddn/snm3C/humanPFC/smoothed_matrix/10kb_resolution/merged/L23_${mode}_dist_trim/L23_${mode}_dist_trim.split --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --split_file /gale/netapp/home/zhoujt/genome/hg19/hg19.chrsplit.bed
 
 import time
 import argparse
@@ -7,7 +8,7 @@ import pandas as pd
 from heapq import *
 from statsmodels.sandbox.stats.multicomp import multipletests as FDR
 
-def loop_mergechr(inprefix, outprefix, chrom_file, split_file, res=10000, 
+def loop_mergechr(inprefix, outprefix, chrom_file, split_file=None, res=10000, 
 				thres_bl=1.33, thres_d=1.33, thres_h=1.2, thres_v=1.2, fdr_thres=0.1, dist_thres=20000, size_thres=1):
 
 	def find_summit(loop, dist_thres):
@@ -85,7 +86,7 @@ def loop_mergechr(inprefix, outprefix, chrom_file, split_file, res=10000,
 		if c[-1]=='p' or c[-1]=='q':
 			data['chr'] = c[:-1]
 			if c[-1]=='q':
-				data[['x1','x2','y1','y2']] += splitbed.loc[c,2] // res * res
+				data[['x1','x2','y1','y2']] += splitbed.loc[c[:-1],2] // res * res
 		else:
 			data['chr'] = c
 		loopall.append(data)
@@ -107,6 +108,7 @@ def loop_mergechr(inprefix, outprefix, chrom_file, split_file, res=10000,
 	summit.sort_values(by=['chr', 'x1', 'y1'])[['chr', 'x1', 'x2', 'chr', 'y1', 'y2', 'E', 'size']].to_csv(f'{outprefix}.loopsummit.bedpe', sep='\t', index=False, header=None)
 
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--inprefix', type=str, default=None, help='Full path of a file containing the full path of all imputed files to be merged without .hdf5 suffix')

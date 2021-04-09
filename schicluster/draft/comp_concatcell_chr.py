@@ -21,6 +21,7 @@ def comp_concatcell_chr(cell_list, outprefix, ncpus=10):
 		score[i] = s.copy()
 	np.save(f'{outprefix}.cpgcomp.npy', comp)
 	np.save(f'{outprefix}.cpgcompstr.npy', score)
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path of all CpG npy files to be concatenate')

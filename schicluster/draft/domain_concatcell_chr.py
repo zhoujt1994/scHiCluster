@@ -52,6 +52,7 @@ def domain_concatcell_chr(cell_list, outprefix, res, input_type='insulation', nc
 		save_npz(f'{outprefix}.{input_type}.npz', csr_matrix(ins))
 	p.close()
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--cell_list', type=str, default=None, help='Full path of a file containing the full path of all insulation npy or domain txt files to be concatenate')

@@ -15,6 +15,7 @@ def embed_mergechr(embed_list, outprefix, dim=50):
 		tmp = f.create_dataset('data', matrix_reduce.shape, dtype='float32', compression='gzip')
 		tmp[()] = matrix_reduce
 	return
+
 '''
 parser = argparse.ArgumentParser()
 parser.add_argument('--embed_list', type=str, default=None, help='Full path of a file containing the full path to dimension reduction files of all chromosomes')
