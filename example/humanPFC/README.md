@@ -190,7 +190,7 @@ do
 done
 ```
 ### Plot result
-The following python script visualize the loop calling result at the flanking region of SATB2 gene in each coverage group. 'clustermeta' and 'binedge' are defined [above](#group-l2/3-cells-based-on-coverage).
+The following python script visualize the loop calling result at the flanking region of SATB2 gene in each coverage group. 'clustermeta' and 'binedge' are defined [above](#group-l23-cells-based-on-coverage).
 ```python
 import h5py
 import numpy as np
