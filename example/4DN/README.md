@@ -15,6 +15,8 @@ mv raw/GM12878_IMR90.R1/ raw/GM12878-IMR90.R1/
 ls raw/*/*matrix > raw_list.txt
 cat <(for f in $(ls raw/*labeled); do awk -v f=$f '{printf("%s_%s\n",f,$0)}' $f; done) | sed 's/_500000.matrix//g' | sed 's|raw/||g' | sed 's/.R1.labeled/_R1/g' | sed 's/.R2.labeled/_R2/' > cell_list.txt
 for c in `seq 1 22`; do mkdir -p cell_matrix/chr${c}/; mkdir -p imputed_matrix/chr${c}/; done
+mkdir imputed_matrix/filelist/
+mkdir -p imputed_matrix/merged/embed/
 ```
 ## Impute cell
 ```bash
