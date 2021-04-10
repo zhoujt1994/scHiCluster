@@ -177,7 +177,10 @@ done
 <img src="plot/cell_4238_25k_pad2_std1_rp0.5_boundary_w10_colsum5_logzscore2_tfidf_arpack_u15.batch_cluster.png" width="900" height="150" />  
 
 ### Visualize boundary probability
+```
 
+```
+<img src="plot/L23_25k_pad2_std1_rp0.5.boundprob.w10.png" width="1000" height="400" />  
 
 ## Loop calling
 ### Impute at 10kb resolution and compute local background
@@ -277,10 +280,10 @@ for i, ax in enumerate(axes):
 	ax.set_title(str(np.around(binedge[i])) + '-' + str(np.around(binedge[i+1])) + ' (' + str(np.around(clustermeta[group==i]['#contact'].mean())) + ')', fontsize=15)
 
 axes[-1].set_xticklabels([str(x/1000000)+' M' for x in range(l,r+1,1000000)], fontsize=15)
-plt.savefig(f'plot/L23_10kb_{mode}_dist_trim.covgroup.loop.pdf', transparent=True)
+plt.savefig(f'plot/L23_10k_{mode}_dist_trim.covgroup.loop.pdf', transparent=True)
 plt.close()
 ```
-<img src="plot/L23_10kb_pad2_std1_rp0.5_sqrtvc_dist_trim.covgroup.loop.png" width="1000" height="600" />  
+<img src="plot/L23_10k_pad2_std1_rp0.5_sqrtvc_dist_trim.covgroup.loop.png" width="1000" height="600" />  
 
 ### Sum groups
 ```bash
