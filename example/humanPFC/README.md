@@ -641,7 +641,7 @@ plt.tight_layout()
 plt.savefig(f'plot/cell_4238_100k_{mode}_dim{ndim}_cpgcomp.batch_cluster.pdf', transparent=True)
 plt.close()
 ```
-<img src="plot/cell_4238_100k_pad1_std1_rp0.5_sqrtvc_dim15_cpgcomp.batch_cluster.png" width="900" height="300" />  
+<img src="plot/cell_4238_100k_pad1_std1_rp0.5_sqrtvc_dim15_cpgcomp.batch_cluster.png" width="900" height="150" />  
 
 ```
 # merge cells by cell type
