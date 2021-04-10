@@ -9,8 +9,8 @@ def load_cpg(i):
     return [i, data[:-3], data[-3:]]
 
 def comp_concatcell_chr(cell_list, outprefix, ncpus=10):
-	celllist = np.loadtxt(cell_list, dtype=np.str)
 	global celllist
+	celllist = np.loadtxt(cell_list, dtype=np.str)
 	p = Pool(ncpus)
 	result = p.map(load_cpg, np.arange(len(celllist)))
 	p.close()

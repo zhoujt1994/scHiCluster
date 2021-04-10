@@ -1,10 +1,12 @@
 # Human prefrontal cortex snm3C-seq analysis
 This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, [domain calling](#domain-calling) at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
+
 ## Prepare directories
 ```bash
 mkdir raw/ cell_matrix/ imputed_matrix/
-for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}/; mkdir -p imputed_matrix/${r}b_resolution/chr${c}/; done; mkdir imputed_matrix/${r}b_resolution/merged/; done
+for r in 10k 25k 100k; do for c in `seq 1 22`; do mkdir -p cell_matrix/${r}b_resolution/chr${c}/; mkdir -p imputed_matrix/${r}b_resolution/chr${c}/; done; mkdir imputed_matrix/${r}b_resolution/merged/; mkdir imputed_matrix/${r}b_resolution/bins/; done
 ```
+
 ## Generate matrices at multiple resolutions
 ```bash
 # parallelize at cell level (4238 jobs in total)
@@ -14,6 +16,7 @@ do
 	command time hicluster generatematrix-cell --infile raw/${cell}.3C.sorted_contacts.txt.gz --outdir cell_matrix/${r}kb_resolution/ --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes --res ${r}000 --cell ${cell} --chr1 1 --pos1 2 --chr2 3 --pos2 4;
 done
 ```
+
 ## Clustering
 ### Impute at 100kb resolution
 ```bash
@@ -26,6 +29,7 @@ do
 	command time hicluster impute-cell --indir cell_matrix/${res0}b_resolution/chr${c}/ --outdir imputed_matrix/${res0}b_resolution/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --pad 1 --chrom_file hg19.autosomal.chrom.sizes; 
 done
 ```
+
 ### Generate embedding
 ```bash
 for c in `seq 1 22`; do awk -v c=$c '{printf("imputed_matrix/100kb_resolution/chr%s/%s_chr%s_pad1_std1_rp0.5_sqrtvc.hdf5\n",c,$1,c)}' cell_4238_meta_cluster.txt > imputed_matrix/100kb_resolution/filelist/imputelist_pad1_std1_rp0.5_sqrtvc_chr${c}.txt; echo $c; done
@@ -37,6 +41,7 @@ command time hicluster embed-concatcell-chr --cell_list imputed_matrix/100kb_res
 ls imputed_matrix/100kb_resolution/merged/embed/*npy > imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt
 command time hicluster embed-mergechr --embed_list imputed_matrix/100kb_resolution/filelist/embedlist_pad1_std1_rp0.5_sqrtvc.txt --outprefix imputed_matrix/100kb_resolution/merged/embed/pad1_std1_rp0.5_sqrtvc
 ```
+
 ### Plot results
 ```python
 import h5py
@@ -143,6 +148,7 @@ for i in range(5):
 	np.savetxt(f'L23_covgroup{i}_celllist.txt', group[group==i].index, delimiter='\n', fmt='%s')
 
 ```
+
 ## Loop calling
 ### Impute at 10kb resolution and compute local background
 We start by impute matrices at 10kb resolution. The running time of random walk increases cubically with the dimension of a matrix, which makes the imputation at 10kb resolution very slow for large chromosomes. However, at 10kb resolution, we usually only care about the contacts within certain distance (e.g. < 10 Mb). This allowed us to use a sliding window method to speed up the computation. Specifically, we only compute random walk within the square matrix of dimension w, and move downstreamly by step size of s. The imputation results of these windows are merged to generate the final imputation. Empirically when computing a matrix > 12000 dimensions (human chr1-chr12), the sliding window of size 30-40M will significantly accelerate the imputation and returns accurate results of contacts within 10M.  
@@ -189,6 +195,7 @@ do
 	command time hicluster loop-mergechr --inprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim --chrom_file hg19.autosomal.chrom.sizes;
 done
 ```
+
 ### Plot results
 The following python script visualize the loop calling result at the flanking region of SATB2 gene in each coverage group. 'clustermeta' and 'binedge' are defined [above](#group-l23-cells-based-on-coverage).
 ```python
@@ -262,6 +269,20 @@ command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resoluti
 # merge chromosomes to generate final loop summary
 command time hicluster loop-mergechr --inprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --outprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --chrom_file hg19.autosomal.chrom.sizes
 ```
+
+## Generate 25kb and 100kb bins bed file
+These files are required during domain calling and compartment calling, respectively.
+```python
+chromsize = pd.read_csv('hg19.autosomal.chrom.sizes', sep='\t', header=None, index_col=0).to_dict()[1]
+for res,res0 in [[25000, '25k'], [100000, '100k']]:
+	for c in chromsize:
+		ngene = int(chromsize[c]//res) + 1
+		bed = [['chr'+c, i*res, (i+1)*res] for i in range(ngene)]
+		bed[-1][-1] = chromsize[c]
+		np.savetxt(f'imputed_matrix/{res0}b_resolution/bins/chr{c}.bed', bed, fmt='%s', delimiter='\t')
+		print(res, c)
+```
+
 ## Domain calling
 ### Impute at 25kb resolution and compute insulation scores and domains
 ```bash
@@ -506,4 +527,129 @@ plt.close()
 ```
 <img src="plot/L23_25k_pad2_std1_rp0.5_sqrtvc.boundprob.w10.png" width="1000" height="400" />  
 
+## Compartment calling
+### Compartment calling within single cells
+The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924).  
+The first step is compute CpG density in each 100kb bin. hg19.fa can be downloaded from [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/).
+```bash
+res0=100k
+# generate CpG density files
+cat imputed_matrix/${res0}b_resolution/bins/chr*.bed | sort -k1,1 -k2,2n > imputed_matrix/${res0}b_resolution/bins/hg19.${res0}bin.bed
+bedtools nuc -fi hg19.fa -bed imputed_matrix/${res0}b_resolution/bins/hg19.bed -pattern CG -C > imputed_matrix/${res0}b_resolution/bins/hg19.${res0}bin.CpG.txt
+```
+Next step is to compute compartment scores in each single cell.
+```bash
+# parallelization at cell level
+mode=pad1_std1_rp0.5_sqrtvc
+cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
+for c in `seq 1 22`; do command time hicluster comp-cpg-cell --indir imputed_matrix/${res0}b_resolution/ --outdir imputed_matrix/${res0}b_resolution/ --cell ${cell} --chrom ${c} --mode ${mode} --cpg_file imputed_matrix/${res0}b_resolution/bins/hg19.${res0}bin.CpG.txt; done
+```
+Then concatenate compartment scores across cells
+```bash
+# concatenate single-cell compartments
+# write cell list
+for c in `seq 1 22`; do awk -v c=$c '{printf("imputed_matrix/100kb_resolution/chr%s/%s_chr%s_%s.Ecomp.npy\n",c,$1,c)}' cell_4238_meta_cluster.txt > imputed_matrix/100kb_resolution/filelist/complist_${mode}_chr${c}.txt; echo $c; done
+
+#parallelize at chromosome level
+command time hicluster comp-concatcell-chr --cell_list imputed_matrix/filelist/complist_${mode}_chr${c}.txt --outprefix imputed_matrix/${res0}b_resolution/merged/${mode}_chr${c} --ncpus 10
+```
+### Embed with compartment scores
+```python
+res0 = '100k'
+mode = 'pad1_std1_rp0.5_sqrtvc'
+indir = f'imputed_matrix/{res0}b_resolution/merged/'
+comp = []
+bincolor = []
+binchr = []
+for c in chrom:
+	tmp = np.load(f'{indir}{mode}_{c}.cpgcomp.npy')
+	binfilter = (np.std(tmp, axis=0)>0)
+	comptmp = np.ones(tmp.shape) / 2
+	comptmp[:, binfilter] = quantile_transform(tmp[:,binfilter], output_distribution='uniform', n_quantiles=int(np.sum(binfilter)//10), axis=1)
+	bincolor.append(['C'+str(int(c[3:])%2) for i in range(tmp.shape[1])])
+	binchr.append([c for i in range(tmp.shape[1])])
+	comp.append(comptmp)
+	print(c)
+
+comp = np.concatenate(comp, axis=1)
+bincolor = np.concatenate(bincolor)
+binchr = np.concatenate(binchr)
+
+pca = PCA(n_components=50, random_state=0, svd_solver='arpack')
+comp_reduce = pca.fit_transform(comp)
+comp_u = comp_reduce / pca.singular_values_
+
+ndim = 15
+ho = hm.run_harmony(comp_u[:,:ndim], meta, 'batch', max_iter_harmony=30, random_state=0)
+comp_u_hm = ho.Z_corr.T
+tsne = MulticoreTSNE(perplexity=50, verbose=3, random_state=0, n_jobs=10, init=comp_u_hm[:, :2]/np.std(comp_u_hm[:, 0])*0.0001)
+y = tsne.fit_transform(comp_u_hm[:, :ndim])
+
+ds = 3
+fig, axes = plt.subplots(1,4,figsize=(24,4))
+for ax in axes:
+	ax.set_xlabel('t-SNE-1', fontsize=20)
+	ax.set_ylabel('t-SNE-2', fontsize=20)
+	ax.spines['right'].set_visible(False)
+	ax.spines['top'].set_visible(False)
+	ax.tick_params(axis='both', which='both', length=0)
+	ax.set_xticklabels([])
+	ax.set_yticklabels([])
+
+ax = axes[0]
+for i,x in enumerate(leg):
+	cell = (meta['clusters']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c=color[i], s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[1]
+for i,x in enumerate(np.sort(list(set(meta['date'])))):
+	cell = (meta['date']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[2]
+for i,x in enumerate(np.sort(list(set(meta['indiv'])))):
+	cell = (meta['indiv']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[3]
+mch = np.log10(meta['#contact'].values)
+vmin, vmax = np.around([np.percentile(mch,5), np.percentile(mch,95)], decimals=2)
+plot = ax.scatter(y[:, 0], y[:, 1], s=ds, c=mch, alpha=0.8, edgecolors='none', cmap=cm.bwr, vmin=vmin, vmax=vmax, rasterized=True)
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cbar = plt.colorbar(plot, cax=cax)
+cbar.solids.set_clim([vmin, vmax])
+cbar.set_ticks([vmin, vmax])
+cbar.draw_all()
+
+plt.tight_layout()
+plt.savefig(f'plot/cell_4238_100k_{mode}_dim{ndim}_cpgcomp.batch_cluster.pdf', transparent=True)
+plt.close()
+```
+<img src="plot/cell_4238_100k_pad1_std1_rp0.5_sqrtvc_dim15_cpgcomp.batch_cluster.png" width="900" height="300" />  
+
+```
+# merge cells by cell type
+# parallelize at chromosome level (110 jobs in total)
+file=paralist.txt
+c=$(cut -f2 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+i=$(cut -f1 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+mode=$(cut -f3 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resolution/filelist/L23_covgroup${i}_${mode}_chr${c}_looplist.txt --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim_chr${c} --res 10000
+```
 
