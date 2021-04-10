@@ -143,9 +143,44 @@ for i in range(5):
 	np.savetxt(f'L23_covgroup{i}_celllist.txt', group[group==i].index, delimiter='\n', fmt='%s')
 
 ```
+## Domain calling
+### Impute at 25kb resolution and compute insulation scores and domains
+```bash
+# parallelize at cell level (4238 jobs in total)
+cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
+res0=25k
+res=25000
+mode=pad2_std1_rp0.5_sqrtvc
+for c in `seq 1 22`; 
+do 
+	command time hicluster impute-cell --indir cell_matrix/${res0}b_resolution/chr${c}/ --outdir imputed_matrix/${res0}b_resolution/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --chrom_file hg19.autosomal.chrom.sizes --pad 2 --output_dist 10050000 --mode ${mode}; 
+	command time hicluster domain-insulation-cell --indir imputed_matrix/${res0}b_resolution/ --cell ${cell} --chrom ${c} --mode ${mode} --w 10 
+	command time Rscript domain_topdom_cell.R ${cell} ${c} ${mode} 10 imputed_matrix/${res0}b_resolution/ imputed_matrix/${res0}b_resolution/
+done
+```
+
+### Concatenate cells
+```
+
+``` 
+
+### Embed with insulation scores
+```
+
+```
+<img src="plot/cell_4238_25k_pad2_std1_rp0.5_sqrtvc_dim15_ins.batch_cluster.png" width="900" height="150" />  
+
+### Embed with domain boundaries
+```
+
+```
+<img src="plot/cell_4238_25k_pad2_std1_rp0.5_boundary_w10_colsum5_logzscore2_tfidf_arpack_u15.batch_cluster.png" width="900" height="150" />  
+
+### Visualize boundary probability
+
 
 ## Loop calling
-### Impute at 10kb resolution
+### Impute at 10kb resolution and compute local background
 We start by impute matrices at 10kb resolution. The running time of random walk increases cubically with the dimension of a matrix, which makes the imputation at 10kb resolution very slow for large chromosomes. However, at 10kb resolution, we usually only care about the contacts within certain distance (e.g. < 10 Mb). This allowed us to use a sliding window method to speed up the computation. Specifically, we only compute random walk within the square matrix of dimension w, and move downstreamly by step size of s. The imputation results of these windows are merged to generate the final imputation. Empirically when computing a matrix > 12000 dimensions (human chr1-chr12), the sliding window of size 30-40M will significantly accelerate the imputation and returns accurate results of contacts within 10M.  
 After imputation, the matrix is normalized by the decay with a Z-score transform at each insertion distance, and the differences between each pixel and its local background is also saved for later t-tests of loop candidates.
 ```bash
