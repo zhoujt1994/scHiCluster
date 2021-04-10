@@ -528,8 +528,21 @@ plt.close()
 <img src="plot/L23_25k_pad2_std1_rp0.5_sqrtvc.boundprob.w10.png" width="1000" height="400" />  
 
 ## Compartment calling
+### Compartment calling within cell groups
+
+```
+# merge cells by cell type
+# parallelize at chromosome level (110 jobs in total)
+file=paralist.txt
+c=$(cut -f2 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+i=$(cut -f1 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+mode=$(cut -f3 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
+command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resolution/filelist/L23_covgroup${i}_${mode}_chr${c}_looplist.txt --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim_chr${c} --res 10000
+```
+
+
 ### Compartment calling within single cells
-The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924).  
+The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full).  
 The first step is compute CpG density in each 100kb bin. hg19.fa can be downloaded from [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/).
 ```bash
 res0=100k
@@ -642,14 +655,4 @@ plt.savefig(f'plot/cell_4238_100k_{mode}_dim{ndim}_cpgcomp.batch_cluster.pdf', t
 plt.close()
 ```
 <img src="plot/cell_4238_100k_pad1_std1_rp0.5_sqrtvc_dim15_cpgcomp.batch_cluster.png" width="900" height="150" />  
-
-```
-# merge cells by cell type
-# parallelize at chromosome level (110 jobs in total)
-file=paralist.txt
-c=$(cut -f2 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
-i=$(cut -f1 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
-mode=$(cut -f3 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
-command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resolution/filelist/L23_covgroup${i}_${mode}_chr${c}_looplist.txt --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim_chr${c} --res 10000
-```
 
