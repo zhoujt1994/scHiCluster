@@ -143,45 +143,6 @@ for i in range(5):
 	np.savetxt(f'L23_covgroup{i}_celllist.txt', group[group==i].index, delimiter='\n', fmt='%s')
 
 ```
-## Domain calling
-### Impute at 25kb resolution and compute insulation scores and domains
-```bash
-# parallelize at cell level (4238 jobs in total)
-cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
-res0=25k
-res=25000
-mode=pad2_std1_rp0.5_sqrtvc
-for c in `seq 1 22`; 
-do 
-	command time hicluster impute-cell --indir cell_matrix/${res0}b_resolution/chr${c}/ --outdir imputed_matrix/${res0}b_resolution/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --chrom_file hg19.autosomal.chrom.sizes --pad 2 --output_dist 10050000 --mode ${mode}; 
-	command time hicluster domain-insulation-cell --indir imputed_matrix/${res0}b_resolution/ --cell ${cell} --chrom ${c} --mode ${mode} --w 10 
-	command time Rscript domain_topdom_cell.R ${cell} ${c} ${mode} 10 imputed_matrix/${res0}b_resolution/ imputed_matrix/${res0}b_resolution/
-done
-```
-
-### Concatenate cells
-```
-
-``` 
-
-### Embed with insulation scores
-```
-
-```
-<img src="plot/cell_4238_25k_pad2_std1_rp0.5_sqrtvc_dim15_ins.batch_cluster.png" width="900" height="150" />  
-
-### Embed with domain boundaries
-```
-
-```
-<img src="plot/cell_4238_25k_pad2_std1_rp0.5_boundary_w10_colsum5_logzscore2_tfidf_arpack_u15.batch_cluster.png" width="900" height="150" />  
-
-### Visualize boundary probability
-```
-
-```
-<img src="plot/L23_25k_pad2_std1_rp0.5.boundprob.w10.png" width="1000" height="400" />  
-
 ## Loop calling
 ### Impute at 10kb resolution and compute local background
 We start by impute matrices at 10kb resolution. The running time of random walk increases cubically with the dimension of a matrix, which makes the imputation at 10kb resolution very slow for large chromosomes. However, at 10kb resolution, we usually only care about the contacts within certain distance (e.g. < 10 Mb). This allowed us to use a sliding window method to speed up the computation. Specifically, we only compute random walk within the square matrix of dimension w, and move downstreamly by step size of s. The imputation results of these windows are merged to generate the final imputation. Empirically when computing a matrix > 12000 dimensions (human chr1-chr12), the sliding window of size 30-40M will significantly accelerate the imputation and returns accurate results of contacts within 10M.  
@@ -301,4 +262,248 @@ command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resoluti
 # merge chromosomes to generate final loop summary
 command time hicluster loop-mergechr --inprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --outprefix imputed_matrix/10kb_resolution/merged/L23_${mode}/L23_${mode}_dist_trim --chrom_file hg19.autosomal.chrom.sizes
 ```
+## Domain calling
+### Impute at 25kb resolution and compute insulation scores and domains
+```bash
+# parallelize at cell level (4238 jobs in total)
+cell=$(cut -f1 cell_4238_meta_cluster.txt | sed '1d' | head -${SGE_TASK_ID} | tail -1)
+res0=25k
+res=25000
+mode=pad2_std1_rp0.5_sqrtvc
+for c in `seq 1 22`; 
+do 
+	command time hicluster impute-cell --indir cell_matrix/${res0}b_resolution/chr${c}/ --outdir imputed_matrix/${res0}b_resolution/chr${c}/ --cell ${cell} --chrom ${c} --res ${res} --chrom_file hg19.autosomal.chrom.sizes --pad 2 --output_dist 10050000 --mode ${mode}; 
+	command time hicluster domain-insulation-cell --indir imputed_matrix/${res0}b_resolution/ --cell ${cell} --chrom ${c} --mode ${mode} --w 10 
+	command time Rscript domain_topdom_cell.R ${cell} ${c} ${mode} 10 imputed_matrix/${res0}b_resolution/ imputed_matrix/${res0}b_resolution/
+done
+```
+
+### Concatenate cells
+```bash
+mode=pad2_std1_rp0.5_sqrtvc
+# write domain and insulation file list
+for c in `seq 1 22`; do awk -v c=$c -v m=$mode '{printf("imputed_matrix/25kb_resolution/chr%s/%s_chr%s_%s.w10.domain.bed\n",c,$1,c,m)}' cell_4238_meta_cluster.txt > imputed_matrix/25kb_resolution/filelist/imputelist_${mode}_chr${c}.txt; awk -v c=$c -v m=$mode '{printf("imputed_matrix/25kb_resolution/chr%s/%s_chr%s_%s.w10.ins.npy\n",c,$1,c,m)}' cell_4238_meta_cluster.txt > imputed_matrix/25kb_resolution/filelist/inslist_${mode}_chr${c}.txt; done
+
+# parallelize at chromosome level (22 jobs in total)
+c=${SGE_TASK_ID}
+command time hicluster domain-concatcell-chr --cell_list imputed_matrix/25kb_resolution/filelist/inslist_${mode}_chr${c}.txt --outprefix imputed_matrix/25kb_resolution/merged/${mode}_chr${c}.w10 --res 25000 --input_type insulation --ncpus 10
+command time hicluster domain-concatcell-chr --cell_list imputed_matrix/25kb_resolution/filelist/domainlist_${mode}_chr${c}.txt --outprefix imputed_matrix/25kb_resolution/merged/${mode}_chr${c}.w10 --res 25000 --input_type boundary --ncpus 10
+``` 
+
+### Embed with insulation scores
+```python
+res0 = '25k'
+mode = 'pad2_std1_rp0.5_sqrtvc'
+indir = f'imputed_matrix/{res0}b_resolution/merged/'
+ins = np.concatenate([np.load(f'{indir}{mode}_chr{c}.w10.insulation.npy') for c in chrom], axis=1)
+
+pca = PCA(n_components=50, random_state=0, svd_solver='arpack')
+ins_reduce = pca.fit_transform(ins)
+ins_u = ins_reduce / pca.singular_values_
+
+ndim = 15
+ho = hm.run_harmony(ins_u[:,:ndim], meta, 'batch', max_iter_harmony=30, random_state=0)
+ins_u_hm = ho.Z_corr.T
+tsne = MulticoreTSNE(perplexity=50, verbose=3, random_state=0, n_jobs=10, init=ins_u_hm[:, :2]/np.std(ins_u_hm[:, 0])*0.0001)
+y = tsne.fit_transform(ins_u_hm[:, :ndim])
+
+ds = 3
+fig, axes = plt.subplots(1,4,figsize=(24,4))
+for ax in axes:
+	ax.set_xlabel('t-SNE-1', fontsize=20)
+	ax.set_ylabel('t-SNE-2', fontsize=20)
+	ax.spines['right'].set_visible(False)
+	ax.spines['top'].set_visible(False)
+	ax.tick_params(axis='both', which='both', length=0)
+	ax.set_xticklabels([])
+	ax.set_yticklabels([])
+
+ax = axes[0]
+for i,x in enumerate(leg):
+	cell = (meta['clusters']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c=color[i], s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+ax = axes[1]
+for i,x in enumerate(np.sort(list(set(meta['date'])))):
+	cell = (meta['date']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[2]
+for i,x in enumerate(np.sort(list(set(meta['indiv'])))):
+	cell = (meta['indiv']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[3]
+mch = np.log10(meta['#contact'].values)
+vmin, vmax = np.around([np.percentile(mch,5), np.percentile(mch,95)], decimals=2)
+plot = ax.scatter(y[:, 0], y[:, 1], s=ds, c=mch, alpha=0.8, edgecolors='none', cmap=cm.bwr, vmin=vmin, vmax=vmax, rasterized=True)
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cbar = plt.colorbar(plot, cax=cax)
+cbar.solids.set_clim([vmin, vmax])
+cbar.set_ticks([vmin, vmax])
+cbar.draw_all()
+
+plt.tight_layout()
+plt.savefig(f'plot/cell_4238_{res0}_{mode}_dim{ndim}_ins.batch_cluster.pdf', transparent=True)
+plt.close()
+```
+<img src="plot/cell_4238_25k_pad2_std1_rp0.5_sqrtvc_dim15_ins.batch_cluster.png" width="900" height="150" />  
+
+### Embed with domain boundaries
+```python
+from scipy.sparse import hstack, load_npz
+
+domain = hstack([load_npz(f'{indir}{mode}_chr{c}.w10.boundary.npz') for c in chrom])
+rowsum = domain.getnnz(axis=1)
+print(np.sum(rowsum>1000))
+colsum = domain.getnnz(axis=0)
+binfilter = (colsum>5)
+np.sum(binfilter)
+domain = domain.tocsc()[:,binfilter]
+colsum = colsum[binfilter]
+
+binfilter = (np.abs(zscore(np.log(colsum)))<2)
+print(np.sum(binfilter), colsum[binfilter].min(), colsum[binfilter].max())
+
+domain = domain[:, binfilter]
+
+scalefactor = 100000
+idf = np.log(1 + domain.shape[0] / domain.getnnz(axis=0))
+tf = domain.tocsr()
+tf.data = tf.data / np.repeat(rowsum, domain.getnnz(axis=1))
+tf.data = np.log(tf.data * scalefactor + 1)
+tf = tf.multiply(idf)
+svd = TruncatedSVD(n_components=50, algorithm='arpack')
+matrix_reduce = svd.fit_transform(tf)
+matrix_reduce = matrix_reduce / svd.singular_values_
+
+ndim = 15
+ho = hm.run_harmony(matrix_reduce[:, :ndim], meta, 'batch', max_iter_harmony=30, random_state=0)
+matrix_reduce_hm = ho.Z_corr.T
+tsne = MulticoreTSNE(perplexity=50, verbose=3, random_state=0, n_jobs=10, init=matrix_reduce_hm[:, :2]/np.std(matrix_reduce_hm[:, 0])*0.0001)
+y = tsne.fit_transform(matrix_reduce_hm[:, :ndim])
+
+ds = 3
+fig, axes = plt.subplots(1,4,figsize=(24,4))
+for ax in axes:
+	ax.set_xlabel('t-SNE-1', fontsize=20)
+	ax.set_ylabel('t-SNE-2', fontsize=20)
+	ax.spines['right'].set_visible(False)
+	ax.spines['top'].set_visible(False)
+	ax.tick_params(axis='both', which='both', length=0)
+	ax.set_xticklabels([])
+	ax.set_yticklabels([])
+
+ax = axes[0]
+for i,x in enumerate(leg):
+	cell = (meta['clusters']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c=color[i], s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[1]
+for i,x in enumerate(np.sort(list(set(meta['date'])))):
+	cell = (meta['date']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[2]
+for i,x in enumerate(np.sort(list(set(meta['indiv'])))):
+	cell = (meta['indiv']==x)
+	ax.scatter(y[cell, 0], y[cell, 1], c='C'+str(i), s=ds, edgecolors='none', alpha=0.8, label=x, rasterized=True)
+
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cax.axis('off')
+ax.legend(markerscale=5, prop={'size': 10}, bbox_to_anchor=(1,1), loc='upper left', fontsize=20)
+
+ax = axes[3]
+mch = np.log10(meta['#contact'].values)
+vmin, vmax = np.around([np.percentile(mch,5), np.percentile(mch,95)], decimals=2)
+plot = ax.scatter(y[:, 0], y[:, 1], s=ds, c=mch, alpha=0.8, edgecolors='none', cmap=cm.bwr, vmin=vmin, vmax=vmax, rasterized=True)
+divider = make_axes_locatable(ax)
+cax = divider.append_axes('right', size='5%', pad='5%')
+cbar = plt.colorbar(plot, cax=cax)
+cbar.solids.set_clim([vmin, vmax])
+cbar.set_ticks([vmin, vmax])
+cbar.draw_all()
+
+plt.tight_layout()
+plt.savefig('plot/cell_4238_{res0}_{mode}_boundary_w10_colsum5_logzscore2_tfidf_u{ndim}.batch_cluster.pdf', transparent=True)
+plt.close()
+
+```
+<img src="plot/cell_4238_25k_pad2_std1_rp0.5_sqrtvc_boundary_w10_colsum5_logzscore2_tfidf_u15.batch_cluster.png" width="900" height="150" />  
+
+### Visualize boundary probability
+```python
+c = '2'
+ct = 'L2/3'
+res = 25000
+
+domain = load_npz(f'{indir}{mode}_chr{c}.w10.boundary.npz')[meta['clusters']==ct]
+prob = np.array([domain[group==i].sum(axis=0).A.ravel() / np.sum(group==i) for i in range(5)])
+with h5py.File(f'imputed_matrix/10kb_resolution/merged/L23_{mode}/L23_{mode}_dist_trim.chr2.O.hdf5', 'r') as f:
+	g = f['Matrix']
+	A = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
+
+l, r = 196000000, 204000000
+tmp = A[(l//10000):(r//10000),(l//10000):(r//10000)].toarray()
+dst = nd.rotate(tmp, 45, order=0, reshape=True, prefilter=False, cval=0)
+
+fig, axes = plt.subplots(6, 1, figsize=(20, 8), gridspec_kw={'height_ratios': [3,1,1,1,1,1], 'hspace':0.4})
+ax = axes[0]
+ax.spines['right'].set_visible(False)
+ax.spines['top'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
+img = ax.imshow(dst, cmap='bwr', vmin=-0.15, vmax=0.15)
+h = len(dst)
+ax.set_ylim([0.5*h, 0.4*h])
+ax.set_xlim([0, h])
+ax.set_yticks([])
+ax.set_yticklabels([])
+ax.set_xticks([])
+ax.set_xticklabels([])
+
+for i,ax in enumerate(axes[1:][::-1]):
+	ax.spines['top'].set_visible(False)
+	ax.plot(np.arange(l//res, r//res), prob[i, (l//res):(r//res)], linewidth=2.5)
+	ax.set_ylim([0, 0.35])
+	ax.set_yticks([0, 0.3])
+	ax.set_yticklabels([0, 0.3], fontsize=15)
+	ax.set_xlim([l//res, r//res])
+	ax.set_xticks([x//res for x in range(l,r+1,1000000)])
+	ax.set_xticklabels([])
+	ax.set_title(str(np.around(binedge[i])) + '-' + str(np.around(binedge[i+1])) + ' (' + str(np.around(clustermeta[group==i]['#contact'].mean())) + ')', fontsize=15)
+
+axes[-1].set_xticklabels([str(x/1000000)+' M' for x in range(l,r+1,1000000)], fontsize=15)
+
+plt.savefig(f'plot/L23_{res0}_{mode}.boundprob.w10.pdf', transparent=True)
+plt.close()
+```
+<img src="plot/L23_25k_pad2_std1_rp0.5_sqrtvc.boundprob.w10.png" width="1000" height="400" />  
+
 
