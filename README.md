@@ -18,7 +18,7 @@ pip install schicluster
 ```
 
 ## Tutorial
-[snm3C-seq of human prefrontal cortex](https://github.com/zhoujt1994/scHiCluster/tree/master/example/humanPFC)
+[snm3C-seq of human prefrontal cortex](https://github.com/zhoujt1994/scHiCluster/tree/master/example/humanPFC)  
 [sci-HiC of 4DN cell lines](https://github.com/zhoujt1994/scHiCluster/tree/master/example/4DN)
 
 ## Usage
