@@ -77,6 +77,10 @@ Lastly, merge the summary to generate a final loop list with given thresholds, a
 ```
 hicluster loop-mergechr --inprefix {chromosome_loop_summary_prefix} --outprefix {} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes 
 ```
+### Domain calling
+
+### Compartment calling
+The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.  
 
 ## Citation
 Zhou, J., Ma, J., Chen, Y., Cheng, C., Bao, B., Peng, J., ... & Ecker, J. R. (2019). Robust single-cell Hi-C clustering by convolution-and random-walk–based imputation. Proceedings of the National Academy of Sciences, 116(28), 14011-14018.
