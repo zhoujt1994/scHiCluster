@@ -84,11 +84,14 @@ The single cell compartment score is determined by average CpG density of intera
 
 ## Citation
 Zhou, J., Ma, J., Chen, Y., Cheng, C., Bao, B., Peng, J., ... & Ecker, J. R. (2019). Robust single-cell Hi-C clustering by convolution-and random-walk–based imputation. Proceedings of the National Academy of Sciences, 116(28), 14011-14018.
-  
-### Loop calling  
+
+### Loop calling
 Yu, M., Abnousi, A., Zhang, Y., Li, G., Lee, L., Chen, Z., ... & Hu, M. (2020). SnapHiC: a computational pipeline to map chromatin contacts from single cell Hi-C data. bioRxiv.
-  
-### snm3C-seq data  
+
+### Domain calling
+Shin, H., Shi, Y., Dai, C., Tjong, H., Gong, K., Alber, F., & Zhou, X. J. (2016). TopDom: an efficient and deterministic method for identifying topological domains in genomes. Nucleic acids research, 44(7), e70-e70.
+
+### snm3C-seq data
 Lee, D. S., Luo, C., Zhou, J., Chandran, S., Rivkin, A., Bartlett, A., ... & Ecker, J. R. (2019). Simultaneous profiling of 3D genome structure and DNA methylation in single human cells. Nature methods, 16(10), 999-1006.
   
 Liu, H., Zhou, J., Tian, W., Luo, C., Bartlett, A., Aldridge, A., ... & Ecker, J. R. (2020). DNA methylation atlas of the mouse brain at single-cell resolution. bioRxiv.
