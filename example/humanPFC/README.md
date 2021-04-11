@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and [compartment calling](#compartment-calling) at 100kb resolution, [domain calling](#domain-calling) at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
+This is an example of analyzing 4238 cells from human prefrontal cortex ([Lee, Luo, Zhou et al. 2019](https://www.nature.com/articles/s41592-019-0547-z)). It includes [embedding](#clustering) and [compartment calling](#compartment-calling) at 100kb resolution, [domain calling](#domain-calling) at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
 
 ## Prepare directories
 ```bash
