@@ -63,7 +63,7 @@ The embedding generated here could be further used for batch-effect correction, 
 
 ### Loop calling
 
-The loop calling framework is modified from SnapHiC. When using these functions, please cite [this work](https://www.biorxiv.org/content/10.1101/2020.12.13.422543v1). The algorithm uses single-cell imputed matrices as input. It first normalize the matrices by distance decay, and next compute the difference between each element in the normalized matrix and its local background to allow for a paired t-test across cells in the next step. Finally the single-cell level matrices of the same cell type are merged, and the paired t-test and other ad-hoc filters are applied to identify loops.  
+The loop calling framework is modified from SnapHiC. When using these functions, please cite [Yu, Abnousi et al. 2020](https://www.biorxiv.org/content/10.1101/2020.12.13.422543v1). The algorithm uses single-cell imputed matrices as input. It first normalize the matrices by distance decay, and next compute the difference between each element in the normalized matrix and its local background to allow for a paired t-test across cells in the next step. Finally the single-cell level matrices of the same cell type are merged, and the paired t-test and other ad-hoc filters are applied to identify loops.  
 
 First, use the imputed matrix (Q) of each single cell to compute the distance normalized matrix (E) and its differences with local background (T).
 ```
@@ -80,7 +80,15 @@ hicluster loop-mergechr --inprefix {chromosome_loop_summary_prefix} --outprefix 
 ### Domain calling
 
 ### Compartment calling
-The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.  
+The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [Tan, Xing et al. 2018](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.  
 
 ## Citation
 Zhou, J., Ma, J., Chen, Y., Cheng, C., Bao, B., Peng, J., ... & Ecker, J. R. (2019). Robust single-cell Hi-C clustering by convolution-and random-walk–based imputation. Proceedings of the National Academy of Sciences, 116(28), 14011-14018.
+  
+Loop calling  
+Yu, M., Abnousi, A., Zhang, Y., Li, G., Lee, L., Chen, Z., ... & Hu, M. (2020). SnapHiC: a computational pipeline to map chromatin contacts from single cell Hi-C data. bioRxiv.
+  
+snm3C-seq data  
+Lee, D. S., Luo, C., Zhou, J., Chandran, S., Rivkin, A., Bartlett, A., ... & Ecker, J. R. (2019). Simultaneous profiling of 3D genome structure and DNA methylation in single human cells. Nature methods, 16(10), 999-1006.
+  
+Liu, H., Zhou, J., Tian, W., Luo, C., Bartlett, A., Aldridge, A., ... & Ecker, J. R. (2020). DNA methylation atlas of the mouse brain at single-cell resolution. bioRxiv.
