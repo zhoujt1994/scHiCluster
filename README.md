@@ -24,7 +24,6 @@ pip install schicluster
 ## Function
 <img src="example/plot/framework.png" width="1000" height="700" />  
 
-
 ## Usage
 ### General file
 HiCluster requires a the chromosome size file in several following steps, where the first column is the chromosome name and the second column is the size of the chromosome in bps. The files for hg38, hg19, and mm10 are provided in file/ folder of this repo.
@@ -92,6 +91,7 @@ To compute domain for a cell for a given chromosome, use
 ```bash
 Rscript ${schicluster_dir}/schicluster/draft/domain_topdom_cell.R ${cell_id} ${chromosome} ${impute_mode} ${window_size} ${impute_dir}/ ${impute_dir}/
 ```
+To run this command, a bed file containing all the bins of the chromosome is required to be saved into ${impute_dir}/bins/ named as chr${chromosome}.bed
 
 ### Compartment calling
 The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [Tan, Xing et al. 2018](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.
