@@ -1,5 +1,5 @@
 # Human prefrontal cortex snm3C-seq analysis
-This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and compartment calling at 100kb resolution, [domain calling](#domain-calling) at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
+This is an example of analyzing 4238 cells from human prefrontal cortex. It includes [embedding](#clustering) and [compartment calling](#compartment-calling) at 100kb resolution, [domain calling](#domain-calling) at 25kb resolution, [loop calling](#loop-calling) at 10kb resolution. To estimate the power for 3D features calling, it also includes the example where L2/3 neurons were divided into 5 groups based on their coverage (~110 cells in each group), and the feature calling is performed within each group.
 
 ## Prepare directories
 ```bash
@@ -548,7 +548,7 @@ mode=$(cut -f3 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
 command time hicluster loop-sumcell-chr --cell_list imputed_matrix/100kb_resolution/filelist/imputelist_L23_covgroup${i}_${mode}_chr${c}.txt --outprefix imputed_matrix/100kb_resolution/merged/L23_covgroup${i}_${mode}_chr${c} --res 100000 --matrix Q
 ```
 
-### Visualize
+### Visualize correlation matrix
 ```python
 c = '2'
 res0 = '100k'
