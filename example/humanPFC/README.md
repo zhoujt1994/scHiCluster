@@ -601,7 +601,6 @@ plt.close()
 <img src="plot/L23_100k_pad1_std1_rp0.5_sqrtvc.covgroup.corr_pc1.png" width="1000" height="225" />  
 
 ### Compartment calling within single cells
-The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.  
 The first step is compute CpG density in each 100kb bin. hg19.fa can be downloaded from [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/).
 ```bash
 res0=100k
