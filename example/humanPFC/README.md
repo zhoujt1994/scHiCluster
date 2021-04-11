@@ -522,27 +522,86 @@ for i,ax in enumerate(axes[1:][::-1]):
 
 axes[-1].set_xticklabels([str(x/1000000)+' M' for x in range(l,r+1,1000000)], fontsize=15)
 
-plt.savefig(f'plot/L23_{res0}_{mode}.boundprob.w10.pdf', transparent=True)
+plt.savefig(f'plot/L23_{res0}_{mode}.covgroup.boundprob.w10.pdf', transparent=True)
 plt.close()
 ```
-<img src="plot/L23_25k_pad2_std1_rp0.5_sqrtvc.boundprob.w10.png" width="1000" height="400" />  
+<img src="plot/L23_25k_pad2_std1_rp0.5_sqrtvc.covgroup.boundprob.w10.png" width="1000" height="400" />  
 
 ## Compartment calling
 ### Compartment calling within cell groups
 
-```
-# merge cells by cell type
-# parallelize at chromosome level (110 jobs in total)
+```bash
+mode=pad1_std1_rp0.5_sqrtvc
+# write lists of cells to be summed
+for i in `seq 0 4`; do for c in `seq 1 22`; do awk -v c=$c -v m=$mode '{printf("imputed_matrix/100kb_resolution/chr%s/%s_chr%s_%s\n",c,$1,c,m)}' L23_covgroup${i}_celllist.txt > imputed_matrix/100kb_resolution/filelist/imputelist_L23_covgroup${i}_${mode}_chr${c}.txt; done; done
+
+# merge cells by coverage groups
+# generate a list of parameters
+cat <(for c in `seq 1 22`; do for i in `seq 0 4`; do echo $i $c $mode; done; done) | sort -k2,2n -k1,1rn > paralist.txt 
+for i in `seq 0 4`; do mkdir -p imputed_matrix/merged/L23_covgroup${i}_${mode}/; done
+
+# parallelize at group x chromosome level (110 jobs in total)
 file=paralist.txt
 c=$(cut -f2 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
 i=$(cut -f1 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
 mode=$(cut -f3 -d' ' ${file} | head -${SGE_TASK_ID} | tail -1)
-command time hicluster loop-sumcell-chr --cell_list imputed_matrix/10kb_resolution/filelist/L23_covgroup${i}_${mode}_chr${c}_looplist.txt --outprefix imputed_matrix/10kb_resolution/merged/L23_covgroup${i}_${mode}/L23_covgroup${i}_${mode}_dist_trim_chr${c} --res 10000
+command time hicluster loop-sumcell-chr --cell_list imputed_matrix/100kb_resolution/filelist/imputelist_L23_covgroup${i}_${mode}_chr${c}.txt --outprefix imputed_matrix/100kb_resolution/merged/L23_covgroup${i}_${mode}_chr${c} --res 100000 --matrix Q
 ```
 
+### Visualize
+```python
+c = '2'
+res0 = '100k'
+mode = 'pad1_std1_rp0.5_sqrtvc'
+indir = f'imputed_matrix/{res0}b_resolution/merged/'
+corr_matrix = []
+for i in range(5):
+	start_time = time.time()
+	with h5py.File(f'{indir}/L23_covgroup{i}_{mode}_chr{c}.hdf5', 'r') as f:
+		g = f['Matrix']
+		E = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
+	ngene = E.shape[0]
+	top = np.array([np.percentile(E.diagonal(i), 99) for i in range(ngene)])
+	E.data = np.min([E.data, top[E.col - E.row]], axis=0)
+	ave = np.array([np.mean(E.diagonal(i)) for i in range(ngene)])
+	ave[ave==0] = 1
+	E.data = E.data / ave[E.col - E.row]
+	E = E + E.T
+	C = np.corrcoef(E.toarray())
+	C[np.isnan(C)] = 0
+	corr_matrix.append(C)
+	print(i, time.time()-start_time)
+
+pca = PCA(n_components=2, random_state=0, svd_solver='arpack')
+comp = pca.fit_transform(np.concatenate(corr_matrix, axis=0))
+comp = comp[:,0].reshape((5,-1))
+fig, axes = plt.subplots(nrows=2, ncols=5, gridspec_kw={'height_ratios': [4,0.5]}, figsize=(10, 2.25), sharey='row')
+for i in range(5):
+	ax = axes[0, i]
+	sns.despine(bottom=True, left=True, ax=ax)
+	plot = ax.imshow(corr_matrix[i], cmap='bwr', vmin=-0.6, vmax=0.6)
+	ax.set_title(f'Group{i}', fontsize=15)
+	ax.set_xticks([])
+	ax.set_yticks([])
+	ax.set_xlim([-0.5, ngene-0.5])
+	ax.set_ylim([ngene-0.5, -0.5])
+	ax = axes[1, i]
+	sns.despine(bottom=True, left=True, ax=ax)
+	x, y = np.arange(ngene), comp[i]
+	ax.fill_between(x, y, 0, where=y >= 0, facecolor='C3', interpolate=True)
+	ax.fill_between(x, y, 0, where=y <= 0, facecolor='C0', interpolate=True)
+	ax.set_xlim([-0.5, ngene-0.5])
+	ax.set_ylim([-5, 5])
+	ax.set_xticks([])
+	ax.set_yticks([])
+
+plt.savefig('/gale/raidix/rdx-5/zhoujt/projects/methylHiC/PFC_batch_merged/plot/L23_100k_pad1_std1_rp0.5_sqrtvc.covgroup.corr_pc1.pdf', transparent=True)
+plt.close()
+```
+<img src="plot/L23_100k_pad1_std1_rp0.5_sqrtvc.covgroup.corr_pc1.png" width="1000" height="225" />  
 
 ### Compartment calling within single cells
-The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full).  
+The single cell compartment score is determined by average CpG density of interacting bins with each bin, adopted from [this work](https://science.sciencemag.org/content/361/6405/924). In general neither the raw data nor the imputed data captures the signiture of super long range interactions effectively. Thus we would suggest to call single-cell compartment with [Higashi](https://www.biorxiv.org/content/10.1101/2020.12.13.422537v2.full) for better results.  
 The first step is compute CpG density in each 100kb bin. hg19.fa can be downloaded from [UCSC](https://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/).
 ```bash
 res0=100k
@@ -566,6 +625,7 @@ for c in `seq 1 22`; do awk -v c=$c '{printf("imputed_matrix/100kb_resolution/ch
 #parallelize at chromosome level
 command time hicluster comp-concatcell-chr --cell_list imputed_matrix/filelist/complist_${mode}_chr${c}.txt --outprefix imputed_matrix/${res0}b_resolution/merged/${mode}_chr${c} --ncpus 10
 ```
+
 ### Embed with compartment scores
 ```python
 res0 = '100k'
