@@ -22,7 +22,7 @@ pip install schicluster
 [sci-HiC of 4DN cell lines](https://github.com/zhoujt1994/scHiCluster/tree/master/example/4DN)
 
 ## Function
-<img src="example/plot/framework.png" width="1000" height="750" />  
+<img src="example/plot/framework.png" width="1000" height="700" />  
 
 
 ## Usage
