@@ -21,6 +21,10 @@ pip install schicluster
 [snm3C-seq of human prefrontal cortex](https://github.com/zhoujt1994/scHiCluster/tree/master/example/humanPFC)  
 [sci-HiC of 4DN cell lines](https://github.com/zhoujt1994/scHiCluster/tree/master/example/4DN)
 
+## Function
+<img src="example/plot/framework.png" width="1000" height="750" />  
+
+
 ## Usage
 ### General file
 HiCluster requires a the chromosome size file in several following steps, where the first column is the chromosome name and the second column is the size of the chromosome in bps. The files for hg38, hg19, and mm10 are provided in file/ folder of this repo.
@@ -74,3 +78,5 @@ Lastly, merge the summary to generate a final loop list with given thresholds, a
 hicluster loop-mergechr --inprefix {chromosome_loop_summary_prefix} --outprefix {} --chrom_file /gale/netapp/home/zhoujt/genome/hg19/hg19.autosomal.chrom.sizes 
 ```
 
+## Citation
+Zhou, J., Ma, J., Chen, Y., Cheng, C., Bao, B., Peng, J., ... & Ecker, J. R. (2019). Robust single-cell Hi-C clustering by convolution-and random-walk–based imputation. Proceedings of the National Academy of Sciences, 116(28), 14011-14018.
