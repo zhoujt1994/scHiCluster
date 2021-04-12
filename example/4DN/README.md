@@ -56,7 +56,7 @@ mpl.rcParams['ps.fonttype'] = 42
 color = np.array(list(islice(cycle(['#e6194b','#3cb44b','#ffe119','#0082c8','#f58231','#911eb4','#46f0f0','#f032e6','#d2f53c','#fabebe','#008080','#e6beff','#aa6e28','#800000','#aaffc3','#808000','#ffd8b1','#000080','#808080','#fffac8','#000000']), 100)))
 
 # load embedding
-with h5py.File('imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc.svd50.hdf5', 'a') as f:
+with h5py.File('imputed_matrix/merged/embed/pad1_std1_rp0.5_sqrtvc.svd50.hdf5', 'r') as f:
 	matrix_reduce = f['data'][()]
 
 # select dimension
