@@ -16,7 +16,7 @@ def embed_mergechr(embed_list, outprefix, dim=50, norm_sig=True):
 	matrix_reduce = svd.fit_transform(matrix_reduce)
 	if norm_sig:
 		matrix_reduce = matrix_reduce / svd.singular_values_
-	with h5py.File(f'{outprefix}.svd{dim}.hdf5', 'a') as f:
+	with h5py.File(f'{outprefix}.svd{dim}.hdf5', 'w') as f:
 		tmp = f.create_dataset('data', matrix_reduce.shape, dtype='float32', compression='gzip')
 		tmp[()] = matrix_reduce
 	return
