@@ -22,6 +22,7 @@ data[[0,1]] = data[[0,1]].values - data[5].values[:,None]
 for c, tmp in data.groupby(by=4):
 	tmp[[0,1,2]].astype(int).to_csv(f'{outdir}{c}/{cell}_{c}.txt', sep='\t', header=False, index=False)
 
+tmp = data[4].unique()
 for c in chromsize:
-	if not (c in data[4]):
+	if not (c in tmp):
 		open(f'{outdir}{c}/{cell}_{c}.txt', 'w').close()
