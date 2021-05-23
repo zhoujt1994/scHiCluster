@@ -13,8 +13,13 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/zhoujt1994/scHiCluster',
     include_package_data=True,
-    install_requires=['numpy', 'scipy', 'scikit-learn', 'h5py', 'opencv-python', 'tables', 'cooler', 'pandas', 'statsmodels'],
+    install_requires=['numpy', 'scipy', 'scikit-learn', 'h5py', 'joblib', 'clodius',
+                      'tables', 'cooler', 'pandas', 'statsmodels', 'rpy2', 'anndata', 'xarray'],
+    package_data={
+        '': ['*.txt', '*.tsv', '*.csv', '*.fa', '*Snakefile', '*ipynb', '*R']
+    },
     entry_points={
-        'console_scripts': ['hicluster=schicluster.__main__:main'],
+        'console_scripts': ['hicluster=schicluster.__main__:main',
+                            'hic-internal=schicluster._hicluster_internal:internal_main'],
     }
 )

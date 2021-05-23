@@ -1,57 +1,36 @@
-import pandas as pd
-from cooler import create_scool
+import re
+import subprocess
+import warnings
 from collections import Counter, defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
-import warnings
-import subprocess
-import re
 
+import cooler
+import pandas.errors
 
-def get_chrom_offsets(chrom_sizes_series, resolution):
-    cur_offset = 0
-    chrom_offset = {}
-    for chrom, length in chrom_sizes_series.items():
-        chrom_offset[chrom] = cur_offset
-        n_bins = length // resolution + 1 * (length % resolution != 0)
-        cur_offset += n_bins
-    return chrom_offset
-
-
-def generate_bins_df_from_chrom_sizes(chrom_sizes, resolution):
-    bins_dfs = []
-    for chrom, length in chrom_sizes.items():
-        chrom_bins_df = pd.DataFrame({
-            'start':
-                list(range(0, length, resolution)),
-            'end':
-                list(range(resolution, length + resolution, resolution))
-        })
-        chrom_bins_df.iloc[-1, 1] = length
-        chrom_bins_df['chrom'] = chrom
-        bins_dfs.append(chrom_bins_df)
-    bins_df = pd.concat(bins_dfs)
-    bins_df = bins_df[['chrom', 'start',
-                       'end']].sort_values(['chrom',
-                                            'start']).reset_index(drop=True)
-    return bins_df
+from .utilities import get_chrom_offsets
+import pandas as pd
+from cooler import create_scool
 
 
 def generate_scool_batch_data(cell_path_dict, resolution, chrom_offset,
-                              output_path):
-    def single_cell_pixel(path):
-        contacts = pd.read_csv(path, sep='\t', header=None)
-
+                              output_path, chr1=1, chr2=5, pos1=2, pos2=6, min_pos_dist=2500):
+    def single_cell_pixel(_path):
+        try:
+            contacts = pd.read_csv(_path, sep='\t', header=None)
+        except pandas.errors.EmptyDataError:
+            # empty contacts file
+            return pd.DataFrame([], columns=['bin1_id', 'bin2_id', 'count'])
+        pos_dist = (contacts[pos1] - contacts[pos2]).abs()
         # filter
-        contacts = contacts[contacts[1].isin(chrom_offset)
-                            & contacts[5].isin(chrom_offset)
-                            & (contacts[2] > 0)
-                            & (contacts[6] > 0)]
+        contacts = contacts[contacts[chr1].isin(chrom_offset)
+                            & contacts[chr2].isin(chrom_offset)
+                            & (contacts[pos1] > 0)
+                            & (contacts[pos2] > 0)
+                            & (pos_dist > min_pos_dist)]
 
         # calculate pixel
-        bin1_id = contacts[1].map(chrom_offset) + (contacts[2] -
-                                                   1) // resolution
-        bin2_id = contacts[5].map(chrom_offset) + (contacts[6] -
-                                                   1) // resolution
+        bin1_id = contacts[chr1].map(chrom_offset) + (contacts[pos1] - 1) // resolution
+        bin2_id = contacts[chr2].map(chrom_offset) + (contacts[pos2] - 1) // resolution
         counter = Counter()
         for x, y in zip(bin1_id, bin2_id):
             if x > y:
@@ -76,16 +55,17 @@ def generate_scool_single_resolution(cell_path_dict,
                                      chrom_size_path,
                                      resolution,
                                      output_path,
+                                     chr1=1,
+                                     chr2=5,
+                                     pos1=2,
+                                     pos2=6,
+                                     min_pos_dist=2500,
                                      batch_n=20,
                                      cpu=1):
     # parse chromosome sizes, prepare bin_df
-    chrom_sizes = pd.read_csv(chrom_size_path,
-                              header=None,
-                              index_col=0,
-                              sep='\t',
-                              squeeze=True).sort_index()
-    chrom_offset = get_chrom_offsets(chrom_sizes, resolution)
-    bins_df = generate_bins_df_from_chrom_sizes(chrom_sizes, resolution)
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path)
+    bins_df = cooler.binnify(chrom_sizes, resolution)
+    chrom_offset = get_chrom_offsets(bins_df)
 
     chunk_dicts = defaultdict(dict)
     for i, (cell, path) in enumerate(cell_path_dict.items()):
@@ -99,7 +79,10 @@ def generate_scool_single_resolution(cell_path_dict,
                            cell_path_dict=cell_path_dict,
                            resolution=resolution,
                            chrom_offset=chrom_offset,
-                           output_path=batch_output)
+                           output_path=batch_output,
+                           chr1=chr1, chr2=chr2,
+                           pos1=pos1, pos2=pos2,
+                           min_pos_dist=min_pos_dist)
             futures[f] = batch_output
 
         for future in as_completed(futures):
@@ -107,7 +90,7 @@ def generate_scool_single_resolution(cell_path_dict,
             batch_output = futures[future]
             future.result()
 
-            # dump batch result into scool
+            # dump batch result into cool
             cell_pixel_dict = {}
             with pd.HDFStore(batch_output, mode='r') as hdf:
                 for cell_id in hdf.keys():
@@ -126,10 +109,15 @@ def generate_scool(contacts_table,
                    output_prefix,
                    chrom_size_path,
                    resolutions,
+                   chr1=1,
+                   chr2=5,
+                   pos1=2,
+                   pos2=6,
+                   min_pos_dist=2500,
                    cpu=1,
                    batch_n=50):
     """
-    Generate single-resolution scool files from single-cell contact files recorded in contacts_table
+    Generate single-resolution cool files from single-cell contact files recorded in contacts_table
 
     Parameters
     ----------
@@ -137,12 +125,22 @@ def generate_scool(contacts_table,
         tab-separated table containing tow columns, 1) cell id, 2) cell contact file path (juicer-pre format)
         No header
     output_prefix
-        Output prefix of the scool files. Output path will be {output_prefix}.{resolution_str}.scool
+        Output prefix of the cool files. Output path will be {output_prefix}.{resolution_str}.cool
     chrom_size_path
         Path to the chromosome size file, this file should be in UCSC chrom.sizes format. We will use this file as
         the reference to create matrix. It is recommended to remove small contigs or chrM from this file.
     resolutions
         Resolutions to generate the matrix. Each resolution will be stored in a separate file.
+    chr1
+        0 based index of chr1 column.
+    chr2
+        0 based index of chr2 column.
+    pos1
+        0 based index of pos1 column.
+    pos2
+        0 based index of pos2 column.
+    min_pos_dist
+        Minimum distance for a fragment to be considered.
     cpu
         number of cpus to parallel.
     batch_n
@@ -172,6 +170,9 @@ def generate_scool(contacts_table,
                                          resolution=resolution,
                                          output_path=output_path,
                                          batch_n=batch_n,
-                                         cpu=cpu)
+                                         cpu=cpu,
+                                         chr1=chr1, chr2=chr2,
+                                         pos1=pos1, pos2=pos2,
+                                         min_pos_dist=min_pos_dist)
         print('Finished', output_path)
     return
