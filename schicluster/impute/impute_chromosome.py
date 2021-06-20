@@ -142,6 +142,8 @@ def impute_chromosome(scool_url,
     E = E.tocsr().multiply(mask)
     logging.debug(f'Filter takes {time.time() - start_time:.3f} seconds')
 
+    # TODO put this part inside RWR, before normalize
+    # min_cutoff = tol/
     # Make values < min_cutoff to 0
     if min_cutoff > 0:
         s_before = calc_sparsity(E)

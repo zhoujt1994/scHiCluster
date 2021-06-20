@@ -24,11 +24,11 @@ import cooler
 import pathlib
 
 # Read and validate cell ids
-cell_list = cooler.fileops.list_coolers(input_scool)
-scool_cell_ids = set([i.split('/')[-1] for i in cell_list])
-for cell_id in cell_ids:
-    if cell_id not in scool_cell_ids:
-        raise KeyError(f'{cell_id} not in the scool file {input_scool}')
+# cell_list = cooler.fileops.list_coolers(input_scool)
+# scool_cell_ids = set([i.split('/')[-1] for i in cell_list])
+# for cell_id in cell_ids:
+#     if cell_id not in scool_cell_ids:
+#         raise KeyError(f'{cell_id} not in the scool file {input_scool}')
 
 # Get chromosome list
 _cell_url = f'{input_scool}::/cells/{cell_ids[0]}'

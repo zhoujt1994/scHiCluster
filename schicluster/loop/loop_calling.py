@@ -6,6 +6,7 @@ import pandas as pd
 import time
 from statsmodels.stats.multitest import multipletests
 from heapq import heappop, heapify
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 def fetch_chrom(cool, chrom) -> np.array:
@@ -225,6 +226,8 @@ def call_loops(group_prefix,
                                        thres_h=thres_h,
                                        thres_v=thres_v,
                                        resolution=resolution)
+    # some pval is na, need to filter out before multipletests()
+    total_loops.dropna(subset=['pval'], inplace=True)
     total_loops['pval_adj'] = multipletests(total_loops['pval'], 0.1,
                                             'fdr_bh')[1]
     loop = total_loops.loc[total_loops['bkfilter']
