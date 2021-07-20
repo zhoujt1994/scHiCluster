@@ -5,7 +5,9 @@ When adding new function:
 1. add a func_register_subparser function to register the subparser
 2. add a condition in main func about this new func name, import the real func as func in main
 """
-import numpy as np
+import schicluster
+from schicluster import __version__
+
 import argparse
 import inspect
 import subprocess
@@ -617,7 +619,7 @@ def main():
     if len(sys.argv) > 1:
         # print out version
         if sys.argv[1] in ['-v', '--version']:
-            # print(ALLCools.__version__)
+            print(schicluster.__version__)
             exit()
         else:
             args = parser.parse_args()

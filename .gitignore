@@ -120,3 +120,4 @@ test/file/.DS_Store
 ALLCools/_version.py
 schicluster/_version.py
 *.scool
+schicluster/__version__.py
