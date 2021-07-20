@@ -43,7 +43,7 @@ rule summary:
     input:
         expand('{cell_id}.cool', cell_id = cell_ids)
     shell:
-        'rm -rf impute_*_tmp'
+        'touch Success && rm -rf impute_*_tmp'
 
 # Impute each chromosome of each cell
 rule impute_chrom:
