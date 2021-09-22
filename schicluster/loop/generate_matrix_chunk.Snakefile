@@ -16,7 +16,7 @@ chromnames = cool.chromnames
 # cleanup script
 cleanup_cmd = 'rm -rf ' + ' '.join(chromnames)
 
-matrix_types = ['E', 'O', 'T', 'T2', 'Q']
+matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
 
 
 # summary
@@ -50,7 +50,7 @@ rule merge_E_O:
         expand('{chrom}/{cell_id}.E.npz', chrom=chromnames, cell_id=cell_ids)
     output:
         temp('{chrom}.E.hdf'),
-        temp('{chrom}.O.hdf')
+        temp('{chrom}.E2.hdf')
     threads:
         5
     shell:

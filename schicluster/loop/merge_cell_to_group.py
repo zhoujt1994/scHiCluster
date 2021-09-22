@@ -10,21 +10,27 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 
 """
 Matrix names
-E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
-T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix), 
-   calculated from loop_bkg
-T2: T^2 of T, used to calculate t test p values 
-O: Matrix indicting proportion of cells' E value passing bool_threshold (1.96 by default)
+
 """
 
 
 def merge_cells_for_single_chromosome(output_dir,
                                       output_prefix,
-                                      merge_type='EO',
+                                      merge_type='E',
                                       bool_threshold=1.96):
+    """
+    Merge cell's E and T matrix to group matrices:
+    E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
+    E2: E^2 of T, used to calculate global p values
+    T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix),
+    calculated from loop_bkg
+    T2: T^2 of T, used to calculate t test p values
+    O: Matrix indicting proportion of cells' E value passing
+    bool_threshold (1.96 by default, which is the value of stats.norm(0, 1).isf(0.025))
+    """
     start_time = time.time()
-    if merge_type.upper() == 'EO':
-        print('Merging E (global diag norm) and O (proportion of cells passing threshold) matrix.')
+    if merge_type.upper() == 'E':
+        print('Merging E (global diag norm), E2 (E^2 for global t-test).')
         # get cell paths
         cell_paths = [str(p) for p in pathlib.Path(output_dir).glob('*.E.npz')]
         n_cells = len(cell_paths)
@@ -33,13 +39,13 @@ def merge_cells_for_single_chromosome(output_dir,
         n_dims = matrix.shape[0]
         # initialize
         e_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
-        o_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
+        e2_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
         for i, chrom_path in enumerate(cell_paths):
             matrix = load_npz(chrom_path)
             e_sum += matrix
-            o_sum += (matrix > bool_threshold)
+            e2_sum += matrix.multiply(matrix)
         write_coo(f'{output_prefix}.E.hdf', e_sum, chunk_size=None)
-        write_coo(f'{output_prefix}.O.hdf', o_sum, chunk_size=None)
+        write_coo(f'{output_prefix}.E2.hdf', e2_sum, chunk_size=None)
     else:
         print('Merging T (global and local norm) and T2 (T^2, for t-test) matrix.')
         # get cell paths
@@ -136,7 +142,7 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
-    matrix_types = ['E', 'O', 'T', 'T2', 'Q']
+    matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
     with ProcessPoolExecutor(5) as exe:
         futures = {}
         for matrix_type in matrix_types:

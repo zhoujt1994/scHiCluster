@@ -6,21 +6,19 @@ import pandas as pd
 import time
 from statsmodels.stats.multitest import multipletests
 from heapq import heappop, heapify
-from concurrent.futures import ProcessPoolExecutor, as_completed
 
 
 def fetch_chrom(cool, chrom) -> np.array:
     return cool.matrix(balance=False, sparse=True).fetch(chrom).toarray()
 
 
-def select_loop_candidates(cool_e, cool_o, min_dist, max_dist, resolution,
+def select_loop_candidates(cool_e, min_dist, max_dist, resolution,
                            chrom):
     """Select loop candidate pixel to perform t test"""
     E = fetch_chrom(cool_e, chrom)
-    O = fetch_chrom(cool_o, chrom)
+    loop = np.where(E)  # loop is [xs, ys] of E
 
-    oe_filter = (E > 0) * (O > 0.1)
-    loop = np.where(oe_filter)
+    # only calculate upper triangle and remove the pixels close to diagonal
     dist_filter = np.logical_and((loop[1] - loop[0]) > (min_dist / resolution),
                                  (loop[1] - loop[0]) < (max_dist / resolution))
     loop = (loop[0][dist_filter], loop[1][dist_filter])
@@ -35,8 +33,9 @@ def paired_t_test(cool_t, cool_t2, chrom, loop, n_cells):
 
     loop_t = T[loop]
     loop_t2 = T2[loop]
-
-    t_score = loop_t / np.sqrt((loop_t2 - loop_t * loop_t) / (n_cells - 1))
+    loop_delta = loop_t / n_cells
+    sed = np.sqrt((loop_t2 - loop_t ** 2 / n_cells) / (n_cells - 1) / n_cells)
+    t_score = loop_delta / sed
     p_value = stats.t.sf(t_score, n_cells - 1)
     return p_value
 
@@ -87,14 +86,13 @@ def call_loop_single_chrom(group_prefix,
     """calculate t test and loop background for one chromosome"""
     # matrix cool obj
     cool_e = cooler.Cooler(f'{group_prefix}.E.cool')
-    cool_o = cooler.Cooler(f'{group_prefix}.O.cool')
+    cool_e2 = cooler.Cooler(f'{group_prefix}.E2.cool')
     cool_t = cooler.Cooler(f'{group_prefix}.T.cool')
     cool_t2 = cooler.Cooler(f'{group_prefix}.T2.cool')
     n_cells = cool_e.info['group_n_cells']
 
     # call loop
     E, loop = select_loop_candidates(cool_e=cool_e,
-                                     cool_o=cool_o,
                                      min_dist=min_dist,
                                      max_dist=max_dist,
                                      resolution=resolution,
@@ -104,6 +102,11 @@ def call_loop_single_chrom(group_prefix,
                             chrom=chrom,
                             loop=loop,
                             n_cells=n_cells)
+    global_p_value = paired_t_test(cool_t=cool_e,
+                                   cool_t2=cool_e2,
+                                   chrom=chrom,
+                                   loop=loop,
+                                   n_cells=n_cells)
     loop_bl, loop_donut, loop_h, loop_v, loop_e = loop_background(E=E,
                                                                   pad=pad,
                                                                   gap=gap,
@@ -112,7 +115,9 @@ def call_loop_single_chrom(group_prefix,
     data = pd.DataFrame({
         'x': loop[0],
         'y': loop[1],
-        'pval': p_value,
+        'distance': (loop[1] - loop[0]) * resolution,
+        'local_pval': p_value,
+        'global_pval': global_p_value,
         'E': loop_e,
         'E_bl': loop_bl,
         'E_donut': loop_donut,
@@ -226,12 +231,20 @@ def call_loops(group_prefix,
                                        thres_h=thres_h,
                                        thres_v=thres_v,
                                        resolution=resolution)
-    # some pval is na, need to filter out before multipletests()
+
+    # Group the loops by distance then calculate FDR separately
     total_loops.dropna(subset=['pval'], inplace=True)
-    total_loops['pval_adj'] = multipletests(total_loops['pval'], 0.1,
-                                            'fdr_bh')[1]
+
+    def single_fdr(pvals):
+        _, q, *_ = multipletests(pvals=pvals, method='fdr_bh')
+        return pd.Series(q, index=pvals.index)
+
+    total_loops['local_qval'] = total_loops.groupby('distance')['local_pval'].apply(single_fdr)
+    total_loops['global_qval'] = total_loops.groupby('distance')['global_pval'].apply(single_fdr)
+
     loop = total_loops.loc[total_loops['bkfilter']
-                           & (total_loops['pval_adj'] < fdr_thres)].copy()
+                           & (total_loops['local_qval'] < fdr_thres)
+                           & (total_loops['global_pval'] < fdr_thres)].copy()
     loop.to_hdf(f'{output_prefix}.loop_info.hdf', key='data')
 
     # filter and save bedpd

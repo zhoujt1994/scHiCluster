@@ -6,6 +6,7 @@ from scipy.sparse import csr_matrix, save_npz, triu
 
 
 def calc_diag_stats(E, n_dims):
+    """Calculate cutoff, average, std, count of non-zero pixels of each diagonals of the E"""
     E = E.astype(np.float32).toarray()
     ave, std, top, count = np.zeros((4, n_dims), dtype=np.float32)
     for i in range(n_dims):
@@ -16,6 +17,7 @@ def calc_diag_stats(E, n_dims):
         ave[i] = np.mean(tmp)
         std[i] = np.std(tmp)
         count[i] = np.sum(tmp > 0)
+        # TODO smoothing
     return ave, std, top, count
 
 
@@ -50,16 +52,17 @@ def calculate_chrom_background_normalization(cell_url,
     """
     start_time = time.time()
     cell_cool = cooler.Cooler(cell_url)
+    # Load the cell imputed matrix as E
     E = triu(cell_cool.matrix(balance=False, sparse=True).fetch(chrom))
     print(f'Load {time.time() - start_time:.3f}')
 
-    # Calculate the diagnal stats
+    # Calculate the diagonal stats of E
     start_time = time.time()
     n_dims = dist // resolution + pad + 1
     ave, std, top, count = calc_diag_stats(E, n_dims)
     print(f'Curve {time.time() - start_time:.3f} #Nonzero {np.sum(count)}')
 
-    # create an upper trangle mask
+    # create an upper triangle mask
     start_time = time.time()
     mask = np.zeros(E.shape, dtype=bool)
     row, col = np.diag_indices(E.shape[0])
@@ -68,7 +71,7 @@ def calculate_chrom_background_normalization(cell_url,
         mask[row[:-i], col[i:]] = True
     idx = np.where(mask)
 
-    # normalize diagonal backgrounds
+    # normalize E with the diagonal backgrounds
     E.data = np.min([E.data, top[E.col - E.row]], axis=0)
     E = E.astype(np.float32).toarray()
     tmp = E[idx]
@@ -80,7 +83,7 @@ def calculate_chrom_background_normalization(cell_url,
     E[idx] = tmp.copy()
     print(f'Norm {time.time() - start_time:.3f}', E.dtype, tmp.dtype)
 
-    # normalize local backgrounds
+    # normalize E with the local backgrounds to generate T
     w = pad * 2 + 1
     kernel = np.ones((w, w), np.float32)
     kernel[(pad - gap):(pad + gap + 1), (pad - gap):(pad + gap + 1)] = 0

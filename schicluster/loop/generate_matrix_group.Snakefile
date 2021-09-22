@@ -9,15 +9,14 @@ groups = set([p.name.split('_chunk')[0] for p in output_dir.glob('*_chunk*')])
 from schicluster.loop.snakemake import check_chunk_dir_finish
 check_chunk_dir_finish(output_dir)
 
-matrix_types = ['Q', 'E', 'O', 'T', 'T2']
+matrix_types = ['Q', 'E', 'E2', 'T', 'T2']
 
 rule summary:
     input:
         expand('{group}/{group}.loop_info.hdf', group=groups),
         expand('{group}/{group}.loop.multires', group=groups),
         expand('{group}/{group}.loop_summit.multires', group=groups),
-        expand('{group}/{group}.Q.mcool', group=groups),
-        expand('{group}/{group}.O.mcool', group=groups),
+        expand('{group}/{group}.Q.mcool', group=groups)
 
 
 rule zoomify_loop:
@@ -61,22 +60,11 @@ rule zoomify_q:
         'cooler zoomify {input}'
 
 
-rule zoomify_o:
-    input:
-        '{group}/{group}.O.cool'
-    output:
-        '{group}/{group}.O.mcool'
-    threads:
-        1
-    shell:
-        'cooler zoomify {input}'
-
-
 rule call_loop:
     input:
         '{group}/{group}.Q.cool',
         '{group}/{group}.E.cool',
-        '{group}/{group}.O.cool',
+        '{group}/{group}.E2.cool',
         '{group}/{group}.T.cool',
         '{group}/{group}.T2.cool'
     output:
@@ -112,7 +100,7 @@ rule merge_chunks:
     output:
         temp('{group}/{group}.Q.cool'),
         '{group}/{group}.E.cool',
-        temp('{group}/{group}.O.cool'),
+        '{group}/{group}.E2.cool',
         '{group}/{group}.T.cool',
         '{group}/{group}.T2.cool'
     threads:
