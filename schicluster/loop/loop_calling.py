@@ -12,8 +12,7 @@ def fetch_chrom(cool, chrom) -> np.array:
     return cool.matrix(balance=False, sparse=True).fetch(chrom).toarray()
 
 
-def select_loop_candidates(cool_e, min_dist, max_dist, resolution,
-                           chrom):
+def select_loop_candidates(cool_e, min_dist, max_dist, resolution, chrom):
     """Select loop candidate pixel to perform t test"""
     E = fetch_chrom(cool_e, chrom)
     loop = np.where(E)  # loop is [xs, ys] of E
@@ -242,7 +241,9 @@ def call_loops(group_prefix,
                                        resolution=resolution)
 
     # Group the loops by distance then calculate FDR separately
-    total_loops.dropna(subset=['pval'], inplace=True)
+    total_loops.dropna(subset=['local_pval', 'global_pval'],
+                       how='any',
+                       inplace=True)
 
     print('Filtering loop by FDR.')
 
@@ -250,20 +251,24 @@ def call_loops(group_prefix,
         _, q, *_ = multipletests(pvals=pvals, method='fdr_bh')
         return pd.Series(q, index=pvals.index)
 
-    total_loops['local_qval'] = total_loops.groupby('distance')['local_pval'].apply(single_fdr)
-    total_loops['global_qval'] = total_loops.groupby('distance')['global_pval'].apply(single_fdr)
+    total_loops['local_qval'] = total_loops.groupby(
+        'distance')['local_pval'].apply(single_fdr)
+    total_loops['global_qval'] = total_loops.groupby(
+        'distance')['global_pval'].apply(single_fdr)
 
     # apply all the filters
     loop = total_loops.loc[total_loops['bkfilter']
                            & (total_loops['local_qval'] < fdr_thres)
-                           & (total_loops['global_pval'] < fdr_thres)].copy()
+                           & (total_loops['global_qval'] < fdr_thres)].copy()
+
     loop.to_hdf(f'{output_prefix}.loop_info.hdf', key='data')
 
     # filter and save bedpd
     bedpe_cols = ['chrom', 'x1', 'x2', 'chrom', 'y1', 'y2', 'E']
     loop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
         f'{output_prefix}.loop.bedpe', sep='\t', index=False, header=None)
-    scloop = total_loops.loc[total_loops['pval_adj'] < fdr_thres]
+    scloop = total_loops.loc[(total_loops['local_qval'] < fdr_thres)
+                             & (total_loops['global_qval'] < fdr_thres)]
     scloop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
         f'{output_prefix}.scloop.bedpe', sep='\t', index=False, header=None)
     bkloop = total_loops.loc[total_loops['bkfilter']]
