@@ -54,13 +54,13 @@ def calculate_chrom_background_normalization(cell_url,
     cell_cool = cooler.Cooler(cell_url)
     # Load the cell imputed matrix as E
     E = triu(cell_cool.matrix(balance=False, sparse=True).fetch(chrom))
-    print(f'Load {time.time() - start_time:.3f}')
+    # print(f'Load {time.time() - start_time:.3f}')
 
     # Calculate the diagonal stats of E
     start_time = time.time()
     n_dims = dist // resolution + pad + 1
     ave, std, top, count = calc_diag_stats(E, n_dims)
-    print(f'Curve {time.time() - start_time:.3f} #Nonzero {np.sum(count)}')
+    # print(f'Curve {time.time() - start_time:.3f} #Nonzero {np.sum(count)}')
 
     # create an upper triangle mask
     start_time = time.time()
@@ -81,7 +81,7 @@ def calculate_chrom_background_normalization(cell_url,
     tmp[tmp > cap] = cap
     tmp[tmp < -cap] = -cap
     E[idx] = tmp.copy()
-    print(f'Norm {time.time() - start_time:.3f}', E.dtype, tmp.dtype)
+    # print(f'Norm {time.time() - start_time:.3f}', E.dtype, tmp.dtype)
 
     # normalize E with the local backgrounds to generate T
     w = pad * 2 + 1
@@ -96,7 +96,7 @@ def calculate_chrom_background_normalization(cell_url,
         E = E.multiply(np.abs(E) > min_cutoff)
         T = T.multiply(np.abs(T) > min_cutoff)
     T = E - T
-    print(f'Bkg {time.time() - start_time:.3f}', E.dtype, T.dtype)
+    # print(f'Bkg {time.time() - start_time:.3f}', E.dtype, T.dtype)
 
     save_npz(f'{output_prefix}.E.npz', E)
     save_npz(f'{output_prefix}.T.npz', T)

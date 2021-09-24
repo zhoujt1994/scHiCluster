@@ -34,7 +34,7 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
 
 
 def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome, chunk_size=100, dist=10050000,
-                           cap=5, pad=5, gap=2, resolution=10000, min_cutoff=1e-6, bool_threshold=1.96,
+                           cap=5, pad=5, gap=2, resolution=10000, min_cutoff=1e-6,
                            keep_cell_matrix=False, cpu_per_job=10):
     cell_table = pd.read_csv(cell_table_path, index_col=0, sep='\t',
                              names=['cell_id', 'cell_url', 'cell_group'])
@@ -48,7 +48,6 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
         gap=gap,
         resolution=resolution,
         min_cutoff=min_cutoff,
-        bool_threshold=bool_threshold,
         chrom_size_path=chrom_size_path,
         keep_cell_matrix=keep_cell_matrix
     )

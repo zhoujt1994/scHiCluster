@@ -248,12 +248,6 @@ def merge_cell_loop_bkg_internal_subparser(subparser):
         required=True
     )
 
-    parser_req.add_argument(
-        "--bool_threshold",
-        type=float,
-        default=1.96
-    )
-
 
 def merge_group_chunks_internal_subparser(subparser):
     parser = subparser.add_parser('merge-group-chunks',

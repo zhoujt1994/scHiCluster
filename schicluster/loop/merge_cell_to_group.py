@@ -16,8 +16,7 @@ Matrix names
 
 def merge_cells_for_single_chromosome(output_dir,
                                       output_prefix,
-                                      merge_type='E',
-                                      bool_threshold=1.96):
+                                      merge_type='E'):
     """
     Merge cell's E and T matrix to group matrices:
     E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
@@ -25,8 +24,6 @@ def merge_cells_for_single_chromosome(output_dir,
     T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix),
     calculated from loop_bkg
     T2: T^2 of T, used to calculate t test p values
-    O: Matrix indicting proportion of cells' E value passing
-    bool_threshold (1.96 by default, which is the value of stats.norm(0, 1).isf(0.025))
     """
     start_time = time.time()
     if merge_type.upper() == 'E':

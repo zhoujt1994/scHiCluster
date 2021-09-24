@@ -57,8 +57,7 @@ rule merge_E_O:
         'hic-internal merge-loop-matrix '
         '--output_dir {wildcards.chrom}/ '
         '--output_prefix {wildcards.chrom} '
-        '--merge_type "EO" '
-        '--bool_threshold {bool_threshold}'
+        '--merge_type "E" '
 
 # merge cells' T matrix (npz) to group T and T2 matrix (coo stored in pd.HDFStore)
 rule merge_T_T2:
@@ -73,7 +72,7 @@ rule merge_T_T2:
         'hic-internal merge-loop-matrix '
         '--output_dir {wildcards.chrom}/ '
         '--output_prefix {wildcards.chrom} '
-        '--merge_type "TT2" '
+        '--merge_type "T" '
 
 
 # merge cells' Q matrix (imputed, before normalization, scool) to group Q matrix (coo stored in pd.HDFStore)

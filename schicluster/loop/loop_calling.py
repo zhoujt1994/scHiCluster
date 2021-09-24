@@ -92,21 +92,28 @@ def call_loop_single_chrom(group_prefix,
     n_cells = cool_e.info['group_n_cells']
 
     # call loop
+    print(f'{chrom}\tSelecting loop candidates.')
     E, loop = select_loop_candidates(cool_e=cool_e,
                                      min_dist=min_dist,
                                      max_dist=max_dist,
                                      resolution=resolution,
                                      chrom=chrom)
+
+    print(f'{chrom}\tDoing paired T test with the local background.')
     p_value = paired_t_test(cool_t=cool_t,
                             cool_t2=cool_t2,
                             chrom=chrom,
                             loop=loop,
                             n_cells=n_cells)
+
+    print(f'{chrom}\tDoing paired T test with the global background.')
     global_p_value = paired_t_test(cool_t=cool_e,
                                    cool_t2=cool_e2,
                                    chrom=chrom,
                                    loop=loop,
                                    n_cells=n_cells)
+
+    print(f'{chrom}\tCalculating loop local background with different masks.')
     loop_bl, loop_donut, loop_h, loop_v, loop_e = loop_background(E=E,
                                                                   pad=pad,
                                                                   gap=gap,
@@ -213,7 +220,7 @@ def call_loops(group_prefix,
     chroms = cooler.Cooler(group_q).chromnames
     total_loops = []
     for chrom in chroms:
-        print(chrom)
+        print(f'Calling loops of chromosome {chrom}')
         data = call_loop_single_chrom(group_prefix,
                                       chrom,
                                       resolution=10000,
@@ -225,6 +232,8 @@ def call_loops(group_prefix,
     total_loops = pd.concat(total_loops)
 
     # add background judge info
+    print('Filtering loop by background.')
+    # filter doesn't apply here, just calculating bool judgement
     total_loops = filter_by_background(data=total_loops,
                                        thres_bl=thres_bl,
                                        thres_donut=thres_donut,
@@ -235,6 +244,8 @@ def call_loops(group_prefix,
     # Group the loops by distance then calculate FDR separately
     total_loops.dropna(subset=['pval'], inplace=True)
 
+    print('Filtering loop by FDR.')
+
     def single_fdr(pvals):
         _, q, *_ = multipletests(pvals=pvals, method='fdr_bh')
         return pd.Series(q, index=pvals.index)
@@ -242,6 +253,7 @@ def call_loops(group_prefix,
     total_loops['local_qval'] = total_loops.groupby('distance')['local_pval'].apply(single_fdr)
     total_loops['global_qval'] = total_loops.groupby('distance')['global_pval'].apply(single_fdr)
 
+    # apply all the filters
     loop = total_loops.loc[total_loops['bkfilter']
                            & (total_loops['local_qval'] < fdr_thres)
                            & (total_loops['global_pval'] < fdr_thres)].copy()
@@ -259,6 +271,7 @@ def call_loops(group_prefix,
         f'{output_prefix}.bkloop.bedpe', sep='\t', index=False, header=None)
 
     # find summit
+    print('Finding loop summit.')
     if loop.shape[0] > 0:
         summit = pd.concat([
             find_summit(loop=sub_df,
