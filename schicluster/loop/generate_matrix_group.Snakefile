@@ -17,6 +17,8 @@ rule summary:
         expand('{group}/{group}.loop.multires', group=groups),
         expand('{group}/{group}.loop_summit.multires', group=groups),
         expand('{group}/{group}.Q.mcool', group=groups)
+    shell:
+        'rm -rf *_chunk*'
 
 
 rule zoomify_loop:

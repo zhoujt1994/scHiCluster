@@ -11,7 +11,8 @@ cell_id_to_url = cell_table['cell_url'].to_dict()
 
 # get chromosomes
 cool = cooler.Cooler(cell_table['cell_url'][0])
-chromnames = cool.chromnames
+# instead of using cool.chromnames, using chrom_size_path chrom
+chromnames = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0, squeeze=True).to_dict()
 
 # cleanup script
 cleanup_cmd = 'rm -rf ' + ' '.join(chromnames)
