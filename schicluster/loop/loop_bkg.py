@@ -11,12 +11,18 @@ def calc_diag_stats(E, n_dims):
     ave, std, top, count = np.zeros((4, n_dims), dtype=np.float32)
     for i in range(n_dims):
         tmp = E.diagonal(i)
-        cutoff = np.percentile(tmp, 99)
-        tmp = np.where(tmp < cutoff, tmp, cutoff)
-        top[i] = cutoff
-        ave[i] = np.mean(tmp)
-        std[i] = np.std(tmp)
-        count[i] = np.sum(tmp > 0)
+        if tmp.size == 0:
+            top[i] = 0
+            ave[i] = 0
+            std[i] = 0
+            count[i] = 0
+        else:
+            cutoff = np.percentile(tmp, 99)
+            tmp = np.where(tmp < cutoff, tmp, cutoff)
+            top[i] = cutoff
+            ave[i] = np.mean(tmp)
+            std[i] = np.std(tmp)
+            count[i] = np.sum(tmp > 0)
         # TODO smoothing
     return ave, std, top, count
 
