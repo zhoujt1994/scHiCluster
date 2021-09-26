@@ -15,7 +15,7 @@ def fetch_chrom(cool, chrom) -> np.array:
 def select_loop_candidates(cool_e, min_dist, max_dist, resolution, chrom):
     """Select loop candidate pixel to perform t test"""
     E = fetch_chrom(cool_e, chrom)
-    loop = np.where(E)  # loop is [xs, ys] of E
+    loop = np.where(E > 0)  # loop is [xs, ys] of E
 
     # only calculate upper triangle and remove the pixels close to diagonal
     dist_filter = np.logical_and((loop[1] - loop[0]) > (min_dist / resolution),
@@ -232,7 +232,6 @@ def call_loops(group_prefix,
 
     # add background judge info
     print('Filtering loop by background.')
-    # filter doesn't apply here, just calculating bool judgement
     total_loops = filter_by_background(data=total_loops,
                                        thres_bl=thres_bl,
                                        thres_donut=thres_donut,
@@ -241,11 +240,10 @@ def call_loops(group_prefix,
                                        resolution=resolution)
 
     # Group the loops by distance then calculate FDR separately
+    print('Filtering loop by FDR.')
     total_loops.dropna(subset=['local_pval', 'global_pval'],
                        how='any',
                        inplace=True)
-
-    print('Filtering loop by FDR.')
 
     def single_fdr(pvals):
         _, q, *_ = multipletests(pvals=pvals, method='fdr_bh')
@@ -260,10 +258,9 @@ def call_loops(group_prefix,
     loop = total_loops.loc[total_loops['bkfilter']
                            & (total_loops['local_qval'] < fdr_thres)
                            & (total_loops['global_qval'] < fdr_thres)].copy()
-
     loop.to_hdf(f'{output_prefix}.loop_info.hdf', key='data')
 
-    # filter and save bedpd
+    # filter and save bedpe
     bedpe_cols = ['chrom', 'x1', 'x2', 'chrom', 'y1', 'y2', 'E']
     loop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
         f'{output_prefix}.loop.bedpe', sep='\t', index=False, header=None)
