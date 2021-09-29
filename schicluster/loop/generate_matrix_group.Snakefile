@@ -28,12 +28,21 @@ rule zoomify_loop:
         '{group}/{group}.loop.multires'
     threads:
         1
-    shell:
-        'clodius aggregate bedpe '
-        '--assembly {genome} '
-        '--chr1-col 1 --from1-col 2 --to1-col 3 '
-        '--chr2-col 4 --from2-col 5 --to2-col 6 '
-        '--output-file {output} {input}'
+    run:
+        # in case there is no loop passing filter
+        try:
+            row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
+            if row_number > 1:
+                shell('clodius aggregate bedpe ' \
+                      '--assembly {genome} ' \
+                      '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
+                      '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
+                      '--output-file {output} {input}')
+            else:
+                print("bedpe is empty!")
+        except pd.errors.EmptyDataError:
+            print("bedpe is empty!")
+            shell('touch {output}')
 
 
 rule zoomify_loop_summit:
@@ -43,12 +52,21 @@ rule zoomify_loop_summit:
         '{group}/{group}.loop_summit.multires'
     threads:
         1
-    shell:
-        'clodius aggregate bedpe '
-        '--assembly {genome} '
-        '--chr1-col 1 --from1-col 2 --to1-col 3 '
-        '--chr2-col 4 --from2-col 5 --to2-col 6 '
-        '--output-file {output} {input}'
+    run:
+        # in case there is no loop passing filter
+        try:
+            row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
+            if row_number > 1:
+                shell('clodius aggregate bedpe ' \
+                      '--assembly {genome} ' \
+                      '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
+                      '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
+                      '--output-file {output} {input}')
+            else:
+                print("bedpe is empty!")
+        except pd.errors.EmptyDataError:
+            print("bedpe is empty!")
+            shell('touch {output}')
 
 
 rule zoomify_q:
