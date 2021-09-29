@@ -228,7 +228,7 @@ def call_loops(group_prefix,
                                       pad=5,
                                       gap=2)
         total_loops.append(data)
-    total_loops = pd.concat(total_loops)
+    total_loops = pd.concat(total_loops).reset_index(drop=True)
 
     # add background judge info
     print('Filtering loop by background.')
@@ -244,15 +244,19 @@ def call_loops(group_prefix,
     total_loops.dropna(subset=['local_pval', 'global_pval'],
                        how='any',
                        inplace=True)
-
-    def single_fdr(pvals):
-        _, q, *_ = multipletests(pvals=pvals, method='fdr_bh')
-        return pd.Series(q, index=pvals.index)
-
-    total_loops['local_qval'] = total_loops.groupby(
-        'distance')['local_pval'].apply(single_fdr)
-    total_loops['global_qval'] = total_loops.groupby(
-        'distance')['global_pval'].apply(single_fdr)
+    local_qs = []
+    global_qs = []
+    for dist in total_loops['distance'].unique():
+        p_values = total_loops.loc[total_loops['distance'] == dist,
+                                   ['local_pval', 'global_pval']]
+        _, local_q, *_ = multipletests(p_values['local_pval'])
+        local_qs.append(pd.Series(local_q, index=p_values.index))
+        _, global_q, *_ = multipletests(p_values['global_pval'])
+        global_qs.append(pd.Series(global_q, index=p_values.index))
+    local_qs = pd.concat(local_qs).sort_index()
+    global_qs = pd.concat(global_qs).sort_index()
+    total_loops['local_qval'] = local_qs
+    total_loops['global_qval'] = global_qs
 
     # apply all the filters
     loop = total_loops.loc[total_loops['bkfilter']
