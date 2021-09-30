@@ -35,7 +35,8 @@ def calculate_chrom_background_normalization(cell_url,
                                              cap=5,
                                              pad=5,
                                              gap=2,
-                                             min_cutoff=1e-6):
+                                             min_cutoff=1e-6,
+                                             log_e=False):
     """
     Compute the background for each chromosome in each cell
 

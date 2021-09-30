@@ -30,13 +30,15 @@ def paired_t_test(cool_t, cool_t2, chrom, loop, n_cells):
     T = fetch_chrom(cool_t, chrom)
     T2 = fetch_chrom(cool_t2, chrom)
 
-    loop_t = T[loop]
-    loop_t2 = T2[loop]
-    loop_delta = loop_t / n_cells
+    loop_delta = T[loop]
+    loop_t = loop_delta * n_cells
+    loop_t2 = T2[loop] * n_cells
     sed = np.sqrt((loop_t2 - loop_t ** 2 / n_cells) / (n_cells - 1) / n_cells)
     t_score = loop_delta / sed
     p_value = stats.t.sf(t_score, n_cells - 1)
-    return p_value
+    # Cohen d effect size
+    d = 2 * t_score / np.sqrt(2 * n_cells)
+    return p_value, loop_delta, d
 
 
 def scan_kernel(E, kernel, loop):
@@ -70,9 +72,7 @@ def loop_background(E, pad, gap, loop):
     kernel_v[(pad - gap):(pad + gap + 1), :] = 0
     kernel_v = kernel_v / np.sum(kernel_v)
     loop_v = scan_kernel(E, kernel_v, loop)
-
-    loop_e = E[loop]
-    return loop_bl, loop_donut, loop_h, loop_v, loop_e
+    return loop_bl, loop_donut, loop_h, loop_v
 
 
 def call_loop_single_chrom(group_prefix,
@@ -99,32 +99,35 @@ def call_loop_single_chrom(group_prefix,
                                      chrom=chrom)
 
     print(f'{chrom}\tDoing paired T test with the local background.')
-    p_value = paired_t_test(cool_t=cool_t,
-                            cool_t2=cool_t2,
-                            chrom=chrom,
-                            loop=loop,
-                            n_cells=n_cells)
+    local_p_value, loop_t, local_d = paired_t_test(cool_t=cool_t,
+                                                   cool_t2=cool_t2,
+                                                   chrom=chrom,
+                                                   loop=loop,
+                                                   n_cells=n_cells)
 
     print(f'{chrom}\tDoing paired T test with the global background.')
-    global_p_value = paired_t_test(cool_t=cool_e,
-                                   cool_t2=cool_e2,
-                                   chrom=chrom,
-                                   loop=loop,
-                                   n_cells=n_cells)
+    global_p_value, loop_e, global_d = paired_t_test(cool_t=cool_e,
+                                                     cool_t2=cool_e2,
+                                                     chrom=chrom,
+                                                     loop=loop,
+                                                     n_cells=n_cells)
 
     print(f'{chrom}\tCalculating loop local background with different masks.')
-    loop_bl, loop_donut, loop_h, loop_v, loop_e = loop_background(E=E,
-                                                                  pad=pad,
-                                                                  gap=gap,
-                                                                  loop=loop)
+    loop_bl, loop_donut, loop_h, loop_v = loop_background(E=E,
+                                                          pad=pad,
+                                                          gap=gap,
+                                                          loop=loop)
     # put together loop table
     data = pd.DataFrame({
         'x': loop[0],
         'y': loop[1],
         'distance': (loop[1] - loop[0]) * resolution,
-        'local_pval': p_value,
+        'local_pval': local_p_value,
+        'local_cohen_d': local_d,
         'global_pval': global_p_value,
+        'global_cohen_d': global_d,
         'E': loop_e,
+        'T': loop_t,
         'E_bl': loop_bl,
         'E_donut': loop_donut,
         'E_h': loop_h,
@@ -167,7 +170,7 @@ def find_summit(loop, res, dist_thres):
             if np.abs(tmp[1] - cord[idx[j], 1]) <= dist_thres:
                 neighbor[idx[i]].append(idx[j])
                 neighbor[idx[j]].append(idx[i])
-    print('Build graph takes', time.time() - start_time, 'seconds')
+    # print('Build graph takes', time.time() - start_time, 'seconds')
 
     start_time = time.time()
     nodescore = loop['E'].values
@@ -201,7 +204,7 @@ def find_summit(loop, res, dist_thres):
     summit = np.array(summit)
     loop = loop.iloc[summit[:, 0]]
     loop['size'] = summit[:, 1]
-    print('BFS takes', time.time() - start_time, 'seconds')
+    # print('BFS takes', time.time() - start_time, 'seconds')
     return loop
 
 
@@ -215,8 +218,12 @@ def call_loops(group_prefix,
                fdr_thres=0.1,
                dist_thres=20000,
                size_thres=1):
-    group_q = f'{group_prefix}.Q.cool'
-    chroms = cooler.Cooler(group_q).chromnames
+    try:
+        group_q = f'{group_prefix}.Q.cool'
+        chroms = cooler.Cooler(group_q).chromnames
+    except OSError:
+        group_q = f'{group_prefix}.Q.mcool::/resolutions/10000'
+        chroms = cooler.Cooler(group_q).chromnames
     total_loops = []
     for chrom in chroms:
         print(f'Calling loops of chromosome {chrom}')
