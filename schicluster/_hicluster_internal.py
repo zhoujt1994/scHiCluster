@@ -197,6 +197,10 @@ def calculate_loop_matrix_internal_subparser(subparser):
         default=1e-6
     )
 
+    parser.add_argument('--log_e', dest='log_e', action='store_true',
+                        help='Normalize E at log scale')
+    parser.set_defaults(log_e=False)
+
 
 def merge_cell_impute_matrix_internal_subparser(subparser):
     parser = subparser.add_parser('merge-cell-impute-matrix',

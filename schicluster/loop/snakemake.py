@@ -34,11 +34,16 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
 
 def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome, chunk_size=100, dist=10050000,
                            cap=5, pad=5, gap=2, resolution=10000, min_cutoff=1e-6,
-                           keep_cell_matrix=False, cpu_per_job=10):
+                           keep_cell_matrix=False, cpu_per_job=10, log_e=False):
     cell_table = pd.read_csv(cell_table_path, index_col=0, sep='\t',
                              names=['cell_id', 'cell_url', 'cell_group'])
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
+
+    if log_e:
+        log_e_str = '--log_e'
+    else:
+        log_e_str = ''
 
     chunk_parameters = dict(
         dist=dist,
@@ -48,7 +53,8 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
         resolution=resolution,
         min_cutoff=min_cutoff,
         chrom_size_path=chrom_size_path,
-        keep_cell_matrix=keep_cell_matrix
+        keep_cell_matrix=keep_cell_matrix,
+        log_e_str=log_e_str
     )
 
     total_chunk_dirs = []

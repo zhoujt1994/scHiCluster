@@ -111,7 +111,8 @@ if keep_cell_matrix:
             '--cap {cap} '
             '--pad {pad} '
             '--gap {gap} '
-            '--min_cutoff {min_cutoff}'
+            '--min_cutoff {min_cutoff} '
+            '{log_e_str}'
 else:
     rule loop_bkg_chrom:
         output:
@@ -132,4 +133,5 @@ else:
             '--cap {cap} '
             '--pad {pad} '
             '--gap {gap} '
-            '--min_cutoff {min_cutoff}'
+            '--min_cutoff {min_cutoff} '
+            '{log_e_str}'
