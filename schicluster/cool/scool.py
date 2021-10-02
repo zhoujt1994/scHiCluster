@@ -63,7 +63,11 @@ def generate_scool_single_resolution(cell_path_dict,
                                      batch_n=20,
                                      cpu=1):
     # parse chromosome sizes, prepare bin_df
-    chrom_sizes = cooler.read_chromsizes(chrom_size_path)
+    chrom_sizes = pd.read_csv(
+        chrom_size_path,
+        sep='\t',
+        index_col=0,
+        header=None, squeeze=True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
