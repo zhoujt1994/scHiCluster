@@ -8,7 +8,6 @@ from scipy.stats import zscore
 
 def calc_diag_stats(E, n_dims):
     """Calculate cutoff, average, std, count of non-zero pixels of each diagonals of the E"""
-    E = E.astype(np.float32).toarray()
     ave, std, top, count = np.zeros((4, n_dims), dtype=np.float32)
     for i in range(n_dims):
         tmp = E.diagonal(i)
@@ -59,28 +58,22 @@ def calculate_chrom_background_normalization(cell_url,
     E is the global diagonal normalized matrix
     T is the local background normalized version of E
     """
-    start_time = time.time()
     cell_cool = cooler.Cooler(cell_url)
     # Load the cell imputed matrix as E
     E = triu(cell_cool.matrix(balance=False, sparse=True).fetch(chrom))
-    # print(f'Load {time.time() - start_time:.3f}')
+    E = E.astype(np.float32).toarray()
 
-    # Calculate the diagonal stats of E
-    start_time = time.time()
-    n_dims = dist // resolution + pad + 1
-    ave, std, top, count = calc_diag_stats(E, n_dims)
-    # print(f'Curve {time.time() - start_time:.3f} #Nonzero {np.sum(count)}')
-
-    start_time = time.time()
     # create an upper triangle mask
     mask = np.zeros(E.shape, dtype=bool)
     row, col = np.diag_indices(E.shape[0])
     mask[row, col] = True
+    for i in range(1, dist // resolution + 1):
+        mask[row[:-i], col[i:]] = True
+
     if log_e:
         # normalize E at log scale
         E[row, col] = 0
         for i in range(1, dist // resolution + 1):
-            mask[row[:-i], col[i:]] = True
             tmp = E.diagonal(i).copy()
             tmp_filter = (tmp > 0)
             tmp2 = tmp[tmp_filter]
@@ -93,13 +86,13 @@ def calculate_chrom_background_normalization(cell_url,
                 E[row[:-i], col[i:]] = tmp.copy()
     else:
         # normalize E at linear scale
-        for i in range(1, dist // resolution + 1):
-            mask[row[:-i], col[i:]] = True
-        idx = np.where(mask)
+        # Calculate the diagonal stats of E
+        n_dims = dist // resolution + pad + 1
+        ave, std, top, count = calc_diag_stats(E, n_dims)
         # normalize E with the diagonal backgrounds
-        E.data = np.min([E.data, top[E.col - E.row]], axis=0)
-        E = E.astype(np.float32).toarray()
+        idx = np.where(mask)
         tmp = E[idx]
+        tmp = np.min([tmp, top[idx[1] - idx[0]]], axis=0)
         tmp = (tmp - ave[idx[1] - idx[0]]) / (std[idx[1] - idx[0]] + 1e-5)  # add a small value to prevent divide by 0
         tmp[count[idx[1] - idx[0]] < 100] = 0
         tmp[std[idx[1] - idx[0]] == 0] = 0

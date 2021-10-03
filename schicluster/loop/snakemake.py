@@ -41,9 +41,9 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
     output_dir.mkdir(exist_ok=True)
 
     if log_e:
-        log_e_str = '--log_e'
+        log_e_str = '"--log_e"'
     else:
-        log_e_str = ''
+        log_e_str = '""'
 
     chunk_parameters = dict(
         dist=dist,
