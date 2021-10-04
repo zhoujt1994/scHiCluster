@@ -135,7 +135,9 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     for chunk_dir in chunk_dirs:
         total_cells += pd.read_csv(chunk_dir / 'cell_table.csv', index_col=0).shape[0]
 
-    chrom_sizes = cooler.util.read_chromsizes(chrom_size_path)
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path,
+                                         name_patterns=(r"^chr[0-9]+$", r"^chr[XY]$", r"^chrM$",
+                                                        r"^[0-9]+&", r"^[XY]$"))
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
