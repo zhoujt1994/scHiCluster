@@ -11,7 +11,7 @@ with open(PACKAGE_DIR / 'loop/generate_matrix_group.Snakefile') as tmp:
 
 
 def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
-                min_cutoff, chrom_size_path, keep_cell_matrix):
+                min_cutoff, chrom_size_path, keep_cell_matrix, log_e_str):
     output_dir.mkdir(exist_ok=True)
     cell_table_path = str((output_dir / 'cell_table.csv').absolute())
     chunk_df[['cell_url']].to_csv(cell_table_path)
@@ -23,7 +23,8 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
                       min_cutoff=min_cutoff,
                       cell_table_path=f'"{cell_table_path}"',
                       chrom_size_path=f'"{chrom_size_path}"',
-                      keep_cell_matrix=keep_cell_matrix)
+                      keep_cell_matrix=keep_cell_matrix,
+                      log_e_str=f'"{log_e_str}"')
     parameters_str = '\n'.join(f'{k} = {v}'
                                for k, v in parameters.items())
 
@@ -41,9 +42,9 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
     output_dir.mkdir(exist_ok=True)
 
     if log_e:
-        log_e_str = '"--log_e"'
+        log_e_str = '--log_e'
     else:
-        log_e_str = '""'
+        log_e_str = ''
 
     chunk_parameters = dict(
         dist=dist,
