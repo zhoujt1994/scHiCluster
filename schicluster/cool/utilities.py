@@ -49,9 +49,7 @@ def aggregate_chromosomes(chrom_size_path,
                           input_dir,
                           output_path,
                           chrom_wildcard='{chrom}.hdf'):
-    chrom_sizes = cooler.read_chromsizes(chrom_size_path,
-                                         name_patterns=(r"^chr[0-9]+$", r"^chr[XY]$", r"^chrM$",
-                                                        r"^[0-9]+&", r"^[XY]$"))
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names = True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
@@ -78,9 +76,7 @@ def cell_chunk(cell_url, chrom_sizes, chunk=50000000):
 
 
 def aggregate_cells(output_path, cell_dir, chrom_size_path, resolution):
-    chrom_sizes = cooler.read_chromsizes(chrom_size_path,
-                                         name_patterns=(r"^chr[0-9]+$", r"^chr[XY]$", r"^chrM$",
-                                                        r"^[0-9]+&", r"^[XY]$"))
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names=True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
 
     cell_pixel_dict = {
