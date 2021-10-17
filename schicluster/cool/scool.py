@@ -16,7 +16,13 @@ def generate_scool_batch_data(cell_path_dict, resolution, chrom_offset,
                               output_path, chr1=1, chr2=5, pos1=2, pos2=6, min_pos_dist=2500):
     def single_cell_pixel(_path):
         try:
-            contacts = pd.read_csv(_path, sep='\t', header=None)
+            contacts = pd.read_csv(_path, sep='\t', header=None,
+                                   dtype={
+                                       chr1: str,  # make sure chrom names are str
+                                       chr2: str,  # make sure chrom names are str
+                                       pos1: int,
+                                       pos2: int
+                                   })
         except pandas.errors.EmptyDataError:
             # empty contacts file
             return pd.DataFrame([], columns=['bin1_id', 'bin2_id', 'count'])
