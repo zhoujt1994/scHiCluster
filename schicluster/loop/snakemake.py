@@ -47,7 +47,7 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
     raw_dir = output_dir / 'raw'
     raw_dir.mkdir(exist_ok=True)
     raw_table_path = raw_dir / 'cell_table.tsv'
-    cell_table_raw.to_csv(raw_table_path, sep='\t', index=None, header=None)
+    cell_table_raw.to_csv(raw_table_path, sep='\t', header=None)
     if raw_resolution_str == '10K':
         raw_resolution = 10000
     else:
