@@ -1,6 +1,7 @@
 import pathlib
 import pandas as pd
 import schicluster
+from merge_raw_matrix import make_raw_matrix_cell_table
 
 PACKAGE_DIR = pathlib.Path(schicluster.__path__[0])
 
@@ -35,11 +36,28 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
 
 def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome, chunk_size=100, dist=10050000,
                            cap=5, pad=5, gap=2, resolution=10000, min_cutoff=1e-6,
-                           keep_cell_matrix=False, cpu_per_job=10, log_e=False):
+                           keep_cell_matrix=False, cpu_per_job=10, log_e=False, raw_resolution_str='10K'):
     cell_table = pd.read_csv(cell_table_path, index_col=0, sep='\t',
                              names=['cell_id', 'cell_url', 'cell_group'])
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
+
+    # a single dir for raw matrix
+    cell_table_raw = make_raw_matrix_cell_table(cell_table_path, raw_resolution_str)
+    raw_dir = output_dir / 'raw'
+    raw_dir.mkdir(exist_ok=True)
+    raw_table_path = raw_dir / 'cell_table.tsv'
+    cell_table_raw.to_csv(raw_table_path, sep='\t', index=None, header=None)
+    if raw_resolution_str == '10K':
+        raw_resolution = 10000
+    else:
+        raise NotImplementedError
+    merge_raw_cmd = f'hic-internal merge-raw-scool '\
+                    f'--chrom_size_path {chrom_size_path} ' \
+                    f'--resolution {raw_resolution} ' \
+                    f'--cell_table_path {raw_table_path} '\
+                    f'--output_dir {raw_dir} ' \
+                    f'--cpu=1'
 
     if log_e:
         log_e_str = '--log_e'
@@ -76,6 +94,7 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
                 group_chunks[group].append(this_dir)
 
     with open(output_dir / 'snakemake_cmd_step1.txt', 'w') as f:
+        f.write(merge_raw_cmd + '\n')
         for chunk_dir in total_chunk_dirs:
             cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}/Snakefile -j {cpu_per_job}'
             f.write(cmd + '\n')

@@ -284,6 +284,43 @@ def merge_group_chunks_internal_subparser(subparser):
     )
 
 
+def merge_raw_scool_subparser(subparser):
+    parser = subparser.add_parser('merge-raw-scool',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="Merge single cell raw matrix by cluster stored in scool files.")
+    parser_req = parser.add_argument_group("Required inputs")
+
+    parser_req.add_argument(
+        "--chrom_size_path",
+        type=str,
+        required=True
+    )
+
+    parser_req.add_argument(
+        "--resolution",
+        type=int,
+        required=True
+    )
+
+    parser_req.add_argument(
+        "--cell_table_path",
+        type=str,
+        required=True
+    )
+
+    parser_req.add_argument(
+        "--output_dir",
+        type=str,
+        required=True
+    )
+
+    parser.add_argument(
+        "--cpu",
+        type=int,
+        default=1
+    )
+
+
 def call_loop_internal_subparser(subparser):
     parser = subparser.add_parser('call-loop',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -403,6 +440,8 @@ def internal_main():
         from .impute.merge_cell_to_group import merge_cells_for_single_chromosome as func
     elif cur_command == 'call-loop':
         from .loop.loop_calling import call_loops as func
+    elif cur_command == 'merge-raw-scool':
+        from .loop.merge_raw_matrix import merge_raw_scool_by_cluster as func
     else:
         log.debug(f'{cur_command} not Known, check the main function if else part')
         parser.parse_args(["-h"])
