@@ -3,10 +3,10 @@ import numpy as np
 import pathlib
 import cooler
 import h5py
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from ..cool import get_chrom_offsets
-from concurrent.futures import ProcessPoolExecutor, as_completed
-from merge_cell_to_group import read_single_cool_chrom
+from .merge_cell_to_group import read_single_cool_chrom
 
 
 def chrom_sum_iterator(cell_urls,
