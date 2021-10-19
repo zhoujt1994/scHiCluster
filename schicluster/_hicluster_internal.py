@@ -284,7 +284,7 @@ def merge_group_chunks_internal_subparser(subparser):
     )
 
 
-def merge_raw_scool_subparser(subparser):
+def merge_raw_scool_internal_subparser(subparser):
     parser = subparser.add_parser('merge-raw-scool',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
                                   help="Merge single cell raw matrix by cluster stored in scool files.")

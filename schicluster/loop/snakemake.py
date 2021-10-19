@@ -57,7 +57,7 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
                     f'--resolution {raw_resolution} ' \
                     f'--cell_table_path {raw_table_path} '\
                     f'--output_dir {raw_dir} ' \
-                    f'--cpu=1'
+                    f'--cpu 1'
 
     if log_e:
         log_e_str = '--log_e'
