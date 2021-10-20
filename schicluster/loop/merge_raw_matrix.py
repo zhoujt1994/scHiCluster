@@ -76,6 +76,8 @@ def make_raw_matrix_cell_table(cell_table_path, resolution_str='10K'):
     na_cells = cell_table['cell_url'].isna().sum()
     if na_cells > 0:
         raise ValueError(f'{na_cells} cells do not have raw matrix.')
+
+    cell_table = cell_table[['cell_url', 'cell_group']]
     return cell_table
 
 

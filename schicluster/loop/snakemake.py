@@ -52,12 +52,12 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, genome,
         raw_resolution = 10000
     else:
         raise NotImplementedError
-    merge_raw_cmd = f'hic-internal merge-raw-scool '\
+    merge_raw_cmd = f'hic-internal merge-raw-scool ' \
                     f'--chrom_size_path {chrom_size_path} ' \
                     f'--resolution {raw_resolution} ' \
-                    f'--cell_table_path {raw_table_path} '\
+                    f'--cell_table_path {raw_table_path} ' \
                     f'--output_dir {raw_dir} ' \
-                    f'--cpu 1'
+                    f'--cpu {cpu_per_job}'
 
     if log_e:
         log_e_str = '--log_e'
