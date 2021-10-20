@@ -62,8 +62,8 @@ def make_raw_matrix_cell_table(cell_table_path, resolution_str='10K'):
     scool_file_pattern = f'raw/*.{resolution_str}.scool'
     for scool_dir in scool_dirs:
         for scool_path in pathlib.Path(scool_dir).glob(scool_file_pattern):
-            with h5py.File(scool_path) as cool:
-                cell_ids = list(cool['cells'].keys())
+            with h5py.File(scool_path, 'r') as _cool:
+                cell_ids = list(_cool['cells'].keys())
                 for cell_id in cell_ids:
                     cell_urls[cell_id] = f'{scool_path}::/cells/{cell_id}'
     raw_url_series = pd.Series(cell_urls)
