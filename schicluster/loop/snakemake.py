@@ -1,7 +1,7 @@
 import pathlib
 import pandas as pd
 import schicluster
-from merge_raw_matrix import make_raw_matrix_cell_table
+from .merge_raw_matrix import make_raw_matrix_cell_table
 
 PACKAGE_DIR = pathlib.Path(schicluster.__path__[0])
 
