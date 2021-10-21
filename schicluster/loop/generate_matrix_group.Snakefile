@@ -35,7 +35,7 @@ rule zoomify_loop:
             row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
             if row_number > 1:
                 shell('clodius aggregate bedpe ' \
-                      '--assembly {genome} ' \
+                      '--chromsizes-filename {chrom_size_path} ' \
                       '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
                       '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
                       '--output-file {output} {input}')
@@ -59,7 +59,7 @@ rule zoomify_loop_summit:
             row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
             if row_number > 1:
                 shell('clodius aggregate bedpe ' \
-                      '--assembly {genome} ' \
+                      '--chromsizes-filename {chrom_size_path} ' \
                       '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
                       '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
                       '--output-file {output} {input}')
