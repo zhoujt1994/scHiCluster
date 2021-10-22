@@ -25,7 +25,7 @@ def embed_mergechr(embed_list, outprefix, dim=20, norm_sig=True):
 parser = argparse.ArgumentParser()
 parser.add_argument('--embed_list', type=str, default=None, help='Full path of a file containing the full path to dimension reduction files of all chromosomes')
 parser.add_argument('--outprefix', type=str, default=None, help='Prefix of final dimension reduction file including directory')
-parser.add_argument('--dim', type=int, default=50, help='Number of dimensions to return from SVD')
+parser.add_argument('--dim', type=int, default=20, help='Number of dimensions to return from SVD')
 parser.add_argument('--use_pc', dest='norm_sig', action='store_false', help='Not to normalize PCs by singular values')
 parser.set_defaults(norm_sig=True)
 opt = parser.parse_args()
