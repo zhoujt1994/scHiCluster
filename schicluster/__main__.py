@@ -205,7 +205,7 @@ def embed_mergechr_register_subparser(subparser):
     parser_req.add_argument('--outprefix', type=str, default=None,
                             help='Prefix of final dimension reduction file including directory')
 
-    parser.add_argument('--dim', type=int, default=50,
+    parser.add_argument('--dim', type=int, default=20,
                         help='Number of dimensions to return from SVD')
 
     parser.add_argument('--use_pc', dest='norm_sig', action='store_false',
