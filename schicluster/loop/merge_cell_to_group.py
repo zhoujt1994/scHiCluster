@@ -18,7 +18,7 @@ def merge_cells_for_single_chromosome(output_dir,
                                       output_prefix,
                                       merge_type='E'):
     """
-    Merge cell's E and T matrix to group matrices:
+    Merge cell's E and T matrix to group matrices, sum only, not normalized by n_cells yet:
     E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
     E2: E^2 of T, used to calculate global p values
     T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix),
@@ -93,6 +93,7 @@ def chrom_sum_iterator(chunk_dirs,
             'count': matrix.data
         })
         pixel_df.iloc[:, :2] += chrom_offset[chrom]
+        # All the chunk
         pixel_df.iloc[:, -1] /= total_cells
         yield pixel_df
 
@@ -123,6 +124,11 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
                                       resolution,
                                       group,
                                       output_dir):
+    """
+    Sum all the chunk sum cool files,
+    and finally divide the total number of cells to
+    get a group cell number normalized cool file in the end.
+    """
     # determine chunk dirs for the group:
     output_dir = pathlib.Path(output_dir).absolute()
     group_dir = output_dir / group

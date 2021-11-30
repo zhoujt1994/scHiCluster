@@ -34,8 +34,8 @@ def merge_cells_for_single_chromosome(cell_urls_path,
     matrix_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
     for i, path in enumerate(cell_urls):
         matrix_sum += read_chrom(path, chrom)
-    # normalize by total cell numbers
-    matrix_sum.data /= n_cells
+    # we do not normalize by total cell numbers here, instead, normalize it in merge_group_chunks_to_group_cools
+    # NO matrix_sum.data /= n_cells
     write_coo(f'{output_prefix}.Q.hdf', matrix_sum, chunk_size=None)
     logging.debug(f'Merge {n_cells} cells took {time.time() - start_time:.0f} seconds')
     return

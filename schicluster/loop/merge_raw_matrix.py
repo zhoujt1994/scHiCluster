@@ -83,6 +83,7 @@ def make_raw_matrix_cell_table(cell_table_path, resolution_str='10K'):
 
 def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
                                output_dir, cpu=1):
+    """Sum the raw matrix of cells, no normalization."""
     # determine chunk dirs for the group:
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
