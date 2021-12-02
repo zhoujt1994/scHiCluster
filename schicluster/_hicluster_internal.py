@@ -45,10 +45,10 @@ def impute_chromosome_internal_subparser(subparser):
     )
 
     parser.add_argument(
-        "--logscale",
-        type=bool,
-        default=True,
-    )
+        '--logscale',
+        dest='logscale',
+        action='store_true')
+    parser.set_defaults(logscale=False)
 
     parser.add_argument(
         "--pad",

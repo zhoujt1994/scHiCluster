@@ -59,11 +59,15 @@ def impute_chromosome(scool_url,
     if logscale:
         A.data = np.log2(A.data + 1)
 
+    # Remove diagonal before convolution
+    A = A - diags(A.diagonal())
+
     # Gaussian convolution and
     start_time = time.time()
     if pad > 0:
         # full matrix step
-        A = gaussian_filter((A + A.T).astype(np.float32).toarray(), std, order=0, mode='mirror', truncate=pad)
+        A = gaussian_filter((A + A.T).astype(np.float32).toarray(),
+                            std, order=0, mode='mirror', truncate=pad)
         A = csr_matrix(A)
     else:
         A = A + A.T
