@@ -59,7 +59,7 @@ rule impute_chrom:
         '--chrom {wildcards.chrom} '
         '--resolution {resolution} '
         '--output_path {output} '
-        '--logscale {logscale} '
+        '{logscale_str} '
         '--pad {pad} '
         '--std {std} '
         '--rp {rp} '
