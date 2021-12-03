@@ -45,7 +45,7 @@ def prepare_impute(input_scool,
         parameters = dict(
             input_scool=f"'{pathlib.Path(input_scool).absolute()}'",
             chrom_size_path=f"'{pathlib.Path(chrom_size_path).absolute()}'",
-            logscale_str=logscale_str,
+            logscale_str=f'"{logscale_str}"',
             pad=pad,
             std=std,
             window_size=int(window_size),
