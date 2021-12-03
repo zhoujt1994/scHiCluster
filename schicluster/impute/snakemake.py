@@ -31,6 +31,10 @@ def prepare_impute(input_scool,
         snake_template = f.read()
     cell_list = cooler.fileops.list_coolers(input_scool)
     scool_cell_ids = [i.split('/')[-1] for i in cell_list]
+    if logscale:
+        logscale_str = '--logscale'
+    else:
+        logscale_str = ''
 
     chunk_dirs = []
     for i, chunk_start in enumerate(range(0, len(scool_cell_ids), batch_size)):
@@ -41,7 +45,7 @@ def prepare_impute(input_scool,
         parameters = dict(
             input_scool=f"'{pathlib.Path(input_scool).absolute()}'",
             chrom_size_path=f"'{pathlib.Path(chrom_size_path).absolute()}'",
-            logscale=logscale,
+            logscale_str=logscale_str,
             pad=pad,
             std=std,
             window_size=int(window_size),
