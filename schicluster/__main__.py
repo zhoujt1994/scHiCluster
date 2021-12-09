@@ -456,17 +456,18 @@ def generate_scool_register_subparser(subparser):
                                  'You can provide multiple resolutions separated by space, '
                                  '(e.g., "--resolutions 10000 100000"). '
                                  'Each resolution will be stored in a separate file.')
-    parser_req.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
-                            help='Path to blacklist region BED file, such as ENCODE blacklist. '
-                                 'Either side of the contact overlapping with a blacklist region will be removed.')
-    parser_req.add_argument('--blacklist_2d_path', type=str, required=False, default=None,
-                            help='Path to blacklist region pair BEDPE file. '
-                                 'Both side of the contact overlapping with the same '
-                                 'blacklist region pair will be removed.')
+    parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
+                        help='Path to blacklist region BED file, such as ENCODE blacklist. '
+                             'Either side of the contact overlapping with a blacklist region will be removed.')
+    parser.add_argument('--blacklist_2d_path', type=str, required=False, default=None,
+                        help='Path to blacklist region pair BEDPE file. '
+                             'Both side of the contact overlapping with the same '
+                             'blacklist region pair will be removed.')
     parser.add_argument('--blacklist_resolution', type=int, default=10000, required=False,
                         help='Resolution in bps when consider the 2D blacklist region pairs.')
     parser.add_argument('--not_remove_duplicates', dest='remove_duplicates', action='store_false',
-                        help='If set, will NOT remove duplicated contacts based on [chr1, pos1, chr2, pos2] values')
+                        help='If set, will NOT remove duplicated contacts based on '
+                             '[chr1, pos1, chr2, pos2] values')
     parser.set_defaults(remove_duplicates=True)
     parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
     parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
