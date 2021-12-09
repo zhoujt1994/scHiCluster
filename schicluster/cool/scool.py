@@ -10,23 +10,40 @@ import pandas.errors
 from .utilities import get_chrom_offsets
 import pandas as pd
 from cooler import create_scool
+from .remove_blacklist import filter_contacts
 
 
-def generate_scool_batch_data(cell_path_dict, resolution, chrom_offset,
-                              output_path, chr1=1, chr2=5, pos1=2, pos2=6, min_pos_dist=2500):
+def generate_scool_batch_data(cell_path_dict,
+                              resolution,
+                              chrom_offset,
+                              chrom_size_path,
+                              blacklist_1d_path,
+                              blacklist_2d_path,
+                              remove_duplicates,
+                              blacklist_resolution,
+                              output_path,
+                              chr1=1,
+                              chr2=5,
+                              pos1=2,
+                              pos2=6,
+                              min_pos_dist=2500):
     def single_cell_pixel(_path):
         try:
-            contacts = pd.read_csv(_path, sep='\t', header=None,
-                                   dtype={
-                                       chr1: str,  # make sure chrom names are str
-                                       chr2: str,  # make sure chrom names are str
-                                       pos1: int,
-                                       pos2: int
-                                   })
+            contacts = filter_contacts(_path,
+                                       chrom_size_path=chrom_size_path,
+                                       blacklist_1d_path=blacklist_1d_path,
+                                       blacklist_2d_path=blacklist_2d_path,
+                                       remove_duplicates=remove_duplicates,
+                                       resolution_2d=blacklist_resolution,
+                                       chrom1=chr1,
+                                       pos1=pos1,
+                                       chrom2=chr2,
+                                       pos2=pos2)
         except pandas.errors.EmptyDataError:
             # empty contacts file
             return pd.DataFrame([], columns=['bin1_id', 'bin2_id', 'count'])
         pos_dist = (contacts[pos1] - contacts[pos2]).abs()
+
         # filter
         contacts = contacts[contacts[chr1].isin(chrom_offset)
                             & contacts[chr2].isin(chrom_offset)
@@ -61,6 +78,10 @@ def generate_scool_single_resolution(cell_path_dict,
                                      chrom_size_path,
                                      resolution,
                                      output_path,
+                                     blacklist_1d_path,
+                                     blacklist_2d_path,
+                                     remove_duplicates,
+                                     blacklist_resolution,
                                      chr1=1,
                                      chr2=5,
                                      pos1=2,
@@ -92,7 +113,12 @@ def generate_scool_single_resolution(cell_path_dict,
                            output_path=batch_output,
                            chr1=chr1, chr2=chr2,
                            pos1=pos1, pos2=pos2,
-                           min_pos_dist=min_pos_dist)
+                           min_pos_dist=min_pos_dist,
+                           chrom_size_path=chrom_size_path,
+                           blacklist_1d_path=blacklist_1d_path,
+                           blacklist_2d_path=blacklist_2d_path,
+                           remove_duplicates=remove_duplicates,
+                           blacklist_resolution=blacklist_resolution)
             futures[f] = batch_output
 
         for future in as_completed(futures):
@@ -119,6 +145,10 @@ def generate_scool(contacts_table,
                    output_prefix,
                    chrom_size_path,
                    resolutions,
+                   blacklist_1d_path=None,
+                   blacklist_2d_path=None,
+                   blacklist_resolution=10000,
+                   remove_duplicates=True,
                    chr1=1,
                    chr2=5,
                    pos1=2,
@@ -141,6 +171,16 @@ def generate_scool(contacts_table,
         the reference to create matrix. It is recommended to remove small contigs or chrM from this file.
     resolutions
         Resolutions to generate the matrix. Each resolution will be stored in a separate file.
+    blacklist_1d_path
+        Path to blacklist region BED file, such as ENCODE blacklist.
+        Either side of the contact overlapping with a blacklist region will be removed.
+    blacklist_2d_path
+        Path to blacklist region pair BEDPE file.
+        Both side of the contact overlapping with the same blacklist region pair will be removed.
+    blacklist_resolution
+        Resolution in bps when consider the 2D blacklist region pairs.
+    remove_duplicates
+        If true, will remove duplicated contacts based on [chr1, pos1, chr2, pos2] values
     chr1
         0 based index of chr1 column.
     chr2
@@ -183,6 +223,10 @@ def generate_scool(contacts_table,
                                          cpu=cpu,
                                          chr1=chr1, chr2=chr2,
                                          pos1=pos1, pos2=pos2,
-                                         min_pos_dist=min_pos_dist)
+                                         min_pos_dist=min_pos_dist,
+                                         blacklist_1d_path=blacklist_1d_path,
+                                         blacklist_2d_path=blacklist_2d_path,
+                                         remove_duplicates=remove_duplicates,
+                                         blacklist_resolution=blacklist_resolution)
         print('Finished', output_path)
     return
