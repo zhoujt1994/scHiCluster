@@ -75,7 +75,11 @@ def filter_contacts(contact_path,
         contact_bed = pybedtools.BedTool.from_dataframe(contact_bed_df).sort(g=chrom_size_path)
         # collect contact ids with either side overlap with blacklist
         bad_contacts = contact_bed.intersect(blacklist_bed, wa=True, u=True).to_dataframe()
-        bad_contacts = bad_contacts['name'].unique()
+        if bad_contacts.shape[0] >= 0:
+            bad_contacts = bad_contacts['name'].unique()
+        else:
+            # no bad contacts
+            bad_contacts = set()
         # remove bad contacts
         contacts = contacts[~contacts.index.isin(bad_contacts)].copy()
         contact_bed.delete_temporary_history(ask=False)
