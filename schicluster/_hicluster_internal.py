@@ -283,6 +283,14 @@ def merge_group_chunks_internal_subparser(subparser):
         required=True
     )
 
+    parser.add_argument(
+        "--matrix_types",
+        type=str,
+        nargs='+',
+        default=['E', 'E2', 'T', 'T2', 'Q'],
+        required=False
+    )
+
 
 def merge_raw_scool_internal_subparser(subparser):
     parser = subparser.add_parser('merge-raw-scool',

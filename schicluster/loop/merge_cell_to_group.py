@@ -123,7 +123,8 @@ def save_single_matrix_type(cooler_path,
 def merge_group_chunks_to_group_cools(chrom_size_path,
                                       resolution,
                                       group,
-                                      output_dir):
+                                      output_dir,
+                                      matrix_types=('E', 'E2', 'T', 'T2', 'Q')):
     """
     Sum all the chunk sum cool files,
     and finally divide the total number of cells to
@@ -145,7 +146,6 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
-    matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
     with ProcessPoolExecutor(5) as exe:
         futures = {}
         for matrix_type in matrix_types:
