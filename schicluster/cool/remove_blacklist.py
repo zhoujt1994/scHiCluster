@@ -47,15 +47,19 @@ def filter_contacts(contact_path,
                     pos1=2,
                     chrom2=5,
                     pos2=6):
-    contacts = pd.read_csv(contact_path,
-                           header=None,
-                           sep='\t',
-                           dtype={
-                               chrom1: str,
-                               pos1: int,
-                               chrom2: str,
-                               pos2: int
-                           })
+    try:
+        contacts = pd.read_csv(contact_path,
+                               header=None,
+                               sep='\t',
+                               dtype={
+                                   chrom1: str,
+                                   pos1: int,
+                                   chrom2: str,
+                                   pos2: int
+                               })
+    except Exception as e:
+        print(f'Got error when opening {contact_path}')
+        raise e
     print(f"{contact_path.split('/')[-1]}: {contacts.shape[0]} input contacts.")
 
     if remove_duplicates:
