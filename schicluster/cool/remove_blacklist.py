@@ -86,8 +86,8 @@ def filter_contacts(contact_path,
             bad_contacts = set()
         # remove bad contacts
         contacts = contacts[~contacts.index.isin(bad_contacts)].copy()
-        contact_bed.delete_temporary_history(ask=False)
-        blacklist_bed.delete_temporary_history(ask=False)
+        
+        pybedtools.cleanup()
 
     if blacklist_2d_path is not None:
         chrom_2d_blacklist = prepare_2d_blacklist_dict(blacklist_2d_path, resolution=resolution_2d)
