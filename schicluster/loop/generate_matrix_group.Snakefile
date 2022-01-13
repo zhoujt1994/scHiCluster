@@ -11,6 +11,8 @@ from schicluster.loop.snakemake import check_chunk_dir_finish
 check_chunk_dir_finish(output_dir)
 
 matrix_types = ['Q', 'E', 'E2', 'T', 'T2']
+# TODO matrix_type ['Q_shuffle', ... 'T2 shuffle']
+# TODO remove shuffle file
 
 rule summary:
     input:
@@ -88,6 +90,7 @@ rule call_loop:
         '{group}/{group}.E2.cool',
         '{group}/{group}.T.cool',
         '{group}/{group}.T2.cool'
+        # shuffle cool as input also when --shuffle
     output:
         '{group}/{group}.loop_info.hdf',
         '{group}/{group}.loop.bedpe',
@@ -110,6 +113,7 @@ rule call_loop:
         '--fdr_thres 0.1 '
         '--dist_thres 20000 '
         '--size_thres 1'
+        # shuffle option
 
 
 # merge group chunk dirs into a single scool

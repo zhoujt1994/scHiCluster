@@ -73,6 +73,7 @@ def calculate_chrom_background_normalization(cell_url,
     if log_e:
         # normalize E at log scale
         E[row, col] = 0
+        # TODO
         for i in range(1, dist // resolution + 1):
             tmp = E.diagonal(i).copy()
             tmp_filter = (tmp > 0)

@@ -113,6 +113,7 @@ if keep_cell_matrix:
             '--gap {gap} '
             '--min_cutoff {min_cutoff} '
             '{log_e_str}'
+            # TODO shuffle option
 else:
     rule loop_bkg_chrom:
         output:

@@ -38,6 +38,7 @@ def paired_t_test(cool_t, cool_t2, chrom, loop, n_cells):
     p_value = stats.t.sf(t_score, n_cells - 1)
     # Cohen d effect size
     d = 2 * t_score / np.sqrt(2 * n_cells)
+    # TODO permute FDR
     return p_value, loop_delta, d
 
 

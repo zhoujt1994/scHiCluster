@@ -66,8 +66,13 @@ def filter_contacts(contact_path,
         # remove duplicates
         contacts.drop_duplicates(subset=[chrom1, pos1, chrom2, pos2], inplace=True)
 
+    chroms = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index
+    # remove additional chroms not exist in chrom_size_path
+    contacts = contacts[contacts.iloc[:, chrom1].isin(chroms) & contacts.iloc[:, chrom2].isin(chroms)].copy()
+
     if blacklist_1d_path is not None:
         blacklist_bed_df = pd.read_csv(blacklist_1d_path, sep='\t', index_col=None, header=None)
+        blacklist_bed_df = blacklist_bed_df[blacklist_bed_df[chrom].isin(chroms)].copy()
         blacklist_bed = pybedtools.BedTool.from_dataframe(blacklist_bed_df).sort(g=chrom_size_path)
 
         # determine blacklist 1d (either side overlap with 1D blacklist)
@@ -86,7 +91,7 @@ def filter_contacts(contact_path,
             bad_contacts = set()
         # remove bad contacts
         contacts = contacts[~contacts.index.isin(bad_contacts)].copy()
-        
+
         pybedtools.cleanup()
 
     if blacklist_2d_path is not None:
