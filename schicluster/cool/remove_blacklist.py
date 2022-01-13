@@ -72,7 +72,7 @@ def filter_contacts(contact_path,
 
     if blacklist_1d_path is not None:
         blacklist_bed_df = pd.read_csv(blacklist_1d_path, sep='\t', index_col=None, header=None)
-        blacklist_bed_df = blacklist_bed_df[blacklist_bed_df[chrom].isin(chroms)].copy()
+        blacklist_bed_df = blacklist_bed_df[blacklist_bed_df.iloc[:, 0].isin(chroms)].copy()
         blacklist_bed = pybedtools.BedTool.from_dataframe(blacklist_bed_df).sort(g=chrom_size_path)
 
         # determine blacklist 1d (either side overlap with 1D blacklist)
