@@ -5,6 +5,8 @@ import cooler
 import numpy as np
 import pandas as pd
 
+import h5py
+from scipy.sparse import csr_matrix
 
 def get_chrom_offsets(bins_df):
     chrom_offset = {chrom: bins_df[bins_df['chrom'] == chrom].index[0]
