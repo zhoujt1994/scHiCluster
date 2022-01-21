@@ -144,12 +144,12 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
 
     # longest distance filter mask
     start_time = time.time()
+    idx = np.triu_indices(E.shape[0], 0)
     if (output_dist // res + 1) < ngene:
-        idx = np.triu_indices(E.shape[0], 0)
         idxfilter = ((idx[1] - idx[0]) < (output_dist // res + 1))
         idx = (idx[0][idxfilter], idx[1][idxfilter])
-        mask = csr_matrix((np.ones(len(idx[0])), (idx[0], idx[1])), E.shape)
-        E = E.tocsr().multiply(mask)
+    mask = csr_matrix((np.ones(len(idx[0])), (idx[0], idx[1])), E.shape)
+    E = E.tocsr().multiply(mask)
     print('Filter takes', time.time() - start_time, 'seconds')
 
     output()
