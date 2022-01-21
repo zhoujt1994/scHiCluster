@@ -136,7 +136,12 @@ def aggregate_chromosomes_internal_subparser(subparser):
         default='{chrom}.hdf'
     )
 
-
+    parser.add_argument(
+        '--csr',
+        dest='csr',
+        action='store_true')
+    parser.set_defaults(csr=False)
+    
 def calculate_loop_matrix_internal_subparser(subparser):
     parser = subparser.add_parser('calculate-loop-matrix',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
