@@ -28,19 +28,34 @@ def write_coo(path, matrix, chunk_size=5000000):
     return
 
 
-def chrom_iterator(input_dir, chrom_order, chrom_offset, chrom_wildcard='{chrom}.hdf'):
+def chrom_iterator(input_dir, chrom_order, chrom_offset, chrom_wildcard='{chrom}.hdf', csr=False):
     for chrom in chrom_order:
         chrom_file = chrom_wildcard.format(chrom=chrom)
         output_path = f'{input_dir}/{chrom_file}'
         if not pathlib.Path(output_path).exists():
             continue
-        with pd.HDFStore(output_path, 'r') as hdf:
-            logging.debug(chrom)
-            keys = {int(i[2:]): i for i in hdf.keys()}
-            for i in sorted(keys.keys()):
-                key = keys[i]
-                chunk = hdf[key]
-                chunk.iloc[:, :2] += chrom_offset[chrom]
+        if not csr:
+            with pd.HDFStore(output_path, 'r') as hdf:
+                logging.debug(chrom)
+                keys = {int(i[2:]): i for i in hdf.keys()}
+                for i in sorted(keys.keys()):
+                    key = keys[i]
+                    chunk = hdf[key]
+                    chunk.iloc[:, :2] += chrom_offset[chrom]
+                    yield chunk
+        else:
+            chunk_size = 5000000
+            with h5py.File(output_path, 'r') as f:
+                logging.debug(chrom)
+                g = f['Matrix']
+                Q = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
+                idx = np.triu_indices(Q.shape[0], 0)
+                mask = csr_matrix((np.ones(len(idx[0])), (idx[0], idx[1])), Q.shape)
+                Q = Q.multiply(mask).tocoo(copy=False)
+                df = pd.DataFrame({'bin1_id': Q.row, 'bin2_id': Q.col, 'count': Q.data})
+                for i, chunk_start in enumerate(range(0, df.shape[0], chunk_size)):
+                    chunk = df.iloc[chunk_start:chunk_start + chunk_size]
+                    chunk.iloc[:, :2] += chrom_offset[chrom]
                 yield chunk
 
 
@@ -48,7 +63,8 @@ def aggregate_chromosomes(chrom_size_path,
                           resolution,
                           input_dir,
                           output_path,
-                          chrom_wildcard='{chrom}.hdf'):
+                          chrom_wildcard='{chrom}.hdf',
+                          csr=False):
     chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names = True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
@@ -58,7 +74,8 @@ def aggregate_chromosomes(chrom_size_path,
                          pixels=chrom_iterator(input_dir=input_dir,
                                                chrom_order=bins_df['chrom'].unique(),
                                                chrom_offset=chrom_offset,
-                                               chrom_wildcard=chrom_wildcard),
+                                               chrom_wildcard=chrom_wildcard
+                                               csr=csr),
                          ordered=True,
                          dtypes={'count': np.float32})
     return
