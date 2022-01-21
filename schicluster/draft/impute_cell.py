@@ -101,6 +101,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
         d = diags(1 / B.sum(axis=0).A.ravel())
         P = d.dot(B)
         E = random_walk_cpu(P, rp, tol)
+        E = E.multiply(E > 0.01/ngene)
     else:
         idx = (np.repeat(np.arange(ws), ws), np.tile(np.arange(ws), ws))
         idxfilter = (np.abs(idx[1] - idx[0]) < (output_dist // res + 1))
@@ -132,6 +133,7 @@ def impute_cell(indir, outdir, cell, chrom, res, chrom_file,
             else:
                 E[ll:(ll+ws), ll:(ll+ws)] += Etmp.multiply(mask0)
             print('Window', ll)
+        E = E.multiply(E > 0.01/ws)
     print('RWR takes', time.time() - start_time, 'seconds')
 
     start_time = time.time()
