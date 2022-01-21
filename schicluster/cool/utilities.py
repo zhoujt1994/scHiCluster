@@ -76,7 +76,7 @@ def aggregate_chromosomes(chrom_size_path,
                          pixels=chrom_iterator(input_dir=input_dir,
                                                chrom_order=bins_df['chrom'].unique(),
                                                chrom_offset=chrom_offset,
-                                               chrom_wildcard=chrom_wildcard
+                                               chrom_wildcard=chrom_wildcard,
                                                csr=csr),
                          ordered=True,
                          dtypes={'count': np.float32})
