@@ -50,15 +50,13 @@ def chrom_iterator(input_dir, chrom_order, chrom_offset, chrom_wildcard='{chrom}
             with h5py.File(output_path, 'r') as f:
                 logging.debug(chrom)
                 g = f['Matrix']
-                Q = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape'])
-                idx = np.triu_indices(Q.shape[0], 0)
-                mask = csr_matrix((np.ones(len(idx[0])), (idx[0], idx[1])), Q.shape)
-                Q = Q.multiply(mask).tocoo(copy=False)
+                Q = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
                 df = pd.DataFrame({'bin1_id': Q.row, 'bin2_id': Q.col, 'count': Q.data})
+                df = df[df['bin1_id'] <= df['bin2_id']]
                 for i, chunk_start in enumerate(range(0, df.shape[0], chunk_size)):
                     chunk = df.iloc[chunk_start:chunk_start + chunk_size]
                     chunk.iloc[:, :2] += chrom_offset[chrom]
-                yield chunk
+                    yield chunk
 
 
 def aggregate_chromosomes(chrom_size_path,
