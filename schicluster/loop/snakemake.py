@@ -12,10 +12,14 @@ with open(PACKAGE_DIR / 'loop/generate_matrix_group.Snakefile') as tmp:
 
 
 def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
-                min_cutoff, chrom_size_path, keep_cell_matrix, log_e_str):
+                min_cutoff, chrom_size_path, keep_cell_matrix, log_e_str, shuffle):
     output_dir.mkdir(exist_ok=True)
     cell_table_path = str((output_dir / 'cell_table.csv').absolute())
     chunk_df[['cell_url']].to_csv(cell_table_path)
+    if shuffle:
+        shuffle_str = '--shuffle'
+    else:
+        shuffle_str = ''
     parameters = dict(dist=dist,
                       cap=cap,
                       pad=pad,
@@ -25,7 +29,9 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
                       cell_table_path=f'"{cell_table_path}"',
                       chrom_size_path=f'"{chrom_size_path}"',
                       keep_cell_matrix=keep_cell_matrix,
-                      log_e_str=f'"{log_e_str}"')
+                      log_e_str=f'"{log_e_str}"',
+                      shuffle=shuffle,
+                      shuffle_str=f'"{shuffle_str}"')
     parameters_str = '\n'.join(f'{k} = {v}'
                                for k, v in parameters.items())
 
@@ -34,36 +40,54 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
     return
 
 
-def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, chunk_size=100, dist=10050000,
-                           cap=5, pad=5, gap=2, resolution=10000, min_cutoff=1e-6,
-                           keep_cell_matrix=False, cpu_per_job=10, log_e=False, raw_resolution_str='10K'):
-    cell_table = pd.read_csv(cell_table_path, index_col=0, sep='\t',
+def prepare_loop_snakemake(cell_table_path,
+                           output_dir,
+                           chrom_size_path,
+                           chunk_size=100,
+                           dist=5050000,
+                           cap=5,
+                           pad=5,
+                           gap=2,
+                           resolution=10000,
+                           min_cutoff=1e-6,
+                           keep_cell_matrix=False,
+                           cpu_per_job=10,
+                           log_e=True,
+                           shuffle=False,
+                           raw_resolution_str='10K'):
+    _cell_table_path = str(cell_table_path)
+    sep = '\t' if _cell_table_path.endswith('tsv') else ','
+    cell_table = pd.read_csv(cell_table_path, index_col=0, sep=sep,
                              names=['cell_id', 'cell_url', 'cell_group'])
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
 
     # a single dir for raw matrix
-    cell_table_raw = make_raw_matrix_cell_table(cell_table_path, raw_resolution_str)
-    raw_dir = output_dir / 'raw'
-    raw_dir.mkdir(exist_ok=True)
-    raw_table_path = raw_dir / 'cell_table.tsv'
-    cell_table_raw.to_csv(raw_table_path, sep='\t', header=None)
     if raw_resolution_str == '10K':
         raw_resolution = 10000
+    elif raw_resolution_str is None:
+        raw_resolution = None
     else:
         raise NotImplementedError
-    merge_raw_cmd = f'hic-internal merge-raw-scool ' \
-                    f'--chrom_size_path {chrom_size_path} ' \
-                    f'--resolution {raw_resolution} ' \
-                    f'--cell_table_path {raw_table_path} ' \
-                    f'--output_dir {raw_dir} ' \
-                    f'--cpu {cpu_per_job}'
+    if raw_resolution is not None:
+        cell_table_raw = make_raw_matrix_cell_table(cell_table, raw_resolution_str)
+        raw_dir = output_dir / 'raw'
+        raw_dir.mkdir(exist_ok=True)
+        raw_table_path = raw_dir / 'cell_table.tsv'
+        cell_table_raw.to_csv(raw_table_path, sep='\t', header=None)
+        merge_raw_cmd = f'hic-internal merge-raw-scool ' \
+                        f'--chrom_size_path {chrom_size_path} ' \
+                        f'--resolution {raw_resolution} ' \
+                        f'--cell_table_path {raw_table_path} ' \
+                        f'--output_dir {raw_dir} ' \
+                        f'--cpu {cpu_per_job}'
+    else:
+        merge_raw_cmd = ''
 
     if log_e:
         log_e_str = '--log_e'
     else:
         log_e_str = ''
-
     chunk_parameters = dict(
         dist=dist,
         cap=cap,
@@ -73,7 +97,8 @@ def prepare_loop_snakemake(cell_table_path, output_dir, chrom_size_path, chunk_s
         min_cutoff=min_cutoff,
         chrom_size_path=chrom_size_path,
         keep_cell_matrix=keep_cell_matrix,
-        log_e_str=log_e_str
+        log_e_str=log_e_str,
+        shuffle=shuffle
     )
 
     total_chunk_dirs = []

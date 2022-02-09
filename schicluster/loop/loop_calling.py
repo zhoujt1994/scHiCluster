@@ -38,7 +38,6 @@ def paired_t_test(cool_t, cool_t2, chrom, loop, n_cells):
     p_value = stats.t.sf(t_score, n_cells - 1)
     # Cohen d effect size
     d = 2 * t_score / np.sqrt(2 * n_cells)
-    # TODO permute FDR
     return p_value, loop_delta, d
 
 
@@ -171,9 +170,7 @@ def find_summit(loop, res, dist_thres):
             if np.abs(tmp[1] - cord[idx[j], 1]) <= dist_thres:
                 neighbor[idx[i]].append(idx[j])
                 neighbor[idx[j]].append(idx[i])
-    # print('Build graph takes', time.time() - start_time, 'seconds')
 
-    start_time = time.time()
     nodescore = loop['E'].values
     flag = np.zeros(len(nodescore))
     tot = len(nodescore)
@@ -205,7 +202,6 @@ def find_summit(loop, res, dist_thres):
     summit = np.array(summit)
     loop = loop.iloc[summit[:, 0]]
     loop['size'] = summit[:, 1]
-    # print('BFS takes', time.time() - start_time, 'seconds')
     return loop
 
 
@@ -267,6 +263,7 @@ def call_loops(group_prefix,
     total_loops['global_qval'] = global_qs
 
     # apply all the filters
+    total_loops.to_hdf(f'{output_prefix}.totalloop_info.hdf', key='data')
     loop = total_loops.loc[total_loops['bkfilter']
                            & (total_loops['local_qval'] < fdr_thres)
                            & (total_loops['global_qval'] < fdr_thres)].copy()
@@ -276,10 +273,12 @@ def call_loops(group_prefix,
     bedpe_cols = ['chrom', 'x1', 'x2', 'chrom', 'y1', 'y2', 'E']
     loop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
         f'{output_prefix}.loop.bedpe', sep='\t', index=False, header=None)
-    scloop = total_loops.loc[(total_loops['local_qval'] < fdr_thres)
-                             & (total_loops['global_qval'] < fdr_thres)]
+    scloop = total_loops.loc[(total_loops['local_qval'] < fdr_thres)]
     scloop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
-        f'{output_prefix}.scloop.bedpe', sep='\t', index=False, header=None)
+        f'{output_prefix}.localloop.bedpe', sep='\t', index=False, header=None)
+    scloop = total_loops.loc[(total_loops['global_qval'] < fdr_thres)]
+    scloop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
+        f'{output_prefix}.globalloop.bedpe', sep='\t', index=False, header=None)
     bkloop = total_loops.loc[total_loops['bkfilter']]
     bkloop.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols].to_csv(
         f'{output_prefix}.bkloop.bedpe', sep='\t', index=False, header=None)

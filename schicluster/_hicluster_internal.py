@@ -2,9 +2,12 @@ import argparse
 import inspect
 import logging
 import sys
+import os
 from .__main__ import setup_logging
 
 log = logging.getLogger()
+
+os.environ["NUMEXPR_MAX_THREADS"] = "8"
 
 DESCRIPTION = """
 hic-internal is used for automation, not intend to be used by end user. 
@@ -141,7 +144,8 @@ def aggregate_chromosomes_internal_subparser(subparser):
         dest='csr',
         action='store_true')
     parser.set_defaults(csr=False)
-    
+
+
 def calculate_loop_matrix_internal_subparser(subparser):
     parser = subparser.add_parser('calculate-loop-matrix',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -175,7 +179,7 @@ def calculate_loop_matrix_internal_subparser(subparser):
     parser.add_argument(
         "--dist",
         type=int,
-        default=10050000
+        default=5050000
     )
 
     parser.add_argument(
@@ -202,8 +206,20 @@ def calculate_loop_matrix_internal_subparser(subparser):
         default=1e-6
     )
 
-    parser.add_argument('--log_e', dest='log_e', action='store_true',
-                        help='Normalize E at log scale')
+    parser.add_argument(
+        '--shuffle',
+        dest='shuffle',
+        action='store_true',
+        help='Shuffle E for background calculation'
+    )
+    parser.set_defaults(shuffle=False)
+
+    parser.add_argument(
+        '--log_e',
+        dest='log_e',
+        action='store_true',
+        help='Normalize E at log scale'
+    )
     parser.set_defaults(log_e=False)
 
 

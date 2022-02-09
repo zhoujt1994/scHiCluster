@@ -8,6 +8,7 @@ import pandas as pd
 import h5py
 from scipy.sparse import csr_matrix
 
+
 def get_chrom_offsets(bins_df):
     chrom_offset = {chrom: bins_df[bins_df['chrom'] == chrom].index[0]
                     for chrom in bins_df['chrom'].cat.categories}
@@ -65,7 +66,7 @@ def aggregate_chromosomes(chrom_size_path,
                           output_path,
                           chrom_wildcard='{chrom}.hdf',
                           csr=False):
-    chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names = True)
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names=True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 

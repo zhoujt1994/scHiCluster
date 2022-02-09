@@ -49,13 +49,7 @@ def save_single_matrix_type(cooler_path,
     return
 
 
-def make_raw_matrix_cell_table(cell_table_path, resolution_str='10K'):
-    cell_table = pd.read_csv(cell_table_path,
-                             header=None,
-                             sep='\t',
-                             index_col=0,
-                             names=['cell_id', 'cell_url', 'cell_group'])
-
+def make_raw_matrix_cell_table(cell_table, resolution_str='10K'):
     # get all the raw matrix cell url automatically if the dir path is the default
     scool_dirs = cell_table['cell_url'].apply(lambda i: '/'.join(i.split('/')[:-4])).unique()
     cell_urls = {}
