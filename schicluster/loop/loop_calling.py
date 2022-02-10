@@ -21,7 +21,7 @@ def select_loop_candidates(cool_e, min_dist, max_dist, resolution, chrom):
     dist_filter = np.logical_and((loop[1] - loop[0]) > (min_dist / resolution),
                                  (loop[1] - loop[0]) < (max_dist / resolution))
     loop = (loop[0][dist_filter], loop[1][dist_filter])
-    print(dist_filter.sum(), 'loop candidate pixels')
+    print(f'{chrom}\t{dist_filter.sum()} loop candidate pixels')
     return E, loop
 
 
@@ -264,6 +264,23 @@ def call_loops(group_prefix,
 
     # apply all the filters
     total_loops.to_hdf(f'{output_prefix}.totalloop_info.hdf', key='data')
+
+    # filter loops, save bedpe, and get summit
+    filter_loops(total_loops,
+                 output_prefix,
+                 fdr_thres=fdr_thres,
+                 resolution=resolution,
+                 dist_thres=dist_thres,
+                 size_thres=size_thres)
+    return
+
+
+def filter_loops(total_loops,
+                 output_prefix,
+                 fdr_thres,
+                 resolution,
+                 dist_thres,
+                 size_thres):
     loop = total_loops.loc[total_loops['bkfilter']
                            & (total_loops['local_qval'] < fdr_thres)
                            & (total_loops['global_qval'] < fdr_thres)].copy()
@@ -287,19 +304,19 @@ def call_loops(group_prefix,
     print('Finding loop summit.')
     if loop.shape[0] > 0:
         summit = pd.concat([
-            find_summit(loop=sub_df,
-                        res=resolution,
-                        dist_thres=dist_thres // resolution)
+            find_summit(
+                loop=sub_df, res=resolution, dist_thres=dist_thres // resolution)
             for chrom, sub_df in loop.groupby('chrom')
         ],
             axis=0)
         summit = summit[summit['size'] >= size_thres]
-        summit.sort_values(
-            by=['chrom', 'x1', 'y1'])[bedpe_cols + ['size']].to_csv(
+        summit.sort_values(by=['chrom', 'x1', 'y1'])[bedpe_cols + ['size']].to_csv(
             f'{output_prefix}.loop_summit.bedpe',
             sep='\t',
             index=False,
             header=None)
     else:
-        pd.DataFrame([]).to_csv(f'{output_prefix}.loop_summit.bedpe')
+        with open(f'{output_prefix}.loop_summit.bedpe', 'w') as f:
+            f.write(pd.DataFrame([]).to_csv())
     return
+

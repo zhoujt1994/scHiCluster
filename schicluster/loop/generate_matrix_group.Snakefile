@@ -1,5 +1,4 @@
 
-
 import pandas as pd
 import pathlib
 output_dir = pathlib.Path(output_dir).absolute()
@@ -18,77 +17,77 @@ if shuffle:
             expand('{group}/{group}.E2.cool', group=groups),
             expand('{group}/{group}.T.cool', group=groups),
             expand('{group}/{group}.T2.cool', group=groups)
-        #shell:
-        #    'rm -rf *_chunk*'
+        shell:
+            'rm -rf *_chunk*'
 else:
     matrix_types = ['Q', 'E', 'E2', 'T', 'T2']
     rule summary:
         input:
             expand('{group}/{group}.loop_info.hdf', group=groups),
-            expand('{group}/{group}.loop.multires', group=groups),
-            expand('{group}/{group}.loop_summit.multires', group=groups),
-            expand('{group}/{group}.Q.mcool', group=groups)
-        #shell:
-        #    'rm -rf *_chunk*'
+            expand('{group}/{group}.loop.bedpe', group=groups),
+            expand('{group}/{group}.loop_summit.bedpe', group=groups),
+            expand('{group}/{group}.Q.cool', group=groups)
+        shell:
+            'rm -rf *_chunk*'
 
 
 if not shuffle:
-    rule zoomify_loop:
-        input:
-            '{group}/{group}.loop.bedpe'
-        output:
-            '{group}/{group}.loop.multires'
-        threads:
-            1
-        run:
-            # in case there is no loop passing filter
-            try:
-                row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
-                if row_number > 1:
-                    shell('clodius aggregate bedpe ' \
-                          '--chromsizes-filename {chrom_size_path} ' \
-                          '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
-                          '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
-                          '--output-file {output} {input}')
-                else:
-                    print("bedpe is empty!")
-            except pd.errors.EmptyDataError:
-                print("bedpe is empty!")
-                shell('touch {output}')
+    # rule zoomify_loop:
+    #     input:
+    #         '{group}/{group}.loop.bedpe'
+    #     output:
+    #         '{group}/{group}.loop.multires'
+    #     threads:
+    #         1
+    #     run:
+    #         # in case there is no loop passing filter
+    #         try:
+    #             row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
+    #             if row_number > 1:
+    #                 shell('clodius aggregate bedpe ' \
+    #                       '--chromsizes-filename {chrom_size_path} ' \
+    #                       '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
+    #                       '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
+    #                       '--output-file {output} {input}')
+    #             else:
+    #                 print("bedpe is empty!")
+    #         except pd.errors.EmptyDataError:
+    #             print("bedpe is empty!")
+    #             shell('touch {output}')
 
-    rule zoomify_loop_summit:
-        input:
-            '{group}/{group}.loop_summit.bedpe'
-        output:
-            '{group}/{group}.loop_summit.multires'
-        threads:
-            1
-        run:
-            # in case there is no loop passing filter
-            try:
-                row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
-                if row_number > 1:
-                    shell('clodius aggregate bedpe ' \
-                          '--chromsizes-filename {chrom_size_path} ' \
-                          '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
-                          '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
-                          '--output-file {output} {input}')
-                else:
-                    print("bedpe is empty!")
-                    shell('touch {output}')
-            except pd.errors.EmptyDataError:
-                print("bedpe is empty!")
-                shell('touch {output}')
+    # rule zoomify_loop_summit:
+    #     input:
+    #         '{group}/{group}.loop_summit.bedpe'
+    #     output:
+    #         '{group}/{group}.loop_summit.multires'
+    #     threads:
+    #         1
+    #     run:
+    #         # in case there is no loop passing filter
+    #         try:
+    #             row_number = pd.read_csv(f'{input}', sep='\t').shape[0]
+    #             if row_number > 1:
+    #                 shell('clodius aggregate bedpe ' \
+    #                       '--chromsizes-filename {chrom_size_path} ' \
+    #                       '--chr1-col 1 --from1-col 2 --to1-col 3 ' \
+    #                       '--chr2-col 4 --from2-col 5 --to2-col 6 ' \
+    #                       '--output-file {output} {input}')
+    #             else:
+    #                 print("bedpe is empty!")
+    #                 shell('touch {output}')
+    #         except pd.errors.EmptyDataError:
+    #             print("bedpe is empty!")
+    #             shell('touch {output}')
 
-    rule zoomify_q:
-        input:
-            '{group}/{group}.Q.cool'
-        output:
-            '{group}/{group}.Q.mcool'
-        threads:
-            1
-        shell:
-            'cooler zoomify {input}'
+    # rule zoomify_q:
+    #     input:
+    #         '{group}/{group}.Q.cool'
+    #     output:
+    #         '{group}/{group}.Q.mcool'
+    #     threads:
+    #         1
+    #     shell:
+    #         'cooler zoomify {input}'
 
     rule call_loop:
         input:

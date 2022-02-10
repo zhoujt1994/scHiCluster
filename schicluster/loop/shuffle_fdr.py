@@ -133,37 +133,4 @@ def update_fdr_qval(chrom_size_path,
     data.to_hdf(f'{real_group_prefix}.totalloop_info.hdf',
                 key='data',
                 format='table')
-    return
-
-
-def update_qval(chrom_size_path,
-                real_group_prefix,
-                shuffle_group_prefix,
-                res=10000, min_dist=5, max_dist=500):
-    chromsizes = pd.read_csv(chrom_size_path,
-                             sep='\t',
-                             index_col=0,
-                             header=None,
-                             squeeze=True)
-    data = pd.read_hdf(f'{real_group_prefix}.totalloop_info.hdf',
-                       key='data')
-    data['global_fdr'] = 1
-    data['local_fdr'] = 1
-    data = data.loc[((data['distance'] // res) > min_dist) &
-                    ((data['distance'] // res) < max_dist) &
-                    data['bkfilter']]
-    for c in chromsizes.index:
-        tmpfilter = (data['chrom'] == c)
-        tmp = data.loc[tmpfilter, ['x1', 'y1']].values // res
-        coord = (tmp[:, 0], tmp[:, 1])
-        tmp = load_npz(
-            f'{shuffle_group_prefix}_{c}.permutefdrlocal.npz')
-        data.loc[tmpfilter, 'local_fdr'] = tmp[coord].A.ravel()
-        tmp = load_npz(
-            f'{shuffle_group_prefix}_{c}.permutefdrglobal.npz')
-        data.loc[tmpfilter, 'global_fdr'] = tmp[coord].A.ravel()
-    data.loc[(data['global_fdr'] < 0.1) & (data['local_fdr'] < 0.1),
-             ['chrom', 'x1', 'x2', 'chrom', 'y1', 'y2']].to_csv(
-        f'{real_group_prefix}.permuteloop.bedpe', sep='\t',
-        index=False, header=False)
-    return
+    return data

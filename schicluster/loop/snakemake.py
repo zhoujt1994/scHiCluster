@@ -1,7 +1,13 @@
 import pathlib
+import subprocess
+
 import pandas as pd
+import inspect
+
 import schicluster
+from .loop_calling import filter_loops
 from .merge_raw_matrix import make_raw_matrix_cell_table
+from .shuffle_fdr import compute_t, permute_fdr, update_fdr_qval
 
 PACKAGE_DIR = pathlib.Path(schicluster.__path__[0])
 
@@ -54,11 +60,16 @@ def prepare_loop_snakemake(cell_table_path,
                            cpu_per_job=10,
                            log_e=True,
                            shuffle=False,
-                           raw_resolution_str='10K'):
+                           raw_resolution_str=None,
+                           downsample_shuffle=None):
     _cell_table_path = str(cell_table_path)
     sep = '\t' if _cell_table_path.endswith('tsv') else ','
-    cell_table = pd.read_csv(cell_table_path, index_col=0, sep=sep,
+    cell_table = pd.read_csv(cell_table_path, index_col=0, sep=sep, header=None,
                              names=['cell_id', 'cell_url', 'cell_group'])
+    if shuffle and (downsample_shuffle is not None):
+        # for shuffle background, downsample to downsample_shuffle to save time
+        if cell_table.shape[0] > downsample_shuffle:
+            cell_table = cell_table.sample(downsample_shuffle)
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
 
@@ -69,7 +80,7 @@ def prepare_loop_snakemake(cell_table_path,
         raw_resolution = None
     else:
         raise NotImplementedError
-    if raw_resolution is not None:
+    if (raw_resolution is not None) and (not shuffle):
         cell_table_raw = make_raw_matrix_cell_table(cell_table, raw_resolution_str)
         raw_dir = output_dir / 'raw'
         raw_dir.mkdir(exist_ok=True)
@@ -128,7 +139,8 @@ def prepare_loop_snakemake(cell_table_path,
     scool_parameters = dict(
         output_dir=f'"{output_dir}"',
         chrom_size_path=f'"{chrom_size_path}"',
-        resolution=resolution
+        resolution=resolution,
+        shuffle=shuffle
     )
     parameters_str = '\n'.join(f'{k} = {v}'
                                for k, v in scool_parameters.items())
@@ -156,4 +168,118 @@ def check_chunk_dir_finish(output_dir):
     else:
         with open(flag_path, 'w') as _:
             pass
+    return
+
+
+def _run_snakemake(output_dir):
+    output_dir = pathlib.Path(output_dir).absolute()
+    step1 = f'{output_dir}/snakemake_cmd_step1.txt'
+    step2 = f'{output_dir}/snakemake_cmd_step2.txt'
+    subprocess.run(['sh', step1], check=True)
+    subprocess.run(['sh', step2], check=True)
+
+
+def call_loop(cell_table_path,
+              output_dir,
+              chrom_size_path,
+              shuffle=True,
+              chunk_size=200,
+              dist=5050000,
+              cap=5,
+              pad=5,
+              gap=2,
+              resolution=10000,
+              min_cutoff=1e-6,
+              keep_cell_matrix=False,
+              cpu_per_job=10,
+              log_e=True,
+              raw_resolution_str=None,
+              downsample_shuffle=None,
+              black_list_path=None,
+              fdr_pad=7,
+              fdr_min_dist=5,
+              fdr_max_dist=500,
+              fdr_thres=0.1,
+              dist_thres=20000,
+              size_thres=1):
+    if shuffle and (black_list_path is None):
+        raise ValueError('Please provide black_list_path when shuffle=True')
+
+    pathlib.Path(output_dir).mkdir(exist_ok=True)
+
+    # deal with cell table path, if the path has two col, add one group cal internally
+    _cell_table_path = str(cell_table_path)
+    sep = '\t' if _cell_table_path.endswith('tsv') else ','
+    cell_table = pd.read_csv(cell_table_path, index_col=0, sep=sep, header=None)
+    cell_table.index.name = 'cell_id'
+    if cell_table.shape[1] == 1:
+        cell_table.columns = ['cell_url']
+        cell_table['cell_group'] = 'group'
+    elif cell_table.shape[1] == 2:
+        cell_table.columns = ['cell_url', 'cell_group']
+    else:
+        raise ValueError(f'Expect cell_table_path to be '
+                         f'two columns (cell_id, cell_url) or '
+                         f'three columns (cell_id, cell_url, cell_group), '
+                         f'got {cell_table.shape[1]} columns.')
+    cell_table_path = f'{output_dir}/cell_table.csv'
+    cell_table.to_csv(cell_table_path, header=None)
+    groups = cell_table['cell_group'].unique()
+
+    kwargs = locals()
+    shuffle = kwargs.pop('shuffle')
+
+    # prepare snakemake and execute
+    real_dir = None
+    shuffle_dir = None
+    _use_kwargs = {k: v
+                   for k, v in kwargs.items()
+                   if k in inspect.signature(prepare_loop_snakemake).parameters}
+    if shuffle:
+        output_dir = _use_kwargs.pop('output_dir')
+        real_dir = output_dir
+        shuffle_dir = f'{output_dir}/shuffle'
+        pathlib.Path(shuffle_dir).mkdir(exist_ok=True, parents=True)
+        prepare_loop_snakemake(shuffle=False, output_dir=real_dir, **_use_kwargs)
+        prepare_loop_snakemake(shuffle=True, output_dir=shuffle_dir, **_use_kwargs)
+        _run_snakemake(real_dir)
+        _run_snakemake(shuffle_dir)
+    else:
+        # not shuffle, just use normal loop pipeline
+        prepare_loop_snakemake(shuffle=False, **_use_kwargs)
+        output_dir = _use_kwargs.pop('output_dir')
+        _run_snakemake(output_dir)
+
+    # final call loop if shuffle
+    if shuffle:
+        for group in groups:
+            real_group_prefix = f'{real_dir}/{group}/{group}'
+            shuffle_group_prefix = f'{shuffle_dir}/{group}/{group}'
+
+            compute_t(real_group_prefix)
+            compute_t(shuffle_group_prefix)
+
+            permute_fdr(chrom_size_path=chrom_size_path,
+                        black_list_path=black_list_path,
+                        shuffle_group_prefix=shuffle_group_prefix,
+                        real_group_prefix=real_group_prefix,
+                        res=resolution,
+                        pad=fdr_pad,
+                        min_dist=fdr_min_dist,
+                        max_dist=fdr_max_dist)
+
+            total_loops = update_fdr_qval(chrom_size_path,
+                                          real_group_prefix,
+                                          shuffle_group_prefix,
+                                          res=resolution,
+                                          min_dist=fdr_min_dist,
+                                          max_dist=fdr_max_dist)
+
+            # redo filter loops because FDR changed
+            filter_loops(total_loops,
+                         output_prefix=real_group_prefix,
+                         fdr_thres=fdr_thres,
+                         resolution=resolution,
+                         dist_thres=dist_thres,
+                         size_thres=size_thres)
     return
