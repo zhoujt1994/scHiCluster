@@ -201,7 +201,8 @@ def call_loop(cell_table_path,
               fdr_max_dist=500,
               fdr_thres=0.1,
               dist_thres=20000,
-              size_thres=1):
+              size_thres=1,
+              cleanup=True):
     if shuffle and (black_list_path is None):
         raise ValueError('Please provide black_list_path when shuffle=True')
 
@@ -282,4 +283,9 @@ def call_loop(cell_table_path,
                          resolution=resolution,
                          dist_thres=dist_thres,
                          size_thres=size_thres)
+
+    if cleanup:
+        subprocess.run(f'rm -rf {output_dir}/shuffle', shell=True)
+        subprocess.run(f'rm -rf {output_dir}/*/*global.npz', shell=True)
+        subprocess.run(f'rm -rf {output_dir}/*/*local.npz', shell=True)
     return
