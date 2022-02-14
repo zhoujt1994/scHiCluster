@@ -68,7 +68,7 @@ def filter_contacts(contact_path,
 
     chroms = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index
     # remove additional chroms not exist in chrom_size_path
-    contacts = contacts[contacts.iloc[:, chrom1].isin(chroms) & contacts.iloc[:, chrom2].isin(chroms)].copy()
+    contacts = contacts[contacts.iloc[:, chrom1].isin(chroms) | contacts.iloc[:, chrom2].isin(chroms)].copy()
 
     if blacklist_1d_path is not None:
         blacklist_bed_df = pd.read_csv(blacklist_1d_path, sep='\t', index_col=None, header=None)
