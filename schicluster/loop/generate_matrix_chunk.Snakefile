@@ -35,7 +35,7 @@ rule merge_chroms:
     output:
         '{matrix_type}.cool'
     threads:
-        5
+        1
     shell:
         'hic-internal aggregate-chromosomes '
         '--chrom_size_path {chrom_size_path} '
@@ -53,7 +53,7 @@ rule merge_E_O:
         temp('{chrom}.E.hdf'),
         temp('{chrom}.E2.hdf')
     threads:
-        5
+        1
     shell:
         'hic-internal merge-loop-matrix '
         '--output_dir {wildcards.chrom}/ '
@@ -68,7 +68,7 @@ rule merge_T_T2:
         temp('{chrom}.T.hdf'),
         temp('{chrom}.T2.hdf')
     threads:
-        5
+        1
     shell:
         'hic-internal merge-loop-matrix '
         '--output_dir {wildcards.chrom}/ '
@@ -83,7 +83,7 @@ rule merge_Q:
     output:
         temp('{chrom}.Q.hdf')
     threads:
-        5
+        1
     shell:
         'hic-internal merge-cell-impute-matrix '
         '--cell_urls_path {input} '
