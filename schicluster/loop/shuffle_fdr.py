@@ -13,10 +13,11 @@ def _t_score(T, T2, tot):
     return t
 
 
-def compute_t(group_prefix):
+def compute_t(group_prefix, tot=None):
     cool_t = cooler.Cooler(f'{group_prefix}.E.cool')
     cool_t2 = cooler.Cooler(f'{group_prefix}.E2.cool')
-    tot = cool_t.info['group_n_cells']
+    if not tot:
+        tot = cool_t.info['group_n_cells']
     for chrom in cool_t.chromnames:
         T = triu(cool_t.matrix(balance=False, sparse=True).fetch(chrom))
         T2 = triu(cool_t2.matrix(balance=False, sparse=True).fetch(chrom))
@@ -30,7 +31,7 @@ def compute_t(group_prefix):
         T2 = triu(cool_t2.matrix(balance=False, sparse=True).fetch(chrom))
         t = _t_score(T, T2, tot)
         save_npz(f'{group_prefix}_{chrom}.tlocal.npz', t)
-    return
+    return tot
 
 
 def permute_fdr(chrom_size_path,

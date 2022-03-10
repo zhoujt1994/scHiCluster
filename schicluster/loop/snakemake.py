@@ -257,8 +257,8 @@ def call_loop(cell_table_path,
             real_group_prefix = f'{real_dir}/{group}/{group}'
             shuffle_group_prefix = f'{shuffle_dir}/{group}/{group}'
 
-            compute_t(real_group_prefix)
-            compute_t(shuffle_group_prefix)
+            tot = compute_t(real_group_prefix)
+            _ = compute_t(shuffle_group_prefix, tot)
 
             permute_fdr(chrom_size_path=chrom_size_path,
                         black_list_path=black_list_path,
