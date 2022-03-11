@@ -5,12 +5,12 @@ from collections import Counter, defaultdict
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import cooler
-import pandas.errors
-
-from .utilities import get_chrom_offsets
 import pandas as pd
+import pandas.errors
 from cooler import create_scool
+
 from .remove_blacklist import filter_contacts
+from .utilities import get_chrom_offsets
 
 
 def generate_scool_batch_data(cell_path_dict,
@@ -48,8 +48,10 @@ def generate_scool_batch_data(cell_path_dict,
         contacts = contacts[contacts[chr1].isin(chrom_offset)
                             & contacts[chr2].isin(chrom_offset)
                             & (contacts[pos1] > 0)
-                            & (contacts[pos2] > 0)
-                            & (pos_dist > min_pos_dist)]
+                            & (contacts[pos2] > 0)]
+        # apply min_pos_dist filter on cis contact only
+        contacts = contacts[(pos_dist > min_pos_dist) |  # filter all close contact
+                            (contacts[chr1] != contacts[chr2])]  # but keep all trans
 
         # calculate pixel
         bin1_id = contacts[chr1].map(chrom_offset) + (contacts[pos1] - 1) // resolution
