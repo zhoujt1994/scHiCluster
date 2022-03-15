@@ -26,6 +26,8 @@ def prepare_2d_blacklist_dict(blacklist_bedpe, resolution=10000):
         for i in range(row[1], row[2]):
             for j in range(row[4], row[5]):
                 chrom_pair_bad_points[row[0], row[3]].add((i, j))
+                # in case contact is not ordered as blacklist
+                chrom_pair_bad_points[row[3], row[0]].add((j, i))
 
     # return a dict, key is chrom pair
     return chrom_pair_bad_points
