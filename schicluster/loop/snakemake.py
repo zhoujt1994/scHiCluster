@@ -285,7 +285,7 @@ def call_loop(cell_table_path,
                          size_thres=size_thres)
 
     if cleanup:
-        subprocess.run(f'rm -rf {output_dir}/shuffle', shell=True)
+        # subprocess.run(f'rm -rf {output_dir}/shuffle', shell=True)
         subprocess.run(f'rm -rf {output_dir}/*/*global.npz', shell=True)
         subprocess.run(f'rm -rf {output_dir}/*/*local.npz', shell=True)
 
