@@ -62,14 +62,19 @@ def _chrom_sum_iterator(cell_urls,
 
     if add_trans:
         # only iter upper triangle
-        chroms = sorted(chrom_sizes.keys())
+        # chrom order by offset, small to large
+        chroms = [k for k, v in sorted(chrom_offset.items(), key=lambda i: i[1])]
         n_chroms = len(chroms)
         for a in range(n_chroms):
+            chrom1 = chroms[a]
+            chrom1_dfs = []
             for b in range(a, n_chroms):
-                chrom1 = chroms[a]
                 chrom2 = chroms[b]
                 pixel_df = _iter_1d(chrom1, chrom2)
-                yield pixel_df
+                chrom1_dfs.append(pixel_df)
+            chrom1_df = pd.concat(chrom1_dfs).sort_values(by=['bin1_id', 'bin2_id'])
+            print(chrom1)
+            yield chrom1_df
     else:
         for chrom in chrom_sizes.keys():
             pixel_df = _iter_1d(chrom, None)

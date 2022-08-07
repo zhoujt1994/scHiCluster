@@ -70,7 +70,10 @@ def read_single_cool_chrom(cool_path, chrom, chrom2=None):
     if chrom2 is None:
         matrix = triu(selector.fetch(chrom))
     else:
-        matrix = triu(selector.fetch(chrom, chrom2))
+        if chrom == chrom2:
+            matrix = triu(selector.fetch(chrom, chrom2))
+        else:
+            matrix = selector.fetch(chrom, chrom2)
     return matrix
 
 
