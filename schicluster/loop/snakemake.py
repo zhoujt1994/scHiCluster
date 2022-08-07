@@ -328,6 +328,8 @@ def merge_loop(group,
         pathlib.Path(f'{output_dir}/shuffle/{group}').mkdir(exist_ok=True, parents=True)
         for xx in pathlib.Path(f'{group_list[0]}/shuffle/{tmp}').iterdir():
             subprocess.run(f'rsync -arv {group_list[0]}/shuffle/{tmp}/{xx.name} {output_dir}/shuffle/{group}/{xx.name.replace(tmp, group)}', shell=True)
+        with open(f'{output_dir}/Success', 'w') as f:
+            f.write('42')
         return
     
     cell_table = pd.concat([pd.read_csv(f'{xx}/cell_table.tsv', index_col=0, sep='\t', header=None, 
