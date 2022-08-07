@@ -3,6 +3,7 @@ import numpy as np
 import pathlib
 import cooler
 import h5py
+import shutil
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from ..cool import get_chrom_offsets
@@ -187,9 +188,14 @@ def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
         futures = {}
         for cell_group, sub_df in cell_table.groupby('cell_group'):
             cell_urls = sub_df['cell_url'].tolist()
-            cooler_path = str(output_dir / f'{cell_group}.cool')
+            cooler_path = output_dir / f'{cell_group}.cool'
+            if cooler_path.exists():
+                print(f'{cooler_path} already exists, skip.')
+                continue
+
+            cooler_temp_path = str(output_dir / f'{cell_group}.temp.cool')
             future = exe.submit(_save_single_matrix_type,
-                                cooler_path=cooler_path,
+                                cooler_path=cooler_temp_path,
                                 bins_df=bins_df,
                                 cell_urls=cell_urls,
                                 chrom_sizes=chrom_sizes,
@@ -200,4 +206,9 @@ def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
             cell_group = futures[future]
             print(f'Matrix {cell_group} generated')
             future.result()
+
+            # move the temp cool file to the final location
+            cooler_path = str(output_dir / f'{cell_group}.cool')
+            cooler_temp_path = str(output_dir / f'{cell_group}.temp.cool')
+            shutil.move(cooler_temp_path, cooler_path)
     return
