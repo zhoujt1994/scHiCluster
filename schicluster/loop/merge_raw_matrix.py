@@ -74,7 +74,6 @@ def _chrom_sum_iterator(cell_urls,
                 pixel_df = _iter_1d(chrom1, chrom2)
                 chrom1_dfs.append(pixel_df)
             chrom1_df = pd.concat(chrom1_dfs).sort_values(by=['bin1_id', 'bin2_id'])
-            print(chrom1)
             yield chrom1_df
     else:
         for chrom in chrom_sizes.keys():
