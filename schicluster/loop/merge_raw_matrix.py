@@ -102,7 +102,8 @@ def _save_single_matrix_type(cooler_path,
     """
     chrom_iter = _chrom_sum_iterator(cell_urls,
                                      chrom_sizes,
-                                     chrom_offset)
+                                     chrom_offset,
+                                     add_trans=add_trans)
     cooler.create_cooler(cool_uri=cooler_path,
                          bins=bins_df,
                          pixels=chrom_iter,
@@ -151,7 +152,8 @@ def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
     resolution :
         Resolution of the raw matrix.
     cell_table_path :
-        Path to the cell table. This table should contain three columns: cell_id, cell_url, cell_group.
+        Path to the cell table.
+        This table should contain three columns: cell_id, cell_url, cell_group; no Header.
         The cell_id is the id of the cell in the raw matrix.
         The cell_url is the path to the raw matrix.
         The cell_group is the group of the cells.
