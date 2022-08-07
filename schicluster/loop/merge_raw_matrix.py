@@ -3,42 +3,112 @@ import numpy as np
 import pathlib
 import cooler
 import h5py
+import shutil
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 from ..cool import get_chrom_offsets
 from .merge_cell_to_group import read_single_cool_chrom
 
 
-def chrom_sum_iterator(cell_urls,
-                       chrom_sizes,
-                       chrom_offset):
-    for chrom in chrom_sizes.keys():
+def _chrom_sum_iterator(cell_urls,
+                        chrom_sizes,
+                        chrom_offset,
+                        add_trans=False):
+    """
+    Iterate through the raw matrices and chromosomes of cells.
+
+    Parameters
+    ----------
+    cell_urls :
+        List of cell urls.
+    chrom_sizes :
+        Dictionary of chromosome sizes.
+    chrom_offset :
+        Dictionary of chromosome offsets.
+    add_trans :
+        If true, will also iterate all the trans combinations (different chromosomes).
+
+    Yields
+    -------
+    pixel_df :
+        Dataframe of pixels. Used by cooler.create_cooler to save to h5 file.
+    """
+
+    def _iter_1d(_chrom1, _chrom2):
         # sum together multiple chunks
         # first
         cell_url = cell_urls[0]
-        matrix = read_single_cool_chrom(cell_url, chrom)
+        matrix = read_single_cool_chrom(cell_url, chrom=_chrom1, chrom2=_chrom2)
+
         # others
-        for cell_url in cell_urls[1:]:
-            matrix += read_single_cool_chrom(cell_url, chrom)
+        if len(cell_urls) > 1:
+            for cell_url in cell_urls[1:]:
+                matrix += read_single_cool_chrom(cell_url, chrom=_chrom1, chrom2=_chrom2)
 
         matrix = matrix.tocoo()
-        pixel_df = pd.DataFrame({
+        _pixel_df = pd.DataFrame({
             'bin1_id': matrix.row,
             'bin2_id': matrix.col,
             'count': matrix.data
         })
-        pixel_df.iloc[:, :2] += chrom_offset[chrom]
-        yield pixel_df
+        if _chrom2 is None:
+            # both row and col are chrom1
+            _pixel_df.iloc[:, :2] += chrom_offset[_chrom1]
+        else:
+            # row is chrom1, add chrom1 offset
+            _pixel_df.iloc[:, 0] += chrom_offset[_chrom1]
+            # col is chrom2, add chrom2 offset
+            _pixel_df.iloc[:, 1] += chrom_offset[_chrom2]
+        return _pixel_df
+
+    if add_trans:
+        # only iter upper triangle
+        # chrom order by offset, small to large
+        chroms = [k for k, v in sorted(chrom_offset.items(), key=lambda i: i[1])]
+        n_chroms = len(chroms)
+        for a in range(n_chroms):
+            chrom1 = chroms[a]
+            chrom1_dfs = []
+            for b in range(a, n_chroms):
+                chrom2 = chroms[b]
+                pixel_df = _iter_1d(chrom1, chrom2)
+                chrom1_dfs.append(pixel_df)
+            chrom1_df = pd.concat(chrom1_dfs).sort_values(by=['bin1_id', 'bin2_id'])
+            yield chrom1_df
+    else:
+        for chrom in chrom_sizes.keys():
+            pixel_df = _iter_1d(chrom, None)
+            yield pixel_df
 
 
-def save_single_matrix_type(cooler_path,
-                            bins_df,
-                            cell_urls,
-                            chrom_sizes,
-                            chrom_offset):
-    chrom_iter = chrom_sum_iterator(cell_urls,
-                                    chrom_sizes,
-                                    chrom_offset)
+def _save_single_matrix_type(cooler_path,
+                             bins_df,
+                             cell_urls,
+                             chrom_sizes,
+                             chrom_offset,
+                             add_trans=False):
+    """
+    Save a single matrix type Cool file from merging multiple cell urls.
+
+    Parameters
+    ----------
+    cooler_path :
+        Path to the output cool file.
+    bins_df :
+        Dataframe of bins. Created from chromosome sizes and resolution.
+    cell_urls :
+        List of cell urls to merge.
+    chrom_sizes :
+        Dictionary of chromosome sizes.
+    chrom_offset :
+        Dictionary of chromosome offsets.
+    add_trans :
+        Whether add trans matrix also.
+    """
+    chrom_iter = _chrom_sum_iterator(cell_urls,
+                                     chrom_sizes,
+                                     chrom_offset,
+                                     add_trans=add_trans)
     cooler.create_cooler(cool_uri=cooler_path,
                          bins=bins_df,
                          pixels=chrom_iter,
@@ -76,8 +146,30 @@ def make_raw_matrix_cell_table(cell_table, resolution_str='10K'):
 
 
 def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
-                               output_dir, cpu=1):
-    """Sum the raw matrix of cells, no normalization."""
+                               output_dir, add_trans=False, cpu=1):
+    """
+    Sum the raw matrix of cells, no normalization.
+
+    Parameters
+    ----------
+    chrom_size_path :
+        Path to the chrom size file. This file is used to determine chromosome names and bins.
+    resolution :
+        Resolution of the raw matrix.
+    cell_table_path :
+        Path to the cell table.
+        This table should contain three columns: cell_id, cell_url, cell_group; no Header.
+        The cell_id is the id of the cell in the raw matrix.
+        The cell_url is the path to the raw matrix.
+        The cell_group is the group of the cells.
+    output_dir :
+        Path to the output directory. Group cool files will be named as "<output_dir>/<cell_group>.cool".
+    add_trans :
+        Whether add trans matrix also.
+    cpu :
+        Number of CPUs to use.
+
+    """
     # determine chunk dirs for the group:
     output_dir = pathlib.Path(output_dir).absolute()
     output_dir.mkdir(exist_ok=True)
@@ -95,16 +187,27 @@ def merge_raw_scool_by_cluster(chrom_size_path, resolution, cell_table_path,
         futures = {}
         for cell_group, sub_df in cell_table.groupby('cell_group'):
             cell_urls = sub_df['cell_url'].tolist()
-            cooler_path = str(output_dir / f'{cell_group}.cool')
-            future = exe.submit(save_single_matrix_type,
-                                cooler_path=cooler_path,
+            cooler_path = output_dir / f'{cell_group}.cool'
+            if cooler_path.exists():
+                print(f'{cooler_path} already exists, skip.')
+                continue
+
+            cooler_temp_path = str(output_dir / f'{cell_group}.temp.cool')
+            future = exe.submit(_save_single_matrix_type,
+                                cooler_path=cooler_temp_path,
                                 bins_df=bins_df,
                                 cell_urls=cell_urls,
                                 chrom_sizes=chrom_sizes,
-                                chrom_offset=chrom_offset)
+                                chrom_offset=chrom_offset,
+                                add_trans=add_trans)
             futures[future] = cell_group
         for future in as_completed(futures):
             cell_group = futures[future]
             print(f'Matrix {cell_group} generated')
             future.result()
+
+            # move the temp cool file to the final location
+            cooler_path = str(output_dir / f'{cell_group}.cool')
+            cooler_temp_path = str(output_dir / f'{cell_group}.temp.cool')
+            shutil.move(cooler_temp_path, cooler_path)
     return

@@ -1,8 +1,9 @@
 import argparse
 import inspect
 import logging
-import sys
 import os
+import sys
+
 from .__main__ import setup_logging
 
 log = logging.getLogger()
@@ -348,6 +349,14 @@ def merge_raw_scool_internal_subparser(subparser):
         type=int,
         default=1
     )
+
+    parser.add_argument(
+        '--add_trans',
+        dest='add_trans',
+        action='store_true',
+        help='Whether add trans matrix also.'
+    )
+    parser.set_defaults(add_trans=False)
 
 
 def call_loop_internal_subparser(subparser):

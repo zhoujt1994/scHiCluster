@@ -64,9 +64,16 @@ def merge_cells_for_single_chromosome(output_dir,
     return
 
 
-def read_single_cool_chrom(cool_path, chrom):
+def read_single_cool_chrom(cool_path, chrom, chrom2=None):
     cool = cooler.Cooler(str(cool_path))
-    matrix = triu(cool.matrix(balance=False, sparse=True).fetch(chrom))
+    selector = cool.matrix(balance=False, sparse=True)
+    if chrom2 is None:
+        matrix = triu(selector.fetch(chrom))
+    else:
+        if chrom == chrom2:
+            matrix = triu(selector.fetch(chrom, chrom2))
+        else:
+            matrix = selector.fetch(chrom, chrom2)
     return matrix
 
 
