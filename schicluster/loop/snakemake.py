@@ -5,7 +5,7 @@ import pandas as pd
 import inspect
 
 import schicluster
-from .loop_calling import filter_loops
+from .loop_calling import filter_loops, call_loops
 from .merge_raw_matrix import make_raw_matrix_cell_table
 from .shuffle_fdr import compute_t, permute_fdr, update_fdr_qval
 
@@ -292,3 +292,109 @@ def call_loop(cell_table_path,
     with open(f'{output_dir}/Success', 'w') as f:
         f.write('42')
     return
+
+def merge_loop(group,
+               output_dir,
+               chrom_size_path,
+               shuffle=True,
+               chunk_size=200,
+               dist=5050000,
+               cap=5,
+               pad=5,
+               gap=2,
+               resolution=10000,
+               min_cutoff=1e-6,
+               keep_cell_matrix=False,
+               cpu_per_job=10,
+               log_e=True,
+               raw_resolution_str=None,
+               downsample_shuffle=None,
+               black_list_path=None,
+               fdr_pad=7,
+               fdr_min_dist=5,
+               fdr_max_dist=500,
+               fdr_thres=0.1,
+               dist_thres=20000,
+               size_thres=1,
+               cleanup=True):
+
+    group_list = pd.read_csv(f'{output_dir}/group_list.txt', header=None, index_col=None)[0].values
+
+    if len(group_list)==1:
+        tmp = group_list[0].split('/')[-1]
+        pathlib.Path(f'{output_dir}/{group}').mkdir(exist_ok=True, parents=True)
+        for xx in pathlib.Path(f'{group_list[0]}/{tmp}').iterdir():
+            subprocess.run(f'rsync -arv {group_list[0]}/{tmp}/{xx.name} {output_dir}/{group}/{xx.name.replace(tmp, group)}', shell=True)
+        pathlib.Path(f'{output_dir}/shuffle/{group}').mkdir(exist_ok=True, parents=True)
+        for xx in pathlib.Path(f'{group_list[0]}/shuffle/{tmp}').iterdir():
+            subprocess.run(f'rsync -arv {group_list[0]}/shuffle/{tmp}/{xx.name} {output_dir}/shuffle/{group}/{xx.name.replace(tmp, group)}', shell=True)
+        return
+    
+    cell_table = pd.concat([pd.read_csv(f'{xx}/cell_table.tsv', index_col=0, sep='\t', header=None, 
+                                        names=['cell_id', 'cell_url', 'cell_group']) 
+                            for xx in group_list], axis=0)
+    cell_table['cell_group'] = group
+    cell_table.to_csv(f'{output_dir}/cell_table.csv', header=False)
+    kwargs = locals()
+
+    _merge_kwargs = {k: v for k, v in kwargs.items() if k in inspect.signature(merge_group_to_bigger_group_cools).parameters}
+    _merge_kwargs['shuffle'] = False
+#     print(_merge_kwargs)
+    merge_group_to_bigger_group_cools(**_merge_kwargs)
+    
+    _loop_kwargs = {k: v for k, v in kwargs.items() if k in inspect.signature(call_loops).parameters}
+#     print(_loop_kwargs)
+    call_loops(group_prefix=f'{output_dir}/{group}/{group}', output_prefix=f'{output_dir}/{group}/{group}', **_loop_kwargs)
+    
+    # prepare snakemake and execute
+    if shuffle:
+        real_dir = output_dir
+        shuffle_dir = f'{output_dir}/shuffle'
+        pathlib.Path(shuffle_dir).mkdir(exist_ok=True, parents=True)
+        if cell_table.shape[0]>downsample_shuffle:
+            _prep_kwargs = {k: v for k, v in kwargs.items() if k in inspect.signature(prepare_loop_snakemake).parameters}
+            _prep_kwargs['output_dir'] = shuffle_dir
+            prepare_loop_snakemake(cell_table_path=f'{output_dir}/cell_table.csv', **_prep_kwargs)
+            _run_snakemake(shuffle_dir)
+        else:
+            _merge_kwargs['shuffle'] = True
+            _merge_kwargs['output_dir'] = shuffle_dir
+            merge_group_to_bigger_group_cools(**_merge_kwargs)
+            
+        real_group_prefix = f'{real_dir}/{group}/{group}'
+        shuffle_group_prefix = f'{shuffle_dir}/{group}/{group}'
+
+        tot = compute_t(real_group_prefix)
+        _ = compute_t(shuffle_group_prefix, tot)
+
+        permute_fdr(chrom_size_path=chrom_size_path,
+                    black_list_path=black_list_path,
+                    shuffle_group_prefix=shuffle_group_prefix,
+                    real_group_prefix=real_group_prefix,
+                    res=resolution,
+                    pad=fdr_pad,
+                    min_dist=fdr_min_dist,
+                    max_dist=fdr_max_dist)
+
+        total_loops = update_fdr_qval(chrom_size_path,
+                                      real_group_prefix,
+                                      shuffle_group_prefix,
+                                      res=resolution,
+                                      min_dist=fdr_min_dist,
+                                      max_dist=fdr_max_dist)
+
+        # redo filter loops because FDR changed
+        filter_loops(total_loops,
+                     output_prefix=real_group_prefix,
+                     fdr_thres=fdr_thres,
+                     resolution=resolution,
+                     dist_thres=dist_thres,
+                     size_thres=size_thres)
+
+    if cleanup:
+        subprocess.run(f'rm -rf {output_dir}/*/*.npz', shell=True)
+        subprocess.run(f'rm -rf {output_dir}/shuffle/*/*.npz', shell=True)
+
+    with open(f'{output_dir}/Success', 'w') as f:
+        f.write('42')
+
