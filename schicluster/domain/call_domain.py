@@ -46,8 +46,8 @@ def domain_df_to_boundary(cool, total_results, resolution):
 
 def single_chrom_calculate_insulation_score(matrix, window_size=10):
     w = window_size
-    # score = np.ones(matrix.shape[0])
-    score = np.ones((matrix.shape[0], 2))
+    score = np.ones(matrix.shape[0])
+    # score = np.ones((matrix.shape[0], 2))
     for i in range(1, matrix.shape[0]):
         if i < w:
             intra = (matrix[:i, :i].sum() +
@@ -58,8 +58,8 @@ def single_chrom_calculate_insulation_score(matrix, window_size=10):
             intra = (matrix[(i - w):i, (i - w):i].sum() +
                      matrix[i:(i + w), i:(i + w)].sum()) / (w * (w + 1))
             inter = matrix[(i - w):i, i:(i + w)].sum() / (w * w)
-        # score[i] = inter / (inter + intra)
-        score[i] = [inter, intra]
+        score[i] = inter / (inter + intra)
+        # score[i] = [inter, intra]
     return score
 
 
@@ -131,23 +131,23 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path):
         insulation_path = f'{temp_dir}/{cell_id}.insulation.npz'
         total_insulation.append(np.load(insulation_path)['arr_0'][None,:])
     total_insulation = np.concatenate(total_insulation, axis=0)
-    # total_insulation = pd.DataFrame(total_insulation,
-    #                                 index=cell_table.index,
-    #                                 columns=bins.index)
-    # total_insulation.index.name = 'cell'
-    # total_insulation.columns.name = 'bin'
-    # total_insulation = xr.DataArray(total_insulation)
-    # total_insulation.coords['bin_chrom'] = bins['chrom']
-    # total_insulation.coords['bin_start'] = bins['start']
-    # total_insulation.coords['bin_end'] = bins['end']
-    total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
-                                    coords={'cell':('cell', cell_table.index), 
-                                            'bin':('bin', bins.index), 
-                                            'type':('type', ['inter','intra']),
-                                            'bin_chrom':('bin', bins['chrom']), 
-                                            'bin_start':('bin', bins['start']),
-                                            'bin_end':('bin', bins['end']) 
-                                    })
+    total_insulation = pd.DataFrame(total_insulation,
+                                    index=cell_table.index,
+                                    columns=bins.index)
+    total_insulation.index.name = 'cell'
+    total_insulation.columns.name = 'bin'
+    total_insulation = xr.DataArray(total_insulation)
+    total_insulation.coords['bin_chrom'] = bins['chrom']
+    total_insulation.coords['bin_start'] = bins['start']
+    total_insulation.coords['bin_end'] = bins['end']
+#     total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
+#                                     coords={'cell':('cell', cell_table.index), 
+#                                             'bin':('bin', bins.index), 
+#                                             'type':('type', ['inter','intra']),
+#                                             'bin_chrom':('bin', bins['chrom']), 
+#                                             'bin_start':('bin', bins['start']),
+#                                             'bin_end':('bin', bins['end']) 
+#                                     })
     total_insulation.to_netcdf(output_path)
     return
 
