@@ -133,7 +133,7 @@ def prepare_loop_snakemake(cell_table_path,
     with open(output_dir / 'snakemake_cmd_step1.txt', 'w') as f:
         f.write(merge_raw_cmd + '\n')
         for chunk_dir in total_chunk_dirs:
-            cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}/Snakefile -j {cpu_per_job}'
+            cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}/Snakefile -j {cpu_per_job} --scheduler greedy'
             f.write(cmd + '\n')
 
     # prepare the second step that merge cell chunks into groups
@@ -148,7 +148,7 @@ def prepare_loop_snakemake(cell_table_path,
     with open(output_dir / 'Snakefile', 'w') as f:
         f.write(parameters_str + GENERATE_MATRIX_SCOOL_TEMPLATE)
     with open(output_dir / 'snakemake_cmd_step2.txt', 'w') as f:
-        cmd = f'snakemake -d {output_dir} --snakefile {output_dir}/Snakefile -j {cpu_per_job}'
+        cmd = f'snakemake -d {output_dir} --snakefile {output_dir}/Snakefile -j {cpu_per_job} --scheduler greedy'
         f.write(cmd + '\n')
     return
 
