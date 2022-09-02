@@ -142,7 +142,7 @@ if shuffle:
             '--resolution {resolution} '
             '--group {wildcards.group} '
             '--output_dir {output_dir} '
-            '--merge-group-chunks E E2 T T2'
+            '--matrix_types E E2 T T2'
 else:
     rule merge_chunks:
         input:
@@ -162,4 +162,4 @@ else:
             '--resolution {resolution} '
             '--group {wildcards.group} '
             '--output_dir {output_dir} '
-            '--merge-group-chunks E E2 T T2 Q'
+            '--matrix_types E E2 T T2 Q'
