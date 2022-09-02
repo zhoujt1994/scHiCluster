@@ -17,8 +17,10 @@ chromnames = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0, sq
 # cleanup script
 cleanup_cmd = 'rm -rf ' + ' '.join(chromnames)
 
-matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
-
+if shuffle_str == '--shuffle':
+    matrix_types = ['E', 'E2', 'T', 'T2']
+else:
+    matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
 
 # summary
 rule summary:
