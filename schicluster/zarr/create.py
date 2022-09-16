@@ -14,7 +14,7 @@ SMALL_SAMPLE_CHUNK = 1
 COMPRESSOR_C_LEVEL = 3
 
 
-class _CoolDSSingleMatrixWriter:
+class CoolDSSingleMatrixWriter:
     def __init__(self,
                  path,
                  cool_table_path,
@@ -411,16 +411,16 @@ def generate_cool_ds(output_dir,
             else:
                 path = output_dir / f'{chrom1}-{chrom2}'
 
-            _CoolDSSingleMatrixWriter(path,
-                                      cool_table_path=cool_table_path,
-                                      value_types=value_types,
-                                      chrom_sizes_path=chrom_sizes_path,
-                                      chrom1=chrom1,
-                                      chrom2=chrom2,
-                                      mode=mode,
-                                      cooler_bin_size=cooler_bin_size,
-                                      bin_chunk_size=bin_chunk_size,
-                                      sample_chunk_size=sample_chunk_size,
-                                      data_dtype=data_dtype,
-                                      cpu=cpu)
+            CoolDSSingleMatrixWriter(path,
+                                     cool_table_path=cool_table_path,
+                                     value_types=value_types,
+                                     chrom_sizes_path=chrom_sizes_path,
+                                     chrom1=chrom1,
+                                     chrom2=chrom2,
+                                     mode=mode,
+                                     cooler_bin_size=cooler_bin_size,
+                                     bin_chunk_size=bin_chunk_size,
+                                     sample_chunk_size=sample_chunk_size,
+                                     data_dtype=data_dtype,
+                                     cpu=cpu)
     return
