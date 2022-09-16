@@ -8,8 +8,10 @@ import pandas as pd
 import xarray as xr
 import zarr
 from cooler.util import read_chromsizes, binnify
+from numcodecs import Blosc
 
-SMALL_SAMPLE_CHUNK = 10
+SMALL_SAMPLE_CHUNK = 1
+COMPRESSOR_C_LEVEL = 3
 
 
 class _CoolDSSingleMatrixWriter:
@@ -23,9 +25,39 @@ class _CoolDSSingleMatrixWriter:
                  mode='w',
                  cooler_bin_size=10000,
                  bin_chunk_size=510,
-                 sample_chunk_size=500,
+                 sample_chunk_size=50,
                  data_dtype='float32',
                  cpu=1):
+        """
+        Write a single chrom1-by-chrom2 matrix to CoolDS zarr.
+
+        Parameters
+        ----------
+        path :
+            Path to the zarr dir.
+        cool_table_path :
+            Path to the cool table.
+        value_types :
+            Dict of cool types and their value types.
+        chrom_sizes_path :
+            Path to the chrom sizes file.
+        chrom1 :
+            Chrom1 name.
+        chrom2 :
+            Chrom2 name. If None, chrom1 will be used.
+        mode :
+            Mode to open the zarr.
+        cooler_bin_size :
+            Cooler bin size.
+        bin_chunk_size :
+            Chunk size of the bin1 and bin2 dimensions.
+        sample_chunk_size :
+            Chunk size of the sample dimension.
+        data_dtype :
+            Data type of the matrix.
+        cpu :
+            Number of CPUs to use.
+        """
         self.path = path
         self.root = zarr.open(path, mode=mode)
         self.log_dir_path = None
@@ -84,7 +116,7 @@ class _CoolDSSingleMatrixWriter:
         sample_ids = pd.Index(set(sample_ids))
         cool_tables = {}
         for cool_type, table in _cool_tables.items():
-            assert table.index.size == sample_ids.size, 'sample id not consitant between cool types'
+            assert table.index.size == sample_ids.size, 'sample id not consistent between cool types'
             cool_tables[cool_type] = table.loc[sample_ids].copy()
 
         return cool_tables, sample_ids
@@ -127,6 +159,11 @@ class _CoolDSSingleMatrixWriter:
         sample_id[:] = list(self.sample_ids)
         sample_id.attrs["_ARRAY_DIMENSIONS"] = "sample_id"
 
+        # change compressor
+        # according to https://zarr.readthedocs.io/en/stable/tutorial.html#compressors
+        # and my test, zstd has 1.6x compression ratio compared to default blosc lz4
+        compressor = Blosc(cname='zstd', clevel=COMPRESSOR_C_LEVEL, shuffle=Blosc.SHUFFLE)
+
         # create empty da
         for cool_type, value_type_list in self.value_types.items():
             # value type index
@@ -145,6 +182,7 @@ class _CoolDSSingleMatrixWriter:
                 shape=(self.chrom1_n_bins, self.chrom2_n_bins, self.n_sample, n_value_type),
                 chunks=(self.bin_chunk_size, self.bin_chunk_size, self.sample_chunk_size, 1),
                 dtype=self.data_dtype,
+                compressor=compressor
             )
             z.attrs["_ARRAY_DIMENSIONS"] = ["bin1", "bin2", "sample_id", value_dim]
 
@@ -317,3 +355,72 @@ class _CoolDSSingleMatrixWriter:
         self._init_zarr()
         self._write_data()
         return
+
+
+def generate_cool_ds(output_dir,
+                     cool_table_path,
+                     value_types,
+                     chrom_sizes_path,
+                     trans_matrix=False,
+                     mode='w',
+                     cooler_bin_size=10000,
+                     bin_chunk_size=510,
+                     sample_chunk_size=50,
+                     data_dtype='float32',
+                     cpu=1):
+    """
+    Generate a CoolDS zarr dataset from cool files.
+
+    Parameters
+    ----------
+    output_dir :
+        The output directory.
+    cool_table_path :
+        The path to the cool table.
+    value_types :
+        Dict of cool types and their value types.
+    chrom_sizes_path :
+        Path to the chrom sizes file.
+    trans_matrix :
+        Whether generate trans-contacts (chrom1 != chrom2) matrix
+    mode :
+        Mode to open the zarr.
+    cooler_bin_size :
+        Cooler bin size.
+    bin_chunk_size :
+        Chunk size of the bin1 and bin2 dimensions.
+    sample_chunk_size :
+        Chunk size of the sample dimension.
+    data_dtype :
+        Data type of the matrix.
+    cpu :
+        Number of CPUs to use.
+    """
+    output_dir = pathlib.Path(output_dir).absolute().resolve()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    chrom_sizes = read_chromsizes(chrom_sizes_path)
+
+    for chrom1 in chrom_sizes.index:
+        for chrom2 in chrom_sizes.index:
+            if not trans_matrix:
+                if chrom1 != chrom2:
+                    continue
+            if chrom1 == chrom2:
+                path = output_dir / chrom1
+            else:
+                path = output_dir / f'{chrom1}-{chrom2}'
+
+            _CoolDSSingleMatrixWriter(path,
+                                      cool_table_path=cool_table_path,
+                                      value_types=value_types,
+                                      chrom_sizes_path=chrom_sizes_path,
+                                      chrom1=chrom1,
+                                      chrom2=chrom2,
+                                      mode=mode,
+                                      cooler_bin_size=cooler_bin_size,
+                                      bin_chunk_size=bin_chunk_size,
+                                      sample_chunk_size=sample_chunk_size,
+                                      data_dtype=data_dtype,
+                                      cpu=cpu)
+    return
