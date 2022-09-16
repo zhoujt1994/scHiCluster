@@ -14,7 +14,7 @@ setup(
     url='https://github.com/zhoujt1994/scHiCluster',
     include_package_data=True,
     install_requires=['numpy', 'scipy', 'scikit-learn', 'h5py', 'joblib', 'clodius',
-                      'tables', 'cooler', 'pandas', 'statsmodels', 'rpy2', 'anndata', 'xarray'],
+                      'tables', 'cooler', 'pandas', 'statsmodels', 'rpy2', 'anndata', 'xarray', 'zarr', 'numcodecs'],
     package_data={
         '': ['*.txt', '*.tsv', '*.csv', '*.fa', '*Snakefile', '*ipynb', '*R']
     },
