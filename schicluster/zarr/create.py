@@ -159,11 +159,6 @@ class CoolDSSingleMatrixWriter:
         sample_id[:] = list(self.sample_ids)
         sample_id.attrs["_ARRAY_DIMENSIONS"] = "sample_id"
 
-        # change compressor
-        # according to https://zarr.readthedocs.io/en/stable/tutorial.html#compressors
-        # and my test, zstd has 1.6x compression ratio compared to default blosc lz4
-        compressor = Blosc(cname='zstd', clevel=COMPRESSOR_C_LEVEL, shuffle=Blosc.SHUFFLE)
-
         # create empty da
         for cool_type, value_type_list in self.value_types.items():
             # value type index
@@ -181,8 +176,7 @@ class CoolDSSingleMatrixWriter:
                 cool_type,
                 shape=(self.chrom1_n_bins, self.chrom2_n_bins, self.n_sample, n_value_type),
                 chunks=(self.bin_chunk_size, self.bin_chunk_size, self.sample_chunk_size, 1),
-                dtype=self.data_dtype,
-                compressor=compressor
+                dtype=self.data_dtype
             )
             z.attrs["_ARRAY_DIMENSIONS"] = ["bin1", "bin2", "sample_id", value_dim]
 
@@ -396,6 +390,12 @@ def generate_cool_ds(output_dir,
     cpu :
         Number of CPUs to use.
     """
+    # change compressor
+    # according to https://zarr.readthedocs.io/en/stable/tutorial.html#compressors
+    # and my test, zstd has 1.6x compression ratio compared to default blosc lz4
+    compressor = Blosc(cname='zstd', clevel=COMPRESSOR_C_LEVEL, shuffle=Blosc.SHUFFLE)
+    zarr.storage.default_compressor = compressor
+
     output_dir = pathlib.Path(output_dir).absolute().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
