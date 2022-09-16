@@ -1,5 +1,6 @@
 import pathlib
 import shutil
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 import cooler
 import numpy as np
@@ -182,20 +183,34 @@ class _CoolDSSingleMatrixWriter:
         return
 
     def _save_small_sample_chunks(self):
-        temp_zarr_records = []
-        for cool_type, cool_table in self.cool_tables.items():
-            for value_type, sample_cool_path in cool_table.items():
-                for chunk_start in range(0, self.n_sample, SMALL_SAMPLE_CHUNK):
-                    sample_chunk = self.sample_ids[chunk_start:chunk_start + SMALL_SAMPLE_CHUNK]
-                    cool_paths = sample_cool_path.loc[sample_chunk]
-                    output_path = f'{self.chrom1}_{self.chrom2}_{cool_type}_{value_type}_{chunk_start}_temp.zarr'
-                    self._save_cool_to_temp_zarr(
-                        cool_paths=cool_paths,
-                        output_path=output_path,
-                        cool_type=cool_type,
-                        value_type=value_type
-                    )
+        with ProcessPoolExecutor(self.n_cpu) as executor:
+            futures = {}
+            for cool_type, cool_table in self.cool_tables.items():
+                for value_type, sample_cool_path in cool_table.items():
+                    for chunk_start in range(0, self.n_sample, SMALL_SAMPLE_CHUNK):
+                        sample_chunk = self.sample_ids[chunk_start:chunk_start + SMALL_SAMPLE_CHUNK]
+                        cool_paths = sample_cool_path.loc[sample_chunk]
+                        output_path = f'{self.chrom1}_{self.chrom2}_{cool_type}_{value_type}_{chunk_start}_temp.zarr'
+                        future = executor.submit(self._save_cool_to_temp_zarr,
+                                                 cool_paths=cool_paths,
+                                                 output_path=output_path,
+                                                 cool_type=cool_type,
+                                                 value_type=value_type
+                                                 )
+                        futures[future] = [cool_type, value_type, chunk_start, output_path]
+
+            temp_zarr_records = []
+            for future in as_completed(futures):
+                cool_type, value_type, chunk_start, output_path = futures[future]
+                try:
+                    future.result()
+                except Exception as exc:
+                    print(f"Cool type {cool_type} value_type {value_type} "
+                          f"chunk_start {chunk_start} generated an exception: {exc}")
+                    raise exc
+                else:
                     temp_zarr_records.append([cool_type, value_type, chunk_start, output_path])
+
         temp_zarr_records = pd.DataFrame(temp_zarr_records, columns=['cool_type',
                                                                      'value_type',
                                                                      'chunk_start',
@@ -220,25 +235,39 @@ class _CoolDSSingleMatrixWriter:
         zarr_da[bin1_slice, bin2_slice, sample_id_slice, value_idx] = _data
         return
 
-    def _save_single_bin_chunk(self, zarr_path, ds_paths, cool_type, value_idx):
-        ds = xr.open_mfdataset(ds_paths, concat_dim='sample_id', combine='nested', engine='zarr')
-        bin1_idx = ds.get_index('bin1')
-        bin2_idx = ds.get_index('bin2')
-        sample_id_idx = ds.get_index('sample_id')
+    def _save_single_bin_chunk(self, zarr_path, path_array, cool_type):
+        with ProcessPoolExecutor(self.n_cpu) as executor:
+            futures = {}
+            for value_idx, (_, paths) in enumerate(path_array.items()):
+                ds = xr.open_mfdataset(paths, concat_dim='sample_id', combine='nested', engine='zarr')
+                bin1_idx = ds.get_index('bin1')
+                bin2_idx = ds.get_index('bin2')
+                sample_id_idx = ds.get_index('sample_id')
+                for bin1_start in range(0, bin1_idx.size, self.bin_chunk_size):
+                    for bin2_start in range(0, bin2_idx.size, self.bin_chunk_size):
+                        for sample_id_start in range(0, sample_id_idx.size, self.sample_chunk_size):
+                            bin1_slice = slice(bin1_start, bin1_start + self.bin_chunk_size)
+                            bin2_slice = slice(bin2_start, bin2_start + self.bin_chunk_size)
+                            sample_id_slice = slice(sample_id_start, sample_id_start + self.sample_chunk_size)
+                            future = executor.submit(self._save_single_bin_chunk_worker,
+                                                     ds_paths=paths.tolist(),
+                                                     zarr_path=zarr_path,
+                                                     cool_type=cool_type,
+                                                     bin1_slice=bin1_slice,
+                                                     bin2_slice=bin2_slice,
+                                                     sample_id_slice=sample_id_slice,
+                                                     value_idx=value_idx)
+                            futures[future] = (bin1_start, bin2_start, sample_id_start)
 
-        for bin1_start in range(0, bin1_idx.size, self.bin_chunk_size):
-            for bin2_start in range(0, bin2_idx.size, self.bin_chunk_size):
-                for sample_id_start in range(0, sample_id_idx.size, self.sample_chunk_size):
-                    bin1_slice = slice(bin1_start, bin1_start + self.bin_chunk_size)
-                    bin2_slice = slice(bin2_start, bin2_start + self.bin_chunk_size)
-                    sample_id_slice = slice(sample_id_start, sample_id_start + self.sample_chunk_size)
-                    self._save_single_bin_chunk_worker(ds_paths=ds_paths,
-                                                       zarr_path=zarr_path,
-                                                       cool_type=cool_type,
-                                                       bin1_slice=bin1_slice,
-                                                       bin2_slice=bin2_slice,
-                                                       sample_id_slice=sample_id_slice,
-                                                       value_idx=value_idx)
+            for future in as_completed(futures):
+                bin1_start, bin2_start, sample_id_start = futures[future]
+                try:
+                    future.result()
+                except Exception as e:
+                    print(f'Got error when saving bin1 {bin1_start} to {bin1_start + self.bin_chunk_size} '
+                          f'bin2 {bin2_start} to {bin2_start + self.bin_chunk_size} '
+                          f'sample_id {sample_id_start} to {sample_id_start + self.sample_chunk_size}')
+                    raise e
         return
 
     def _save_small_sample_chunks_ds_to_final_zarr(self, temp_zarr_records):
@@ -248,12 +277,10 @@ class _CoolDSSingleMatrixWriter:
                 index='chunk_start', columns='value_type', values='output_path'
             ).sort_index()[self.value_types[cool_type]]
 
-            for value_idx, (_, paths) in enumerate(path_array.items()):
-                zarr_path = f'{self.path}/{cool_type}/'
-                self._save_single_bin_chunk(zarr_path=zarr_path,
-                                            ds_paths=paths.tolist(),
-                                            cool_type=cool_type,
-                                            value_idx=value_idx)
+            zarr_path = f'{self.path}/{cool_type}/'
+            self._save_single_bin_chunk(zarr_path=zarr_path,
+                                        path_array=path_array,
+                                        cool_type=cool_type)
         return
 
     def _write_data(self):
