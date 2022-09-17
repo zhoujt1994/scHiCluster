@@ -190,7 +190,7 @@ class CoolDSSingleMatrixWriter:
         success_flag.touch()
         return
 
-    def _save_cool_to_temp_zarr(self, cool_paths, output_path, cool_type, value_type):
+    def _save_cool_to_temp_zarr(self, cool_paths, output_path, cool_type, value_type, triu):
         da_list = []
         for sample, cool_path in cool_paths.items():
             cool = cooler.Cooler(cool_path)
@@ -198,7 +198,8 @@ class CoolDSSingleMatrixWriter:
             assert matrix.shape == (self.chrom1_n_bins, self.chrom2_n_bins)
 
             # keep only the upper triangle of the matrix
-            matrix = np.triu(matrix)
+            if triu:
+                matrix = np.triu(matrix)
 
             # da.dims {'bin1': n_bins, 'bin2': n_bins, 'sample_id': 1, 'value_type': 1}
             da = xr.DataArray(matrix, dims=['bin1', 'bin2']).chunk({
@@ -223,12 +224,17 @@ class CoolDSSingleMatrixWriter:
                         sample_chunk = self.sample_ids[chunk_start:chunk_start + SMALL_SAMPLE_CHUNK]
                         cool_paths = sample_cool_path.loc[sample_chunk]
                         output_path = f'{self.chrom1}_{self.chrom2}_{cool_type}_{value_type}_{chunk_start}_temp.zarr'
+                        if self.chrom2 is None or self.chrom1 == self.chrom2:
+                            # save upper triangle only if matrix is cis contacts
+                            triu = True
+                        else:
+                            triu = False
                         future = executor.submit(self._save_cool_to_temp_zarr,
                                                  cool_paths=cool_paths,
                                                  output_path=output_path,
                                                  cool_type=cool_type,
-                                                 value_type=value_type
-                                                 )
+                                                 value_type=value_type,
+                                                 triu=triu)
                         futures[future] = [cool_type, value_type, chunk_start, output_path]
 
             temp_zarr_records = []
