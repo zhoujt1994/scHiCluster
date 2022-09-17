@@ -9,6 +9,7 @@ import pandas as pd
 import h5py
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
+
 def chrom_ave_iterator(chunk_dirs,
                        chrom_sizes,
                        chrom_offset,

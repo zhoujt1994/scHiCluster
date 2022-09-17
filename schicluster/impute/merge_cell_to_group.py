@@ -20,7 +20,8 @@ def read_chrom(cell_url, chrom):
 
 def merge_cells_for_single_chromosome(cell_urls_path,
                                       chrom,
-                                      output_prefix):
+                                      output_prefix,
+                                      square=False):
     cell_table = pd.read_csv(cell_urls_path, index_col=0)
     cell_urls = cell_table['cell_url'].tolist()
     n_cells = len(cell_urls)
@@ -33,7 +34,10 @@ def merge_cells_for_single_chromosome(cell_urls_path,
     # initialize
     matrix_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
     for i, path in enumerate(cell_urls):
-        matrix_sum += read_chrom(path, chrom)
+        data = read_chrom(path, chrom)
+        if square:
+            data = data.multiply(data)
+        matrix_sum += data
     # we do not normalize by total cell numbers here, instead, normalize it in merge_group_chunks_to_group_cools
     # NO matrix_sum.data /= n_cells
     write_coo(f'{output_prefix}.Q.hdf', matrix_sum, chunk_size=None)
