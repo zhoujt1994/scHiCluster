@@ -60,13 +60,9 @@ def init_empty_loop_array(
         coords={"sample_id": sample_idx, f"{da_name}_value_type": value_types},
     )
     loop_idx = empty_loop_array.get_index("loop")
-    empty_loop_ds = xr.Dataset(
-        {
-            da_name: empty_loop_array,
-            "loop_bin1_id": pd.Series(loop_x, index=loop_idx),
-            "loop_bin2_id": pd.Series(loop_y, index=loop_idx),
-        }
-    )
+    empty_loop_ds = xr.Dataset({da_name: empty_loop_array})
+    empty_loop_ds.coords['loop_bin1_id'] = pd.Series(loop_x, index=loop_idx)
+    empty_loop_ds.coords['loop_bin2_id'] = pd.Series(loop_y, index=loop_idx)
     empty_loop_ds.to_zarr(f"{output_path}/{chrom}", mode="w")
     return
 

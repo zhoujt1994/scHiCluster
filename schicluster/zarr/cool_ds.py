@@ -268,6 +268,7 @@ class CoolDSSingleMatrixWriter:
         # ds only contains one value type
         _data = ds[cool_type][bin1_slice, bin2_slice, sample_id_slice, 0].load()
         if (_data != 0).sum() == 0:
+            # TODO this can be improved, as many bins are empty, but _data.load() still takes significant time
             return
 
         zarr_da[bin1_slice, bin2_slice, sample_id_slice, value_idx] = _data
