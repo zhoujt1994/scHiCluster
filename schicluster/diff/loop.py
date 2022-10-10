@@ -77,12 +77,12 @@ def merge_groups(loop_ds, group_map, da_name, group_dim='sample_id', group_n_dim
     -------
     A loop dataset with merged groups.
     """
+    cell_count = loop_ds.coords[group_n_dim].to_pandas()
     loop_ds[da_name] = loop_ds[da_name] * loop_ds.coords[group_n_dim]
 
     loop_ds['_sample_group'] = group_map
     loop_ds = loop_ds.groupby('_sample_group').sum(dim=group_dim)
 
-    cell_count = loop_ds.coords[group_n_dim].to_pandas()
     sample_group_count = cell_count.groupby(group_map).sum()
     sample_group_count.index.name = '_sample_group'
     loop_ds.coords[group_n_dim] = sample_group_count

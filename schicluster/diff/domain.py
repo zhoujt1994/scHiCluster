@@ -8,7 +8,8 @@ def diff_bound(boundary_count, group_n):
     pv = np.ones(boundary_count.shape[1])
     bin_filter = np.logical_and(
         boundary_count.sum(axis=0) > 0,
-        no_boundary.sum(axis=0) > 0)
+        no_boundary.sum(axis=0) > 0
+    )
 
     for i in range(boundary_count.shape[1]):
         if bin_filter[i]:
