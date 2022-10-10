@@ -36,7 +36,7 @@ class CoolDSSingleMatrixWriter:
         path :
             Path to the zarr dir.
         cool_table_path :
-            Path to the cool table.
+            Path to the cool table with four columns: sample, value_type, path, cool_type
         value_types :
             Dict of cool types and their value types.
         chrom_sizes_path :
@@ -377,7 +377,7 @@ def generate_cool_ds(output_dir,
     output_dir :
         The output directory.
     cool_table_path :
-        The path to the cool table.
+        Path to the cool table with four columns: sample, value_type, path, cool_type
     value_types :
         Dict of cool types and their value types.
     chrom_sizes_path :
