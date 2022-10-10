@@ -131,14 +131,21 @@ def save_sample_chunk(
 
 
 def create_loop_ds(
-        cool_ds_paths, loop_position_ds_path, output_path, da_name, chroms, value_types, min_loop_count=1
+        cool_ds_paths,
+        loop_position_ds_path,
+        output_path,
+        da_name,
+        chroms,
+        value_types,
+        min_loop_count=1,
+        loop_chunk_size=50000
 ):
     pathlib.Path(output_path).mkdir(exist_ok=True, parents=True)
     value_types = pd.Index(value_types)
 
     futures = []
     for chrom in chroms:
-        print(f'Init {chrom}')
+        print(f'Init {chrom} empty zarr dataset')
         ds = load_cool_ds_chrom(cool_ds_paths, chrom)
         loop_ds = xr.open_zarr(f"{loop_position_ds_path}/{chrom}/")
         loop_mask = loop_ds["loop"] >= min_loop_count
@@ -149,13 +156,15 @@ def create_loop_ds(
             da_name=da_name,
             output_path=output_path,
             chrom=chrom,
+            loop_chunk_size=loop_chunk_size
         )
 
+        # save sample chunks in parallel
         sample_idx = ds.get_index("sample_id")
         *_, sample_chunk_size, _ = ds[da_name].encoding["chunks"]
-
         for sample_start in range(0, sample_idx.size, sample_chunk_size):
             sample_chunk = sample_idx[sample_start: sample_start + sample_chunk_size]
+            # noinspection PyArgumentList
             future = save_sample_chunk.remote(
                 output_path=output_path,
                 cool_ds_paths=cool_ds_paths,
