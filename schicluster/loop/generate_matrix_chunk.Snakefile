@@ -83,7 +83,7 @@ rule merge_Q_Q2:
     input:
         cell_table_path
     output:
-        temp('{chrom}.Q.hdf')
+        temp('{chrom}.Q.hdf'),
         temp('{chrom}.Q2.hdf')
     threads:
         1
