@@ -70,7 +70,7 @@ def merge_group_to_bigger_group_cools(chrom_size_path,
                                       output_dir,
                                       group_list,
                                       shuffle,
-                                      matrix_types=('E', 'E2', 'T', 'T2', 'Q')):
+                                      matrix_types=('E', 'E2', 'T', 'T2', 'Q', 'Q2')):
     """
     Sum all the chunk sum cool files,
     and finally divide the total number of cells to

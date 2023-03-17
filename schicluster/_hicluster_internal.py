@@ -51,7 +51,8 @@ def impute_chromosome_internal_subparser(subparser):
     parser.add_argument(
         '--logscale',
         dest='logscale',
-        action='store_true')
+        action='store_true'
+    )
     parser.set_defaults(logscale=False)
 
     parser.add_argument(
@@ -247,7 +248,14 @@ def merge_cell_impute_matrix_internal_subparser(subparser):
         type=str,
         required=True
     )
-    return
+
+    parser.add_argument(
+        '--square',
+        dest='square',
+        action='store_true',
+        help='Compute Q2 if true'
+    )
+    parser.set_defaults(square=False)
 
 
 def merge_cell_loop_bkg_internal_subparser(subparser):
@@ -309,7 +317,7 @@ def merge_group_chunks_internal_subparser(subparser):
         "--matrix_types",
         type=str,
         nargs='+',
-        default=['E', 'E2', 'T', 'T2', 'Q'],
+        default=['E', 'E2', 'T', 'T2', 'Q', 'Q2'],
         required=False
     )
 

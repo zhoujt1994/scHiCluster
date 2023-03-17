@@ -20,7 +20,7 @@ cleanup_cmd = 'rm -rf ' + ' '.join(chromnames)
 if shuffle_str == '--shuffle':
     matrix_types = ['E', 'E2', 'T', 'T2']
 else:
-    matrix_types = ['E', 'E2', 'T', 'T2', 'Q']
+    matrix_types = ['E', 'E2', 'T', 'T2', 'Q', 'Q2']
 
 # summary
 rule summary:
@@ -47,8 +47,8 @@ rule merge_chroms:
         '--chrom_wildcard "{{chrom}}.{wildcards.matrix_type}.hdf"'
 
 
-# merge cells' E matrix (npz) to group E and O matrix (coo stored in pd.HDFStore)
-rule merge_E_O:
+# merge cells' E matrix (npz) to group E and E2 matrix (coo stored in pd.HDFStore)
+rule merge_E_E2:
     input:
         expand('{chrom}/{cell_id}.E.npz', chrom=chromnames, cell_id=cell_ids)
     output:
@@ -79,18 +79,20 @@ rule merge_T_T2:
 
 
 # merge cells' Q matrix (imputed, before normalization, scool) to group Q matrix (coo stored in pd.HDFStore)
-rule merge_Q:
+rule merge_Q_Q2:
     input:
         cell_table_path
     output:
         temp('{chrom}.Q.hdf')
+        temp('{chrom}.Q2.hdf')
     threads:
         1
     shell:
         'hic-internal merge-cell-impute-matrix '
         '--cell_urls_path {input} '
         '--chrom {wildcards.chrom} '
-        '--output_prefix {wildcards.chrom}'
+        '--output_prefix {wildcards.chrom} '
+        '--square'
 
 # Impute each chromosome of each cell
 if keep_cell_matrix:

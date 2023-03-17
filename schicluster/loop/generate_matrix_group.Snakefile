@@ -20,7 +20,7 @@ if shuffle:
         shell:
             'rm -rf *_chunk*'
 else:
-    matrix_types = ['Q', 'E', 'E2', 'T', 'T2']
+    matrix_types = ['Q', 'Q2', 'E', 'E2', 'T', 'T2']
     rule summary:
         input:
             expand('{group}/{group}.loop_info.hdf', group=groups),
@@ -135,7 +135,7 @@ if shuffle:
             '{group}/{group}.T.cool',
             '{group}/{group}.T2.cool'
         threads:
-            5
+            4
         shell:
             'hic-internal merge-group-chunks '
             '--chrom_size_path {chrom_size_path} '
@@ -150,16 +150,17 @@ else:
             input_flag
         output:
             '{group}/{group}.Q.cool',
+            '{group}/{group}.Q2.cool',
             '{group}/{group}.E.cool',
             '{group}/{group}.E2.cool',
             '{group}/{group}.T.cool',
             '{group}/{group}.T2.cool'
         threads:
-            5
+            6
         shell:
             'hic-internal merge-group-chunks '
             '--chrom_size_path {chrom_size_path} '
             '--resolution {resolution} '
             '--group {wildcards.group} '
             '--output_dir {output_dir} '
-            '--matrix_types E E2 T T2 Q'
+            '--matrix_types E E2 T T2 Q Q2'
