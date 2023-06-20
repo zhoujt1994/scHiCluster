@@ -35,7 +35,7 @@ def domain_df_to_boundary(cool, total_results, resolution):
     bins = cool.bins()[:]
     chrom_offset = get_chrom_offsets(bins)
     use_results = total_results[total_results['name'] == 'domain']
-    bin_loc = use_results.iloc[:, [1, 2]] // resolution
+    bin_loc = use_results.iloc[:, [1, 2]].astype(int) // resolution
     bin_loc += use_results['chrom'].map(chrom_offset).values[:, None]
     bin_loc_data = np.zeros(bins.shape[0], dtype=np.int16)
     bin_loc_data[bin_loc['chromStart']] += 1
@@ -91,7 +91,9 @@ def call_domain_and_insulation(cell_url,
             pass
         else:
             try:
-                total_domain_results.append(run_top_dom(matrix, bins))
+                tmp = run_top_dom(matrix, bins).T
+                tmp[0] = chrom
+                total_domain_results.append(tmp)
             except RRuntimeError:
                 print('Got R error at', cell_url, chrom, matrix.shape, matrix.data.size, bins.shape)
         total_insulation_score.append(
@@ -101,6 +103,7 @@ def call_domain_and_insulation(cell_url,
     else:
         total_domain_results = pd.concat(total_domain_results).reset_index(
             drop=True)
+        total_domain_results.columns = ['chrom', 'chromStart', 'chromEnd', 'name']
     domain_boundary = domain_df_to_boundary(cool, total_domain_results,
                                             resolution)
     insulation_score = np.concatenate(total_insulation_score, axis=0)
