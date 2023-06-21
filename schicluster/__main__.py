@@ -611,6 +611,28 @@ def embedding_register_subparser(subparser):
                         help='')
     parser.set_defaults(save_raw=False)
 
+def gene_score_register_subparser(subparser):
+    parser = subparser.add_parser('gene-score',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--cell_table', type=str, default=None, 
+                            help='Full path to cell cool table')
+    parser_req.add_argument('--gene_meta', type=str, default=None, 
+                            help='Full path to bed file with region id')
+    parser_req.add_argument('--res', type=int, default=10000, 
+                            help='Resolution of cool file')
+    parser_req.add_argument('--output_hdf', type=str, default=None, 
+                            help='Full path to output file')
+    parser_req.add_argument('--chrom_size', type=str, default=None, 
+                            help='Chromsome size file with only chromosomes to use')
+    parser.add_argument('--cpu', type=int, default=10, 
+                        help='CPUs to use')
+    parser.add_argument('--slop', type=int, default=0, 
+                        help='gene slop distance on both sides')
+    parser.add_argument('--mode', type=str, default='impute', 
+                        help='raw or impute')
 
 def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION,
@@ -689,6 +711,8 @@ def main():
         from .compartment import get_cpg_profile as func
     elif cur_command in ['embedding']:
         from .embedding import embedding as func
+    elif cur_command in ['gene-score']:
+        from .draft.gene_score import gene_score as func
     else:
         log.debug(f'{cur_command} is not an valid sub-command')
         parser.parse_args(["-h"])
