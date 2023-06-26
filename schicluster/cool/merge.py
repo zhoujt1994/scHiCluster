@@ -24,9 +24,9 @@ def merge_cell_raw(cell_table, chrom_size_path, output_file, resolution=5000, ch
     chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
-    cell_list = pd.read_csv(cell_table, sep='\t', index_col=0)
+    cell_list = pd.read_csv(cell_table, sep='\t', index_col=0, header=None, squeeze=True)
     data = csr_matrix((bins_df.shape[0], bins_df.shape[0]))
-    for xx in cell_list.index:
+    for xx in cell_list.values:
         data += load_cell_csv_to_csr(xx, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist)
 
     data = data.tocoo()
