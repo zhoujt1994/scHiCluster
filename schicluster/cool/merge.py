@@ -7,7 +7,7 @@ from scipy.sparse import csr_matrix
 from schicluster.cool.utilities import get_chrom_offsets
 
 def load_cell_csv_to_csr(cell_path, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist):
-    contacts = pd.read_csv(cell_path, header=None, index_col=None, sep='\t')[[chr1, pos1, chr2, pos2]]
+    contacts = pd.read_csv(cell_path, header=None, index_col=None, sep='\t', comment='#')[[chr1, pos1, chr2, pos2]]
     contacts = contacts[contacts[chr1].isin(chrom_offset) & contacts[chr2].isin(chrom_offset)]
     pos_dist = (contacts[pos1] - contacts[pos2]).abs()
     contacts = contacts[(pos_dist > min_pos_dist) |  (contacts[chr1] != contacts[chr2])]
