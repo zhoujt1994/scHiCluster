@@ -634,6 +634,26 @@ def gene_score_register_subparser(subparser):
     parser.add_argument('--mode', type=str, default='impute', 
                         help='raw or impute')
 
+def merge_cell_raw_register_subparser(subparser):
+    parser = subparser.add_parser('merge-cell-raw',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--cell_table', type=str, default=None, 
+                            help='Full path to cell cool table')
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+                            help='Chromsome size file with only chromosomes to use')
+    parser_req.add_argument('--output_file', type=str, default=None, 
+                            help='Full path to output file')
+    parser.add_argument('--res', type=int, default=5000, help='Resolution of cool file')
+    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
+    parser.add_argument('--min_pos_dist', type=int, default=2500,
+                        help='Minimum distance for a fragment to be considered.')
+
 def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION,
                                      epilog=EPILOG,
@@ -713,6 +733,8 @@ def main():
         from .embedding import embedding as func
     elif cur_command in ['gene-score']:
         from .draft.gene_score import gene_score as func
+    elif cur_command in ['merge-cell-raw']:
+        from .cool.merge import merge_cell_raw as func
     else:
         log.debug(f'{cur_command} is not an valid sub-command')
         parser.parse_args(["-h"])
