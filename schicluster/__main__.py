@@ -646,7 +646,7 @@ def merge_cell_raw_register_subparser(subparser):
                             help='Chromsome size file with only chromosomes to use')
     parser_req.add_argument('--output_file', type=str, default=None, 
                             help='Full path to output file')
-    parser.add_argument('--res', type=int, default=5000, help='Resolution of cool file')
+    parser.add_argument('--resolution', type=int, default=5000, help='Resolution of cool file')
     parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
     parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
     parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
