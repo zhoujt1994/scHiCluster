@@ -7,7 +7,7 @@ from scipy.sparse import csr_matrix
 from schicluster.cool.utilities import get_chrom_offsets
 
 def load_cell_csv_to_csr(cell_path, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist):
-    contacts = pd.read_csv(cell_path, header=None, index_col=None, sep='\t', comment='#')[[chr1, pos1, chr2, pos2]]
+    contacts = pd.read_csv(cell_path, header=None, index_col=None, sep='\t', comment='#', usecols=[chr1, pos1, chr2, pos2])
     contacts = contacts[contacts[chr1].isin(chrom_offset) & contacts[chr2].isin(chrom_offset)]
     pos_dist = (contacts[pos1] - contacts[pos2]).abs()
     contacts = contacts[(pos_dist > min_pos_dist) |  (contacts[chr1] != contacts[chr2])]
@@ -26,8 +26,9 @@ def merge_cell_raw(cell_table, chrom_size_path, output_file, resolution=5000, ch
     chrom_offset = get_chrom_offsets(bins_df)
     cell_list = pd.read_csv(cell_table, sep='\t', index_col=0, header=None, squeeze=True)
     data = csr_matrix((bins_df.shape[0], bins_df.shape[0]))
-    for xx in cell_list.values:
+    for xx,yy in zip(cell_list.values, cell_list.index):
         data += load_cell_csv_to_csr(xx, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist)
+        print(yy)
 
     data = data.tocoo()
     data = pd.DataFrame(np.array([data.row, data.col, data.data], dtype=int).T, columns=['bin1_id', 'bin2_id', 'count'])
