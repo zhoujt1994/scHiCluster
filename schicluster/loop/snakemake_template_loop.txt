@@ -1,3 +1,4 @@
+
 from schicluster.loop import call_loop
 
 rule call_loop:
@@ -16,7 +17,7 @@ rule call_loop:
             cap=5,
             pad=5,
             gap=2,
-            resolution=10000,
+            resolution=resolution,
             min_cutoff=1e-06,
             keep_cell_matrix=False,
             cpu_per_job=cpu,
