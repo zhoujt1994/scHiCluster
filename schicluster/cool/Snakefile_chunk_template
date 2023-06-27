@@ -1,0 +1,59 @@
+
+# prepare variables
+import pandas as pd
+import pathlib
+import cooler
+
+cell_table = pd.read_csv(cell_table_path, index_col=0)
+cell_ids = cell_table.index.tolist()
+n_cells = len(cell_ids)
+cell_id_to_url = cell_table['cell_url'].to_dict()
+
+# get chromosomes
+cool = cooler.Cooler(cell_table['cell_url'][0])
+# instead of using cool.chromnames, using chrom_size_path chrom
+chromnames = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0, squeeze=True).to_dict()
+
+# cleanup script
+cleanup_cmd = 'rm -rf ' + ' '.join(chromnames)
+
+matrix_types = ['Q']
+
+# summary
+rule summary:
+    input:
+        expand('{matrix_type}.cool', matrix_type=matrix_types)
+    shell:
+        cleanup_cmd + ' && touch finish'
+
+
+# merge chromosomes into a single cool file
+rule merge_chroms:
+    input:
+        expand('{chrom}.{{matrix_type}}.hdf', chrom=chromnames)
+    output:
+        '{matrix_type}.cool'
+    threads:
+        1
+    shell:
+        'hic-internal aggregate-chromosomes '
+        '--chrom_size_path {chrom_size_path} '
+        '--resolution {resolution} '
+        '--input_dir ./ '
+        '--output_path {output} '
+        '--chrom_wildcard "{{chrom}}.{wildcards.matrix_type}.hdf"'
+
+# merge cells' Q matrix (imputed, before normalization, scool) to group Q matrix (coo stored in pd.HDFStore)
+rule merge_Q:
+    input:
+        cell_table_path
+    output:
+        temp('{chrom}.Q.hdf')
+    threads:
+        1
+    shell:
+        'hic-internal merge-cell-impute-matrix '
+        '--cell_urls_path {input} '
+        '--chrom {wildcards.chrom} '
+        '--output_prefix {wildcards.chrom}'
+

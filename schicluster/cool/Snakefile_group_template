@@ -1,0 +1,32 @@
+
+import pandas as pd
+import pathlib
+output_dir = pathlib.Path(output_dir).absolute()
+groups = set([p.name.split('_chunk')[0] for p in output_dir.glob('*_chunk*') if p.is_dir()])
+
+
+# check if all the chunks completed
+# from schicluster.loop.snakemake import check_chunk_dir_finish
+# check_chunk_dir_finish(output_dir)
+
+rule summary:
+    input:
+        expand('{group}/{group}.Q.cool', group=groups)
+    shell:
+        'echo 0'
+        #'rm -rf *_chunk*'
+
+input_flag = f'{output_dir}/chunk_finished'
+rule merge_chunks:
+    output:
+        '{group}/{group}.Q.cool',
+    threads:
+        1
+    shell:
+        'hic-internal merge-group-chunks '
+        '--chrom_size_path {chrom_size_path} '
+        '--resolution {resolution} '
+        '--group {wildcards.group} '
+        '--output_dir {output_dir} '
+        '--matrix_types Q'
+
