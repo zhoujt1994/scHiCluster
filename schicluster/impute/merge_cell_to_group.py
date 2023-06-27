@@ -22,8 +22,8 @@ def merge_cells_for_single_chromosome(cell_urls_path,
                                       chrom,
                                       output_prefix,
                                       square=False):
-    cell_table = pd.read_csv(cell_urls_path, index_col=0)
-    cell_urls = cell_table['cell_url'].tolist()
+    cell_urls = pd.read_csv(cell_urls_path, index_col=0, header=None)[1].tolist()
+    # cell_urls = cell_table['cell_url']
     n_cells = len(cell_urls)
     # get n_dims
     matrix = read_chrom(cell_urls[0], chrom)

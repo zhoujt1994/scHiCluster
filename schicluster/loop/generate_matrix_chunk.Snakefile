@@ -4,13 +4,13 @@ import pandas as pd
 import pathlib
 import cooler
 
-cell_table = pd.read_csv(cell_table_path, index_col=0)
+cell_table = pd.read_csv(cell_table_path, index_col=0, header=None)[1]
 cell_ids = cell_table.index.tolist()
 n_cells = len(cell_ids)
-cell_id_to_url = cell_table['cell_url'].to_dict()
+cell_id_to_url = cell_table.to_dict()
 
 # get chromosomes
-cool = cooler.Cooler(cell_table['cell_url'][0])
+cool = cooler.Cooler(cell_table[0])
 # instead of using cool.chromnames, using chrom_size_path chrom
 chromnames = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0, squeeze=True).to_dict()
 
