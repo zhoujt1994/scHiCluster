@@ -1,0 +1,2858 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Correlation between loop and other modalities &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-codeautolink.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hba/loop_majortype/04.corr';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Plot correlation between loop and mC/ATAC/RNA" href="05.plot.html" />
+    <link rel="prev" title="Aggregate peak analysis of differential loops" href="03.apa.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    scHiCluster
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="intro.html">Differential loops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/03.diff.html">Differential boundary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../correlation_summary.html">Correlation Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/loop_majortype/04.corr.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/hba/loop_majortype/04.corr.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Correlation between loop and other modalities</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-mc">Load Loop mC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcg">mCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mch">mCH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atac">ATAC</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="correlation-between-loop-and-other-modalities">
+<h1>Correlation between loop and other modalities<a class="headerlink" href="#correlation-between-loop-and-other-modalities" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">triu</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span><span class="p">,</span> <span class="n">zscore</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">from</span> <span class="nn">ALLCools.mcds</span> <span class="kn">import</span> <span class="n">MCDS</span>
+<span class="kn">from</span> <span class="nn">ALLCools.mcds.utilities</span> <span class="kn">import</span> <span class="n">calculate_posterior_mc_frac</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Helvetica&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L23_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT_Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L56_NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_ET&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5_LHX6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb_ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD7&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;MSN_D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN_D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">,</span> <span class="s1">&#39;SubCtx&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">,</span> <span class="s1">&#39;MGC&#39;</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">,</span> <span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;VLMC&#39;</span>
+      <span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L2/3-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-IT-Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L5/6-NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;L5-ET&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy-Exc&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5-Lhx6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb-ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;Chd7&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;MSN-D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN-D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">,</span> <span class="s1">&#39;SubCtx-Cplx&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">,</span> <span class="s1">&#39;MGC&#39;</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">,</span> <span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;VLMC&#39;</span>
+      <span class="p">]</span>
+<span class="n">leg2name</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leg</span><span class="p">,</span> <span class="n">legname</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;exc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L23_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT_Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L56_NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;inh&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5_LHX6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb_ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD7&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;msn&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MSN_D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN_D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;sub&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;SubCtx&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;glia&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;mgc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MGC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;smc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;endo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;fibro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;VLMC&#39;</span><span class="p">],</span>
+      <span class="p">}</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">&#39;neu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;exc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;inh&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;msn&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;sub&#39;</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;neu&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;glia&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;mgc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;smc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;endo&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;fibro&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span> <span class="o">=</span> <span class="s1">&#39;neu&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">group_name</span><span class="p">])</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">leg2name</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">10000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/&#39;</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">hg38_with_chrl.main.chrom.sizes&#39;</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">loopall</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>Qanova</th>
+      <th>Eanova</th>
+      <th>Tanova</th>
+      <th>mCG_corr</th>
+      <th>mCH_corr</th>
+      <th>ATAC_corr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr1</td>
+      <td>900000</td>
+      <td>910000</td>
+      <td>chr1</td>
+      <td>960000</td>
+      <td>970000</td>
+      <td>3.750881</td>
+      <td>6.097476</td>
+      <td>2.068213</td>
+      <td>0.031954</td>
+      <td>0.094070</td>
+      <td>0.253426</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr1</td>
+      <td>900000</td>
+      <td>910000</td>
+      <td>chr1</td>
+      <td>970000</td>
+      <td>980000</td>
+      <td>3.322128</td>
+      <td>6.001146</td>
+      <td>2.007495</td>
+      <td>-0.090257</td>
+      <td>0.070470</td>
+      <td>0.265731</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>970000</td>
+      <td>980000</td>
+      <td>3.293559</td>
+      <td>5.439024</td>
+      <td>2.229271</td>
+      <td>-0.018746</td>
+      <td>-0.044665</td>
+      <td>0.376666</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>980000</td>
+      <td>990000</td>
+      <td>2.704021</td>
+      <td>5.648575</td>
+      <td>2.289167</td>
+      <td>-0.105304</td>
+      <td>-0.060823</td>
+      <td>0.306052</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>990000</td>
+      <td>1000000</td>
+      <td>2.819877</td>
+      <td>5.675182</td>
+      <td>1.669268</td>
+      <td>-0.354732</td>
+      <td>-0.320624</td>
+      <td>0.051738</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2873610</th>
+      <td>chr22</td>
+      <td>50570000</td>
+      <td>50580000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>1.646674</td>
+      <td>11.822375</td>
+      <td>1.625390</td>
+      <td>0.009941</td>
+      <td>-0.277535</td>
+      <td>0.078601</td>
+    </tr>
+    <tr>
+      <th>2873611</th>
+      <td>chr22</td>
+      <td>50580000</td>
+      <td>50590000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>2.256175</td>
+      <td>11.555016</td>
+      <td>1.335000</td>
+      <td>-0.049832</td>
+      <td>-0.312835</td>
+      <td>0.082439</td>
+    </tr>
+    <tr>
+      <th>2873612</th>
+      <td>chr22</td>
+      <td>50590000</td>
+      <td>50600000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>3.531459</td>
+      <td>11.165133</td>
+      <td>1.195543</td>
+      <td>0.075519</td>
+      <td>-0.135215</td>
+      <td>0.085896</td>
+    </tr>
+    <tr>
+      <th>2873613</th>
+      <td>chr22</td>
+      <td>50600000</td>
+      <td>50610000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>4.896728</td>
+      <td>11.926161</td>
+      <td>2.028210</td>
+      <td>0.152859</td>
+      <td>-0.214300</td>
+      <td>0.119297</td>
+    </tr>
+    <tr>
+      <th>2873614</th>
+      <td>chr22</td>
+      <td>50610000</td>
+      <td>50620000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>5.475712</td>
+      <td>13.031472</td>
+      <td>3.153314</td>
+      <td>-0.041111</td>
+      <td>-0.198155</td>
+      <td>0.250070</td>
+    </tr>
+  </tbody>
+</table>
+<p>2873615 rows × 12 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_Q.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">loopt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_T.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="load-loop-mc">
+<h2>Load Loop mC<a class="headerlink" href="#load-loop-mc" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">idx1</span> <span class="o">=</span> <span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">idx2</span> <span class="o">=</span> <span class="n">loopall</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mcds</span> <span class="o">=</span> <span class="n">MCDS</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;/data/hba/mc_majortype/MajorType.mcds&#39;</span><span class="p">,</span> <span class="n">var_dim</span><span class="o">=</span><span class="s1">&#39;chrom5k&#39;</span><span class="p">)</span>
+<span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_chrom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_start&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="mi">10000</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">mcds</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<symbol id="icon-database" viewBox="0 0 32 32">
+<path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
+<path d="M16 17c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+<path d="M16 26c-8.837 0-16-2.239-16-5v6c0 2.761 7.163 5 16 5s16-2.239 16-5v-6c0 2.761-7.163 5-16 5z"></path>
+</symbol>
+<symbol id="icon-file-text2" viewBox="0 0 32 32">
+<path d="M28.681 7.159c-0.694-0.947-1.662-2.053-2.724-3.116s-2.169-2.030-3.116-2.724c-1.612-1.182-2.393-1.319-2.841-1.319h-15.5c-1.378 0-2.5 1.121-2.5 2.5v27c0 1.378 1.122 2.5 2.5 2.5h23c1.378 0 2.5-1.122 2.5-2.5v-19.5c0-0.448-0.137-1.23-1.319-2.841zM24.543 5.457c0.959 0.959 1.712 1.825 2.268 2.543h-4.811v-4.811c0.718 0.556 1.584 1.309 2.543 2.268zM28 29.5c0 0.271-0.229 0.5-0.5 0.5h-23c-0.271 0-0.5-0.229-0.5-0.5v-27c0-0.271 0.229-0.5 0.5-0.5 0 0 15.499-0 15.5 0v7c0 0.552 0.448 1 1 1h7v19.5z"></path>
+<path d="M23 26h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 22h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+<path d="M23 18h-14c-0.552 0-1-0.448-1-1s0.448-1 1-1h14c0.552 0 1 0.448 1 1s-0.448 1-1 1z"></path>
+</symbol>
+</defs>
+</svg>
+<style>/* CSS stylesheet for displaying xarray objects in jupyterlab.
+ *
+ */
+
+:root {
+  --xr-font-color0: var(--jp-content-font-color0, rgba(0, 0, 0, 1));
+  --xr-font-color2: var(--jp-content-font-color2, rgba(0, 0, 0, 0.54));
+  --xr-font-color3: var(--jp-content-font-color3, rgba(0, 0, 0, 0.38));
+  --xr-border-color: var(--jp-border-color2, #e0e0e0);
+  --xr-disabled-color: var(--jp-layout-color3, #bdbdbd);
+  --xr-background-color: var(--jp-layout-color0, white);
+  --xr-background-color-row-even: var(--jp-layout-color1, white);
+  --xr-background-color-row-odd: var(--jp-layout-color2, #eeeeee);
+}
+
+html[theme=dark],
+body.vscode-dark {
+  --xr-font-color0: rgba(255, 255, 255, 1);
+  --xr-font-color2: rgba(255, 255, 255, 0.54);
+  --xr-font-color3: rgba(255, 255, 255, 0.38);
+  --xr-border-color: #1F1F1F;
+  --xr-disabled-color: #515151;
+  --xr-background-color: #111111;
+  --xr-background-color-row-even: #111111;
+  --xr-background-color-row-odd: #313131;
+}
+
+.xr-wrap {
+  display: block !important;
+  min-width: 300px;
+  max-width: 700px;
+}
+
+.xr-text-repr-fallback {
+  /* fallback to plain text repr when CSS is not injected (untrusted notebook) */
+  display: none;
+}
+
+.xr-header {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  margin-bottom: 4px;
+  border-bottom: solid 1px var(--xr-border-color);
+}
+
+.xr-header > div,
+.xr-header > ul {
+  display: inline;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.xr-obj-type,
+.xr-array-name {
+  margin-left: 2px;
+  margin-right: 10px;
+}
+
+.xr-obj-type {
+  color: var(--xr-font-color2);
+}
+
+.xr-sections {
+  padding-left: 0 !important;
+  display: grid;
+  grid-template-columns: 150px auto auto 1fr 20px 20px;
+}
+
+.xr-section-item {
+  display: contents;
+}
+
+.xr-section-item input {
+  display: none;
+}
+
+.xr-section-item input + label {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-item input:enabled + label {
+  cursor: pointer;
+  color: var(--xr-font-color2);
+}
+
+.xr-section-item input:enabled + label:hover {
+  color: var(--xr-font-color0);
+}
+
+.xr-section-summary {
+  grid-column: 1;
+  color: var(--xr-font-color2);
+  font-weight: 500;
+}
+
+.xr-section-summary > span {
+  display: inline-block;
+  padding-left: 0.5em;
+}
+
+.xr-section-summary-in:disabled + label {
+  color: var(--xr-font-color2);
+}
+
+.xr-section-summary-in + label:before {
+  display: inline-block;
+  content: '►';
+  font-size: 11px;
+  width: 15px;
+  text-align: center;
+}
+
+.xr-section-summary-in:disabled + label:before {
+  color: var(--xr-disabled-color);
+}
+
+.xr-section-summary-in:checked + label:before {
+  content: '▼';
+}
+
+.xr-section-summary-in:checked + label > span {
+  display: none;
+}
+
+.xr-section-summary,
+.xr-section-inline-details {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.xr-section-inline-details {
+  grid-column: 2 / -1;
+}
+
+.xr-section-details {
+  display: none;
+  grid-column: 1 / -1;
+  margin-bottom: 5px;
+}
+
+.xr-section-summary-in:checked ~ .xr-section-details {
+  display: contents;
+}
+
+.xr-array-wrap {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 20px auto;
+}
+
+.xr-array-wrap > label {
+  grid-column: 1;
+  vertical-align: top;
+}
+
+.xr-preview {
+  color: var(--xr-font-color3);
+}
+
+.xr-array-preview,
+.xr-array-data {
+  padding: 0 5px !important;
+  grid-column: 2;
+}
+
+.xr-array-data,
+.xr-array-in:checked ~ .xr-array-preview {
+  display: none;
+}
+
+.xr-array-in:checked ~ .xr-array-data,
+.xr-array-preview {
+  display: inline-block;
+}
+
+.xr-dim-list {
+  display: inline-block !important;
+  list-style: none;
+  padding: 0 !important;
+  margin: 0;
+}
+
+.xr-dim-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+.xr-dim-list:before {
+  content: '(';
+}
+
+.xr-dim-list:after {
+  content: ')';
+}
+
+.xr-dim-list li:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+.xr-has-index {
+  font-weight: bold;
+}
+
+.xr-var-list,
+.xr-var-item {
+  display: contents;
+}
+
+.xr-var-item > div,
+.xr-var-item label,
+.xr-var-item > .xr-var-name span {
+  background-color: var(--xr-background-color-row-even);
+  margin-bottom: 0;
+}
+
+.xr-var-item > .xr-var-name:hover span {
+  padding-right: 5px;
+}
+
+.xr-var-list > li:nth-child(odd) > div,
+.xr-var-list > li:nth-child(odd) > label,
+.xr-var-list > li:nth-child(odd) > .xr-var-name span {
+  background-color: var(--xr-background-color-row-odd);
+}
+
+.xr-var-name {
+  grid-column: 1;
+}
+
+.xr-var-dims {
+  grid-column: 2;
+}
+
+.xr-var-dtype {
+  grid-column: 3;
+  text-align: right;
+  color: var(--xr-font-color2);
+}
+
+.xr-var-preview {
+  grid-column: 4;
+}
+
+.xr-var-name,
+.xr-var-dims,
+.xr-var-dtype,
+.xr-preview,
+.xr-attrs dt {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+
+.xr-var-name:hover,
+.xr-var-dims:hover,
+.xr-var-dtype:hover,
+.xr-attrs dt:hover {
+  overflow: visible;
+  width: auto;
+  z-index: 1;
+}
+
+.xr-var-attrs,
+.xr-var-data {
+  display: none;
+  background-color: var(--xr-background-color) !important;
+  padding-bottom: 5px !important;
+}
+
+.xr-var-attrs-in:checked ~ .xr-var-attrs,
+.xr-var-data-in:checked ~ .xr-var-data {
+  display: block;
+}
+
+.xr-var-data > table {
+  float: right;
+}
+
+.xr-var-name span,
+.xr-var-data,
+.xr-attrs {
+  padding-left: 25px !important;
+}
+
+.xr-attrs,
+.xr-var-attrs,
+.xr-var-data {
+  grid-column: 1 / -1;
+}
+
+dl.xr-attrs {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 125px auto;
+}
+
+.xr-attrs dt,
+.xr-attrs dd {
+  padding: 0;
+  margin: 0;
+  float: left;
+  padding-right: 10px;
+  width: auto;
+}
+
+.xr-attrs dt {
+  font-weight: normal;
+  grid-column: 1;
+}
+
+.xr-attrs dt:hover span {
+  display: inline-block;
+  background: var(--xr-background-color);
+  padding-right: 10px;
+}
+
+.xr-attrs dd {
+  grid-column: 2;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.xr-icon-database,
+.xr-icon-file-text2 {
+  display: inline-block;
+  vertical-align: middle;
+  width: 1em;
+  height: 1.5em !important;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
+</style><pre class='xr-text-repr-fallback'>&lt;xarray.MCDS&gt;
+Dimensions:        (cell: 40, chrom5k: 617669, count_type: 2, mc_type: 2)
+Coordinates:
+  * cell           (cell) &lt;U10 &#x27;Amy&#x27; &#x27;ASC&#x27; &#x27;CA1&#x27; &#x27;CA2&#x27; ... &#x27;THM_MB&#x27; &#x27;Vip&#x27; &#x27;VLMC&#x27;
+  * chrom5k        (chrom5k) object &#x27;chr1_0&#x27; &#x27;chr1_1&#x27; ... &#x27;chrY_11445&#x27;
+    chrom5k_chrom  (chrom5k) &lt;U5 &#x27;chr1&#x27; &#x27;chr1&#x27; &#x27;chr1&#x27; ... &#x27;chrY&#x27; &#x27;chrY&#x27; &#x27;chrY&#x27;
+    chrom5k_end    (chrom5k) int64 5000 10000 15000 ... 57225000 57227415
+    chrom5k_start  (chrom5k) int64 0 5000 10000 ... 57215000 57220000 57225000
+  * count_type     (count_type) &lt;U3 &#x27;mc&#x27; &#x27;cov&#x27;
+  * mc_type        (mc_type) &lt;U3 &#x27;CGN&#x27; &#x27;CHN&#x27;
+Data variables:
+    chrom5k_da     (cell, chrom5k, mc_type, count_type) uint32 dask.array&lt;chunksize=(5, 77209, 1, 1), meta=np.ndarray&gt;
+    chrom10k       (chrom5k) object &#x27;chr1_0&#x27; &#x27;chr1_0&#x27; ... &#x27;chrY_5722&#x27;
+Attributes:
+    obs_dim:  cell
+    var_dim:  chrom5k</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.MCDS</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-f3a678b3-c251-4f9d-a162-8665144de752' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-f3a678b3-c251-4f9d-a162-8665144de752' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>cell</span>: 40</li><li><span class='xr-has-index'>chrom5k</span>: 617669</li><li><span class='xr-has-index'>count_type</span>: 2</li><li><span class='xr-has-index'>mc_type</span>: 2</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-a909553d-6df1-4c59-bda3-a019d51ec3b1' class='xr-section-summary-in' type='checkbox'  checked><label for='section-a909553d-6df1-4c59-bda3-a019d51ec3b1' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>cell</span></div><div class='xr-var-dims'>(cell)</div><div class='xr-var-dtype'>&lt;U10</div><div class='xr-var-preview xr-preview'>&#x27;Amy&#x27; &#x27;ASC&#x27; &#x27;CA1&#x27; ... &#x27;Vip&#x27; &#x27;VLMC&#x27;</div><input id='attrs-cef24fba-d0a0-4127-88a1-483fa711d953' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-cef24fba-d0a0-4127-88a1-483fa711d953' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8a7db9bb-0f3a-4a7f-b5c9-44cc96808510' class='xr-var-data-in' type='checkbox'><label for='data-8a7db9bb-0f3a-4a7f-b5c9-44cc96808510' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;Amy&#x27;, &#x27;ASC&#x27;, &#x27;CA1&#x27;, &#x27;CA2&#x27;, &#x27;CA3&#x27;, &#x27;CB&#x27;, &#x27;CHD7&#x27;, &#x27;DG&#x27;, &#x27;EC&#x27;, &#x27;Foxp2&#x27;,
+       &#x27;HIF_Unk1&#x27;, &#x27;L23_IT&#x27;, &#x27;L4_IT&#x27;, &#x27;L56_NP&#x27;, &#x27;L5_ET&#x27;, &#x27;L5_IT&#x27;, &#x27;L6b&#x27;,
+       &#x27;L6_CT&#x27;, &#x27;L6_IT&#x27;, &#x27;L6_IT_Car3&#x27;, &#x27;Lamp5&#x27;, &#x27;Lamp5_LHX6&#x27;, &#x27;MGC&#x27;, &#x27;MSN_D1&#x27;,
+       &#x27;MSN_D2&#x27;, &#x27;ODC&#x27;, &#x27;OPC&#x27;, &#x27;PC&#x27;, &#x27;PKJ&#x27;, &#x27;PN&#x27;, &#x27;Pvalb&#x27;, &#x27;Pvalb_ChC&#x27;, &#x27;Sncg&#x27;,
+       &#x27;Sst&#x27;, &#x27;SubCtx&#x27;, &#x27;THM_Exc&#x27;, &#x27;THM_Inh&#x27;, &#x27;THM_MB&#x27;, &#x27;Vip&#x27;, &#x27;VLMC&#x27;],
+      dtype=&#x27;&lt;U10&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>chrom5k</span></div><div class='xr-var-dims'>(chrom5k)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>&#x27;chr1_0&#x27; &#x27;chr1_1&#x27; ... &#x27;chrY_11445&#x27;</div><input id='attrs-96ccbc44-245b-4379-af68-d9d5ab8471fb' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-96ccbc44-245b-4379-af68-d9d5ab8471fb' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-669045a1-08e6-45e8-897d-7bf9f8538c55' class='xr-var-data-in' type='checkbox'><label for='data-669045a1-08e6-45e8-897d-7bf9f8538c55' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;chr1_0&#x27;, &#x27;chr1_1&#x27;, &#x27;chr1_2&#x27;, ..., &#x27;chrY_11443&#x27;, &#x27;chrY_11444&#x27;,
+       &#x27;chrY_11445&#x27;], dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>chrom5k_chrom</span></div><div class='xr-var-dims'>(chrom5k)</div><div class='xr-var-dtype'>&lt;U5</div><div class='xr-var-preview xr-preview'>&#x27;chr1&#x27; &#x27;chr1&#x27; ... &#x27;chrY&#x27; &#x27;chrY&#x27;</div><input id='attrs-3e865887-056b-4eb1-ac5b-4623962189d5' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-3e865887-056b-4eb1-ac5b-4623962189d5' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-8f36beb6-f59d-4635-861c-4329bc395e12' class='xr-var-data-in' type='checkbox'><label for='data-8f36beb6-f59d-4635-861c-4329bc395e12' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;chr1&#x27;, &#x27;chr1&#x27;, &#x27;chr1&#x27;, ..., &#x27;chrY&#x27;, &#x27;chrY&#x27;, &#x27;chrY&#x27;], dtype=&#x27;&lt;U5&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>chrom5k_end</span></div><div class='xr-var-dims'>(chrom5k)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>5000 10000 ... 57225000 57227415</div><input id='attrs-dd07c429-9a7b-45a8-b003-99a1d18bf26e' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-dd07c429-9a7b-45a8-b003-99a1d18bf26e' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b1b554ab-e69c-4429-ba54-299aa8d6dbe4' class='xr-var-data-in' type='checkbox'><label for='data-b1b554ab-e69c-4429-ba54-299aa8d6dbe4' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([    5000,    10000,    15000, ..., 57220000, 57225000, 57227415])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>chrom5k_start</span></div><div class='xr-var-dims'>(chrom5k)</div><div class='xr-var-dtype'>int64</div><div class='xr-var-preview xr-preview'>0 5000 10000 ... 57220000 57225000</div><input id='attrs-05c61905-7f7b-4f7f-8dfe-cdfdd9da6324' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-05c61905-7f7b-4f7f-8dfe-cdfdd9da6324' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1ee805e0-7516-4730-b893-c1110a67323b' class='xr-var-data-in' type='checkbox'><label for='data-1ee805e0-7516-4730-b893-c1110a67323b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([       0,     5000,    10000, ..., 57215000, 57220000, 57225000])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>count_type</span></div><div class='xr-var-dims'>(count_type)</div><div class='xr-var-dtype'>&lt;U3</div><div class='xr-var-preview xr-preview'>&#x27;mc&#x27; &#x27;cov&#x27;</div><input id='attrs-cd8a8c7c-5880-495e-a045-99ac2e7c4eef' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-cd8a8c7c-5880-495e-a045-99ac2e7c4eef' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-6bbed611-9450-458d-bcb3-5edb32883a33' class='xr-var-data-in' type='checkbox'><label for='data-6bbed611-9450-458d-bcb3-5edb32883a33' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;mc&#x27;, &#x27;cov&#x27;], dtype=&#x27;&lt;U3&#x27;)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>mc_type</span></div><div class='xr-var-dims'>(mc_type)</div><div class='xr-var-dtype'>&lt;U3</div><div class='xr-var-preview xr-preview'>&#x27;CGN&#x27; &#x27;CHN&#x27;</div><input id='attrs-f04cbcaf-2af8-4226-82a5-815b0b929a53' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f04cbcaf-2af8-4226-82a5-815b0b929a53' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-55f03cb9-69c0-4a4f-992f-0c0c245d8fea' class='xr-var-data-in' type='checkbox'><label for='data-55f03cb9-69c0-4a4f-992f-0c0c245d8fea' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;CGN&#x27;, &#x27;CHN&#x27;], dtype=&#x27;&lt;U3&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e2d016f8-d2ea-4518-92d6-32bcfdbcd047' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e2d016f8-d2ea-4518-92d6-32bcfdbcd047' class='xr-section-summary' >Data variables: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>chrom5k_da</span></div><div class='xr-var-dims'>(cell, chrom5k, mc_type, count_type)</div><div class='xr-var-dtype'>uint32</div><div class='xr-var-preview xr-preview'>dask.array&lt;chunksize=(5, 77209, 1, 1), meta=np.ndarray&gt;</div><input id='attrs-336d9ca7-87b5-4484-a2c6-54f78f413c0a' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-336d9ca7-87b5-4484-a2c6-54f78f413c0a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ab18b774-39d3-4515-a602-e78c9ccf446a' class='xr-var-data-in' type='checkbox'><label for='data-ab18b774-39d3-4515-a602-e78c9ccf446a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><table>
+    <tr>
+        <td>
+            <table>
+                <thead>
+                    <tr>
+                        <td> </td>
+                        <th> Array </th>
+                        <th> Chunk </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr>
+                        <th> Bytes </th>
+                        <td> 377.00 MiB </td>
+                        <td> 1.47 MiB </td>
+                    </tr>
+                    
+                    <tr>
+                        <th> Shape </th>
+                        <td> (40, 617669, 2, 2) </td>
+                        <td> (5, 77209, 1, 1) </td>
+                    </tr>
+                    <tr>
+                        <th> Count </th>
+                        <td> 257 Tasks </td>
+                        <td> 256 Chunks </td>
+                    </tr>
+                    <tr>
+                    <th> Type </th>
+                    <td> uint32 </td>
+                    <td> numpy.ndarray </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+        <svg width="336" height="146" style="stroke:rgb(0,0,0);stroke-width:1" >
+
+  <!-- Horizontal lines -->
+  <line x1="0" y1="0" x2="25" y2="0" style="stroke-width:2" />
+  <line x1="0" y1="25" x2="25" y2="25" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="0" y1="0" x2="0" y2="25" style="stroke-width:2" />
+  <line x1="3" y1="0" x2="3" y2="25" />
+  <line x1="6" y1="0" x2="6" y2="25" />
+  <line x1="9" y1="0" x2="9" y2="25" />
+  <line x1="12" y1="0" x2="12" y2="25" />
+  <line x1="15" y1="0" x2="15" y2="25" />
+  <line x1="19" y1="0" x2="19" y2="25" />
+  <line x1="22" y1="0" x2="22" y2="25" />
+  <line x1="25" y1="0" x2="25" y2="25" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="0.0,0.0 25.412616514582485,0.0 25.412616514582485,25.412616514582485 0.0,25.412616514582485" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="12.706308" y="45.412617" font-size="1.0rem" font-weight="100" text-anchor="middle" >40</text>
+  <text x="45.412617" y="12.706308" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,45.412617,12.706308)">1</text>
+
+
+  <!-- Horizontal lines -->
+  <line x1="95" y1="0" x2="165" y2="70" style="stroke-width:2" />
+  <line x1="95" y1="12" x2="165" y2="83" />
+  <line x1="95" y1="25" x2="165" y2="96" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="95" y1="0" x2="95" y2="25" style="stroke-width:2" />
+  <line x1="103" y1="8" x2="103" y2="34" />
+  <line x1="112" y1="17" x2="112" y2="43" />
+  <line x1="121" y1="26" x2="121" y2="51" />
+  <line x1="130" y1="35" x2="130" y2="60" />
+  <line x1="139" y1="44" x2="139" y2="69" />
+  <line x1="147" y1="52" x2="147" y2="78" />
+  <line x1="156" y1="61" x2="156" y2="87" />
+  <line x1="165" y1="70" x2="165" y2="96" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="95.0,0.0 165.58823529411765,70.58823529411765 165.58823529411765,96.00085180870013 95.0,25.412616514582485" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="95" y1="0" x2="120" y2="0" style="stroke-width:2" />
+  <line x1="103" y1="8" x2="129" y2="8" />
+  <line x1="112" y1="17" x2="138" y2="17" />
+  <line x1="121" y1="26" x2="146" y2="26" />
+  <line x1="130" y1="35" x2="155" y2="35" />
+  <line x1="139" y1="44" x2="164" y2="44" />
+  <line x1="147" y1="52" x2="173" y2="52" />
+  <line x1="156" y1="61" x2="182" y2="61" />
+  <line x1="165" y1="70" x2="191" y2="70" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="95" y1="0" x2="165" y2="70" style="stroke-width:2" />
+  <line x1="107" y1="0" x2="178" y2="70" />
+  <line x1="120" y1="0" x2="191" y2="70" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="95.0,0.0 120.41261651458248,0.0 191.00085180870013,70.58823529411765 165.58823529411765,70.58823529411765" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Horizontal lines -->
+  <line x1="165" y1="70" x2="191" y2="70" style="stroke-width:2" />
+  <line x1="165" y1="83" x2="191" y2="83" />
+  <line x1="165" y1="96" x2="191" y2="96" style="stroke-width:2" />
+
+  <!-- Vertical lines -->
+  <line x1="165" y1="70" x2="165" y2="96" style="stroke-width:2" />
+  <line x1="178" y1="70" x2="178" y2="96" />
+  <line x1="191" y1="70" x2="191" y2="96" style="stroke-width:2" />
+
+  <!-- Colored Rectangle -->
+  <polygon points="165.58823529411765,70.58823529411765 191.00085180870013,70.58823529411765 191.00085180870013,96.00085180870013 165.58823529411765,96.00085180870013" style="fill:#ECB172A0;stroke-width:0"/>
+
+  <!-- Text -->
+  <text x="178.294544" y="116.000852" font-size="1.0rem" font-weight="100" text-anchor="middle" >2</text>
+  <text x="211.000852" y="83.294544" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(0,211.000852,83.294544)">2</text>
+  <text x="120.294118" y="80.706734" font-size="1.0rem" font-weight="100" text-anchor="middle" transform="rotate(45,120.294118,80.706734)">617669</text>
+</svg>
+        </td>
+    </tr>
+</table></div></li><li class='xr-var-item'><div class='xr-var-name'><span>chrom10k</span></div><div class='xr-var-dims'>(chrom5k)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>&#x27;chr1_0&#x27; &#x27;chr1_0&#x27; ... &#x27;chrY_5722&#x27;</div><input id='attrs-c40d4c81-8e38-4860-a308-2a3afaf866c7' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-c40d4c81-8e38-4860-a308-2a3afaf866c7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0d1d1dcc-bae9-44b4-953d-90d1b90de8f6' class='xr-var-data-in' type='checkbox'><label for='data-0d1d1dcc-bae9-44b4-953d-90d1b90de8f6' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;chr1_0&#x27;, &#x27;chr1_0&#x27;, &#x27;chr1_1&#x27;, ..., &#x27;chrY_5721&#x27;, &#x27;chrY_5722&#x27;,
+       &#x27;chrY_5722&#x27;], dtype=object)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-8954cb38-d0a8-47b5-8266-3e7bdea90cba' class='xr-section-summary-in' type='checkbox'  checked><label for='section-8954cb38-d0a8-47b5-8266-3e7bdea90cba' class='xr-section-summary' >Attributes: <span>(2)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>obs_dim :</span></dt><dd>cell</dd><dt><span>var_dim :</span></dt><dd>chrom5k</dd></dl></div></li></ul></div></div></div></div>
+</div>
+<section id="mcg">
+<h3>mCG<a class="headerlink" href="#mcg" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_da&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">count_type</span><span class="o">=</span><span class="s1">&#39;mc&#39;</span><span class="p">,</span> <span class="n">mc_type</span><span class="o">=</span><span class="s1">&#39;CGN&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">mc</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_da&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">count_type</span><span class="o">=</span><span class="s1">&#39;cov&#39;</span><span class="p">,</span> <span class="n">mc_type</span><span class="o">=</span><span class="s1">&#39;CGN&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">cov</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binfilter</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">mc</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+<span class="n">binfilter</span> <span class="o">=</span> <span class="p">[(</span><span class="nb">len</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">xx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;chrM&#39;</span><span class="p">,</span><span class="s1">&#39;chrX&#39;</span><span class="p">,</span><span class="s1">&#39;chrY&#39;</span><span class="p">])</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">binfilter</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">binfilter</span><span class="p">))</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">,</span> <span class="n">binfilter</span><span class="p">]</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">,</span> <span class="n">binfilter</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">cov</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>287509
+(21, 287509) (21, 287509)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratio</span> <span class="o">=</span> <span class="n">calculate_posterior_mc_frac</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cov</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ratio</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ratio</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>chrom10k</th>
+      <th>chr10_0</th>
+      <th>chr10_1</th>
+      <th>chr10_10</th>
+      <th>chr10_100</th>
+      <th>chr10_1000</th>
+      <th>chr10_10000</th>
+      <th>chr10_10001</th>
+      <th>chr10_10002</th>
+      <th>chr10_10003</th>
+      <th>chr10_10004</th>
+      <th>...</th>
+      <th>chr9_9990</th>
+      <th>chr9_9991</th>
+      <th>chr9_9992</th>
+      <th>chr9_9993</th>
+      <th>chr9_9994</th>
+      <th>chr9_9995</th>
+      <th>chr9_9996</th>
+      <th>chr9_9997</th>
+      <th>chr9_9998</th>
+      <th>chr9_9999</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>L23_IT</th>
+      <td>1.0</td>
+      <td>0.865750</td>
+      <td>1.098113</td>
+      <td>1.104957</td>
+      <td>0.970369</td>
+      <td>0.546823</td>
+      <td>0.765560</td>
+      <td>1.030258</td>
+      <td>1.122590</td>
+      <td>1.044473</td>
+      <td>...</td>
+      <td>0.444581</td>
+      <td>1.120092</td>
+      <td>1.100522</td>
+      <td>1.093261</td>
+      <td>1.098141</td>
+      <td>1.069337</td>
+      <td>1.101062</td>
+      <td>1.070954</td>
+      <td>1.024206</td>
+      <td>0.910354</td>
+    </tr>
+    <tr>
+      <th>L4_IT</th>
+      <td>1.0</td>
+      <td>0.829846</td>
+      <td>1.079987</td>
+      <td>1.100184</td>
+      <td>1.031948</td>
+      <td>0.544228</td>
+      <td>0.771079</td>
+      <td>1.003114</td>
+      <td>1.103790</td>
+      <td>1.051402</td>
+      <td>...</td>
+      <td>0.420759</td>
+      <td>1.109077</td>
+      <td>1.098732</td>
+      <td>1.061285</td>
+      <td>1.072169</td>
+      <td>1.095959</td>
+      <td>1.089031</td>
+      <td>1.092414</td>
+      <td>1.054224</td>
+      <td>0.718477</td>
+    </tr>
+    <tr>
+      <th>L5_IT</th>
+      <td>1.0</td>
+      <td>0.871156</td>
+      <td>1.086426</td>
+      <td>1.090221</td>
+      <td>0.994796</td>
+      <td>0.572899</td>
+      <td>0.733758</td>
+      <td>0.978924</td>
+      <td>1.100353</td>
+      <td>1.021597</td>
+      <td>...</td>
+      <td>0.448407</td>
+      <td>1.106363</td>
+      <td>1.069185</td>
+      <td>1.078171</td>
+      <td>1.086915</td>
+      <td>1.044753</td>
+      <td>1.098709</td>
+      <td>1.076597</td>
+      <td>1.038894</td>
+      <td>1.003211</td>
+    </tr>
+    <tr>
+      <th>L6_IT</th>
+      <td>1.0</td>
+      <td>0.841410</td>
+      <td>1.096542</td>
+      <td>1.104306</td>
+      <td>1.026670</td>
+      <td>0.584123</td>
+      <td>0.744700</td>
+      <td>1.045663</td>
+      <td>1.108378</td>
+      <td>1.030944</td>
+      <td>...</td>
+      <td>0.431908</td>
+      <td>1.115438</td>
+      <td>1.104424</td>
+      <td>1.086339</td>
+      <td>1.107761</td>
+      <td>1.018649</td>
+      <td>1.108945</td>
+      <td>1.097433</td>
+      <td>1.064725</td>
+      <td>0.993141</td>
+    </tr>
+    <tr>
+      <th>L6_IT_Car3</th>
+      <td>1.0</td>
+      <td>0.873949</td>
+      <td>1.090812</td>
+      <td>1.096528</td>
+      <td>1.091477</td>
+      <td>0.534639</td>
+      <td>0.701619</td>
+      <td>1.057742</td>
+      <td>1.096929</td>
+      <td>1.004430</td>
+      <td>...</td>
+      <td>0.426434</td>
+      <td>1.112644</td>
+      <td>1.107946</td>
+      <td>1.083099</td>
+      <td>1.102255</td>
+      <td>1.067188</td>
+      <td>1.098333</td>
+      <td>1.078087</td>
+      <td>1.071479</td>
+      <td>0.834742</td>
+    </tr>
+    <tr>
+      <th>L56_NP</th>
+      <td>1.0</td>
+      <td>0.797610</td>
+      <td>1.057855</td>
+      <td>1.061449</td>
+      <td>1.023070</td>
+      <td>0.559595</td>
+      <td>0.698354</td>
+      <td>0.937548</td>
+      <td>1.072523</td>
+      <td>1.008295</td>
+      <td>...</td>
+      <td>0.423151</td>
+      <td>1.075689</td>
+      <td>1.046400</td>
+      <td>1.038178</td>
+      <td>1.058969</td>
+      <td>1.048859</td>
+      <td>1.047916</td>
+      <td>1.030193</td>
+      <td>1.039942</td>
+      <td>1.069534</td>
+    </tr>
+    <tr>
+      <th>L6_CT</th>
+      <td>1.0</td>
+      <td>0.852024</td>
+      <td>1.091768</td>
+      <td>1.099437</td>
+      <td>1.044037</td>
+      <td>0.528753</td>
+      <td>0.785238</td>
+      <td>0.993313</td>
+      <td>1.105819</td>
+      <td>1.042183</td>
+      <td>...</td>
+      <td>0.424429</td>
+      <td>1.108913</td>
+      <td>1.100481</td>
+      <td>1.087009</td>
+      <td>1.105778</td>
+      <td>0.998863</td>
+      <td>1.079483</td>
+      <td>1.073137</td>
+      <td>1.042358</td>
+      <td>1.088393</td>
+    </tr>
+    <tr>
+      <th>L6b</th>
+      <td>1.0</td>
+      <td>0.878122</td>
+      <td>1.102235</td>
+      <td>1.096597</td>
+      <td>0.910365</td>
+      <td>0.614620</td>
+      <td>0.712343</td>
+      <td>1.069397</td>
+      <td>1.109824</td>
+      <td>1.016281</td>
+      <td>...</td>
+      <td>0.457184</td>
+      <td>1.109582</td>
+      <td>1.114130</td>
+      <td>1.063698</td>
+      <td>1.099670</td>
+      <td>0.983586</td>
+      <td>1.092634</td>
+      <td>1.062037</td>
+      <td>1.012311</td>
+      <td>0.950932</td>
+    </tr>
+    <tr>
+      <th>Amy</th>
+      <td>1.0</td>
+      <td>0.851257</td>
+      <td>1.097555</td>
+      <td>1.107771</td>
+      <td>0.990718</td>
+      <td>0.491762</td>
+      <td>0.724681</td>
+      <td>1.016296</td>
+      <td>1.116206</td>
+      <td>1.050156</td>
+      <td>...</td>
+      <td>0.442131</td>
+      <td>1.127280</td>
+      <td>1.097345</td>
+      <td>1.108722</td>
+      <td>1.102675</td>
+      <td>1.047166</td>
+      <td>1.113539</td>
+      <td>1.068260</td>
+      <td>1.089860</td>
+      <td>1.074183</td>
+    </tr>
+    <tr>
+      <th>Lamp5</th>
+      <td>1.0</td>
+      <td>0.805150</td>
+      <td>1.033116</td>
+      <td>1.088847</td>
+      <td>1.096238</td>
+      <td>0.512818</td>
+      <td>0.724184</td>
+      <td>1.062630</td>
+      <td>1.091241</td>
+      <td>1.021778</td>
+      <td>...</td>
+      <td>0.434840</td>
+      <td>1.096492</td>
+      <td>1.069307</td>
+      <td>1.090170</td>
+      <td>1.084815</td>
+      <td>1.073408</td>
+      <td>1.077023</td>
+      <td>1.072035</td>
+      <td>1.080043</td>
+      <td>1.079055</td>
+    </tr>
+    <tr>
+      <th>Lamp5_LHX6</th>
+      <td>1.0</td>
+      <td>0.792747</td>
+      <td>1.035162</td>
+      <td>1.076712</td>
+      <td>1.092387</td>
+      <td>0.434159</td>
+      <td>0.709179</td>
+      <td>1.022559</td>
+      <td>1.079085</td>
+      <td>1.031669</td>
+      <td>...</td>
+      <td>0.452515</td>
+      <td>1.097232</td>
+      <td>1.090241</td>
+      <td>1.092998</td>
+      <td>1.078567</td>
+      <td>1.052278</td>
+      <td>1.078464</td>
+      <td>1.077278</td>
+      <td>1.076348</td>
+      <td>1.073098</td>
+    </tr>
+    <tr>
+      <th>Sncg</th>
+      <td>1.0</td>
+      <td>0.792520</td>
+      <td>1.025522</td>
+      <td>1.074973</td>
+      <td>1.079286</td>
+      <td>0.558658</td>
+      <td>0.731335</td>
+      <td>1.056605</td>
+      <td>1.080625</td>
+      <td>1.030201</td>
+      <td>...</td>
+      <td>0.490980</td>
+      <td>1.092729</td>
+      <td>1.081799</td>
+      <td>1.092366</td>
+      <td>1.078335</td>
+      <td>1.064443</td>
+      <td>1.070893</td>
+      <td>1.057093</td>
+      <td>1.061662</td>
+      <td>1.079037</td>
+    </tr>
+    <tr>
+      <th>Vip</th>
+      <td>1.0</td>
+      <td>0.769253</td>
+      <td>1.024638</td>
+      <td>1.081912</td>
+      <td>0.938605</td>
+      <td>0.542403</td>
+      <td>0.752858</td>
+      <td>1.012633</td>
+      <td>1.081400</td>
+      <td>1.020987</td>
+      <td>...</td>
+      <td>0.470599</td>
+      <td>1.084906</td>
+      <td>1.084526</td>
+      <td>1.089036</td>
+      <td>1.077619</td>
+      <td>1.087517</td>
+      <td>1.008403</td>
+      <td>1.040687</td>
+      <td>1.080248</td>
+      <td>1.071452</td>
+    </tr>
+    <tr>
+      <th>Pvalb</th>
+      <td>1.0</td>
+      <td>0.795581</td>
+      <td>1.034650</td>
+      <td>1.068094</td>
+      <td>0.949514</td>
+      <td>0.477211</td>
+      <td>0.736213</td>
+      <td>0.961686</td>
+      <td>1.072778</td>
+      <td>1.008399</td>
+      <td>...</td>
+      <td>0.416954</td>
+      <td>1.078209</td>
+      <td>1.062200</td>
+      <td>1.082316</td>
+      <td>1.070744</td>
+      <td>1.064724</td>
+      <td>1.073725</td>
+      <td>1.063671</td>
+      <td>1.069274</td>
+      <td>1.056688</td>
+    </tr>
+    <tr>
+      <th>Pvalb_ChC</th>
+      <td>1.0</td>
+      <td>0.804534</td>
+      <td>1.056973</td>
+      <td>1.067313</td>
+      <td>1.018693</td>
+      <td>0.504919</td>
+      <td>0.760289</td>
+      <td>0.844227</td>
+      <td>1.076801</td>
+      <td>0.974374</td>
+      <td>...</td>
+      <td>0.411450</td>
+      <td>1.080136</td>
+      <td>1.082128</td>
+      <td>1.081539</td>
+      <td>1.077761</td>
+      <td>1.038962</td>
+      <td>1.069850</td>
+      <td>1.075585</td>
+      <td>1.059912</td>
+      <td>1.074994</td>
+    </tr>
+    <tr>
+      <th>Sst</th>
+      <td>1.0</td>
+      <td>0.794229</td>
+      <td>1.039973</td>
+      <td>1.052752</td>
+      <td>0.998262</td>
+      <td>0.474805</td>
+      <td>0.739483</td>
+      <td>1.029493</td>
+      <td>1.077364</td>
+      <td>1.004946</td>
+      <td>...</td>
+      <td>0.425891</td>
+      <td>1.075167</td>
+      <td>1.052733</td>
+      <td>1.077323</td>
+      <td>1.075246</td>
+      <td>1.072911</td>
+      <td>1.072097</td>
+      <td>1.072932</td>
+      <td>1.059704</td>
+      <td>1.069832</td>
+    </tr>
+    <tr>
+      <th>CHD7</th>
+      <td>1.0</td>
+      <td>0.787437</td>
+      <td>1.037584</td>
+      <td>1.076422</td>
+      <td>0.952265</td>
+      <td>0.501408</td>
+      <td>0.713221</td>
+      <td>0.939310</td>
+      <td>1.084314</td>
+      <td>0.997800</td>
+      <td>...</td>
+      <td>0.444873</td>
+      <td>1.093239</td>
+      <td>1.084173</td>
+      <td>1.093810</td>
+      <td>1.079436</td>
+      <td>1.086668</td>
+      <td>1.047163</td>
+      <td>1.077643</td>
+      <td>1.076318</td>
+      <td>1.076364</td>
+    </tr>
+    <tr>
+      <th>MSN_D1</th>
+      <td>1.0</td>
+      <td>0.808276</td>
+      <td>1.077796</td>
+      <td>1.078513</td>
+      <td>1.074961</td>
+      <td>0.493063</td>
+      <td>0.726965</td>
+      <td>1.061647</td>
+      <td>1.096675</td>
+      <td>0.997394</td>
+      <td>...</td>
+      <td>0.424403</td>
+      <td>1.089656</td>
+      <td>1.098023</td>
+      <td>1.091237</td>
+      <td>1.077489</td>
+      <td>1.073559</td>
+      <td>1.086470</td>
+      <td>1.064815</td>
+      <td>1.075967</td>
+      <td>1.080365</td>
+    </tr>
+    <tr>
+      <th>MSN_D2</th>
+      <td>1.0</td>
+      <td>0.810564</td>
+      <td>1.083761</td>
+      <td>1.083081</td>
+      <td>1.079663</td>
+      <td>0.530576</td>
+      <td>0.782879</td>
+      <td>1.067903</td>
+      <td>1.090645</td>
+      <td>1.019102</td>
+      <td>...</td>
+      <td>0.414780</td>
+      <td>1.099974</td>
+      <td>1.086474</td>
+      <td>1.100330</td>
+      <td>1.081124</td>
+      <td>1.062736</td>
+      <td>1.075620</td>
+      <td>1.079292</td>
+      <td>1.086640</td>
+      <td>1.086207</td>
+    </tr>
+    <tr>
+      <th>Foxp2</th>
+      <td>1.0</td>
+      <td>0.782796</td>
+      <td>1.075557</td>
+      <td>1.091417</td>
+      <td>1.070874</td>
+      <td>0.521455</td>
+      <td>0.734907</td>
+      <td>1.058666</td>
+      <td>1.099930</td>
+      <td>1.028032</td>
+      <td>...</td>
+      <td>0.413546</td>
+      <td>1.106870</td>
+      <td>1.105477</td>
+      <td>1.097594</td>
+      <td>1.088425</td>
+      <td>1.075589</td>
+      <td>1.045977</td>
+      <td>1.039735</td>
+      <td>1.081181</td>
+      <td>1.087157</td>
+    </tr>
+    <tr>
+      <th>SubCtx</th>
+      <td>1.0</td>
+      <td>0.783712</td>
+      <td>1.050213</td>
+      <td>1.070455</td>
+      <td>1.045838</td>
+      <td>0.544439</td>
+      <td>0.765156</td>
+      <td>1.025895</td>
+      <td>1.071964</td>
+      <td>1.012209</td>
+      <td>...</td>
+      <td>0.420346</td>
+      <td>1.082754</td>
+      <td>1.083586</td>
+      <td>1.088390</td>
+      <td>1.073200</td>
+      <td>1.054467</td>
+      <td>1.025523</td>
+      <td>1.034854</td>
+      <td>1.050823</td>
+      <td>1.065440</td>
+    </tr>
+  </tbody>
+</table>
+<p>21 rows × 287509 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopcg</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">ratio</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">loopcg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">loopcg</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">loopq</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">leg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="p">[</span><span class="s1">&#39;mCG_corr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loopcg</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">loopq</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mch">
+<h3>mCH<a class="headerlink" href="#mch" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_da&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">count_type</span><span class="o">=</span><span class="s1">&#39;mc&#39;</span><span class="p">,</span> <span class="n">mc_type</span><span class="o">=</span><span class="s1">&#39;CHN&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">mc</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom5k_da&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">count_type</span><span class="o">=</span><span class="s1">&#39;cov&#39;</span><span class="p">,</span> <span class="n">mc_type</span><span class="o">=</span><span class="s1">&#39;CHN&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+<span class="n">cov</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mcds</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">,</span> <span class="n">binfilter</span><span class="p">]</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">,</span> <span class="n">binfilter</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">cov</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(21, 287509) (21, 287509)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ratio</span> <span class="o">=</span> <span class="n">calculate_posterior_mc_frac</span><span class="p">(</span><span class="n">mc</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cov</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">ratio</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ratio</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ratio</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>chrom10k</th>
+      <th>chr10_0</th>
+      <th>chr10_1</th>
+      <th>chr10_10</th>
+      <th>chr10_100</th>
+      <th>chr10_1000</th>
+      <th>chr10_10000</th>
+      <th>chr10_10001</th>
+      <th>chr10_10002</th>
+      <th>chr10_10003</th>
+      <th>chr10_10004</th>
+      <th>...</th>
+      <th>chr9_9990</th>
+      <th>chr9_9991</th>
+      <th>chr9_9992</th>
+      <th>chr9_9993</th>
+      <th>chr9_9994</th>
+      <th>chr9_9995</th>
+      <th>chr9_9996</th>
+      <th>chr9_9997</th>
+      <th>chr9_9998</th>
+      <th>chr9_9999</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>L23_IT</th>
+      <td>1.0</td>
+      <td>0.581408</td>
+      <td>1.048868</td>
+      <td>0.242306</td>
+      <td>0.609380</td>
+      <td>0.868303</td>
+      <td>1.127298</td>
+      <td>1.081475</td>
+      <td>1.683425</td>
+      <td>1.620382</td>
+      <td>...</td>
+      <td>0.759118</td>
+      <td>0.580684</td>
+      <td>0.614478</td>
+      <td>0.674427</td>
+      <td>0.580364</td>
+      <td>0.553518</td>
+      <td>0.636553</td>
+      <td>0.463157</td>
+      <td>0.426187</td>
+      <td>0.392909</td>
+    </tr>
+    <tr>
+      <th>L4_IT</th>
+      <td>1.0</td>
+      <td>0.495013</td>
+      <td>0.795514</td>
+      <td>0.245440</td>
+      <td>0.963888</td>
+      <td>1.094922</td>
+      <td>1.168507</td>
+      <td>1.088782</td>
+      <td>1.546328</td>
+      <td>1.765103</td>
+      <td>...</td>
+      <td>0.846806</td>
+      <td>0.786174</td>
+      <td>0.756176</td>
+      <td>0.789065</td>
+      <td>0.802313</td>
+      <td>0.947783</td>
+      <td>0.883354</td>
+      <td>0.705005</td>
+      <td>0.579375</td>
+      <td>0.484728</td>
+    </tr>
+    <tr>
+      <th>L5_IT</th>
+      <td>1.0</td>
+      <td>0.455561</td>
+      <td>1.015350</td>
+      <td>0.228945</td>
+      <td>0.840501</td>
+      <td>1.270735</td>
+      <td>1.163866</td>
+      <td>1.093905</td>
+      <td>1.705293</td>
+      <td>1.773222</td>
+      <td>...</td>
+      <td>0.864993</td>
+      <td>0.658063</td>
+      <td>0.572586</td>
+      <td>0.707412</td>
+      <td>0.744451</td>
+      <td>0.576037</td>
+      <td>0.699209</td>
+      <td>0.611104</td>
+      <td>0.495135</td>
+      <td>0.455101</td>
+    </tr>
+    <tr>
+      <th>L6_IT</th>
+      <td>1.0</td>
+      <td>0.650953</td>
+      <td>1.057721</td>
+      <td>0.240116</td>
+      <td>0.898931</td>
+      <td>1.362157</td>
+      <td>1.445102</td>
+      <td>1.237765</td>
+      <td>1.786124</td>
+      <td>1.641940</td>
+      <td>...</td>
+      <td>0.741295</td>
+      <td>0.624843</td>
+      <td>0.609334</td>
+      <td>0.696892</td>
+      <td>0.714934</td>
+      <td>0.526063</td>
+      <td>0.674852</td>
+      <td>0.523097</td>
+      <td>0.412630</td>
+      <td>0.391960</td>
+    </tr>
+    <tr>
+      <th>L6_IT_Car3</th>
+      <td>1.0</td>
+      <td>0.575051</td>
+      <td>1.077855</td>
+      <td>0.224761</td>
+      <td>1.325802</td>
+      <td>0.861500</td>
+      <td>1.221765</td>
+      <td>1.217034</td>
+      <td>1.706987</td>
+      <td>1.594311</td>
+      <td>...</td>
+      <td>0.756624</td>
+      <td>0.621904</td>
+      <td>0.665758</td>
+      <td>0.670322</td>
+      <td>0.707093</td>
+      <td>0.612832</td>
+      <td>0.649896</td>
+      <td>0.507689</td>
+      <td>0.448870</td>
+      <td>0.378274</td>
+    </tr>
+    <tr>
+      <th>L56_NP</th>
+      <td>1.0</td>
+      <td>0.402756</td>
+      <td>0.881177</td>
+      <td>0.187907</td>
+      <td>0.880132</td>
+      <td>1.413384</td>
+      <td>1.596061</td>
+      <td>1.131252</td>
+      <td>2.004234</td>
+      <td>2.065186</td>
+      <td>...</td>
+      <td>0.636043</td>
+      <td>0.541412</td>
+      <td>0.470409</td>
+      <td>0.574378</td>
+      <td>0.622158</td>
+      <td>0.716971</td>
+      <td>0.701500</td>
+      <td>0.593755</td>
+      <td>0.432142</td>
+      <td>0.351776</td>
+    </tr>
+    <tr>
+      <th>L6_CT</th>
+      <td>1.0</td>
+      <td>0.444559</td>
+      <td>0.978495</td>
+      <td>0.277735</td>
+      <td>1.018575</td>
+      <td>1.440508</td>
+      <td>1.389699</td>
+      <td>1.128223</td>
+      <td>1.888419</td>
+      <td>1.825062</td>
+      <td>...</td>
+      <td>0.643229</td>
+      <td>0.474623</td>
+      <td>0.578430</td>
+      <td>0.663219</td>
+      <td>0.629395</td>
+      <td>0.454445</td>
+      <td>0.595501</td>
+      <td>0.479590</td>
+      <td>0.393849</td>
+      <td>0.387964</td>
+    </tr>
+    <tr>
+      <th>L6b</th>
+      <td>1.0</td>
+      <td>0.445212</td>
+      <td>1.214124</td>
+      <td>0.392053</td>
+      <td>0.693349</td>
+      <td>1.660831</td>
+      <td>1.387080</td>
+      <td>1.277147</td>
+      <td>1.901074</td>
+      <td>1.448106</td>
+      <td>...</td>
+      <td>0.657112</td>
+      <td>0.503805</td>
+      <td>0.520558</td>
+      <td>0.580309</td>
+      <td>0.642889</td>
+      <td>0.478172</td>
+      <td>0.602957</td>
+      <td>0.457603</td>
+      <td>0.336922</td>
+      <td>0.341128</td>
+    </tr>
+    <tr>
+      <th>Amy</th>
+      <td>1.0</td>
+      <td>0.516281</td>
+      <td>1.099986</td>
+      <td>0.236326</td>
+      <td>0.984687</td>
+      <td>0.700906</td>
+      <td>1.150781</td>
+      <td>0.997126</td>
+      <td>1.717197</td>
+      <td>1.658379</td>
+      <td>...</td>
+      <td>0.732941</td>
+      <td>0.549465</td>
+      <td>0.526880</td>
+      <td>0.701293</td>
+      <td>0.601888</td>
+      <td>0.488402</td>
+      <td>0.583821</td>
+      <td>0.471135</td>
+      <td>0.456757</td>
+      <td>0.394323</td>
+    </tr>
+    <tr>
+      <th>Lamp5</th>
+      <td>1.0</td>
+      <td>0.396334</td>
+      <td>0.570967</td>
+      <td>0.270190</td>
+      <td>1.144927</td>
+      <td>0.668095</td>
+      <td>1.072014</td>
+      <td>1.080740</td>
+      <td>1.521001</td>
+      <td>1.666255</td>
+      <td>...</td>
+      <td>0.675580</td>
+      <td>0.596514</td>
+      <td>0.467924</td>
+      <td>0.610111</td>
+      <td>0.579131</td>
+      <td>0.587864</td>
+      <td>0.589750</td>
+      <td>0.568379</td>
+      <td>0.550557</td>
+      <td>0.388556</td>
+    </tr>
+    <tr>
+      <th>Lamp5_LHX6</th>
+      <td>1.0</td>
+      <td>0.404816</td>
+      <td>0.608607</td>
+      <td>0.253795</td>
+      <td>1.325472</td>
+      <td>0.601759</td>
+      <td>0.982635</td>
+      <td>1.042335</td>
+      <td>1.219227</td>
+      <td>1.265571</td>
+      <td>...</td>
+      <td>0.774466</td>
+      <td>0.677173</td>
+      <td>0.498887</td>
+      <td>0.602810</td>
+      <td>0.579005</td>
+      <td>0.603801</td>
+      <td>0.663251</td>
+      <td>0.588113</td>
+      <td>0.537083</td>
+      <td>0.364999</td>
+    </tr>
+    <tr>
+      <th>Sncg</th>
+      <td>1.0</td>
+      <td>0.402602</td>
+      <td>0.546298</td>
+      <td>0.251427</td>
+      <td>1.250350</td>
+      <td>1.081394</td>
+      <td>1.136336</td>
+      <td>1.014171</td>
+      <td>1.537153</td>
+      <td>1.924419</td>
+      <td>...</td>
+      <td>0.721124</td>
+      <td>0.700234</td>
+      <td>0.611148</td>
+      <td>0.784875</td>
+      <td>0.690060</td>
+      <td>0.841363</td>
+      <td>0.740360</td>
+      <td>0.664454</td>
+      <td>0.594320</td>
+      <td>0.359005</td>
+    </tr>
+    <tr>
+      <th>Vip</th>
+      <td>1.0</td>
+      <td>0.358805</td>
+      <td>0.494400</td>
+      <td>0.254932</td>
+      <td>1.173710</td>
+      <td>0.901838</td>
+      <td>1.023045</td>
+      <td>1.004033</td>
+      <td>1.327499</td>
+      <td>1.684392</td>
+      <td>...</td>
+      <td>0.731962</td>
+      <td>0.694987</td>
+      <td>0.586643</td>
+      <td>0.722016</td>
+      <td>0.728619</td>
+      <td>0.858907</td>
+      <td>0.835467</td>
+      <td>0.704260</td>
+      <td>0.587966</td>
+      <td>0.404680</td>
+    </tr>
+    <tr>
+      <th>Pvalb</th>
+      <td>1.0</td>
+      <td>0.470842</td>
+      <td>0.609634</td>
+      <td>0.227138</td>
+      <td>1.089242</td>
+      <td>0.469059</td>
+      <td>0.983036</td>
+      <td>0.705535</td>
+      <td>1.355733</td>
+      <td>1.528034</td>
+      <td>...</td>
+      <td>0.765015</td>
+      <td>0.775923</td>
+      <td>0.620986</td>
+      <td>0.802344</td>
+      <td>0.772071</td>
+      <td>0.796700</td>
+      <td>0.711192</td>
+      <td>0.666182</td>
+      <td>0.607206</td>
+      <td>0.459098</td>
+    </tr>
+    <tr>
+      <th>Pvalb_ChC</th>
+      <td>1.0</td>
+      <td>0.517545</td>
+      <td>0.846547</td>
+      <td>0.215440</td>
+      <td>1.205763</td>
+      <td>0.434411</td>
+      <td>0.905762</td>
+      <td>0.603844</td>
+      <td>1.370046</td>
+      <td>1.216711</td>
+      <td>...</td>
+      <td>0.937215</td>
+      <td>0.902624</td>
+      <td>0.672443</td>
+      <td>0.843801</td>
+      <td>0.747351</td>
+      <td>0.867895</td>
+      <td>0.771968</td>
+      <td>0.695975</td>
+      <td>0.632434</td>
+      <td>0.469026</td>
+    </tr>
+    <tr>
+      <th>Sst</th>
+      <td>1.0</td>
+      <td>0.506479</td>
+      <td>0.707526</td>
+      <td>0.234483</td>
+      <td>1.298698</td>
+      <td>0.511207</td>
+      <td>1.094510</td>
+      <td>1.015818</td>
+      <td>1.331275</td>
+      <td>1.546514</td>
+      <td>...</td>
+      <td>0.739821</td>
+      <td>0.654896</td>
+      <td>0.548909</td>
+      <td>0.687845</td>
+      <td>0.799333</td>
+      <td>0.821752</td>
+      <td>0.786264</td>
+      <td>0.700508</td>
+      <td>0.615703</td>
+      <td>0.454094</td>
+    </tr>
+    <tr>
+      <th>CHD7</th>
+      <td>1.0</td>
+      <td>0.632120</td>
+      <td>0.663165</td>
+      <td>0.232783</td>
+      <td>0.855401</td>
+      <td>0.630320</td>
+      <td>0.934222</td>
+      <td>0.840777</td>
+      <td>1.288995</td>
+      <td>1.273929</td>
+      <td>...</td>
+      <td>0.666504</td>
+      <td>0.639161</td>
+      <td>0.519633</td>
+      <td>0.630447</td>
+      <td>0.649252</td>
+      <td>0.685826</td>
+      <td>0.667158</td>
+      <td>0.617631</td>
+      <td>0.522935</td>
+      <td>0.374313</td>
+    </tr>
+    <tr>
+      <th>MSN_D1</th>
+      <td>1.0</td>
+      <td>0.487243</td>
+      <td>1.004119</td>
+      <td>0.194402</td>
+      <td>1.251101</td>
+      <td>0.874967</td>
+      <td>1.127812</td>
+      <td>1.248663</td>
+      <td>1.757706</td>
+      <td>1.507170</td>
+      <td>...</td>
+      <td>0.694553</td>
+      <td>0.515377</td>
+      <td>0.509170</td>
+      <td>0.671571</td>
+      <td>0.681606</td>
+      <td>0.613367</td>
+      <td>0.553275</td>
+      <td>0.483214</td>
+      <td>0.479693</td>
+      <td>0.360556</td>
+    </tr>
+    <tr>
+      <th>MSN_D2</th>
+      <td>1.0</td>
+      <td>0.479048</td>
+      <td>1.051841</td>
+      <td>0.254269</td>
+      <td>1.213524</td>
+      <td>0.860425</td>
+      <td>1.126030</td>
+      <td>1.199805</td>
+      <td>1.700450</td>
+      <td>1.445411</td>
+      <td>...</td>
+      <td>0.658539</td>
+      <td>0.485480</td>
+      <td>0.486422</td>
+      <td>0.626516</td>
+      <td>0.626566</td>
+      <td>0.647211</td>
+      <td>0.549901</td>
+      <td>0.478409</td>
+      <td>0.457948</td>
+      <td>0.376326</td>
+    </tr>
+    <tr>
+      <th>Foxp2</th>
+      <td>1.0</td>
+      <td>0.473911</td>
+      <td>0.857691</td>
+      <td>0.279863</td>
+      <td>1.141587</td>
+      <td>0.749200</td>
+      <td>0.834646</td>
+      <td>0.999043</td>
+      <td>1.433186</td>
+      <td>1.678098</td>
+      <td>...</td>
+      <td>0.540286</td>
+      <td>0.512814</td>
+      <td>0.551306</td>
+      <td>0.632186</td>
+      <td>0.662397</td>
+      <td>0.750259</td>
+      <td>0.582253</td>
+      <td>0.539680</td>
+      <td>0.503252</td>
+      <td>0.441115</td>
+    </tr>
+    <tr>
+      <th>SubCtx</th>
+      <td>1.0</td>
+      <td>0.487050</td>
+      <td>0.885348</td>
+      <td>0.259848</td>
+      <td>1.279375</td>
+      <td>0.810411</td>
+      <td>1.101160</td>
+      <td>0.991180</td>
+      <td>1.509706</td>
+      <td>1.677918</td>
+      <td>...</td>
+      <td>0.674976</td>
+      <td>0.636079</td>
+      <td>0.524447</td>
+      <td>0.716531</td>
+      <td>0.676386</td>
+      <td>0.796614</td>
+      <td>0.708006</td>
+      <td>0.668927</td>
+      <td>0.566836</td>
+      <td>0.365590</td>
+    </tr>
+  </tbody>
+</table>
+<p>21 rows × 287509 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopch</span> <span class="o">=</span> <span class="p">(</span><span class="n">ratio</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">ratio</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">loopch</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">loopch</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">loopq</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">leg</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="p">[</span><span class="s1">&#39;mCH_corr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loopch</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">loopq</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="atac">
+<h3>ATAC<a class="headerlink" href="#atac" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sig</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/atac_majortype/cluster_atac_signal.hdf&#39;</span><span class="p">)</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/atac_majortype/cluster_atac_cov.hdf&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bins</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">sig</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bins</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">bins</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bins</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">5000</span>
+<span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="p">(</span><span class="n">bins</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sig</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">cov</span> <span class="o">=</span> <span class="n">cov</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom10k&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">atac</span> <span class="o">=</span> <span class="p">(</span><span class="n">sig</span><span class="o">/</span><span class="n">cov</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">legatac</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="n">leg</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">atac</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+<span class="n">atac</span> <span class="o">=</span> <span class="n">atac</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">legatac</span><span class="p">]</span>
+<span class="n">atac</span> <span class="o">=</span> <span class="n">atac</span> <span class="o">/</span> <span class="n">atac</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopatac</span> <span class="o">=</span> <span class="p">(</span><span class="n">atac</span><span class="p">[</span><span class="n">idx1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">+</span> <span class="n">atac</span><span class="p">[</span><span class="n">idx2</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">T</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="n">loopatac</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">loopatac</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">loopq</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">legatac</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="p">[</span><span class="s1">&#39;ATAC_corr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">pearsonr</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span><span class="n">yy</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">loopatac</span><span class="p">[</span><span class="n">legatac</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">loopq</span><span class="p">[</span><span class="n">legatac</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>Qanova</th>
+      <th>Eanova</th>
+      <th>Tanova</th>
+      <th>mCG_corr</th>
+      <th>mCH_corr</th>
+      <th>ATAC_corr</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr1</td>
+      <td>900000</td>
+      <td>910000</td>
+      <td>chr1</td>
+      <td>960000</td>
+      <td>970000</td>
+      <td>3.750881</td>
+      <td>6.097476</td>
+      <td>2.068213</td>
+      <td>0.031954</td>
+      <td>0.094070</td>
+      <td>0.253426</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr1</td>
+      <td>900000</td>
+      <td>910000</td>
+      <td>chr1</td>
+      <td>970000</td>
+      <td>980000</td>
+      <td>3.322128</td>
+      <td>6.001146</td>
+      <td>2.007495</td>
+      <td>-0.090257</td>
+      <td>0.070470</td>
+      <td>0.265731</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>970000</td>
+      <td>980000</td>
+      <td>3.293559</td>
+      <td>5.439024</td>
+      <td>2.229271</td>
+      <td>-0.018746</td>
+      <td>-0.044665</td>
+      <td>0.376666</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>980000</td>
+      <td>990000</td>
+      <td>2.704021</td>
+      <td>5.648575</td>
+      <td>2.289167</td>
+      <td>-0.105304</td>
+      <td>-0.060823</td>
+      <td>0.306052</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr1</td>
+      <td>910000</td>
+      <td>920000</td>
+      <td>chr1</td>
+      <td>990000</td>
+      <td>1000000</td>
+      <td>2.819877</td>
+      <td>5.675182</td>
+      <td>1.669268</td>
+      <td>-0.354732</td>
+      <td>-0.320624</td>
+      <td>0.051738</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2873610</th>
+      <td>chr22</td>
+      <td>50570000</td>
+      <td>50580000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>1.646674</td>
+      <td>11.822375</td>
+      <td>1.625390</td>
+      <td>0.009941</td>
+      <td>-0.277535</td>
+      <td>0.078601</td>
+    </tr>
+    <tr>
+      <th>2873611</th>
+      <td>chr22</td>
+      <td>50580000</td>
+      <td>50590000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>2.256175</td>
+      <td>11.555016</td>
+      <td>1.335000</td>
+      <td>-0.049832</td>
+      <td>-0.312835</td>
+      <td>0.082439</td>
+    </tr>
+    <tr>
+      <th>2873612</th>
+      <td>chr22</td>
+      <td>50590000</td>
+      <td>50600000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>3.531459</td>
+      <td>11.165133</td>
+      <td>1.195543</td>
+      <td>0.075519</td>
+      <td>-0.135215</td>
+      <td>0.085896</td>
+    </tr>
+    <tr>
+      <th>2873613</th>
+      <td>chr22</td>
+      <td>50600000</td>
+      <td>50610000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>4.896728</td>
+      <td>11.926161</td>
+      <td>2.028210</td>
+      <td>0.152859</td>
+      <td>-0.214300</td>
+      <td>0.119297</td>
+    </tr>
+    <tr>
+      <th>2873614</th>
+      <td>chr22</td>
+      <td>50610000</td>
+      <td>50620000</td>
+      <td>chr22</td>
+      <td>50670000</td>
+      <td>50680000</td>
+      <td>5.475712</td>
+      <td>13.031472</td>
+      <td>3.153314</td>
+      <td>-0.041111</td>
+      <td>-0.198155</td>
+      <td>0.250070</td>
+    </tr>
+  </tbody>
+</table>
+<p>2873615 rows × 12 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">loopcg</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_mCG.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">loopch</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_mCH.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">loopatac</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_ATAC.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba/loop_majortype"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="03.apa.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Aggregate peak analysis of differential loops</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="05.plot.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Plot correlation between loop and mC/ATAC/RNA</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-mc">Load Loop mC</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mcg">mCG</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mch">mCH</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#atac">ATAC</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jingtian Zhou
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
