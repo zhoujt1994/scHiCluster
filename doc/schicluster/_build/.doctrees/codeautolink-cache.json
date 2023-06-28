@@ -1,0 +1,759 @@
+{
+  "Tan2021/intro": [],
+  "Tan2021/rna_3c_integrate": [
+    {
+      "source": "import time\nimport numpy as np\nimport pandas as pd\nfrom glob import glob\nimport anndata\nimport scanpy as sc\nimport scanpy.external as sce\nimport matplotlib as mpl\nimport matplotlib.pyplot as plt\nfrom matplotlib.colors import LogNorm\nfrom matplotlib import cm as cm\nimport seaborn as sns\nfrom scipy.sparse import csr_matrix\nfrom ALLCools.plot import *\nfrom ALLCools.clustering import *\nfrom ALLCools.integration.seurat_class import SeuratIntegration\nfrom sklearn.decomposition import TruncatedSVD\nfrom sklearn.preprocessing import normalize, OneHotEncoder\nimport pynndescent\n\nmpl.style.use('default')\nmpl.rcParams['pdf.fonttype'] = 42\nmpl.rcParams['ps.fonttype'] = 42\nmpl.rcParams['font.family'] = 'sans-serif'\nmpl.rcParams['font.sans-serif'] = 'Helvetica'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 20002
+    },
+    {
+      "source": "gene_hdf = pd.read_hdf(f'/data/test_schicluster/Tan2021/scool/dataset/Tan2021.geneimputescore.hdf', key='data')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 30002
+    },
+    {
+      "source": "res = 10000\ngene_meta_path = '/data/ref/mm10/gencode/vm22/gencode.vM22.annotation.gene.flat.tsv.gz'\ngene_meta = pd.read_csv(gene_meta_path, index_col='gene_id', sep='\\t')\ngene_meta['bin_len'] = (gene_meta['end'] // res) - (gene_meta['start'] // res) + 1\n#gene_meta['weight'] = gene_meta['bin_len'] * (gene_meta['bin_len'] + 1) / 2\ngene_meta['weight'] = (gene_meta['bin_len']+2) * (gene_meta['bin_len'] + 1) / 2\n#gene_meta['weight'] = gene_meta['bin_len'].copy()\n\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 40002
+    },
+    {
+      "source": "indir = '/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 50002
+    },
+    {
+      "source": "chrom_size_path = '/data/ref/mm10/genome/mm10.main.chrom.sizes'\nchromsize = pd.read_csv(chrom_size_path, sep='\\t', header=None, index_col=0)\ngene_meta = gene_meta[gene_meta['chrom'].isin(chromsize.index)]\ngene_meta\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 60002
+    },
+    {
+      "source": "#gene_hdf = gene_hdf * gene_meta.loc[gene_hdf.columns, 'weight']\n(gene_hdf>0).sum(axis=1)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 70002
+    },
+    {
+      "source": "adata = anndata.read_h5ad(f'{indir}Tan2021_dipc.h5ad')\nadata",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 80002
+    },
+    {
+      "source": "gene3c = anndata.AnnData(gene_hdf.loc[adata.obs.index], obs=adata.obs, var=gene_meta.loc[gene_hdf.columns])\ngene3c\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 90002
+    },
+    {
+      "source": "chrom_to_remove = ['chrL', 'chrM', 'chrX', 'chrY']\nchrfilter = ~gene3c.var['chrom'].isin(chrom_to_remove)\ngene3c = gene3c[:, chrfilter]\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 100002
+    },
+    {
+      "source": "genefilter = ((gene3c.X>0).sum(axis=0)>10)\ngene3c = gene3c[:, genefilter]\ngene3c\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 110002
+    },
+    {
+      "source": "gene3c.var.index.name = 'gene_id'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 120002
+    },
+    {
+      "source": "gene3c.raw = gene3c.copy()\n#sc.pp.highly_variable_genes(gene3c, n_top_genes=2000, flavor='seurat_v3')\ngene3c.write_h5ad(f'cell_{gene3c.shape[0]}_gene3C.h5ad')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 130002
+    },
+    {
+      "source": "# gene3c = anndata.read_h5ad(f'{indir}cell_8225_gene3C_impute.h5ad')\ngene3c = anndata.read_h5ad(glob(f'cell_*_gene3C.h5ad')[0])\ngene3c",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 140002
+    },
+    {
+      "source": "gene_meta",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 150002
+    },
+    {
+      "source": "gene3c.var.index = gene_meta.loc[gene3c.var.index, 'gene_name']\ngene3c.var_names_make_unique()",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 160002
+    },
+    {
+      "source": "sc.pp.normalize_total(gene3c, target_sum=np.median(gene3c.X.sum(axis=1)))\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 170002
+    },
+    {
+      "source": "expr = anndata.read_h5ad(f'{indir}Tan2021_rna.h5ad')\nexpr",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 180002
+    },
+    {
+      "source": "expr = anndata.AnnData(X=expr.raw.X, obs=expr.obs, var=expr.raw.var, raw=expr.raw, obsm=expr.obsm, uns=expr.uns, obsp=expr.obsp)\nexpr = expr[:, expr.var.index.isin(gene3c.var.index)]\nexpr",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 190002
+    },
+    {
+      "source": "gene3c = gene3c[:, gene3c.var.index.isin(expr.var.index)]\ngene3c",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 200002
+    },
+    {
+      "source": "tmp = np.std(gene3c.X, axis=0)\nfrom scipy.stats import rankdata\ntmp = rankdata(-tmp)\ngene3c.var['highly_variable'] = (tmp<2000)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 210002
+    },
+    {
+      "source": "gene3c = gene3c[:, gene3c.var['highly_variable']]\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 220002
+    },
+    {
+      "source": "expr = expr[:, gene3c.var.index]\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 230002
+    },
+    {
+      "source": "# sc.pp.highly_variable_genes(expr, n_top_genes=2000)\n# expr = expr[:, expr.var.highly_variable]\nsc.pp.regress_out(expr, ['nUMI'])\nsc.pp.scale(expr, max_value=10)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 240002
+    },
+    {
+      "source": "dim = 50\nmodel = TruncatedSVD(n_components=dim, algorithm='arpack')\nmatrix_reduce = model.fit_transform(expr.X)\nmatrix_reduce = matrix_reduce / model.singular_values_\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 250002
+    },
+    {
+      "source": "expr.obsm['rna_pca_all'] = matrix_reduce.copy()\nsignificant_pc_test(expr, p_cutoff=0.1, update=False, obsm='rna_pca_all')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 260002
+    },
+    {
+      "source": "def dump_embedding(adata, name, n_dim=2):\n    # put manifold coordinates into adata.obs\n    for i in range(n_dim):\n        adata.obs[f'{name}_{i}'] = adata.obsm[f'X_{name}'][:, i]\n    return adata\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 270002
+    },
+    {
+      "source": "knn = 25\nexpr.obsm['X_pca'] = normalize(expr.obsm['rna_pca_all'][:, :30], axis=1)\nsc.pp.neighbors(expr, n_neighbors=knn, use_rep='X_pca')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 280002
+    },
+    {
+      "source": "sc.tl.umap(expr, maxiter=200, random_state=0)\nexpr = dump_embedding(expr, 'umap')\nexpr.obsm['rna_u30_umap'] = expr.obsm['X_umap'].copy()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 290002
+    },
+    {
+      "source": "fig, axes = plt.subplots(2, 2, figsize=(12, 8), dpi=300, constrained_layout=True)\n_ = continuous_scatter(ax=axes[0,0],\n                       data=expr.obs,\n                       hue='nUMI',\n                       coord_base='umap',\n                       max_points=None,\n                       labelsize=10,\n                       )\n_ = categorical_scatter(data=expr.obs,\n                        ax=axes[0,1],\n                        coord_base='umap',\n                        hue='age',\n                        palette='rainbow',\n                        labelsize=10,\n                        show_legend=True)\n_ = categorical_scatter(ax=axes[1,0],\n                        data=expr.obs,\n                        hue='region',\n                        coord_base='umap',\n                        # text_anno='region',\n                        # palette='tab10',\n                        labelsize=10,\n                        show_legend=True\n                       )\n_ = categorical_scatter(ax=axes[1,1],\n                        data=expr.obs,\n                        hue='cluster',\n                        coord_base='umap',\n                        # text_anno='cluster',\n                        palette='tab20',\n                        labelsize=10,\n                        # show_legend=True\n                       )\n\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 300002
+    },
+    {
+      "source": "gene3c",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 310002
+    },
+    {
+      "source": "sc.pp.regress_out(gene3c, ['contacts'])\nsc.pp.scale(gene3c, max_value=10)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 330002
+    },
+    {
+      "source": "gene3c.obsm['X_pca'] = model.transform(gene3c.X) / model.singular_values_\ngene3c.obsm['X_pca'] = normalize(gene3c.obsm['X_pca'][:, :30], axis=1)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 340002
+    },
+    {
+      "source": "expr.obs['Modality'] = 'RNA'\ngene3c.obs['Modality'] = '3C'",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 350002
+    },
+    {
+      "source": "adata_list = [expr, gene3c]\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 360002
+    },
+    {
+      "source": "integrator = SeuratIntegration()",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 370002
+    },
+    {
+      "source": "anchor = integrator.find_anchor(adata_list,\n                                k_local=None,\n                                key_local='X_pca',\n                                k_anchor=5,\n                                key_anchor='X',\n                                dim_red='cca',\n                                max_cc_cells=50000,\n                                k_score=30,\n                                k_filter=None,\n                                scale1=False,\n                                scale2=False,\n                                #scale =[False, True]\n                                n_components=30,\n                                n_features=200,\n                                alignments=[[[0], [1]]])\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 380002
+    },
+    {
+      "source": "start_time = time.time()\ncorrected = integrator.integrate(key_correct='X_pca',\n                                 row_normalize=True,\n                                 n_components=30,\n                                 k_weight=100,\n                                 sd=1,\n                                 alignments=[[[0], [1]]])\n\nprint(time.time() - start_time)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 390002
+    },
+    {
+      "source": "ncell = np.sum([xx.shape[0] for xx in adata_list])\nadata_merge = anndata.AnnData(\n    X=np.ones((ncell, 1)), obs=pd.concat([xx.obs for xx in adata_list], axis=0)\n)\nadata_merge\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 400002
+    },
+    {
+      "source": "adata_merge.obsm['u30_seuratcc30nofilter'] = np.concatenate(corrected, axis=0)\nadata_merge.obsm['X_pca'] = normalize(adata_merge.obsm['u30_seuratcc30nofilter'][:, :30], axis=1)\n# sce.pp.harmony_integrate(adata_merge, 'Modality', max_iter_harmony=30, random_state=0)\n# adata_merge.obsm['log_reghvg_cca_u25hm'] = adata_merge.obsm['X_pca_harmony'].copy()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 410002
+    },
+    {
+      "source": "knn = 25\nsc.pp.neighbors(adata_merge, n_neighbors=knn, use_rep='u30_seuratcc30nofilter')\nsc.tl.umap(adata_merge, maxiter=200, random_state=0)\nadata_merge = dump_embedding(adata_merge, 'umap')\nadata_merge.obsm['u30_seuratcc30nofilter_u30_umap'] = adata_merge.obsm['X_umap'].copy()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 420002
+    },
+    {
+      "source": "legage = np.sort(adata_merge.obs['age'].unique())\npalage = {xx:yy for xx,yy in zip(legage, sns.color_palette('hls', len(legage)))}\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 430002
+    },
+    {
+      "source": "# adata_merge.obsm['X_umap'] = adata_merge.obsm['u50_seuratcc30nofilter_u30_umap'].copy()\n# dump_embedding(adata_merge, 'umap')\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8), dpi=300, constrained_layout=True)\ntmp = adata_merge.obs.loc[adata_merge.obs['Modality']=='3C']\nax = axes[0,0]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='age',\n                        palette=palage,\n                        labelsize=10,\n                        show_legend=True)\n\nax = axes[0,1]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='leiden',\n                        text_anno='leiden',\n                        palette='tab20',\n                        labelsize=10,\n                        #show_legend=True\n                       )\n\ntmp = adata_merge.obs.loc[adata_merge.obs['Modality']=='RNA']\nax = axes[1,0]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='age',\n                        palette=palage,\n                        labelsize=10,\n                        show_legend=True)\n\nax = axes[1,1]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='cluster',\n                        # text_anno='cluster',\n                        palette='tab20',\n                        labelsize=10,\n                        #show_legend=True\n                       )\n\n\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 440002
+    },
+    {
+      "source": "adata_merge.obs.loc[:,adata_merge.obs.dtypes == 'object'] = adata_merge.obs.loc[:,adata_merge.obs.dtypes == 'object'].astype(str)\nadata_merge.write_h5ad('Tan2021_rna3c.h5ad')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 450002
+    },
+    {
+      "source": "rna_cell = (adata_merge.obs['Modality']=='RNA')\nhic_cell = (adata_merge.obs['Modality']=='3C')\nprint(rna_cell.sum(), hic_cell.sum())\n\nstart_time = time.time()\nindex = pynndescent.NNDescent(adata_merge.obsm['X_pca'][rna_cell], metric='euclidean', n_neighbors=50, random_state=0, n_jobs=-1)\nprint(time.time() - start_time)\nG, D = index.query(adata_merge.obsm['X_pca'][hic_cell], k=15)\nprint(time.time() - start_time)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 460002
+    },
+    {
+      "source": "chunk_size = 50000\nsd = 1\nstart_time = time.time()\ncellfilter = D[:, -1] == 0\nD = 1 - D / D[:, -1][:, None]\nD[cellfilter] = 1\nD = 1 - np.exp(-D * (sd**2) / 4)\nD = D / (np.sum(D, axis=1) + 1e-6)[:, None]\nprint(time.time() - start_time)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 470002
+    },
+    {
+      "source": "rna_cell = rna_cell.index[rna_cell]\nhic_cell = hic_cell.index[hic_cell]\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 480002
+    },
+    {
+      "source": "enc = OneHotEncoder()\n# enc.fit(adata_merge.obs.loc[aibs_cell, ['L3']].values.astype(str))\nlabelref = enc.fit_transform(adata_merge.obs.loc[rna_cell, 'cluster'].astype(str)[:, None])\ncluster = pd.DataFrame(index=hic_cell, columns=['rnatype', 'score'], dtype=str)\nfor chunk_start in range(0, len(hic_cell), chunk_size):\n    result = (\n        D[chunk_start : (chunk_start + chunk_size), :, None]\n        * labelref[G[chunk_start : (chunk_start + chunk_size)].flatten()]\n        .toarray()\n        .reshape((-1, 15, enc.categories_[0].shape[0]))\n    ).sum(axis=1)\n    result = pd.DataFrame(\n        result,\n        columns=enc.categories_[0],\n        index=hic_cell[chunk_start : (chunk_start + chunk_size)],\n    )\n    result = result.loc[:, result.columns != \"nan\"]\n    cluster.loc[result.index, \"rnatype\"] = result.idxmax(axis=1).values\n    cluster.loc[result.index, \"score\"] = result.max(axis=1).values\n    print(chunk_start)\n\nprint(time.time() - start_time)\ncluster.to_hdf(\"DipC_rnacluster.hdf\", key=\"data\")\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 490002
+    },
+    {
+      "source": "cluster['dipctype'] = adata_merge.obs.loc[hic_cell, 'cell-type cluster']\nadata_merge.obs.loc[hic_cell, 'cluster'] = cluster['rnatype']",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 500002
+    },
+    {
+      "source": "# adata_merge.obsm['X_umap'] = adata_merge.obsm['u50_seuratcc30nofilter_u30_umap'].copy()\n# dump_embedding(adata_merge, 'umap')\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8), dpi=300, constrained_layout=True)\ntmp = adata_merge.obs.loc[adata_merge.obs['Modality']=='3C']\nax = axes[0,0]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='age',\n                        palette=palage,\n                        labelsize=10,\n                        show_legend=True)\n\nax = axes[0,1]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='cluster',\n                        # text_anno='celltype',\n                        palette='tab20',\n                        labelsize=10,\n                        #show_legend=True\n                       )\n\ntmp = adata_merge.obs.loc[adata_merge.obs['Modality']=='RNA']\nax = axes[1,0]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='age',\n                        palette=palage,\n                        labelsize=10,\n                        show_legend=True)\n\nax = axes[1,1]\nax.scatter(adata_merge.obs['umap_0'], adata_merge.obs['umap_1'], c='#e0e0e0', edgecolors='none', s=1, rasterized=True)\n_ = categorical_scatter(data=tmp,\n                        ax=ax,\n                        coord_base='umap',\n                        hue='cluster',\n                        # text_anno='cluster',\n                        palette='tab20',\n                        labelsize=10,\n                        #show_legend=True\n                       )\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 510002
+    },
+    {
+      "source": "cf_matrix = cluster[['dipctype','rnatype']].value_counts().unstack().fillna(0)\ncf_matrix = cf_matrix / np.sqrt(cf_matrix.sum(axis=1)[:,None]) / np.sqrt(cf_matrix.sum(axis=0))",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 520002
+    },
+    {
+      "source": "idx = pd.Series(np.arange(cf_matrix.shape[1]), cf_matrix.columns)",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 530002
+    },
+    {
+      "source": "fig, ax = plt.subplots(figsize=(8,4), dpi=300)\nsns.heatmap(cf_matrix.iloc[np.argsort(idx[np.argmax(cf_matrix.values, axis=1)])], ax=ax)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 540002
+    },
+    {
+      "source": "cluster['rnatype'].value_counts()",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 550002
+    },
+    {
+      "source": "cluster.to_csv('Tan2021_dipc_cluster.csv.gz', )",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 560002
+    },
+    {
+      "source": "cluster['dipcleiden'] = adata_merge.obs.loc[hic_cell, 'leiden']\ncf_matrix = cluster[['dipcleiden','rnatype']].value_counts().unstack().fillna(0)\ncf_matrix = cf_matrix / np.sqrt(cf_matrix.sum(axis=1)[:,None]) / np.sqrt(cf_matrix.sum(axis=0))\nidx = pd.Series(np.arange(cf_matrix.shape[1]), cf_matrix.columns)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 580002
+    },
+    {
+      "source": "sns.clustermap(cf_matrix, figsize=(8,8))\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/rna_3c_integrate",
+        "ref_id": "assign-dipc-cells-to-rna-clusters",
+        "headings": [
+          "Assign DipC cells to RNA clusters"
+        ]
+      },
+      "doc_lineno": 590002
+    }
+  ],
+  "api/comp_concatcell_chr/index": [],
+  "api/comp_cpg_cell/index": [],
+  "api/domain_concatcell_chr/index": [],
+  "api/domain_insulation_cell/index": [],
+  "api/embed_concatcell_chr/index": [],
+  "api/embed_mergechr/index": [],
+  "api/gene_score/index": [],
+  "api/generatematrix_cell/index": [],
+  "api/impute_cell/index": [],
+  "api/loop_bkg_cell/index": [],
+  "api/loop_mergechr/index": [],
+  "api/loop_sumcell_chr/index": [],
+  "api/schicluster/__main__/index": [
+    {
+      "source": "\"\"\"\nscHiCluster is a toolkit for single-cell HiC data preprocessing, imputation, and clustering analysis.\n\nCurrent Tool List in scHiCluster:\n\n\"\"\"",
+      "names": [],
+      "example": {
+        "document": "api/schicluster/__main__/index",
+        "ref_id": "module-contents",
+        "headings": [
+          "schicluster.__main__",
+          "Module Contents"
+        ]
+      },
+      "doc_lineno": 30
+    }
+  ],
+  "api/schicluster/_hicluster_internal/index": [
+    {
+      "source": "\"\"\"\nhic-internal is used for automation, not intend to be used by end user.\nUse hicluster instead.\n\"\"\"",
+      "names": [],
+      "example": {
+        "document": "api/schicluster/_hicluster_internal/index",
+        "ref_id": "module-contents",
+        "headings": [
+          "schicluster._hicluster_internal",
+          "Module Contents"
+        ]
+      },
+      "doc_lineno": 21
+    }
+  ],
+  "api/schicluster/_version/index": [],
+  "api/schicluster/compartment/call_compartment/index": [],
+  "api/schicluster/compartment/index": [],
+  "api/schicluster/cool/index": [],
+  "api/schicluster/cool/merge/index": [],
+  "api/schicluster/cool/remove_blacklist/index": [],
+  "api/schicluster/cool/scool/index": [],
+  "api/schicluster/cool/utilities/index": [],
+  "api/schicluster/dev/concat_cell/index": [],
+  "api/schicluster/dev/generate_matrix/index": [],
+  "api/schicluster/dev/imputecell/index": [],
+  "api/schicluster/dev/index": [],
+  "api/schicluster/dev/loop_sc/index": [],
+  "api/schicluster/dev/merge_cell/index": [],
+  "api/schicluster/diff/domain/index": [],
+  "api/schicluster/diff/index": [],
+  "api/schicluster/diff/loop/index": [],
+  "api/schicluster/domain/call_domain/index": [],
+  "api/schicluster/domain/index": [],
+  "api/schicluster/embedding/calc_embedding/index": [],
+  "api/schicluster/embedding/index": [],
+  "api/schicluster/impute/impute_chromosome/index": [],
+  "api/schicluster/impute/index": [],
+  "api/schicluster/impute/merge_cell_to_group/index": [],
+  "api/schicluster/impute/snakemake/index": [],
+  "api/schicluster/index": [],
+  "api/schicluster/loop/compare_loop/index": [],
+  "api/schicluster/loop/index": [],
+  "api/schicluster/loop/loop_bkg/index": [],
+  "api/schicluster/loop/loop_calling/index": [],
+  "api/schicluster/loop/merge_cell_to_group/index": [],
+  "api/schicluster/loop/merge_group/index": [],
+  "api/schicluster/loop/merge_raw_matrix/index": [],
+  "api/schicluster/loop/shuffle_fdr/index": [],
+  "api/schicluster/loop/snakemake/index": [],
+  "api/schicluster/schicluster/index": [],
+  "api/schicluster/zarr/cool_ds/index": [],
+  "api/schicluster/zarr/index": [],
+  "api/schicluster/zarr/loop_ds/index": [],
+  "hba/intro": []
+}

@@ -1,0 +1,47 @@
+format: jb-book
+root: intro
+parts:
+  - caption: Tutorial
+    chapters:
+    - file: hba/intro
+      sections:
+      - file: hba/prepare
+      - file: hba/rna_majortype/intro
+        sections:
+        - file: hba/rna_majortype/01.deg
+        - file: hba/rna_majortype/02.loop_corr
+        - file: hba/rna_majortype/03.domain_corr
+        - file: hba/rna_majortype/04.comp_corr
+      - file: hba/loop_majortype/intro
+        sections:
+        - file: hba/loop_majortype/01.diff
+        - file: hba/loop_majortype/02.load
+        - file: hba/loop_majortype/03.apa
+        - file: hba/loop_majortype/04.corr
+        - file: hba/loop_majortype/05.plot
+      - file: hba/domain_majortype/intro
+        sections:
+        - file: hba/domain_majortype/01.call
+        - file: hba/domain_majortype/02.count
+        - file: hba/domain_majortype/03.diff
+        - file: hba/domain_majortype/04.corr
+        - file: hba/domain_majortype/05.plot
+      - file: hba/compartment_majortype/intro
+        sections:
+        - file: hba/compartment_majortype/01.call
+        - file: hba/compartment_majortype/02.comC
+        - file: hba/compartment_majortype/03.example
+        - file: hba/compartment_majortype/04.diff
+        - file: hba/compartment_majortype/05.corr
+        - file: hba/compartment_majortype/06.plot
+      - file: hba/correlation_summary
+    #   - file: hba/decay
+    #     sections:
+    #     - file: hba/decay/01.decay
+    - file: Tan2021/intro
+      sections:
+      - file: Tan2021/rna_clustering
+      - file: Tan2021/dipc_clustering
+      - file: Tan2021/rna_3c_integrate
+      - file: Tan2021/prepare
+      - file: Tan2021/loop_blacklist
