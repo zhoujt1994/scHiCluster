@@ -74,6 +74,9 @@ def read_single_cool_chrom(cool_path, chrom, chrom2=None):
             matrix = triu(selector.fetch(chrom, chrom2))
         else:
             matrix = selector.fetch(chrom, chrom2)
+    with h5py.File(cool_path, 'a') as f:
+        if 'group_n_cells' in f.attrs:
+            matrix.data *= f.attrs['group_n_cells']
     return matrix
 
 
@@ -147,7 +150,7 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     # count total cells
     total_cells = 0
     for chunk_dir in chunk_dirs:
-        total_cells += pd.read_csv(chunk_dir / 'cell_table.csv', index_col=0).shape[0]
+        total_cells += pd.read_csv(chunk_dir / 'cell_table.csv', index_col=0, header=None).shape[0]
 
     chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names=True)
     bins_df = cooler.binnify(chrom_sizes, resolution)

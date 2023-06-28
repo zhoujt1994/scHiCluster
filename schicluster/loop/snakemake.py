@@ -225,7 +225,7 @@ def call_loop(cell_table_path,
                          f'three columns (cell_id, cell_url, cell_group), '
                          f'got {cell_table.shape[1]} columns.')
     cell_table_path = f'{output_dir}/cell_table.csv'
-    cell_table.to_csv(cell_table_path, header=None)
+    cell_table.to_csv(cell_table_path, header=False, index=True)
     groups = cell_table['cell_group'].unique()
 
     kwargs = locals()
@@ -286,9 +286,8 @@ def call_loop(cell_table_path,
                          size_thres=size_thres)
 
     if cleanup:
-        # subprocess.run(f'rm -rf {output_dir}/shuffle', shell=True)
-        subprocess.run(f'rm -rf {output_dir}/*/*global.npz', shell=True)
-        subprocess.run(f'rm -rf {output_dir}/*/*local.npz', shell=True)
+        subprocess.run(f'rm -rf {output_dir}/shuffle/*/*.npz', shell=True)
+        subprocess.run(f'rm -rf {output_dir}/*/*.npz', shell=True)
 
     with open(f'{output_dir}/Success', 'w') as f:
         f.write('42')
@@ -337,7 +336,7 @@ def merge_loop(group,
                                         names=['cell_id', 'cell_url', 'cell_group']) 
                             for xx in group_list], axis=0)
     cell_table['cell_group'] = group
-    cell_table.to_csv(f'{output_dir}/cell_table.csv', header=False)
+    cell_table.to_csv(f'{output_dir}/cell_table.csv', header=False, index=True)
     kwargs = locals()
 
     _merge_kwargs = {k: v for k, v in kwargs.items() if k in inspect.signature(merge_group_to_bigger_group_cools).parameters}
