@@ -2,7 +2,7 @@ import pandas as pd
 from collections import defaultdict
 import pybedtools
 from functools import lru_cache
-
+from concurrent.futures import ProcessPoolExecutor, as_completed
 
 @lru_cache()
 def prepare_2d_blacklist_dict(blacklist_bedpe, resolution=10000):
@@ -43,8 +43,10 @@ def filter_contacts(contact_path,
                     chrom_size_path=None,
                     blacklist_1d_path=None,
                     blacklist_2d_path=None,
+                    output_path=None,
                     remove_duplicates=True,
                     resolution_2d=10000,
+                    min_pos_dist=0,
                     chrom1=1,
                     pos1=2,
                     chrom2=5,
@@ -58,7 +60,10 @@ def filter_contacts(contact_path,
                                    pos1: int,
                                    chrom2: str,
                                    pos2: int
-                               })
+                               }, 
+                               index_col=None,
+                               comment='#',
+                               )
     except Exception as e:
         print(f'Got error when opening {contact_path}')
         raise e
@@ -67,6 +72,9 @@ def filter_contacts(contact_path,
     if remove_duplicates:
         # remove duplicates
         contacts.drop_duplicates(subset=[chrom1, pos1, chrom2, pos2], inplace=True)
+
+    if min_pos_dist>0:
+        contacts = contacts[((contacts[pos2] - contacts[pos1]).abs() > min_pos_dist) |  (contacts[chrom1] != contacts[chrom2])]
 
     chroms = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index
     # remove additional chroms not exist in chrom_size_path
@@ -110,4 +118,46 @@ def filter_contacts(contact_path,
         contacts = contacts[~is_blacklist_2d].copy()
 
     print(f"{contact_path.split('/')[-1]}: {contacts.shape[0]} filtered contacts in scool.")
-    return contacts
+    if output_path is not None:
+        contacts.to_csv(output_path, sep='\t', index=False, header=False)
+    else:
+        return contacts
+
+def filter_contacts_wrapper(contact_table=None,
+                            output_dir=None,
+                            chrom_size_path=None,
+                            blacklist_1d_path=None,
+                            blacklist_2d_path=None,
+                            remove_duplicates=True,
+                            resolution_2d=10000,
+                            chrom1=1,
+                            pos1=2,
+                            chrom2=5,
+                            pos2=6, 
+                            min_pos_dist=0,
+                            cpu=20):
+    contact_table = pd.read_csv(contact_table, sep='\t', header=None, index_col=None)
+    with ProcessPoolExecutor(cpu) as executor:
+        futures = {}
+        for xx,yy in contact_table.values:
+            future = executor.submit(
+                filter_contacts,
+                contact_path=yy,
+                chrom_size_path=chrom_size_path,
+                blacklist_1d_path=blacklist_1d_path,
+                blacklist_2d_path=blacklist_2d_path,
+                output_path=f'{output_dir}/{xx}.contact.rmbkl.tsv.gz',
+                remove_duplicates=remove_duplicates,
+                resolution_2d=resolution_2d,
+                min_pos_dist=min_pos_dist,
+                chrom1=chrom1,
+                pos1=pos1,
+                chrom2=chrom2,
+                pos2=pos2,
+            )
+            futures[future] = xx
+
+        for future in as_completed(futures):
+            print(f'{futures[future]} finished')
+            
+    return

@@ -654,6 +654,38 @@ def merge_cell_raw_register_subparser(subparser):
     parser.add_argument('--min_pos_dist', type=int, default=2500,
                         help='Minimum distance for a fragment to be considered.')
 
+def filter_contacts_register_subparser(subparser):
+    parser = subparser.add_parser('filter-contact',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--contact_table', type=str, default=None, 
+                            help='Full path to cell contact files')
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+                            help='Chromsome size file with only chromosomes to use')
+    parser.add_argument('--output_dir', type=str, default=None, help='Directory to write contact files after filtering')
+    parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
+                        help='Path to blacklist region BED file, such as ENCODE blacklist. '
+                             'Either side of the contact overlapping with a blacklist region will be removed.')
+    parser.add_argument('--blacklist_2d_path', type=str, required=False, default=None,
+                        help='Path to blacklist region pair BEDPE file. '
+                             'Both side of the contact overlapping with the same '
+                             'blacklist region pair will be removed.')
+    parser.add_argument('--blacklist_resolution', dest='resolution_2d', type=int, default=10000, required=False,
+                        help='Resolution in bps when consider the 2D blacklist region pairs.')
+    parser.add_argument('--not_remove_duplicates', dest='remove_duplicates', action='store_false',
+                        help='If set, will NOT remove duplicated contacts based on '
+                             '[chr1, pos1, chr2, pos2] values')
+    parser.set_defaults(remove_duplicates=True)
+    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
+    parser.add_argument('--min_pos_dist', type=int, default=0,
+                        help='Minimum distance for a fragment to be considered.')
+    parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
+
 def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION,
                                      epilog=EPILOG,
@@ -735,6 +767,8 @@ def main():
         from .draft.gene_score import gene_score as func
     elif cur_command in ['merge-cell-raw']:
         from .cool.merge import merge_cell_raw as func
+    elif cur_command in ['filter-contact']:
+        from .cool.remove_blacklist import filter_contacts_wrapper as func
     else:
         log.debug(f'{cur_command} is not an valid sub-command')
         parser.parse_args(["-h"])
