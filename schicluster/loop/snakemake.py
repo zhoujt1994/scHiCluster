@@ -22,7 +22,7 @@ def prepare_dir(output_dir, chunk_df, dist, cap, pad, gap, resolution,
                 min_cutoff, chrom_size_path, keep_cell_matrix, log_e_str, shuffle):
     output_dir.mkdir(exist_ok=True)
     cell_table_path = str((output_dir / 'cell_table.csv').absolute())
-    chunk_df[['cell_url']].to_csv(cell_table_path)
+    chunk_df[['cell_url']].to_csv(cell_table_path, header=False, index=True)
     if shuffle:
         shuffle_str = '--shuffle'
     else:
