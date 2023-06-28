@@ -3,12 +3,12 @@ from schicluster.loop import call_loop
 
 rule call_loop:
     input:
-        'cell_table.tsv'
+        'cell_table.csv'
     output:
         'Success'
     run:
         call_loop(
-            cell_table_path='cell_table.tsv',
+            cell_table_path='cell_table.csv',
             output_dir='./',
             chrom_size_path=chrom_size_path,
             shuffle=True,
