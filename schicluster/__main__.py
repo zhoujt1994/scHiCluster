@@ -621,11 +621,11 @@ def gene_score_register_subparser(subparser):
                             help='Full path to cell cool table')
     parser_req.add_argument('--gene_meta', type=str, default=None, 
                             help='Full path to bed file with region id')
-    parser_req.add_argument('--res', type=int, default=10000, 
+    parser_req.add_argument('--resolution', type=int, default=10000, 
                             help='Resolution of cool file')
     parser_req.add_argument('--output_hdf', type=str, default=None, 
                             help='Full path to output file')
-    parser_req.add_argument('--chrom_size', type=str, default=None, 
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
                             help='Chromsome size file with only chromosomes to use')
     parser.add_argument('--cpu', type=int, default=10, 
                         help='CPUs to use')
@@ -684,6 +684,26 @@ def filter_contacts_register_subparser(subparser):
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--min_pos_dist', type=int, default=0,
                         help='Minimum distance for a fragment to be considered.')
+    parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
+
+def contact_distance_register_subparser(subparser):
+    parser = subparser.add_parser('contact-distance',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--contact_table', type=str, default=None, 
+                            help='Full path to cell contact files')
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+                            help='Chromsome size file with only chromosomes to use')
+    parser_req.add_argument('--output_prefix', type=str, default=None, 
+                            help='Output hdf file prefix including the directory')
+    parser.add_argument('--resolution', type=int, default=10000, 
+                        help='Resolution of cool file')
+    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
 
 def main():
@@ -769,6 +789,8 @@ def main():
         from .cool.merge import merge_cell_raw as func
     elif cur_command in ['filter-contact']:
         from .cool.remove_blacklist import filter_contacts_wrapper as func
+    elif cur_command in ['contact-distance']:
+        from .cool.contact_distance import contact_distance as func
     else:
         log.debug(f'{cur_command} is not an valid sub-command')
         parser.parse_args(["-h"])

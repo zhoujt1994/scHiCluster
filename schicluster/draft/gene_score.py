@@ -34,12 +34,12 @@ def gene_score_impute(cool_path, chrom_sizes, gene):
             result.append(D[(xx-1):(yy+1), xx:(yy+2)].sum())
     return result
 
-def gene_score(cell_table, gene_meta, res, slop, output_hdf, chrom_size, cpu, mode):
-    chrom_sizes = pd.read_csv(chrom_size, sep='\t', header=None, index_col=0)
+def gene_score(cell_table, gene_meta, resolution, slop, output_hdf, chrom_size_path, cpu, mode):
+    chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0)
     gene = pd.read_csv(gene_meta, sep='\t', header=None, index_col=3)
     gene = gene[gene[0].isin(chrom_sizes.index)]
-    gene[1] = (gene[1] - slop) // res
-    gene[2] = (gene[2] + slop) // res
+    gene[1] = (gene[1] - slop) // resolution
+    gene[2] = (gene[2] + slop) // resolution
     if mode=='impute':
         cell_table = pd.read_csv(cell_table, sep='\t', header=None, index_col=None).values
         func = gene_score_impute
