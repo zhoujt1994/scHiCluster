@@ -1,5 +1,6 @@
 import time
 import numpy as np
+import pandas as pd
 from scipy.sparse import csr_matrix, diags, eye
 from scipy.sparse.linalg import norm
 from scipy.ndimage import gaussian_filter
@@ -36,10 +37,12 @@ def random_walk_cpu(P, rp, tol):
     return Q
 
 
-def impute_chromosome(scool_url,
-                      chrom,
+def impute_chromosome(chrom,
                       resolution,
                       output_path,
+                      scool_url=None,
+                      contact_path=None,
+                      chrom_size_path=None,
                       logscale=False,
                       pad=1,
                       std=1,
@@ -48,10 +51,31 @@ def impute_chromosome(scool_url,
                       window_size=500000000,
                       step_size=10000000,
                       output_dist=500000000,
-                      min_cutoff=0):
-    cell_cool = cooler.Cooler(scool_url)
-    A = cell_cool.matrix(balance=False, sparse=True).fetch(chrom)
-    n_bins = A.shape[0]
+                      min_cutoff=0,
+                      chrom1=1,
+                      pos1=2,
+                      chrom2=5,
+                      pos2=6):
+    if scool_url is not None:
+        cell_cool = cooler.Cooler(scool_url)
+        A = cell_cool.matrix(balance=False, sparse=True).fetch(chrom)
+        n_bins = A.shape[0]
+    elif contact_path is not None:
+        if chrom_size_path is not None:
+            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+            n_bins = (chrom_sizes.loc[chrom] // resolution) + 1
+        else:
+            print("ERROR : Must provide chrom_size_path if using contact file as input")
+            return
+        A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None)[[chrom1, pos1, chrom2, pos2]]
+        A = A.loc[(A[chrom1]==chrom) & (A[chrom2]==chrom)]
+        A[[pos1, pos2]] = A[[pos1, pos2]] // resolution
+        A = A.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
+        A = csr_matrix((A[chrom1], (A[pos1], A[pos2])), (n_bins, n_bins))
+    else:
+        print("ERROR : Must provide either scool_url or contact_file_path")
+        return
+
     ws = int(window_size // resolution)
     ss = int(step_size // resolution)
 
