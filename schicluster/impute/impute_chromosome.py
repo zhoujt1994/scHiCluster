@@ -72,6 +72,7 @@ def impute_chromosome(chrom,
         A[[pos1, pos2]] = A[[pos1, pos2]] // resolution
         A = A.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
         A = csr_matrix((A[chrom1], (A[pos1], A[pos2])), (n_bins, n_bins))
+        A = A + A.T
     else:
         print("ERROR : Must provide either scool_url or contact_file_path")
         return
