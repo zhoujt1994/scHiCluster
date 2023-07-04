@@ -21,7 +21,7 @@ def write_coo(path, matrix, chunk_size=5000000):
     """
     matrix = matrix.tocoo(copy=False)
     df = pd.DataFrame({'bin1_id': matrix.row, 'bin2_id': matrix.col, 'count': matrix.data})
-    with pd.HDFStore(path, complib='zlib', complevel=3) as hdf:
+    with pd.HDFStore(path, mode='w', complib='zlib', complevel=3) as hdf:
         if chunk_size is None:
             # no chunk
             hdf['c0'] = df

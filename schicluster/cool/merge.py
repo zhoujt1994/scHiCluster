@@ -3,7 +3,7 @@ import cooler
 import numpy as np
 import pandas as pd
 from glob import glob
-from scipy.sparse import csr_matrix
+from scipy.sparse import csr_matrix, diags
 from schicluster.cool.utilities import get_chrom_offsets
 
 def load_cell_csv_to_csr(cell_path, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist):
@@ -30,6 +30,7 @@ def merge_cell_raw(cell_table, chrom_size_path, output_file, resolution=5000, ch
         data += load_cell_csv_to_csr(xx, chrom_offset, bins_df, resolution, chr1, pos1, chr2, pos2, min_pos_dist)
         print(yy)
 
+    data = data + diags(data.diagonal())
     data = data.tocoo()
     data = pd.DataFrame(np.array([data.row, data.col, data.data], dtype=int).T, columns=['bin1_id', 'bin2_id', 'count'])
 

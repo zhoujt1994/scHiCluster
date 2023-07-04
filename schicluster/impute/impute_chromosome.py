@@ -59,6 +59,7 @@ def impute_chromosome(chrom,
     if scool_url is not None:
         cell_cool = cooler.Cooler(scool_url)
         A = cell_cool.matrix(balance=False, sparse=True).fetch(chrom)
+        # A = A + diags(A.diagonal())
         n_bins = A.shape[0]
     elif contact_path is not None:
         if chrom_size_path is not None:
@@ -69,9 +70,9 @@ def impute_chromosome(chrom,
             return
         A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None)[[chrom1, pos1, chrom2, pos2]]
         A = A.loc[(A[chrom1]==chrom) & (A[chrom2]==chrom)]
-        A[[pos1, pos2]] = A[[pos1, pos2]] // resolution
+        A[[pos1, pos2]] = (A[[pos1, pos2]] - 1) // resolution
         A = A.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
-        A = csr_matrix((A[chrom1], (A[pos1], A[pos2])), (n_bins, n_bins))
+        A = csr_matrix((A[chrom1].astype(np.int32), (A[pos1], A[pos2])), (n_bins, n_bins))
         A = A + A.T
     else:
         print("ERROR : Must provide either scool_url or contact_file_path")
@@ -91,11 +92,11 @@ def impute_chromosome(chrom,
     start_time = time.time()
     if pad > 0:
         # full matrix step
-        A = gaussian_filter((A + A.T).astype(np.float32).toarray(),
+        A = gaussian_filter(A.astype(np.float32).toarray(),
                             std, order=0, mode='mirror', truncate=pad)
         A = csr_matrix(A)
-    else:
-        A = A + A.T
+    # else:
+    #     A = A + A.T
     end_time = time.time()
     logging.debug(f'Convolution takes {end_time - start_time:.3f} seconds')
 

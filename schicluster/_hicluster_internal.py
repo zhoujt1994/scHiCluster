@@ -126,7 +126,7 @@ def impute_chromosome_internal_subparser(subparser):
         "--chr2",
         dest='chrom2',
         type=int,
-        default=4
+        default=5
     )
 
     parser.add_argument(
@@ -138,7 +138,7 @@ def impute_chromosome_internal_subparser(subparser):
     parser.add_argument(
         "--pos2",
         type=int,
-        default=5
+        default=6
     )
 
     return
