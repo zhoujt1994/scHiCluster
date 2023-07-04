@@ -117,12 +117,14 @@ def impute_chromosome_internal_subparser(subparser):
 
     parser.add_argument(
         "--chr1",
+        dest='chrom1',
         type=int,
         default=1
     )
 
     parser.add_argument(
         "--chr2",
+        dest='chrom2',
         type=int,
         default=4
     )
