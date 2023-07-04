@@ -25,12 +25,6 @@ def impute_chromosome_internal_subparser(subparser):
     parser_req = parser.add_argument_group("Required inputs")
 
     parser_req.add_argument(
-        "--scool_url",
-        type=str,
-        required=True
-    )
-
-    parser_req.add_argument(
         "--chrom",
         type=str,
         required=True
@@ -46,6 +40,24 @@ def impute_chromosome_internal_subparser(subparser):
         "--output_path",
         type=str,
         required=True
+    )
+
+    parser.add_argument(
+        "--scool_url",
+        type=str,
+        default=None
+    )
+
+    parser.add_argument(
+        "--contact_path",
+        type=str,
+        default=None
+    )
+
+    parser.add_argument(
+        "--chrom_size_path",
+        type=str,
+        default=None
     )
 
     parser.add_argument(
@@ -102,6 +114,31 @@ def impute_chromosome_internal_subparser(subparser):
         type=float,
         default=0
     )
+
+    parser.add_argument(
+        "--chr1",
+        type=int,
+        default=1
+    )
+
+    parser.add_argument(
+        "--chr2",
+        type=int,
+        default=4
+    )
+
+    parser.add_argument(
+        "--pos1",
+        type=int,
+        default=2
+    )
+
+    parser.add_argument(
+        "--pos2",
+        type=int,
+        default=5
+    )
+
     return
 
 
