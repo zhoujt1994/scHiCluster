@@ -67,8 +67,8 @@ def prepare_impute(output_dir,
             parameters['input_scool'] = f"'{pathlib.Path(input_scool).absolute()}'"
             parameters['cell_ids'] = str(this_cell_ids)
         elif cell_table is not None:
-            parameters['chr1'] = chrom1
-            parameters['chr2'] = chrom2
+            parameters['chrom1'] = chrom1
+            parameters['chrom2'] = chrom2
             parameters['pos1'] = int(pos1)
             parameters['pos2'] = int(pos2)
             cell_list.iloc[chunk_start:chunk_start + batch_size].to_csv(output_dir / f'chunk{i}/cell_table.csv', index=True, header=False)
