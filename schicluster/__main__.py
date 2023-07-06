@@ -500,13 +500,13 @@ def prepare_imputation_register_subparser(subparser):
                             help='')
     parser_req.add_argument('--resolution', type=int, required=True, default=None,
                             help='')
-    parser.add_argument('--input_scool', type=str, required=True, default=None,
+    parser.add_argument('--input_scool', type=str, required=False, default=None,
                         help='Path to input scool file')
-    parser.add_argument('--cell_table', type=str, default=None, 
+    parser.add_argument('--cell_table', type=str, required=False, default=None, 
                         help='Path to cell table file')
     parser.add_argument('--batch_size', type=int, required=False, default=100,
                         help='')
-    parser.add_argument('--logscale', dest='logscale', action='store_true',
+    parser.add_argument('--logscale', dest='logscale', action='store_true', required=False,
                         help='')
     parser.set_defaults(logscale=False)
     parser.add_argument('--pad', type=int, required=False, default=1,
@@ -521,10 +521,14 @@ def prepare_imputation_register_subparser(subparser):
                         help='')
     parser.add_argument('--cpu_per_job', type=int, required=False, default=10,
                         help='')
-    parser.add_argument('--chr1', type=int, dest='chrom1', default=1, help='0 based index of chr1 column.')
-    parser.add_argument('--chr2', type=int, dest='chrom2', default=5, help='0 based index of chr2 column.')
-    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
+    parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--chr2', type=int, dest='chrom2', default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
     return
 
 

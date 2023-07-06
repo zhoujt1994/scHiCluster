@@ -68,7 +68,7 @@ def impute_chromosome(chrom,
         else:
             print("ERROR : Must provide chrom_size_path if using contact file as input")
             return
-        A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None)[[chrom1, pos1, chrom2, pos2]]
+        A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None, comment='#')[[chrom1, pos1, chrom2, pos2]]
         A = A.loc[(A[chrom1]==chrom) & (A[chrom2]==chrom)]
         A[[pos1, pos2]] = (A[[pos1, pos2]] - 1) // resolution
         A = A.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
