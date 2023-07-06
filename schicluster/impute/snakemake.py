@@ -47,7 +47,7 @@ def prepare_impute(output_dir,
     chunk_dirs = []
     for i, chunk_start in enumerate(range(0, len(cell_list), batch_size)):
         chunk_dir = output_dir / f'chunk{i}'
-        chunk_dir.mkdir(exist_ok=True)
+        chunk_dir.mkdir(parents=True, exist_ok=True)
 
         parameters = dict(
             chrom_size_path=f"'{pathlib.Path(chrom_size_path).absolute()}'",
