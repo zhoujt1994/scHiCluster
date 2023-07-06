@@ -488,8 +488,6 @@ def prepare_imputation_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--input_scool', type=str, required=True, default=None,
-                            help='Path to input scool file')
     parser_req.add_argument('--output_dir', type=str, required=True, default=None,
                             help='Path to output directory')
     parser_req.add_argument('--chrom_size_path', type=str, required=True, default=None,
@@ -502,7 +500,10 @@ def prepare_imputation_register_subparser(subparser):
                             help='')
     parser_req.add_argument('--resolution', type=int, required=True, default=None,
                             help='')
-
+    parser.add_argument('--input_scool', type=str, required=True, default=None,
+                        help='Path to input scool file')
+    parser.add_argument('--cell_table', type=str, default=None, 
+                        help='Path to cell table file')
     parser.add_argument('--batch_size', type=int, required=False, default=100,
                         help='')
     parser.add_argument('--logscale', dest='logscale', action='store_true',
@@ -520,6 +521,10 @@ def prepare_imputation_register_subparser(subparser):
                         help='')
     parser.add_argument('--cpu_per_job', type=int, required=False, default=10,
                         help='')
+    parser.add_argument('--chr1', type=int, dest='chrom1', default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--chr2', type=int, dest='chrom2', default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
+    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     return
 
 
