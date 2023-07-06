@@ -1,40 +1,10 @@
 
-# config example, this will be added by code
-# input_scool = '../contacts/full.10K.scool'
-# chrom_size_path = '/home/hanliu/ref/mouse/genome/mm10.main.nochrM.chrom.sizes'
-# logscale = False
-# pad = 1
-# std = 1
-# window_size = int(4e7)
-# step_size = int(1e7)
-# output_dist = int(1e7)
-# resolution = 10000
-# rp = 0.5
-# tol = 0.01
-# min_cutoff = 1e-5
-# cell_ids = ['CEMBA191126_9J_1-CEMBA191126_9J_2-A1-AD001',
-#             'CEMBA191126_9J_1-CEMBA191126_9J_2-A1-AD002',
-#             'CEMBA191126_9J_1-CEMBA191126_9J_2-A1-AD004',
-#             'CEMBA191126_9J_1-CEMBA191126_9J_2-A1-AD006',
-#             'CEMBA191126_9J_1-CEMBA191126_9J_2-A1-AD007']
-
-
 # Load packages
 import cooler
 import pathlib
 import pandas as pd
 
-# Read and validate cell ids
-# cell_list = cooler.fileops.list_coolers(input_scool)
-# scool_cell_ids = set([i.split('/')[-1] for i in cell_list])
-# for cell_id in cell_ids:
-#     if cell_id not in scool_cell_ids:
-#         raise KeyError(f'{cell_id} not in the scool file {input_scool}')
-
-# Get chromosome list
-# _cell_url = f'{input_scool}::/cells/{cell_ids[0]}'
-# _cell_cool = cooler.Cooler(_cell_url)
-# chromosomes = _cell_cool.chromnames
+# Read and validate cell ids and get chromosome list
 
 if 'cell_ids' not in locals():
     cell_table = pd.read_csv('cell_table.csv', index_col=0, header=None, squeeze=True)
@@ -100,8 +70,8 @@ elif 'cell_table' in locals():
             '--step_size {step_size} '
             '--output_dist {output_dist} '
             '--min_cutoff {min_cutoff} '
-            '--chrom1 {chrom1} '
-            '--chrom2 {chrom2} '
+            '--chr1 {chrom1} '
+            '--chr2 {chrom2} '
             '--pos1 {pos1} '
             '--pos2 {pos2}'
 
