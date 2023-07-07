@@ -16,6 +16,6 @@ Module Contents
 .. py:function:: gene_score_impute(cool_path, chrom_sizes, gene)
 
 
-.. py:function:: gene_score(cell_table, gene_meta, res, slop, output_hdf, chrom_size, cpu, mode)
+.. py:function:: gene_score(cell_table, gene_meta, resolution, slop, output_hdf, chrom_size_path, cpu, mode)
 
 

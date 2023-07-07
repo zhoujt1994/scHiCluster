@@ -10,6 +10,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   contact_distance/index.rst
    merge/index.rst
    remove_blacklist/index.rst
    scool/index.rst

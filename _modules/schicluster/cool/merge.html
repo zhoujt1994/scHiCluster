@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
@@ -351,7 +352,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">csr_matrix</span><span class="p">,</span> <span class="n">diags</span>
 <span class="kn">from</span> <span class="nn">schicluster.cool.utilities</span> <span class="kn">import</span> <span class="n">get_chrom_offsets</span>
 
 <div class="viewcode-block" id="load_cell_csv_to_csr"><a class="viewcode-back" href="../../../api/schicluster/cool/merge/index.html#schicluster.cool.merge.load_cell_csv_to_csr">[docs]</a><span class="k">def</span> <span class="nf">load_cell_csv_to_csr</span><span class="p">(</span><span class="n">cell_path</span><span class="p">,</span> <span class="n">chrom_offset</span><span class="p">,</span> <span class="n">bins_df</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">chr1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">chr2</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">min_pos_dist</span><span class="p">):</span>
@@ -378,6 +379,7 @@ document.write(`
         <span class="n">data</span> <span class="o">+=</span> <span class="n">load_cell_csv_to_csr</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">chrom_offset</span><span class="p">,</span> <span class="n">bins_df</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">chr1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">chr2</span><span class="p">,</span> <span class="n">pos2</span><span class="p">,</span> <span class="n">min_pos_dist</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span>
 
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">+</span> <span class="n">diags</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">diagonal</span><span class="p">())</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">tocoo</span><span class="p">()</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">data</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;bin1_id&#39;</span><span class="p">,</span> <span class="s1">&#39;bin2_id&#39;</span><span class="p">,</span> <span class="s1">&#39;count&#39;</span><span class="p">])</span>
 

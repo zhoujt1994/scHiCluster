@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
@@ -349,17 +350,18 @@ document.write(`
 <span></span><span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">schicluster</span>
 <span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
 <div class="viewcode-block" id="PACKAGE_DIR"><a class="viewcode-back" href="../../../api/schicluster/impute/snakemake/index.html#schicluster.impute.PACKAGE_DIR">[docs]</a><span class="n">PACKAGE_DIR</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">schicluster</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
-
-<div class="viewcode-block" id="prepare_impute"><a class="viewcode-back" href="../../../api/schicluster/impute/snakemake/index.html#schicluster.impute.prepare_impute">[docs]</a><span class="k">def</span> <span class="nf">prepare_impute</span><span class="p">(</span><span class="n">input_scool</span><span class="p">,</span>
-                   <span class="n">output_dir</span><span class="p">,</span>
+<div class="viewcode-block" id="prepare_impute"><a class="viewcode-back" href="../../../api/schicluster/impute/snakemake/index.html#schicluster.impute.prepare_impute">[docs]</a><span class="k">def</span> <span class="nf">prepare_impute</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span>
                    <span class="n">chrom_size_path</span><span class="p">,</span>
                    <span class="n">output_dist</span><span class="p">,</span>
                    <span class="n">window_size</span><span class="p">,</span>
                    <span class="n">step_size</span><span class="p">,</span>
                    <span class="n">resolution</span><span class="p">,</span>
+                   <span class="n">input_scool</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                   <span class="n">cell_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                    <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
                    <span class="n">logscale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                    <span class="n">pad</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -367,31 +369,36 @@ document.write(`
                    <span class="n">rp</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
                    <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
                    <span class="n">min_cutoff</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+                   <span class="n">chrom1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                   <span class="n">pos1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                   <span class="n">chrom2</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                   <span class="n">pos2</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
                    <span class="n">cpu_per_job</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    prepare snakemake files and directory structure for cell contacts imputation</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
     <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">input_scool</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
-
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PACKAGE_DIR</span> <span class="o">/</span> <span class="s1">&#39;impute/impute.Snakefile&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">PACKAGE_DIR</span> <span class="o">/</span> <span class="s1">&#39;impute/impute_new.Snakefile&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">snake_template</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-    <span class="n">cell_list</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">fileops</span><span class="o">.</span><span class="n">list_coolers</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span>
-    <span class="n">scool_cell_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cell_list</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">logscale</span><span class="p">:</span>
         <span class="n">logscale_str</span> <span class="o">=</span> <span class="s1">&#39;--logscale&#39;</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logscale_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-    <span class="n">chunk_dirs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk_start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">scool_cell_ids</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)):</span>
-        <span class="n">chunk_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span>
-        <span class="n">chunk_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">input_scool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">input_scool</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">())</span>
+        <span class="n">cell_list</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">fileops</span><span class="o">.</span><span class="n">list_coolers</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span>
+        <span class="n">scool_cell_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cell_list</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">cell_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cell_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cell_table</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>        
 
-        <span class="n">this_cell_ids</span> <span class="o">=</span> <span class="n">scool_cell_ids</span><span class="p">[</span><span class="n">chunk_start</span><span class="p">:</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+    <span class="n">chunk_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">chunk_start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">cell_list</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">)):</span>
+        <span class="n">chunk_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">chunk_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
         <span class="n">parameters</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
-            <span class="n">input_scool</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
             <span class="n">chrom_size_path</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
             <span class="n">logscale_str</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;&quot;</span><span class="si">{</span><span class="n">logscale_str</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
             <span class="n">pad</span><span class="o">=</span><span class="n">pad</span><span class="p">,</span>
@@ -403,8 +410,18 @@ document.write(`
             <span class="n">rp</span><span class="o">=</span><span class="n">rp</span><span class="p">,</span>
             <span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span>
             <span class="n">min_cutoff</span><span class="o">=</span><span class="n">min_cutoff</span><span class="p">,</span>
-            <span class="n">cell_ids</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">this_cell_ids</span><span class="p">)</span>
         <span class="p">)</span>
+        <span class="k">if</span> <span class="n">input_scool</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">this_cell_ids</span> <span class="o">=</span> <span class="n">scool_cell_ids</span><span class="p">[</span><span class="n">chunk_start</span><span class="p">:</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;input_scool&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">input_scool</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;cell_ids&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">this_cell_ids</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">cell_table</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;chrom1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chrom1</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;chrom2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chrom2</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pos1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos1</span><span class="p">)</span>
+            <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;pos2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos2</span><span class="p">)</span>
+            <span class="n">cell_list</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">chunk_start</span><span class="p">:</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/cell_table.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
         <span class="n">parameters_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
         <span class="n">this_snakefile</span> <span class="o">=</span> <span class="n">parameters_str</span> <span class="o">+</span> <span class="n">snake_template</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">output_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s1">&#39;chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/Snakefile&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>

@@ -133,6 +133,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
@@ -273,6 +274,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.embedding_register_subparser"><code class="docutils literal notranslate"><span class="pre">embedding_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.gene_score_register_subparser"><code class="docutils literal notranslate"><span class="pre">gene_score_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.merge_cell_raw_register_subparser"><code class="docutils literal notranslate"><span class="pre">merge_cell_raw_register_subparser()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.filter_contacts_register_subparser"><code class="docutils literal notranslate"><span class="pre">filter_contacts_register_subparser()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.contact_distance_register_subparser"><code class="docutils literal notranslate"><span class="pre">contact_distance_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>
@@ -426,6 +429,14 @@ Attach handler to the global logger object</p>
 <span class="sig-name descname"><span class="pre">merge_cell_raw_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#merge_cell_raw_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.merge_cell_raw_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 <dl class="py function">
+<dt class="sig sig-object py" id="schicluster.__main__.filter_contacts_register_subparser">
+<span class="sig-name descname"><span class="pre">filter_contacts_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#filter_contacts_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.filter_contacts_register_subparser" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py function">
+<dt class="sig sig-object py" id="schicluster.__main__.contact_distance_register_subparser">
+<span class="sig-name descname"><span class="pre">contact_distance_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#contact_distance_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.contact_distance_register_subparser" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+<dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.main">
 <span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.main" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
@@ -496,6 +507,8 @@ Attach handler to the global logger object</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.embedding_register_subparser"><code class="docutils literal notranslate"><span class="pre">embedding_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.gene_score_register_subparser"><code class="docutils literal notranslate"><span class="pre">gene_score_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.merge_cell_raw_register_subparser"><code class="docutils literal notranslate"><span class="pre">merge_cell_raw_register_subparser()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.filter_contacts_register_subparser"><code class="docutils literal notranslate"><span class="pre">filter_contacts_register_subparser()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.contact_distance_register_subparser"><code class="docutils literal notranslate"><span class="pre">contact_distance_register_subparser()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 </ul>
 </li>

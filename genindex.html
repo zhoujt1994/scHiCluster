@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/imputation.html">Prepare and run imputation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
@@ -488,10 +489,10 @@ document.write(`
         <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.chrom_iterator">(in module schicluster.cool.utilities)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.chrom_sum_iterator">chrom_sum_iterator() (in module schicluster.loop.merge_cell_to_group)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.comp_comp">comp_comp() (in module schicluster.schicluster)</a>
 </li>
       <li>
@@ -522,9 +523,15 @@ document.write(`
 </li>
       <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.COMPRESSOR_C_LEVEL">COMPRESSOR_C_LEVEL (in module schicluster.zarr.cool_ds)</a>
 </li>
+      <li><a href="api/schicluster/cool/contact_distance/index.html#schicluster.cool.contact_distance.compute_decay">compute_decay() (in module schicluster.cool.contact_distance)</a>
+</li>
       <li><a href="api/schicluster/loop/shuffle_fdr/index.html#schicluster.loop.shuffle_fdr.compute_t">compute_t() (in module schicluster.loop.shuffle_fdr)</a>
 </li>
       <li><a href="api/schicluster/dev/concat_cell/index.html#schicluster.dev.concat_cell.concat_cell">concat_cell() (in module schicluster.dev.concat_cell)</a>
+</li>
+      <li><a href="api/schicluster/cool/contact_distance/index.html#schicluster.cool.contact_distance.contact_distance">contact_distance() (in module schicluster.cool.contact_distance)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.contact_distance_register_subparser">contact_distance_register_subparser() (in module schicluster.__main__)</a>
 </li>
       <li><a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter">CoolDSSingleMatrixWriter (class in schicluster.zarr)</a>
 
@@ -642,9 +649,13 @@ document.write(`
 </li>
       <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.filter_by_background">filter_by_background() (in module schicluster.loop.loop_calling)</a>
 </li>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts">filter_contacts() (in module schicluster.cool.remove_blacklist)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts">filter_contacts() (in module schicluster.cool.remove_blacklist)</a>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.filter_contacts_register_subparser">filter_contacts_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts_wrapper">filter_contacts_wrapper() (in module schicluster.cool.remove_blacklist)</a>
 </li>
       <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.filter_loops">filter_loops() (in module schicluster.loop.loop_calling)</a>
 </li>
@@ -936,6 +947,8 @@ document.write(`
 </li>
         <li><a href="api/schicluster/cool/index.html#module-schicluster.cool">schicluster.cool</a>
 </li>
+        <li><a href="api/schicluster/cool/contact_distance/index.html#module-schicluster.cool.contact_distance">schicluster.cool.contact_distance</a>
+</li>
         <li><a href="api/schicluster/cool/merge/index.html#module-schicluster.cool.merge">schicluster.cool.merge</a>
 </li>
         <li><a href="api/schicluster/cool/remove_blacklist/index.html#module-schicluster.cool.remove_blacklist">schicluster.cool.remove_blacklist</a>
@@ -1174,6 +1187,13 @@ document.write(`
 
       <ul>
         <li><a href="api/schicluster/cool/index.html#module-schicluster.cool">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.contact_distance
+
+      <ul>
+        <li><a href="api/schicluster/cool/contact_distance/index.html#module-schicluster.cool.contact_distance">module</a>
 </li>
       </ul></li>
       <li>

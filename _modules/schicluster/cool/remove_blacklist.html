@@ -191,6 +191,7 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
@@ -350,7 +351,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">import</span> <span class="nn">pybedtools</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
-
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 
 <span class="nd">@lru_cache</span><span class="p">()</span>
 <div class="viewcode-block" id="prepare_2d_blacklist_dict"><a class="viewcode-back" href="../../../api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.prepare_2d_blacklist_dict">[docs]</a><span class="k">def</span> <span class="nf">prepare_2d_blacklist_dict</span><span class="p">(</span><span class="n">blacklist_bedpe</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">10000</span><span class="p">):</span>
@@ -391,8 +392,10 @@ document.write(`
                     <span class="n">chrom_size_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">blacklist_1d_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">blacklist_2d_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">output_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                     <span class="n">remove_duplicates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">resolution_2d</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                    <span class="n">min_pos_dist</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                     <span class="n">chrom1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">pos1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
                     <span class="n">chrom2</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
@@ -406,7 +409,10 @@ document.write(`
                                    <span class="n">pos1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
                                    <span class="n">chrom2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                                    <span class="n">pos2</span><span class="p">:</span> <span class="nb">int</span>
-                               <span class="p">})</span>
+                               <span class="p">},</span> 
+                               <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                               <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">,</span>
+                               <span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Got error when opening </span><span class="si">{</span><span class="n">contact_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">raise</span> <span class="n">e</span>
@@ -415,6 +421,9 @@ document.write(`
     <span class="k">if</span> <span class="n">remove_duplicates</span><span class="p">:</span>
         <span class="c1"># remove duplicates</span>
         <span class="n">contacts</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="n">chrom1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">chrom2</span><span class="p">,</span> <span class="n">pos2</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">min_pos_dist</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">contacts</span> <span class="o">=</span> <span class="n">contacts</span><span class="p">[((</span><span class="n">contacts</span><span class="p">[</span><span class="n">pos2</span><span class="p">]</span> <span class="o">-</span> <span class="n">contacts</span><span class="p">[</span><span class="n">pos1</span><span class="p">])</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">min_pos_dist</span><span class="p">)</span> <span class="o">|</span>  <span class="p">(</span><span class="n">contacts</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">contacts</span><span class="p">[</span><span class="n">chrom2</span><span class="p">])]</span>
 
     <span class="n">chroms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">index</span>
     <span class="c1"># remove additional chroms not exist in chrom_size_path</span>
@@ -458,7 +467,49 @@ document.write(`
         <span class="n">contacts</span> <span class="o">=</span> <span class="n">contacts</span><span class="p">[</span><span class="o">~</span><span class="n">is_blacklist_2d</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">contact_path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">contacts</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> filtered contacts in scool.&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">contacts</span></div>
+    <span class="k">if</span> <span class="n">output_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">contacts</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">output_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">contacts</span></div>
+
+<div class="viewcode-block" id="filter_contacts_wrapper"><a class="viewcode-back" href="../../../api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts_wrapper">[docs]</a><span class="k">def</span> <span class="nf">filter_contacts_wrapper</span><span class="p">(</span><span class="n">contact_table</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">output_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">chrom_size_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">blacklist_1d_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">blacklist_2d_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">remove_duplicates</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">resolution_2d</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>
+                            <span class="n">chr1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">pos1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                            <span class="n">chr2</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                            <span class="n">pos2</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> 
+                            <span class="n">min_pos_dist</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">cpu</span><span class="o">=</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">contact_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">contact_table</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+        <span class="n">futures</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="n">contact_table</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+            <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                <span class="n">filter_contacts</span><span class="p">,</span>
+                <span class="n">contact_path</span><span class="o">=</span><span class="n">yy</span><span class="p">,</span>
+                <span class="n">chrom_size_path</span><span class="o">=</span><span class="n">chrom_size_path</span><span class="p">,</span>
+                <span class="n">blacklist_1d_path</span><span class="o">=</span><span class="n">blacklist_1d_path</span><span class="p">,</span>
+                <span class="n">blacklist_2d_path</span><span class="o">=</span><span class="n">blacklist_2d_path</span><span class="p">,</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">xx</span><span class="si">}</span><span class="s1">.contact.rmbkl.tsv.gz&#39;</span><span class="p">,</span>
+                <span class="n">remove_duplicates</span><span class="o">=</span><span class="n">remove_duplicates</span><span class="p">,</span>
+                <span class="n">resolution_2d</span><span class="o">=</span><span class="n">resolution_2d</span><span class="p">,</span>
+                <span class="n">min_pos_dist</span><span class="o">=</span><span class="n">min_pos_dist</span><span class="p">,</span>
+                <span class="n">chrom1</span><span class="o">=</span><span class="n">chr1</span><span class="p">,</span>
+                <span class="n">pos1</span><span class="o">=</span><span class="n">pos1</span><span class="p">,</span>
+                <span class="n">chrom2</span><span class="o">=</span><span class="n">chr2</span><span class="p">,</span>
+                <span class="n">pos2</span><span class="o">=</span><span class="n">pos2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span> <span class="o">=</span> <span class="n">xx</span>
+
+        <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span><span class="si">}</span><span class="s1"> finished&#39;</span><span class="p">)</span>
+            
+    <span class="k">return</span></div>
 </pre></div>
 
                 </article>

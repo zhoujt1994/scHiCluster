@@ -141,6 +141,12 @@ Module Contents
 .. py:function:: merge_cell_raw_register_subparser(subparser)
 
 
+.. py:function:: filter_contacts_register_subparser(subparser)
+
+
+.. py:function:: contact_distance_register_subparser(subparser)
+
+
 .. py:function:: main()
 
 
