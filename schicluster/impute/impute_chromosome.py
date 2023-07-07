@@ -1,12 +1,12 @@
 import time
 import numpy as np
 import pandas as pd
-from scipy.sparse import csr_matrix, diags, eye
+from scipy.sparse import csr_matrix, diags, eye, save_npz
 from scipy.sparse.linalg import norm
 from scipy.ndimage import gaussian_filter
 import cooler
 import logging
-from ..cool import write_coo
+# from ..cool import write_coo
 
 
 def calc_sparsity(matrix):
@@ -182,5 +182,7 @@ def impute_chromosome(chrom,
         logging.debug(f'Mask values smaller than {min_cutoff}. Sparsity before {s_before:.3f}, after {s_after:.3f}')
 
     # save to file
-    write_coo(output_path, E)
+    # write_coo(output_path, E)
+    save_npz(output_path, E)
+
     return

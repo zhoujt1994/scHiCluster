@@ -28,7 +28,7 @@ if 'input_scool' in locals():
         input:
             input_scool
         output:
-            temp('impute_{cell_id}_tmp/{chrom}.hdf')
+            temp('impute_{cell_id}_tmp/{chrom}.npz')
         threads:
             1
         shell:
@@ -49,7 +49,7 @@ if 'input_scool' in locals():
 elif 'cell_table' in locals():
     rule impute_chrom:
         output:
-            temp('impute_{cell_id}_tmp/{chrom}.hdf')
+            temp('impute_{cell_id}_tmp/{chrom}.npz')
         params:
             contact_path=lambda wildcards: cell_table.loc[wildcards.cell_id]
         threads:
@@ -79,7 +79,7 @@ elif 'cell_table' in locals():
 # Aggregate chromosome HDF files for the same cells
 rule agg_cell:
     input:
-        expand('impute_{{cell_id}}_tmp/{chrom}.hdf', chrom=chromosomes)
+        expand('impute_{{cell_id}}_tmp/{chrom}.npz', chrom=chromosomes)
     output:
         '{cell_id}.cool'
     threads:
@@ -89,4 +89,5 @@ rule agg_cell:
         '--chrom_size_path {chrom_size_path} '
         '--resolution {resolution} '
         '--input_dir impute_{wildcards.cell_id}_tmp '
-        '--output_path {output}'
+        '--output_path {output} '
+        '--chrom_wildcard "{{chrom}}.npz"'
