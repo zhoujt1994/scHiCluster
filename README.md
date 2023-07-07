@@ -14,7 +14,7 @@ conda activate schicluster
 ```
 Then install install scHiCluster by
 ```
-pip install schicluster
+pip install git+https://github.com/zhoujt1994/scHiCluster.git
 ```
 
 ## Tutorial
