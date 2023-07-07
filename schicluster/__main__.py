@@ -483,7 +483,7 @@ def generate_scool_register_subparser(subparser):
 
 
 def prepare_imputation_register_subparser(subparser):
-    parser = subparser.add_parser('imputation',
+    parser = subparser.add_parser('prepare-impute',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
                                   help="")
 
@@ -782,7 +782,7 @@ def main():
         from .draft.comp_concatcell_chr import comp_concatcell_chr as func
     elif cur_command in ['generate-scool', 'scool']:
         from .cool import generate_scool as func
-    elif cur_command in ['imputation']:
+    elif cur_command in ['prepare-impute']:
         from .impute import prepare_impute as func
     elif cur_command in ['domain']:
         from .domain import multiple_call_domain_and_insulation as func
