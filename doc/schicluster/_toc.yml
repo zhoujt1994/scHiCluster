@@ -1,5 +1,6 @@
 format: jb-book
 root: intro
+file: diagram
 parts:
   - caption: Tutorial
     chapters:
