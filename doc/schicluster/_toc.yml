@@ -3,7 +3,7 @@ root: intro
 parts:
   - caption: GET STARTED
     chapters:
-      - file: diagram
+    - file: diagram
   - caption: Tutorial
     chapters:
     - file: hba/intro
