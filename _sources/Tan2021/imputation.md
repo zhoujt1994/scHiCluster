@@ -14,9 +14,9 @@ paste <(awk -F'/' '{print $NF}' contact_table_rmbkl.txt | cut -d. -f1) contact_t
 # Prepare imputation 
 # Contact file list are divided into smaller chunks assigned to different jobs
 # Commands to run imputation are generated
-hicluster imputation --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 1 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/100K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 500000000 --window_size 500000000 --step_size 500000000 --resolution 100000
-hicluster imputation --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 2 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/25K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 5050000 --window_size 500000000 --step_size 500000000 --resolution 25000
-hicluster imputation --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 2 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/10K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 5050000 --window_size 30000000 --step_size 10000000 --resolution 10000
+hicluster prepare-impute --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 1 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/100K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 500000000 --window_size 500000000 --step_size 500000000 --resolution 100000
+hicluster prepare-impute --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 2 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/25K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 5050000 --window_size 500000000 --step_size 500000000 --resolution 25000
+hicluster prepare-impute --cell_table contact_table_rmbkl.tsv --batch_size 1536 --pad 2 --cpu_per_job 96 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --output_dir impute/10K/ --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --output_dist 5050000 --window_size 30000000 --step_size 10000000 --resolution 10000
 mkdir -p sbatch/impute/
 cat impute/*/snakemake_cmd.txt > sbatch/impute/snakemake_cmd.txt
 ```

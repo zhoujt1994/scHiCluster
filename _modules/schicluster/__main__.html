@@ -832,7 +832,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="prepare_imputation_register_subparser"><a class="viewcode-back" href="../../api/schicluster/__main__/index.html#schicluster.__main__.prepare_imputation_register_subparser">[docs]</a><span class="k">def</span> <span class="nf">prepare_imputation_register_subparser</span><span class="p">(</span><span class="n">subparser</span><span class="p">):</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">subparser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;imputation&#39;</span><span class="p">,</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">subparser</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s1">&#39;prepare-impute&#39;</span><span class="p">,</span>
                                   <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentDefaultsHelpFormatter</span><span class="p">,</span>
                                   <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
@@ -1131,7 +1131,7 @@ document.write(`
         <span class="kn">from</span> <span class="nn">.draft.comp_concatcell_chr</span> <span class="kn">import</span> <span class="n">comp_concatcell_chr</span> <span class="k">as</span> <span class="n">func</span>
     <span class="k">elif</span> <span class="n">cur_command</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;generate-scool&#39;</span><span class="p">,</span> <span class="s1">&#39;scool&#39;</span><span class="p">]:</span>
         <span class="kn">from</span> <span class="nn">.cool</span> <span class="kn">import</span> <span class="n">generate_scool</span> <span class="k">as</span> <span class="n">func</span>
-    <span class="k">elif</span> <span class="n">cur_command</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;imputation&#39;</span><span class="p">]:</span>
+    <span class="k">elif</span> <span class="n">cur_command</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;prepare-impute&#39;</span><span class="p">]:</span>
         <span class="kn">from</span> <span class="nn">.impute</span> <span class="kn">import</span> <span class="n">prepare_impute</span> <span class="k">as</span> <span class="n">func</span>
     <span class="k">elif</span> <span class="n">cur_command</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;domain&#39;</span><span class="p">]:</span>
         <span class="kn">from</span> <span class="nn">.domain</span> <span class="kn">import</span> <span class="n">multiple_call_domain_and_insulation</span> <span class="k">as</span> <span class="n">func</span>
