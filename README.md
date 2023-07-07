@@ -2,7 +2,7 @@
 ## Introduction
 scHiCluster is a comprehensive python package for single-cell chromosome contact data analysis. It includes the identification of cell types (clusters), loop calling in cell types, and domain and compartment calling in single cells.
 
-<img src="example/plot/Introduction.png" width="700" height="200" />  
+<img src="example/plot/schicluster.pdf" width="900" height="600" />  
 
 ## Installation
 Running scHiCluster requries numpy, scipy, pandas, h5py, scikit-learn, opencv-python, statsmodels.  
