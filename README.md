@@ -23,8 +23,8 @@ pip install git+https://github.com/zhoujt1994/scHiCluster.git
 [sci-HiC of 4DN cell lines](https://github.com/zhoujt1994/scHiCluster/tree/master/example/4DN)
 
 ## Function
-A clickable version of the [workflow](https://github.com/zhoujt1994/scHiCluster/tree/master/doc/schicluster/schicluster.html) is available.
-[![Workflow](example/plot/schicluster.pdf)](example/plot/schicluster.pdf)
+The image is clickable after you download it.
+[![Workflow](example/plot/schicluster.svg)](example/plot/schicluster.pdf)
 
 ## Usage
 ### General file
