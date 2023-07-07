@@ -41,6 +41,7 @@ parts:
     #     - file: hba/decay/01.decay
     - file: Tan2021/intro
       sections:
+      - file: Tan2021/imputation
       - file: Tan2021/rna_clustering
       - file: Tan2021/dipc_clustering
       - file: Tan2021/rna_3c_integrate
