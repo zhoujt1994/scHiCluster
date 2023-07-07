@@ -18,11 +18,12 @@ pip install git+https://github.com/zhoujt1994/scHiCluster.git
 ```
 
 ## Tutorial
-[See Tutorial](https://zhoujt1994.github.io/scHiCluster/intro.html)  
+[See New Tutorial](https://zhoujt1994.github.io/scHiCluster/intro.html)  
 [snm3C-seq of human prefrontal cortex](https://github.com/zhoujt1994/scHiCluster/tree/master/example/humanPFC)  
 [sci-HiC of 4DN cell lines](https://github.com/zhoujt1994/scHiCluster/tree/master/example/4DN)
 
 ## Function
+A clickable version of the [workflow](https://zhoujt1994.github.io/scHiCluster/doc/schicluster/schicluster.html) is available.
 [![Workflow](example/plot/schicluster.svg)](example/plot/schicluster.svg)
 
 ## Usage
