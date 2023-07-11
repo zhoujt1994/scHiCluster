@@ -184,6 +184,7 @@ def multiple_cell_compartment(cell_table_path,
         chrom_sizes = None
         cell_cool = cooler.Cooler(cell_table.iloc[0])
         bins = cell_cool.bins()[:]
+        bins = bins.loc[bins['chrom'].isin(chrom_sizes.index)]
     else:
         print('ERROR : mode need to be cool or tsv')
         return
