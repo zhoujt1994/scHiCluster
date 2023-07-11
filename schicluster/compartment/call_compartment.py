@@ -79,7 +79,7 @@ def single_cell_compartment(cell_url, cpg_profile, calc_strength, output_prefix,
 
     if mode=='cool':
         cool = cooler.Cooler(cell_url)
-        chroms = pd.Index(cool.chromnames) & cpg_profile['chrom']
+        chroms = pd.Index(cool.chromnames).intersection(cpg_profile['chrom'])
     elif mode=='tsv':
         chroms = chrom_sizes.index
         data = pd.read_csv(cell_url, sep='\t', index_col=None, header=None, comment='#')
