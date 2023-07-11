@@ -1,9 +1,6 @@
 format: jb-book
 root: intro
 parts:
-  - caption: GET STARTED
-    chapters:
-    - file: diagram
   - caption: Tutorial
     chapters:
     - file: hba/intro
