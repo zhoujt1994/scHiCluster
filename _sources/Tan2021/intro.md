@@ -4,3 +4,5 @@ The authors studied the developing mouse cortex and hippocampus by profiling gen
 - Clustering of DipC cells using chromatin contacts
 - Annotation of DipC cells to RNA clusters
 - Loop calling of cell types
+
+The chromatin contact data can be downloaded from GSE146397 and GSE164203 for all the .contacts.pairs.txt.gz files.
