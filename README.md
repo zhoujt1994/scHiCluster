@@ -24,7 +24,7 @@ pip install git+https://github.com/zhoujt1994/scHiCluster.git
 
 ## Function
 The image is clickable after you download it.
-[![Workflow](example/plot/schicluster.svg)](example/plot/schicluster.pdf)
+[![Workflow](doc/schicluster/schicluster.svg)](doc/schicluster/schicluster.pdf)
 
 ## Usage
 ### General file
