@@ -12,8 +12,8 @@ scHiCluster is a comprehensive python package for single-cell chromosome contact
 
 ```{figure} schicluster.svg
 ---
-height: 180px
+height: 500px
 name: doc-organize-fig
 ---
-ALLCools documentation organization.
-```(schicluster.pdf)
+scHiCluster workflow.
+```
