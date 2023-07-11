@@ -1,20 +1,27 @@
 import subprocess
+from tkinter import E
 import numpy as np
 import pandas as pd
-from scipy.sparse import diags
+from scipy.sparse import diags, csr_matrix
 import cooler
 import pathlib
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import xarray as xr
 
 
-def get_cpg_profile(cell_url, fasta_path, hdf_output_path):
+def get_cpg_profile(fasta_path, hdf_output_path, cell_url=None, chrom_size_path=None, resolution=100000):
     temp_bed_path = f'{hdf_output_path}_bins.bed'
     temp_cpg_path = f'{hdf_output_path}_cpg_profile.txt'
 
     # count CpG per bin
-    cool = cooler.Cooler(cell_url)
-    bins = cool.bins()[:]
+    if cell_url is not None:
+        cool = cooler.Cooler(cell_url)
+        bins = cool.bins()[:]
+    elif chrom_size_path is not None:
+        chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+        bins = cooler.binnify(chrom_sizes, resolution)
+    else:
+        print('ERROR : Must provide either cell_url or chrom_size_path')
     bins.to_csv(temp_bed_path, index=None, header=None, sep='\t')
     subprocess.run(
         f'bedtools nuc -fi {fasta_path} -bed {temp_bed_path} -pattern CG -C > {temp_cpg_path}',
@@ -54,9 +61,9 @@ def compartment_strength(matrix, comp, cpg_ratio):
 
 def single_chrom_compartment(matrix, cpg_ratio, calc_strength=False):
     matrix = matrix - diags(matrix.diagonal())  # remove diag
-    matrix = matrix + matrix.T  # make full matrix
+    # matrix = matrix + matrix.T  # make full matrix
     matrix = matrix + diags((matrix.sum(axis=0).A.ravel() == 0).astype(int))
-
+    matrix.data = matrix.data / np.repeat(matrix.sum(axis=0).A1, matrix.getnnz(axis=1))
     # weighted average of cpg density
     comp = matrix.dot(cpg_ratio.values[:, None])[:, 0]
 
@@ -67,17 +74,37 @@ def single_chrom_compartment(matrix, cpg_ratio, calc_strength=False):
     return comp, scores
 
 
-def single_cell_compartment(cell_url, cpg_profile_path, calc_strength,
-                            output_prefix):
-    cpg_profile = pd.read_hdf(cpg_profile_path)
-    cool = cooler.Cooler(cell_url)
+def single_cell_compartment(cell_url, cpg_profile, calc_strength, output_prefix, mode,
+                            resolution, chrom_sizes, chrom1, pos1, chrom2, pos2):
 
+    if mode=='cool':
+        cool = cooler.Cooler(cell_url)
+        chroms = cool.chromnames
+    elif mode=='tsv':
+        chroms = chrom_sizes.index
+        data = pd.read_csv(cell_url, sep='\t', index_col=None, header=None, comment='#')
+        data = data.loc[(data[chrom1]==data[chrom2]) & data['chrom1'].isin(chroms)]
     all_comp = []
     scores = np.array([0, 0, 0])
-    for chrom in cool.chromnames:
+    for chrom in chroms:
         cpg_ratio = cpg_profile.loc[cpg_profile['chrom'] == chrom, 'cpg_ratio']
-        matrix = cool.matrix(balance=False, sparse=True).fetch(chrom)
-        comp, scores = single_chrom_compartment(matrix,
+        if mode=='cool':
+            matrix = cool.matrix(balance=False, sparse=True).fetch(chrom)
+        else:
+            n_bins = (chrom_sizes.loc[chrom] // resolution) + 1
+            chrfilter = (data[chrom1]==chrom)
+            if chrfilter.sum()==0:
+                matrix = csr_matrix((n_bins, n_bins))
+            else:
+                matrix = data.loc[data[chrom1]==chrfilter]
+                matrix[[pos1, pos2]] = (matrix[[pos1, pos2]] - 1) // resolution
+                matrix = matrix.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
+                matrix = csr_matrix((matrix[chrom1].astype(np.int32), (matrix[pos1], matrix[pos2])), (n_bins, n_bins))
+                matrix = matrix + matrix.T
+        if cpg_ratio.shape[0]!=matrix.shape[0]:
+            print(f'ERROR : cpg_ratio and chrom_size have different shapes at {chrom}')
+            return(0)
+        comp, scores = single_chrom_compartment(matrix.tocsr(),
                                                 cpg_ratio,
                                                 calc_strength=calc_strength)
         if calc_strength:
@@ -128,7 +155,15 @@ def multiple_cell_compartment(cell_table_path,
                               output_prefix,
                               cpg_profile_path,
                               cpu=10,
-                              calc_strength=False):
+                              calc_strength=False,
+                              mode='cool',
+                              chrom_size_path=None,
+                              resolution=100000,
+                              chrom1=1,
+                              pos1=2,
+                              chrom2=5,
+                              pos2=6):
+
     cell_table = pd.read_csv(cell_table_path,
                              sep='\t',
                              index_col=0,
@@ -138,6 +173,18 @@ def multiple_cell_compartment(cell_table_path,
 
     temp_dir = pathlib.Path(f'{output_prefix}_compartment_temp')
     temp_dir.mkdir(exist_ok=True)
+    cpg_profile = pd.read_hdf(cpg_profile_path)
+    if mode=='tsv':
+        if chrom_size_path is not None:
+            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+        else:
+            print('ERROR : need to provide chrom_size_path for tsv mode')
+            return
+    elif mode=='cool':
+        chrom_sizes = None
+    else:
+        print('ERROR : mode need to be cool or tsv')
+        return
 
     # calculate individual cells
     with ProcessPoolExecutor(cpu) as exe:
@@ -148,9 +195,16 @@ def multiple_cell_compartment(cell_table_path,
                 continue
             future = exe.submit(single_cell_compartment,
                                 cell_url=cell_url,
-                                cpg_profile_path=cpg_profile_path,
+                                cpg_profile=cpg_profile,
                                 output_prefix=cell_prefix,
-                                calc_strength=calc_strength)
+                                calc_strength=calc_strength,
+                                mode=mode,
+                                chrom_sizes=chrom_sizes,
+                                resolution=resolution,
+                                chrom1=chrom1,
+                                pos1=pos1,
+                                chrom2=chrom2,
+                                pos2=pos2)
             future_dict[future] = cell_id
 
         for future in as_completed(future_dict):

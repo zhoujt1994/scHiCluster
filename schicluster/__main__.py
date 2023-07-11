@@ -572,6 +572,20 @@ def call_compartment_register_subparser(subparser):
                         help='Number of CPUs to use')
     parser.add_argument('--calc_strength', dest='calc_strength', action='store_true',
                         help='Calculate compartment strength summary')
+    parser.add_argument('--mode', type=str, default='cool', required=False, choices=['tsv', 'cool'], 
+                        help='cool or tsv')
+    parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
+                            help='Path to chromosome sizes file')
+    parser.add_argument('--resolution', type=int, required=False, default=100000,
+                            help='')
+    parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--chr2', type=int, dest='chrom2', default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
     parser.set_defaults(calc_strength=False)
     return
 
@@ -582,14 +596,19 @@ def cpg_ratio_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_url', type=str, required=True, default=None,
-                            help='Path to a cell Cooler URL')
     parser_req.add_argument('--fasta_path', type=str, required=True, default=None,
                             help='Path to genome FASTA file')
     parser_req.add_argument('--hdf_output_path', type=str, required=True, default=None,
                             help='Output path of the CpG ratio')
+    parser.add_argument('--cell_url', type=str, required=False, default=None,
+                            help='Path to a cell Cooler URL')
+    parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
+                            help='Path to chromosome sizes file')
+    parser.add_argument('--resolution', type=int, required=False, default=100000,
+                            help='')
+    return
 
-
+    
 def embedding_register_subparser(subparser):
     parser = subparser.add_parser('embedding',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -656,9 +675,9 @@ def merge_cell_raw_register_subparser(subparser):
     parser_req.add_argument('--output_file', type=str, default=None, 
                             help='Full path to output file')
     parser.add_argument('--resolution', type=int, default=5000, help='Resolution of cool file')
-    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
     parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--min_pos_dist', type=int, default=2500,
                         help='Minimum distance for a fragment to be considered.')
@@ -687,9 +706,9 @@ def filter_contacts_register_subparser(subparser):
                         help='If set, will NOT remove duplicated contacts based on '
                              '[chr1, pos1, chr2, pos2] values')
     parser.set_defaults(remove_duplicates=True)
-    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
     parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--min_pos_dist', type=int, default=0,
                         help='Minimum distance for a fragment to be considered.')
@@ -709,9 +728,9 @@ def contact_distance_register_subparser(subparser):
                             help='Output hdf file prefix including the directory')
     parser.add_argument('--resolution', type=int, default=10000, 
                         help='Resolution of cool file')
-    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
     parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
 

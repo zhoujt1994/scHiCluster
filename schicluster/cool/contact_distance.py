@@ -15,7 +15,7 @@ def compute_decay(cell_name, contact_path, bins, chrom_sizes, resolution, chrom1
     return [pd.DataFrame(data).set_axis([cell_name], axis=1), 
             pd.DataFrame(hist, columns=[cell_name])]
 
-def contact_distance(contact_table, chrom_size_path, resolution, output_prefix, chr1, chr2, pos1, pos2, cpu):
+def contact_distance(contact_table, chrom_size_path, resolution, output_prefix, chrom1, chrom2, pos1, pos2, cpu):
     chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', header=None, index_col=0)
     nbins = np.floor(np.log2(chrom_sizes[1].values.max() / 2500) / 0.125)
     bins = 2500 * np.exp2(0.125 * np.arange(nbins+1))
@@ -31,9 +31,9 @@ def contact_distance(contact_table, chrom_size_path, resolution, output_prefix, 
                 bins=bins,
                 chrom_sizes=chrom_sizes,
                 resolution=resolution,
-                chrom1=chr1,
+                chrom1=chrom1,
                 pos1=pos1,
-                chrom2=chr2,
+                chrom2=chrom2,
                 pos2=pos2,
             )
             futures[future] = cell_name
