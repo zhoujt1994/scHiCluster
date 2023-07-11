@@ -529,7 +529,6 @@ def prepare_imputation_register_subparser(subparser):
                         help='0 based index of pos1 column.')
     parser.add_argument('--pos2', type=int, default=6, required=False, 
                         help='0 based index of pos2 column.')
-    return
 
 
 def call_domain_register_subparser(subparser):
@@ -572,6 +571,7 @@ def call_compartment_register_subparser(subparser):
                         help='Number of CPUs to use')
     parser.add_argument('--calc_strength', dest='calc_strength', action='store_true',
                         help='Calculate compartment strength summary')
+    parser.set_defaults(calc_strength=False)
     parser.add_argument('--mode', type=str, default='cool', required=False, choices=['tsv', 'cool'], 
                         help='cool or tsv')
     parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
@@ -586,8 +586,6 @@ def call_compartment_register_subparser(subparser):
                         help='0 based index of pos1 column.')
     parser.add_argument('--pos2', type=int, default=6, required=False, 
                         help='0 based index of pos2 column.')
-    parser.set_defaults(calc_strength=False)
-    return
 
 
 def cpg_ratio_register_subparser(subparser):
@@ -606,7 +604,6 @@ def cpg_ratio_register_subparser(subparser):
                             help='Path to chromosome sizes file')
     parser.add_argument('--resolution', type=int, required=False, default=100000,
                             help='')
-    return
 
     
 def embedding_register_subparser(subparser):
@@ -641,19 +638,20 @@ def embedding_register_subparser(subparser):
                         help='')
     parser.set_defaults(save_raw=False)
 
+
 def gene_score_register_subparser(subparser):
     parser = subparser.add_parser('gene-score',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_table', type=str, default=None, 
+    parser_req.add_argument('--cell_table_path', type=str, default=None, 
                             help='Full path to cell cool table')
-    parser_req.add_argument('--gene_meta', type=str, default=None, 
+    parser_req.add_argument('--gene_meta_path', type=str, default=None, 
                             help='Full path to bed file with region id')
     parser_req.add_argument('--resolution', type=int, default=10000, 
                             help='Resolution of cool file')
-    parser_req.add_argument('--output_hdf', type=str, default=None, 
+    parser_req.add_argument('--output_hdf_path', type=str, default=None, 
                             help='Full path to output file')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, 
                             help='Chromsome size file with only chromosomes to use')
@@ -663,6 +661,15 @@ def gene_score_register_subparser(subparser):
                         help='gene slop distance on both sides')
     parser.add_argument('--mode', type=str, default='impute', 
                         help='raw or impute')
+    parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--chr2', type=int, dest='chrom2', default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
+
 
 def merge_cell_raw_register_subparser(subparser):
     parser = subparser.add_parser('merge-cell-raw',
@@ -683,6 +690,7 @@ def merge_cell_raw_register_subparser(subparser):
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--min_pos_dist', type=int, default=2500,
                         help='Minimum distance for a fragment to be considered.')
+
 
 def filter_contacts_register_subparser(subparser):
     parser = subparser.add_parser('filter-contact',
@@ -715,6 +723,7 @@ def filter_contacts_register_subparser(subparser):
     parser.add_argument('--min_pos_dist', type=int, default=0,
                         help='Minimum distance for a fragment to be considered.')
     parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
+
 
 def contact_distance_register_subparser(subparser):
     parser = subparser.add_parser('contact-distance',

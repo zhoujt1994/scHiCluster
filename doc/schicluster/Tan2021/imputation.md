@@ -50,5 +50,5 @@ hicluster domain --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/25K/cell
 # Compute gene contact score
 ls impute/10K/chunk*/*.cool | awk -v p=$PWD '{printf("%s/%s\n", p, $0)}' > impute/10K/cell_table.txt
 paste <(awk -F'/' '{print $NF}' impute/10K/cell_table.txt | cut -d. -f1) impute/10K/cell_table.txt | sort -k1,1 > impute/10K/cell_table.tsv
-hicluster gene-score --cell_table /anvil/scratch/x-zhou/Tan2021/impute/10K/cell_table.tsv --gene_meta /anvil/projects/x-mcb130189/gene/vm22/gencode.vM22.annotation.gene.sorted.bed.gz --res 10000 --output_hdf /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.geneimputescore.hdf --chrom_size /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --cpu 96 --mode impute
+hicluster gene-score --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/10K/cell_table.tsv --gene_meta_path /anvil/projects/x-mcb130189/gene/vm22/gencode.vM22.annotation.gene.sorted.bed.gz --resolution 10000 --output_hdf_path /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.geneimputescore.hdf --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --cpu 96 --mode impute
 ```
