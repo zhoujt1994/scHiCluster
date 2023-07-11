@@ -38,7 +38,7 @@ hicluster embedding --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/100K/
 ## CpG density
 hicluster cpg-ratio --fasta_path /anvil/projects/x-mcb130189/mm10/mm10_with_chrl.fa --hdf_output_path cpg_ratio_100k.hdf --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --resolution 100000
 ## Using raw matrices
-hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/contact_table_rmbkl.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.raw --cpg_profile_path cpg_ratio_100k.hdf --cpu 96 --resolution 100000 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt
+hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/contact_table_rmbkl.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.raw --cpg_profile_path cpg_ratio_100k.hdf --cpu 96 --resolution 100000 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --mode tsv
 ## Using imputed matrices
 hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/100K/cell_table.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.impute --cpg_profile_path cpg_ratio_100k.hdf --cpu 96
 

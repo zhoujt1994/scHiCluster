@@ -18,7 +18,7 @@ def get_cpg_profile(fasta_path, hdf_output_path, cell_url=None, chrom_size_path=
         cool = cooler.Cooler(cell_url)
         bins = cool.bins()[:]
     elif chrom_size_path is not None:
-        chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+        chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
         bins = cooler.binnify(chrom_sizes, resolution)
     else:
         print('ERROR : Must provide either cell_url or chrom_size_path')
@@ -167,8 +167,7 @@ def multiple_cell_compartment(cell_table_path,
     cell_table = pd.read_csv(cell_table_path,
                              sep='\t',
                              index_col=0,
-                             header=None,
-                             squeeze=True)
+                             header=None).squeeze(axis=1)
     print(cell_table.shape[0], 'cells to calculate.')
 
     temp_dir = pathlib.Path(f'{output_prefix}_compartment_temp')
@@ -176,12 +175,15 @@ def multiple_cell_compartment(cell_table_path,
     cpg_profile = pd.read_hdf(cpg_profile_path)
     if mode=='tsv':
         if chrom_size_path is not None:
-            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
+            bins = cooler.binnify(chrom_sizes, resolution)
         else:
             print('ERROR : need to provide chrom_size_path for tsv mode')
             return
     elif mode=='cool':
         chrom_sizes = None
+        cell_cool = cooler.Cooler(cell_table.iloc[0])
+        bins = cell_cool.bins()[:]
     else:
         print('ERROR : mode need to be cool or tsv')
         return
@@ -211,11 +213,6 @@ def multiple_cell_compartment(cell_table_path,
             cell_id = future_dict[future]
             print(f'{cell_id} finished.')
             future.result()
-
-    # read bins from one of the cooler file
-    # all cooler files should share the same bins
-    cell_cool = cooler.Cooler(cell_table.iloc[0])
-    bins = cell_cool.bins()[:]
 
     # aggregate boundary
     aggregate_compartment(cell_table=cell_table,
