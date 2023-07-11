@@ -10,4 +10,10 @@ scHiCluster is a comprehensive python package for single-cell chromosome contact
 - Differential compartment calling between cell types
 - Correlation between 3D genome features with other molecular modalities
 
-[![Workflow](schicluster.pdf)](schicluster.pdf)
+```{figure} schicluster.svg
+---
+height: 180px
+name: doc-organize-fig
+---
+ALLCools documentation organization.
+```(schicluster.pdf)
