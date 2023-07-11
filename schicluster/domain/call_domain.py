@@ -166,8 +166,7 @@ def multiple_call_domain_and_insulation(cell_table_path,
     cell_table = pd.read_csv(cell_table_path,
                              sep='\t',
                              index_col=0,
-                             header=None,
-                             squeeze=True)
+                             header=None).squeeze(axis=1)
     print(cell_table.shape[0], 'cells to calculate.')
 
     temp_dir = pathlib.Path(f'{output_prefix}_domain_temp')

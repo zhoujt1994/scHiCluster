@@ -24,10 +24,10 @@ def load_cell_csv_to_csr(cell_path, chrom_offset, bins_df, resolution, chrom1, p
 
 def merge_cell_raw(cell_table, chrom_size_path, output_file, resolution=5000, 
                    chrom1=1, pos1=2, chrom2=5, pos2=6, min_pos_dist=2500):
-    chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+    chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
-    cell_list = pd.read_csv(cell_table, sep='\t', index_col=0, header=None, squeeze=True)
+    cell_list = pd.read_csv(cell_table, sep='\t', index_col=0, header=None).squeeze(axis=1)
     data = csr_matrix((bins_df.shape[0], bins_df.shape[0]))
     for xx,yy in zip(cell_list.values, cell_list.index):
         data += load_cell_csv_to_csr(cell_path=xx, chrom_offset=chrom_offset, bins_df=bins_df, resolution=resolution, 

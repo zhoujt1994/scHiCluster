@@ -63,7 +63,7 @@ def impute_chromosome(chrom,
         n_bins = A.shape[0]
     elif contact_path is not None:
         if chrom_size_path is not None:
-            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None, squeeze=True)
+            chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
             n_bins = (chrom_sizes.loc[chrom] // resolution) + 1
         else:
             print("ERROR : Must provide chrom_size_path if using contact file as input")

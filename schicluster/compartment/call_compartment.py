@@ -83,7 +83,7 @@ def single_cell_compartment(cell_url, cpg_profile, calc_strength, output_prefix,
     elif mode=='tsv':
         chroms = chrom_sizes.index
         data = pd.read_csv(cell_url, sep='\t', index_col=None, header=None, comment='#')
-        data = data.loc[(data[chrom1]==data[chrom2]) & data['chrom1'].isin(chroms)]
+        data = data.loc[(data[chrom1]==data[chrom2]) & data[chrom1].isin(chroms)]
     all_comp = []
     scores = np.array([0, 0, 0])
     for chrom in chroms:

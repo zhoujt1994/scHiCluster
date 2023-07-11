@@ -45,8 +45,7 @@ def permute_fdr(chrom_size_path,
     chrom_size_series = pd.read_csv(chrom_size_path,
                                     sep='\t',
                                     index_col=0,
-                                    header=None,
-                                    squeeze=True)
+                                    header=None).squeeze(axis=1)
     chrom_size = (chrom_size_series.values // res).astype(int) + 1
     chroms = chrom_size_series.index
     covfilter = []
@@ -113,8 +112,7 @@ def update_fdr_qval(chrom_size_path,
     chrom_size_series = pd.read_csv(chrom_size_path,
                                     sep='\t',
                                     index_col=0,
-                                    header=None,
-                                    squeeze=True)
+                                    header=None).squeeze(axis=1)
     data: pd.DataFrame = pd.read_hdf(f'{real_group_prefix}.totalloop_info.hdf',
                                      key='data')
     data['global_qval'] = 1

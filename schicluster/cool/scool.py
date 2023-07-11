@@ -96,7 +96,7 @@ def generate_scool_single_resolution(cell_path_dict,
         chrom_size_path,
         sep='\t',
         index_col=0,
-        header=None, squeeze=True)
+        header=None).squeeze(axis=1)
     bins_df = cooler.binnify(chrom_sizes, resolution)
     chrom_offset = get_chrom_offsets(bins_df)
 
@@ -206,8 +206,7 @@ def generate_scool(contacts_table,
     cell_path_dict = pd.read_csv(contacts_table,
                                  header=None,
                                  index_col=0,
-                                 squeeze=True,
-                                 sep='\t').to_dict()
+                                 sep='\t').squeeze(axis=1).to_dict()
     print(f'{len(cell_path_dict)} cells to process.')
 
     for resolution in resolutions:

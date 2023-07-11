@@ -7,7 +7,7 @@ import pandas as pd
 # Read and validate cell ids and get chromosome list
 
 if 'cell_ids' not in locals():
-    cell_table = pd.read_csv('cell_table.csv', index_col=0, header=None, squeeze=True)
+    cell_table = pd.read_csv('cell_table.csv', index_col=0, header=None).squeeze(axis=1)
     cell_ids = cell_table.index
 
 chromosomes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index

@@ -67,8 +67,7 @@ def embedding(cell_table_path,
     cell_table = pd.read_csv(cell_table_path,
                              sep='\t',
                              index_col=0,
-                             header=None,
-                             squeeze=True)
+                             header=None).squeeze(axis=1)
 
     output_dir = pathlib.Path(output_dir).absolute()
     raw_dir = output_dir / 'raw'
