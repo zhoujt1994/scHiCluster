@@ -15,5 +15,5 @@ scHiCluster is a comprehensive python package for single-cell chromosome contact
 height: 500px
 name: doc-organize-fig
 ---
-scHiCluster workflow.
+scHiCluster workflow. Click the figure for clickable links.
 ```
