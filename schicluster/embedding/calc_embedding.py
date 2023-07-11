@@ -56,6 +56,7 @@ def svd(input_path, dim, output_prefix, save_model=True, norm_sig=True):
 
 def embedding(cell_table_path,
               output_dir,
+              chrom_size_path=None,
               dim=50,
               dist=1000000,
               resolution=100000,
@@ -68,7 +69,6 @@ def embedding(cell_table_path,
                              sep='\t',
                              index_col=0,
                              header=None).squeeze(axis=1)
-
     output_dir = pathlib.Path(output_dir).absolute()
     raw_dir = output_dir / 'raw'
     raw_dir.mkdir(exist_ok=True)
@@ -77,7 +77,10 @@ def embedding(cell_table_path,
     chroms = first_cool.chromnames
     chrom_bin_counts = first_cool.bins()[:]['chrom'].value_counts()
     # remove small chroms
-    chroms = [chrom for chrom in chroms if chrom_bin_counts[chrom] > 2]
+    chroms = chrom_bin_counts.index[chrom_bin_counts > 2]
+    if chrom_size_path is not None:
+        chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
+        chroms = chroms.intersection(chrom_sizes.index)
 
     # prepare raw chromosome 1D matrix
     with ProcessPoolExecutor(cpu) as exe:

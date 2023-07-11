@@ -27,7 +27,7 @@ cat impute/*/snakemake_cmd.txt > sbatch/impute/snakemake_cmd.txt
 ```
 Then append each line of snakemake_cmd.txt to your job submission template. Submit the jobs and run imputation! With our setting (standard node on anvil.rcac.purdue.edu), imputation of 1536 cells at 100kb resolution takes 30 minutes, 25kb resolution takes 2.5 hours, and 10kb resolution takes 5 hours.  
 
-After Imputation, you can use the following commands to generate single-cell embedding and several cell-by-feature matrices, including compartment score matrix, insulation score matrix, domain boundary matrix, and gene interaction strength matrix. These commands are also resource consuming, so please consider submitting them to computing nodes.
+After Imputation, you can use the following commands to generate single-cell embedding and several cell-by-feature matrices, including compartment score matrix, insulation score matrix, domain boundary matrix, and gene interaction strength matrix. These commands are also resource consuming, so please consider submitting them to computing nodes. With the same setting as described above, embedding takes ~8 minutes, compartment with raw matrices takes ~1 minutes, with imputed matrices takes ~2 minutes, domain takes ~75 minutes, gene score takes ~15 minutes.
 ```bash
 # Compute embedding
 ls impute/100K/chunk*/*.cool | awk -v p=$PWD '{printf("%s/%s\n", p, $0)}' > impute/100K/cell_table.txt
@@ -38,9 +38,9 @@ hicluster embedding --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/100K/
 ## CpG density
 hicluster cpg-ratio --fasta_path /anvil/projects/x-mcb130189/mm10/mm10_with_chrl.fa --hdf_output_path cpg_ratio_100k.hdf --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --resolution 100000
 ## Using raw matrices
-hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/contact_table_rmbkl.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.raw --cpg_profile_path cpg_ratio_100k.hdf --cpu 96 --resolution 100000 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --mode tsv
+hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/contact_table_rmbkl.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.raw --cpg_profile_path /anvil/scratch/x-zhou/Tan2021/cpg_ratio_100k.hdf --cpu 96 --resolution 100000 --chr1 1 --pos1 2 --chr2 3 --pos2 4 --chrom_size_path /anvil/scratch/x-zhou/Tan2021/chrom_sizes.txt --mode tsv
 ## Using imputed matrices
-hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/100K/cell_table.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.impute --cpg_profile_path cpg_ratio_100k.hdf --cpu 96
+hicluster compartment --cell_table_path /anvil/scratch/x-zhou/Tan2021/impute/100K/cell_table.tsv --output_prefix /anvil/scratch/x-zhou/Tan2021/dataset/Tan2021.impute --cpg_profile_path /anvil/scratch/x-zhou/Tan2021/cpg_ratio_100k.hdf --cpu 96
 
 # Compute insulation score and domain boundary
 ls impute/25K/chunk*/*.cool | awk -v p=$PWD '{printf("%s/%s\n", p, $0)}' > impute/25K/cell_table.txt

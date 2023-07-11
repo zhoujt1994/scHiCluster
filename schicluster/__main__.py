@@ -619,6 +619,8 @@ def embedding_register_subparser(subparser):
                             help='Path to cell table file')
     parser_req.add_argument('--output_dir', type=str, required=True, default=None,
                             help='Path to embedding output dir')
+    parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
+                            help='Path to chromosome sizes file')
     parser.add_argument('--dim', type=int, required=False, default=50,
                         help='')
     parser.add_argument('--dist', type=int, required=False, default=1000000,
