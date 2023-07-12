@@ -6,6 +6,7 @@ from scipy.sparse.linalg import norm
 from scipy.ndimage import gaussian_filter
 import cooler
 import logging
+import pathlib
 # from ..cool import write_coo
 
 

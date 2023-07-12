@@ -28,8 +28,12 @@ def prepare_impute(output_dir,
     """
     prepare snakemake files and directory structure for cell contacts imputation
     """
-    output_dir = pathlib.Path(output_dir).absolute()
-    output_dir.mkdir(exist_ok=True)
+    # output_dir = pathlib.Path(output_dir).absolute()
+    # output_dir.mkdir(exist_ok=True)
+    
+    if output_dir is not None:
+        p = pathlib.Path(f"{output_dir}/")
+        p.mkdir(parents=True, exist_ok=True)
     with open(PACKAGE_DIR / 'impute/impute_new.Snakefile') as f:
         snake_template = f.read()
     if logscale:
