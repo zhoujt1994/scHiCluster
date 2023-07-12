@@ -489,9 +489,11 @@ def prepare_imputation_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--output_dir', type=str, required=True, default=None,
-                            help='Path to output directory')
+                            help='Output path of the cool files after imputation')
     parser_req.add_argument('--chrom_size_path', type=str, required=True, default=None,
-                            help='Path to chromosome sizes file')
+                            help='Path to UCSC chrom size file. '
+                            'This can be generated from the genome fasta or '
+                            'downloaded via UCSC fetchChromSizes tools.')
     parser_req.add_argument('--output_dist', type=int, required=True, default=None,
                             help='')
     parser_req.add_argument('--window_size', type=int, required=True, default=None,
@@ -499,13 +501,15 @@ def prepare_imputation_register_subparser(subparser):
     parser_req.add_argument('--step_size', type=int, required=True, default=None,
                             help='')
     parser_req.add_argument('--resolution', type=int, required=True, default=None,
-                            help='')
+                            help='Chromatin Resolution for output cool files')
     parser.add_argument('--input_scool', type=str, required=False, default=None,
                         help='Path to input scool file')
     parser.add_argument('--cell_table', type=str, required=False, default=None, 
-                        help='Path to cell table file')
+                        help='Contain all the cell contact file after blacklist removal'
+                        'in two tab-separated columns: 1. file_uid, 2. file_path.'
+                        'No header; No index')
     parser.add_argument('--batch_size', type=int, required=False, default=100,
-                        help='')
+                        help='Number of cells to include in each batch run')
     parser.add_argument('--logscale', dest='logscale', action='store_true', required=False,
                         help='')
     parser.set_defaults(logscale=False)
@@ -699,10 +703,12 @@ def filter_contacts_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--contact_table', type=str, default=None, 
-                            help='Full path to cell contact files')
+                            help='Contain all the cell contact file information in two tab-separated columns: 1. file_uid, 2. file_path. No header; No index')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, 
-                            help='Chromsome size file with only chromosomes to use')
-    parser.add_argument('--output_dir', type=str, default=None, help='Directory to write contact files after filtering')
+                            help='Path to UCSC chrom size file. '
+                            'This can be generated from the genome fasta or downloaded via UCSC fetchChromSizes tools.')
+    parser.add_argument('--output_dir', type=str, default=None, help='Output path of the contact files '
+                        'after blacklist filtering')
     parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
                         help='Path to blacklist region BED file, such as ENCODE blacklist. '
                              'Either side of the contact overlapping with a blacklist region will be removed.')
