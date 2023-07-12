@@ -3,9 +3,16 @@ root: intro
 parts:
   - caption: Tutorial
     chapters:
+    - file: Tan2021/intro
+      sections:
+      - file: Tan2021/imputation
+      - file: Tan2021/rna_clustering
+      - file: Tan2021/dipc_clustering
+      - file: Tan2021/rna_3c_integrate
+      - file: Tan2021/prepare
+      - file: Tan2021/loop_blacklist
     - file: hba/intro
       sections:
-      - file: hba/prepare
       - file: hba/rna_majortype/intro
         sections:
         - file: hba/rna_majortype/01.deg
@@ -38,11 +45,3 @@ parts:
     #   - file: hba/decay
     #     sections:
     #     - file: hba/decay/01.decay
-    - file: Tan2021/intro
-      sections:
-      - file: Tan2021/imputation
-      - file: Tan2021/rna_clustering
-      - file: Tan2021/dipc_clustering
-      - file: Tan2021/rna_3c_integrate
-      - file: Tan2021/prepare
-      - file: Tan2021/loop_blacklist
