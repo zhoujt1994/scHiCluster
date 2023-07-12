@@ -1,100 +1,158 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>schicluster.__main__ — scHiCluster</title>
-<script data-cfasync="false">
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>schicluster.__main__ &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-<!-- Loaded before other Sphinx assets -->
-<link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/graphviz.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
-<link href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
-<!-- Pre-loaded scripts that we'll load fully later -->
-<link as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
-<link as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
-<script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-<script src="../../../_static/jquery.js"></script>
-<script src="../../../_static/underscore.js"></script>
-<script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script src="../../../_static/doctools.js"></script>
-<script src="../../../_static/sphinx_highlight.js"></script>
-<script src="../../../_static/clipboard.min.js"></script>
-<script src="../../../_static/copybutton.js"></script>
-<script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-<script>let toggleHintShow = 'Click to show';</script>
-<script>let toggleHintHide = 'Click to hide';</script>
-<script>let toggleOpenOnPrint = 'true';</script>
-<script src="../../../_static/togglebutton.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-<script src="../../../_static/design-tabs.js"></script>
-<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-codeautolink.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/clipboard.min.js"></script>
+    <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-<script async="async" src="../../../_static/sphinx-thebe.js"></script>
-<script>DOCUMENTATION_OPTIONS.pagename = 'api/schicluster/__main__/index';</script>
-<link href="../../../genindex.html" rel="index" title="Index"/>
-<link href="../../../search.html" rel="search" title="Search"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="en" name="docsearch:language"/>
-</head>
-<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
-<label class="overlay overlay-primary" for="__primary"></label>
-<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
-<label class="overlay overlay-secondary" for="__secondary"></label>
-<div class="search-button__wrapper">
-<div class="search-button__overlay"></div>
-<div class="search-button__search-container">
-<form action="../../../search.html" class="bd-search d-flex align-items-center" method="get">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
-<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+    <script async="async" src="../../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/schicluster/__main__/index';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
-</div>
-<nav class="bd-header navbar navbar-expand-lg bd-navbar">
-</nav>
-<div class="bd-container">
-<div class="bd-container__inner bd-page-width">
-<div class="bd-sidebar-primary bd-sidebar">
-<div class="sidebar-header-items sidebar-primary__section">
-</div>
-<div class="sidebar-primary-items__start sidebar-primary__section">
-<div class="sidebar-primary-item">
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
 <a class="navbar-brand logo" href="../../../intro.html">
-<p class="title logo__title">scHiCluster</p>
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
 </a></div>
-<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
-<div class="bd-toc-item navbar-nav active">
-<ul class="nav bd-sidenav bd-sidenav__home-link">
-<li class="toctree-l1">
-<a class="reference internal" href="../../../intro.html">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../../intro.html">
                     scHiCluster
                 </a>
-</li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
@@ -125,6 +183,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/02.count.html">Domain count and size</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
+
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
 </ul>
@@ -142,75 +201,158 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 </ul>
-</div>
+
+    </div>
 </nav></div>
-</div>
-<div class="sidebar-primary-items__end sidebar-primary__section">
-</div>
-<div id="rtd-footer-container"></div>
-</div>
-<main class="bd-main" id="main-content">
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
 <div class="sbt-scroll-pixel-helper"></div>
-<div class="bd-content">
-<div class="bd-article-container">
-<div class="bd-header-article">
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
-<div class="header-article-items__start">
-<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
-<span class="fa-solid fa-bars"></span>
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
 </label></div>
-</div>
-<div class="header-article-items__end">
-<div class="header-article-item">
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
 <div class="article-header-buttons">
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
-<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fab fa-github"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fab fa-github"></i>
-</span>
+  <i class="fab fa-github"></i>
+  </span>
 <span class="btn__text-container">Repository</span>
 </a>
 </li>
-<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fapi/schicluster/__main__/index.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fapi/schicluster/__main__/index.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-lightbulb"></i>
-</span>
+  <i class="fas fa-lightbulb"></i>
+  </span>
 <span class="btn__text-container">Open issue</span>
 </a>
 </li>
-</ul>
+      
+  </ul>
 </div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
-<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fas fa-download"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../../../_sources/api/schicluster/__main__/index.rst" target="_blank" title="Download source file">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../../_sources/api/schicluster/__main__/index.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file"></i>
-</span>
+  <i class="fas fa-file"></i>
+  </span>
 <span class="btn__text-container">.rst</span>
 </a>
 </li>
-<li>
-<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file-pdf"></i>
-</span>
+  <i class="fas fa-file-pdf"></i>
+  </span>
 <span class="btn__text-container">.pdf</span>
 </button>
 </li>
-</ul>
+      
+  </ul>
 </div>
-<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-expand"></i>
-</span>
+  <i class="fas fa-expand"></i>
+  </span>
+
 </button>
+
+
 <script>
 document.write(`
   <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -220,6 +362,7 @@ document.write(`
   </button>
 `);
 </script>
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -227,23 +370,29 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
-<span class="fa-solid fa-list"></span>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </label>
 </div></div>
+      
+    </div>
+  
 </div>
 </div>
-</div>
-<div class="onlyprint" id="jb-print-docs-body">
-<h1>schicluster.__main__</h1>
-<!-- Table of contents -->
-<div id="print-main-content">
-<div id="jb-print-toc">
-<div>
-<h2> Contents </h2>
-</div>
-<nav aria-label="Page">
-<ul class="visible nav section-nav flex-column">
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>schicluster.__main__</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.log"><code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.DESCRIPTION"><code class="docutils literal notranslate"><span class="pre">DESCRIPTION</span></code></a></li>
@@ -280,13 +429,17 @@ document.write(`
 </ul>
 </li>
 </ul>
-</nav>
+            </nav>
+        </div>
+    </div>
 </div>
-</div>
-</div>
+
+              
+                
 <div id="searchbox"></div>
-<article class="bd-article" role="main">
-<section id="module-schicluster.__main__">
+                <article class="bd-article" role="main">
+                  
+  <section id="module-schicluster.__main__">
 <span id="schicluster-main"></span><h1><a class="reference internal" href="#module-schicluster.__main__" title="schicluster.__main__"><code class="xref py py-mod docutils literal notranslate"><span class="pre">schicluster.__main__</span></code></a><a class="headerlink" href="#module-schicluster.__main__" title="Permalink to this heading">#</a></h1>
 <p>CLI defined here</p>
 <p>When adding new function:
@@ -298,24 +451,27 @@ document.write(`
 <dt class="sig sig-object py" id="schicluster.__main__.log">
 <span class="sig-name descname"><span class="pre">log</span></span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.log" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="schicluster.__main__.DESCRIPTION">
 <span class="sig-name descname"><span class="pre">DESCRIPTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">Multiline-String</span></em><a class="reference internal" href="../../../_modules/schicluster/__main__.html#DESCRIPTION"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.DESCRIPTION" title="Permalink to this definition">#</a></dt>
 <dd><blockquote>
-<div><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""</span>
+<div><details><summary>Show Value</summary><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">scHiCluster is a toolkit for single-cell HiC data preprocessing, imputation, and clustering analysis.</span>
 
 <span class="sd">Current Tool List in scHiCluster:</span>
 
-<span class="sd">"""</span>
+<span class="sd">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
 </details></div></blockquote>
 </dd></dl>
+
 <dl class="py data">
 <dt class="sig sig-object py" id="schicluster.__main__.EPILOG">
 <span class="sig-name descname"><span class="pre">EPILOG</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="reference internal" href="../../../_modules/schicluster/__main__.html#EPILOG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.EPILOG" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="schicluster.__main__.NiceFormatter">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">NiceFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datefmt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">style</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'%'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#NiceFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.NiceFormatter" title="Permalink to this definition">#</a></dt>
@@ -337,112 +493,140 @@ time (as determined by a call to usesTime(), formatTime() is
 called to format the event time. If there is exception information,
 it is formatted using formatException() and appended to the message.</p>
 </dd></dl>
+
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.validate_environment">
 <span class="sig-name descname"><span class="pre">validate_environment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#validate_environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.validate_environment" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.setup_logging">
 <span class="sig-name descname"><span class="pre">setup_logging</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stdout</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quiet</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#setup_logging"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.setup_logging" title="Permalink to this definition">#</a></dt>
 <dd><p>From Cutadapt <a class="github reference external" href="https://github.com/marcelm/cutadapt">marcelm/cutadapt</a>
 Attach handler to the global logger object</p>
 </dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__._str_to_bool">
-<span class="sig-name descname"><span class="pre">_str_to_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">→</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#_str_to_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__._str_to_bool" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">_str_to_bool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#_str_to_bool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__._str_to_bool" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.comp_cpg_cell_register_subparser">
 <span class="sig-name descname"><span class="pre">comp_cpg_cell_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#comp_cpg_cell_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.comp_cpg_cell_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.comp_concatcell_chr_register_subparser">
 <span class="sig-name descname"><span class="pre">comp_concatcell_chr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#comp_concatcell_chr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.comp_concatcell_chr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.domain_insulation_cell_register_subparser">
 <span class="sig-name descname"><span class="pre">domain_insulation_cell_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#domain_insulation_cell_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.domain_insulation_cell_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.domain_concatcell_chr_register_subparser">
 <span class="sig-name descname"><span class="pre">domain_concatcell_chr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#domain_concatcell_chr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.domain_concatcell_chr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.embed_concatcell_chr_register_subparser">
 <span class="sig-name descname"><span class="pre">embed_concatcell_chr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#embed_concatcell_chr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.embed_concatcell_chr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.embed_mergechr_register_subparser">
 <span class="sig-name descname"><span class="pre">embed_mergechr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#embed_mergechr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.embed_mergechr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.generatematrix_cell_register_subparser">
 <span class="sig-name descname"><span class="pre">generatematrix_cell_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#generatematrix_cell_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.generatematrix_cell_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.impute_cell_register_subparser">
 <span class="sig-name descname"><span class="pre">impute_cell_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#impute_cell_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.impute_cell_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.loop_bkg_cell_register_subparser">
 <span class="sig-name descname"><span class="pre">loop_bkg_cell_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#loop_bkg_cell_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.loop_bkg_cell_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.loop_sumcell_chr_register_subparser">
 <span class="sig-name descname"><span class="pre">loop_sumcell_chr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#loop_sumcell_chr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.loop_sumcell_chr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.loop_mergechr_register_subparser">
 <span class="sig-name descname"><span class="pre">loop_mergechr_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#loop_mergechr_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.loop_mergechr_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.generate_scool_register_subparser">
 <span class="sig-name descname"><span class="pre">generate_scool_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#generate_scool_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.generate_scool_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.prepare_imputation_register_subparser">
 <span class="sig-name descname"><span class="pre">prepare_imputation_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#prepare_imputation_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.prepare_imputation_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.call_domain_register_subparser">
 <span class="sig-name descname"><span class="pre">call_domain_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#call_domain_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.call_domain_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.call_compartment_register_subparser">
 <span class="sig-name descname"><span class="pre">call_compartment_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#call_compartment_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.call_compartment_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.cpg_ratio_register_subparser">
 <span class="sig-name descname"><span class="pre">cpg_ratio_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#cpg_ratio_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.cpg_ratio_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.embedding_register_subparser">
 <span class="sig-name descname"><span class="pre">embedding_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#embedding_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.embedding_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.gene_score_register_subparser">
 <span class="sig-name descname"><span class="pre">gene_score_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#gene_score_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.gene_score_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.merge_cell_raw_register_subparser">
 <span class="sig-name descname"><span class="pre">merge_cell_raw_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#merge_cell_raw_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.merge_cell_raw_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.filter_contacts_register_subparser">
 <span class="sig-name descname"><span class="pre">filter_contacts_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#filter_contacts_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.filter_contacts_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.contact_distance_register_subparser">
 <span class="sig-name descname"><span class="pre">contact_distance_register_subparser</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subparser</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#contact_distance_register_subparser"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.contact_distance_register_subparser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.__main__.main">
 <span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/schicluster/__main__.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.__main__.main" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
 </section>
 </section>
-<script type="text/x-thebe-config">
+
+    <script type="text/x-thebe-config">
     {
         requestKernel: true,
         binderOptions: {
@@ -460,23 +644,37 @@ Attach handler to the global logger object</p>
         predefinedOutput: true
     }
     </script>
-<script>kernelName = 'python3'</script>
-</article>
-<footer class="bd-footer-article">
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
 <div class="footer-article-items footer-article__inner">
-<div class="footer-article-item"><!-- Previous / next buttons -->
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
 </div></div>
+  
 </div>
-</footer>
-</div>
-<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-<div class="sidebar-secondary-item">
-<div class="page-toc tocsection onthispage">
-<i class="fa-solid fa-list"></i> Contents
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
   </div>
-<nav class="bd-toc-nav page-toc">
-<ul class="visible nav section-nav flex-column">
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.log"><code class="docutils literal notranslate"><span class="pre">log</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.__main__.DESCRIPTION"><code class="docutils literal notranslate"><span class="pre">DESCRIPTION</span></code></a></li>
@@ -513,36 +711,56 @@ Attach handler to the global logger object</p>
 </ul>
 </li>
 </ul>
-</nav></div>
+  </nav></div>
+
 </div></div>
-</div>
-<footer class="bd-footer-content">
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
 <div class="bd-footer-content__inner container">
-<div class="footer-item">
+  
+  <div class="footer-item">
+    
 <p class="component-author">
 By Jingtian Zhou
 </p>
-</div>
-<div class="footer-item">
-<p class="copyright">
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
     
       © Copyright 2022.
       <br/>
-</p>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
-<div class="footer-item">
-</div>
-<div class="footer-item">
-</div>
-</div>
-</footer>
-</main>
-</div>
-</div>
-<!-- Scripts loaded after <body> so the DOM is not blocked -->
-<script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
 <script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
-<footer class="bd-footer">
-</footer>
-</body>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>

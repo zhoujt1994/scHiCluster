@@ -98,15 +98,24 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Tan et al. Cell 2021.</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/01.deg.html">DEG identification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/02.load.html">Load loop matrices and stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
@@ -114,7 +123,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/02.count.html">Domain count and size</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
@@ -122,7 +131,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/01.call.html">Call compartment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/03.example.html">Plot example</a></li>
@@ -132,15 +141,6 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../hba/correlation_summary.html">Correlation Summary</a></li>
-</ul>
-</li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Tan et al. Cell 2021.</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="imputation.html">Prepare and run imputation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rna_clustering.html">scRNA(MALBAC) clustering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Assign DipC cells to RNA clusters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prepare.html">Prepare pseudobulk analyses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="loop_blacklist.html">Generate blacklist for loop calling</a></li>
 </ul>
 </li>
 </ul>
