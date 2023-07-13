@@ -489,23 +489,26 @@ def prepare_imputation_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--output_dir', type=str, required=True, default=None,
-                            help='Path to output directory')
+                            help='Path to output directory containing the single-cell cool files after imputation')
     parser_req.add_argument('--chrom_size_path', type=str, required=True, default=None,
-                            help='Path to chromosome sizes file')
-    parser_req.add_argument('--output_dist', type=int, required=True, default=None,
-                            help='')
-    parser_req.add_argument('--window_size', type=int, required=True, default=None,
-                            help='')
-    parser_req.add_argument('--step_size', type=int, required=True, default=None,
-                            help='')
+                            help='Path to UCSC chrom size file'
+                            'Contain all the chromosome information in two tab-separated columns: 1. chromosome name, 2. chromosome length. No header')
+    parser_req.add_argument('--output_dist', type=int, required=True, default=500000000,
+                            help='Maximum distance for a contact to be written to the output')
+    parser_req.add_argument('--window_size', type=int, required=True, default=500000000,
+                            help='The size in base pairs of sliding window for imputation ')
+    parser_req.add_argument('--step_size', type=int, required=True, default=10000000,
+                            help='The step size in base pairs that the sliding window moves')
     parser_req.add_argument('--resolution', type=int, required=True, default=None,
-                            help='')
+                            help='Resolution for imputation')
     parser.add_argument('--input_scool', type=str, required=False, default=None,
                         help='Path to input scool file')
     parser.add_argument('--cell_table', type=str, required=False, default=None, 
-                        help='Path to cell table file')
+                        help='Contain all the cell contact file after blacklist removal'
+                        'in two tab-separated columns: 1. cell_uid, 2. file_path.'
+                        'No header')
     parser.add_argument('--batch_size', type=int, required=False, default=100,
-                        help='')
+                        help='Number of cells to include in each batch run')
     parser.add_argument('--logscale', dest='logscale', action='store_true', required=False,
                         help='')
     parser.set_defaults(logscale=False)
@@ -520,7 +523,7 @@ def prepare_imputation_register_subparser(subparser):
     parser.add_argument('--min_cutoff', type=float, required=False, default=1e-5,
                         help='')
     parser.add_argument('--cpu_per_job', type=int, required=False, default=10,
-                        help='')
+                        help='Number of cpus to parallel.')
     parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
                         help='0 based index of chr1 column.')
     parser.add_argument('--chr2', type=int, dest='chrom2', default=5, required=False, 
@@ -699,10 +702,12 @@ def filter_contacts_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--contact_table', type=str, default=None, 
-                            help='Full path to cell contact files')
+                            help='Contain all the cell contact file information in two tab-separated columns: 1. cell_uid, 2. file_path. No header')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, 
-                            help='Chromsome size file with only chromosomes to use')
-    parser.add_argument('--output_dir', type=str, default=None, help='Directory to write contact files after filtering')
+                            help='Path to UCSC chrom size file'
+                            'Contain all the chromosome information in two tab-separated columns: 1. chromosome name, 2. chromosome length. No header')
+    parser.add_argument('--output_dir', type=str, default=None, help='Path to the output directory of the contact files'
+                        'after blacklist filtering')
     parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
                         help='Path to blacklist region BED file, such as ENCODE blacklist. '
                              'Either side of the contact overlapping with a blacklist region will be removed.')
@@ -721,8 +726,8 @@ def filter_contacts_register_subparser(subparser):
     parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
     parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
     parser.add_argument('--min_pos_dist', type=int, default=0,
-                        help='Minimum distance for a fragment to be considered.')
-    parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
+                        help='Minimum distance for a contact to be kept.')
+    parser.add_argument('--cpu', type=int, default=20, help='Number of cpus to parallel.')
 
 
 def contact_distance_register_subparser(subparser):

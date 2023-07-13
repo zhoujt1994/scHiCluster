@@ -3,6 +3,7 @@ from collections import defaultdict
 import pybedtools
 from functools import lru_cache
 from concurrent.futures import ProcessPoolExecutor, as_completed
+import pathlib
 
 @lru_cache()
 def prepare_2d_blacklist_dict(blacklist_bedpe, resolution=10000):
@@ -137,6 +138,10 @@ def filter_contacts_wrapper(contact_table=None,
                             min_pos_dist=0,
                             cpu=20):
     contact_table = pd.read_csv(contact_table, sep='\t', header=None, index_col=None)
+    
+    output_dir = pathlib.Path(output_dir).absolute()
+    output_dir.mkdir(parents=True, exist_ok=True)    
+        
     with ProcessPoolExecutor(cpu) as executor:
         futures = {}
         for xx,yy in contact_table.values:
