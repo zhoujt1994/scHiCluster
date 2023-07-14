@@ -45,3 +45,7 @@ parts:
     #   - file: hba/decay
     #     sections:
     #     - file: hba/decay/01.decay
+    - caption: COMMAND LINE TOOLS
+      chapters:
+        - file: command_line/hicluster_filter_contact
+        - file: command_line/hicluster_prepare_impute

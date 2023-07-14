@@ -93,9 +93,9 @@ Will be automatically created if not existing already.
 Both 1d and 2d blacklist could be downloaded from https://github.com/zhoujt1994/scHiCluster/tree/master/files/blacklist/. We usually use the encode blacklist as the 1d blacklist, and 2d blacklist could be specific to the technologies and mapping strategies. We used the snm3C-seq mapping pipeline to map the snmC-seq data and obtained the potential false positive contacts as the 2d blacklist.
 
 ```bash
---chr1 1 \
---pos1 2 \
---chr2 5 \
---pos2 6 \
+--chr1 1
+--pos1 2
+--chr2 5
+--pos2 6
 ```
 Specify which columns correspond to the positions of the two anchors of contacts. Note that the number is zero based, so the example above means 2nd and 3rd columns are the left anchor, and 6th and 7th columns are the right anchor. This format is the same [juicer short format](https://github.com/aidenlab/juicer/wiki/Pre#short-format), and the standard output format of [yap mapping pipeline](https://hq-1.gitbook.io/mc/).
