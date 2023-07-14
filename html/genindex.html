@@ -1,0 +1,1570 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-codeautolink.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    scHiCluster
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="hba/rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="hba/loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/loop_majortype/02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/domain_majortype/03.diff.html">Differential boundary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="hba/domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hba/compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="hba/correlation_summary.html">Correlation Summary</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._add_root_attrs">_add_root_attrs() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._add_root_attrs">[1]</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#schicluster.loop.merge_raw_matrix._chrom_sum_iterator">_chrom_sum_iterator() (in module schicluster.loop.merge_raw_matrix)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._init_zarr">_init_zarr() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._init_zarr">[1]</a>
+</li>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist._is_2d_blacklist">_is_2d_blacklist() (in module schicluster.cool.remove_blacklist)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._read_chrom_info">_read_chrom_info() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._read_chrom_info">[1]</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._read_cool_table">_read_cool_table() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._read_cool_table">[1]</a>
+</li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake._run_snakemake">_run_snakemake() (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._save_cool_to_temp_zarr">_save_cool_to_temp_zarr() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._save_cool_to_temp_zarr">[1]</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._save_single_bin_chunk">_save_single_bin_chunk() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._save_single_bin_chunk">[1]</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._save_single_bin_chunk_worker">_save_single_bin_chunk_worker() (CoolDSSingleMatrixWriter static method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._save_single_bin_chunk_worker">[1]</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#schicluster.loop.merge_raw_matrix._save_single_matrix_type">_save_single_matrix_type() (in module schicluster.loop.merge_raw_matrix)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._save_small_sample_chunks">_save_small_sample_chunks() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._save_small_sample_chunks">[1]</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._save_small_sample_chunks_ds_to_final_zarr">_save_small_sample_chunks_ds_to_final_zarr() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._save_small_sample_chunks_ds_to_final_zarr">[1]</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__._str_to_bool">_str_to_bool() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/loop/shuffle_fdr/index.html#schicluster.loop.shuffle_fdr._t_score">_t_score() (in module schicluster.loop.shuffle_fdr)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter._write_data">_write_data() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter._write_data">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.aggregate_boundary">aggregate_boundary() (in module schicluster.domain.call_domain)</a>
+</li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.aggregate_cells">aggregate_cells() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.aggregate_cells">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.aggregate_chromosomes">aggregate_chromosomes() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.aggregate_chromosomes">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.aggregate_chromosomes_internal_subparser">aggregate_chromosomes_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.aggregate_compartment">aggregate_compartment() (in module schicluster.compartment.call_compartment)</a>
+</li>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.aggregate_insulation">aggregate_insulation() (in module schicluster.domain.call_domain)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/loop/loop_bkg/index.html#schicluster.loop.loop_bkg.calc_diag_stats">calc_diag_stats() (in module schicluster.loop.loop_bkg)</a>
+</li>
+      <li><a href="api/schicluster/impute/impute_chromosome/index.html#schicluster.impute.impute_chromosome.calc_sparsity">calc_sparsity() (in module schicluster.impute.impute_chromosome)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_bkg/index.html#schicluster.loop.loop_bkg.calculate_chrom_background_normalization">calculate_chrom_background_normalization() (in module schicluster.loop.loop_bkg)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.calculate_loop_matrix_internal_subparser">calculate_loop_matrix_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.call_compartment_register_subparser">call_compartment_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.call_domain_and_insulation">call_domain_and_insulation() (in module schicluster.domain.call_domain)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.call_domain_register_subparser">call_domain_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/loop/index.html#schicluster.loop.call_loop">call_loop() (in module schicluster.loop)</a>
+
+      <ul>
+        <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.call_loop">(in module schicluster.loop.snakemake)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.call_loop_internal_subparser">call_loop_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.call_loop_single_chrom">call_loop_single_chrom() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.call_loops">call_loops() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.cell_chunk">cell_chunk() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.cell_chunk">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.check_chunk_dir_finish">check_chunk_dir_finish() (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.chrflankpv">chrflankpv() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.chrom">chrom (in module schicluster.loop.compare_loop)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_group/index.html#schicluster.loop.merge_group.chrom_ave_iterator">chrom_ave_iterator() (in module schicluster.loop.merge_group)</a>
+</li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.chrom_iterator">chrom_iterator() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.chrom_iterator">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.chrom_sum_iterator">chrom_sum_iterator() (in module schicluster.loop.merge_cell_to_group)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.comp_comp">comp_comp() (in module schicluster.schicluster)</a>
+</li>
+      <li>
+    comp_concatcell_chr
+
+      <ul>
+        <li><a href="api/comp_concatcell_chr/index.html#module-comp_concatcell_chr">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/comp_concatcell_chr/index.html#comp_concatcell_chr.comp_concatcell_chr">comp_concatcell_chr() (in module comp_concatcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.comp_concatcell_chr_register_subparser">comp_concatcell_chr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li>
+    comp_cpg_cell
+
+      <ul>
+        <li><a href="api/comp_cpg_cell/index.html#module-comp_cpg_cell">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/comp_cpg_cell/index.html#comp_cpg_cell.comp_cpg_cell">comp_cpg_cell() (in module comp_cpg_cell)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.comp_cpg_cell_register_subparser">comp_cpg_cell_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.compartment">compartment() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.compartment_strength">compartment_strength() (in module schicluster.compartment.call_compartment)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.COMPRESSOR_C_LEVEL">COMPRESSOR_C_LEVEL (in module schicluster.zarr.cool_ds)</a>
+</li>
+      <li><a href="api/schicluster/cool/contact_distance/index.html#schicluster.cool.contact_distance.compute_decay">compute_decay() (in module schicluster.cool.contact_distance)</a>
+</li>
+      <li><a href="api/schicluster/loop/shuffle_fdr/index.html#schicluster.loop.shuffle_fdr.compute_t">compute_t() (in module schicluster.loop.shuffle_fdr)</a>
+</li>
+      <li><a href="api/schicluster/dev/concat_cell/index.html#schicluster.dev.concat_cell.concat_cell">concat_cell() (in module schicluster.dev.concat_cell)</a>
+</li>
+      <li><a href="api/schicluster/cool/contact_distance/index.html#schicluster.cool.contact_distance.contact_distance">contact_distance() (in module schicluster.cool.contact_distance)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.contact_distance_register_subparser">contact_distance_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter">CoolDSSingleMatrixWriter (class in schicluster.zarr)</a>
+
+      <ul>
+        <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter">(class in schicluster.zarr.cool_ds)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.cpg_ratio_register_subparser">cpg_ratio_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/zarr/loop_ds/index.html#schicluster.zarr.loop_ds.create_loop_ds">create_loop_ds() (in module schicluster.zarr.loop_ds)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.decay">decay() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.DESCRIPTION">DESCRIPTION (in module schicluster.__main__)</a>
+
+      <ul>
+        <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.DESCRIPTION">(in module schicluster._hicluster_internal)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/diff/domain/index.html#schicluster.diff.domain.diff_bound">diff_bound() (in module schicluster.diff.domain)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.diff_dom">diff_dom() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.dist">dist (in module schicluster.loop.compare_loop)</a>
+</li>
+      <li>
+    domain_concatcell_chr
+
+      <ul>
+        <li><a href="api/domain_concatcell_chr/index.html#module-domain_concatcell_chr">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/domain_concatcell_chr/index.html#domain_concatcell_chr.domain_concatcell_chr">domain_concatcell_chr() (in module domain_concatcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.domain_concatcell_chr_register_subparser">domain_concatcell_chr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.domain_df_to_boundary">domain_df_to_boundary() (in module schicluster.domain.call_domain)</a>
+</li>
+      <li>
+    domain_insulation_cell
+
+      <ul>
+        <li><a href="api/domain_insulation_cell/index.html#module-domain_insulation_cell">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/domain_insulation_cell/index.html#domain_insulation_cell.domain_insulation_cell">domain_insulation_cell() (in module domain_insulation_cell)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.domain_insulation_cell_register_subparser">domain_insulation_cell_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.ds_pca">ds_pca() (in module schicluster.schicluster)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    embed_concatcell_chr
+
+      <ul>
+        <li><a href="api/embed_concatcell_chr/index.html#module-embed_concatcell_chr">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/embed_concatcell_chr/index.html#embed_concatcell_chr.embed_concatcell_chr">embed_concatcell_chr() (in module embed_concatcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.embed_concatcell_chr_register_subparser">embed_concatcell_chr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li>
+    embed_mergechr
+
+      <ul>
+        <li><a href="api/embed_mergechr/index.html#module-embed_mergechr">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/embed_mergechr/index.html#embed_mergechr.embed_mergechr">embed_mergechr() (in module embed_mergechr)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.embed_mergechr_register_subparser">embed_mergechr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/embedding/index.html#schicluster.embedding.embedding">embedding() (in module schicluster.embedding)</a>
+
+      <ul>
+        <li><a href="api/schicluster/embedding/calc_embedding/index.html#schicluster.embedding.calc_embedding.embedding">(in module schicluster.embedding.calc_embedding)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.embedding_register_subparser">embedding_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.EPILOG">EPILOG (in module schicluster.__main__)</a>
+
+      <ul>
+        <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.EPILOG">(in module schicluster._hicluster_internal)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.CoolDSSingleMatrixWriter.execute">execute() (CoolDSSingleMatrixWriter method)</a>, <a href="api/schicluster/zarr/index.html#schicluster.zarr.CoolDSSingleMatrixWriter.execute">[1]</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.fetch_chrom">fetch_chrom() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.filter_bins">filter_bins() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.filter_by_background">filter_by_background() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts">filter_contacts() (in module schicluster.cool.remove_blacklist)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.filter_contacts_register_subparser">filter_contacts_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.filter_contacts_wrapper">filter_contacts_wrapper() (in module schicluster.cool.remove_blacklist)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.filter_loops">filter_loops() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.find_summit">find_summit() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.NiceFormatter.format">format() (NiceFormatter method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    gene_score
+
+      <ul>
+        <li><a href="api/gene_score/index.html#module-gene_score">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/gene_score/index.html#gene_score.gene_score">gene_score() (in module gene_score)</a>
+</li>
+      <li><a href="api/gene_score/index.html#gene_score.gene_score_impute">gene_score_impute() (in module gene_score)</a>
+</li>
+      <li><a href="api/gene_score/index.html#gene_score.gene_score_raw">gene_score_raw() (in module gene_score)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.gene_score_register_subparser">gene_score_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/zarr/index.html#schicluster.zarr.generate_cool_ds">generate_cool_ds() (in module schicluster.zarr)</a>
+
+      <ul>
+        <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.generate_cool_ds">(in module schicluster.zarr.cool_ds)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/dev/generate_matrix/index.html#schicluster.dev.generate_matrix.generate_matrix">generate_matrix() (in module schicluster.dev.generate_matrix)</a>
+</li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.GENERATE_MATRIX_CHUNK_TEMPLATE">GENERATE_MATRIX_CHUNK_TEMPLATE (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.GENERATE_MATRIX_SCOOL_TEMPLATE">GENERATE_MATRIX_SCOOL_TEMPLATE (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.generate_scool">generate_scool() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/scool/index.html#schicluster.cool.scool.generate_scool">(in module schicluster.cool.scool)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/cool/scool/index.html#schicluster.cool.scool.generate_scool_batch_data">generate_scool_batch_data() (in module schicluster.cool.scool)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.generate_scool_register_subparser">generate_scool_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/cool/scool/index.html#schicluster.cool.scool.generate_scool_single_resolution">generate_scool_single_resolution() (in module schicluster.cool.scool)</a>
+</li>
+      <li>
+    generatematrix_cell
+
+      <ul>
+        <li><a href="api/generatematrix_cell/index.html#module-generatematrix_cell">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/generatematrix_cell/index.html#generatematrix_cell.generatematrix_cell">generatematrix_cell() (in module generatematrix_cell)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.generatematrix_cell_register_subparser">generatematrix_cell_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.get_chrom_offsets">get_chrom_offsets() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.get_chrom_offsets">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/compartment/index.html#schicluster.compartment.get_cpg_profile">get_cpg_profile() (in module schicluster.compartment)</a>
+
+      <ul>
+        <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.get_cpg_profile">(in module schicluster.compartment.call_compartment)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/dev/imputecell/index.html#schicluster.dev.imputecell.hg19dim">hg19dim (in module schicluster.dev.imputecell)</a>
+</li>
+      <li><a href="api/schicluster/dev/imputecell/index.html#schicluster.dev.imputecell.hg38dim">hg38dim (in module schicluster.dev.imputecell)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.hicluster_cpu">hicluster_cpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.hicluster_gpu">hicluster_gpu() (in module schicluster.schicluster)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    impute_cell
+
+      <ul>
+        <li><a href="api/impute_cell/index.html#module-impute_cell">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/impute_cell/index.html#impute_cell.impute_cell">impute_cell() (in module impute_cell)</a>
+
+      <ul>
+        <li><a href="api/schicluster/dev/imputecell/index.html#schicluster.dev.imputecell.impute_cell">(in module schicluster.dev.imputecell)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.impute_cell_register_subparser">impute_cell_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/impute/impute_chromosome/index.html#schicluster.impute.impute_chromosome.impute_chromosome">impute_chromosome() (in module schicluster.impute.impute_chromosome)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.impute_chromosome_internal_subparser">impute_chromosome_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.impute_cpu">impute_cpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.impute_gpu">impute_gpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/zarr/loop_ds/index.html#schicluster.zarr.loop_ds.init_empty_loop_array">init_empty_loop_array() (in module schicluster.zarr.loop_ds)</a>
+</li>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.install_r_package">install_r_package() (in module schicluster.domain.call_domain)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.internal_main">internal_main() (in module schicluster._hicluster_internal)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/domain_concatcell_chr/index.html#domain_concatcell_chr.load_boundary">load_boundary() (in module domain_concatcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/cool/merge/index.html#schicluster.cool.merge.load_cell_csv_to_csr">load_cell_csv_to_csr() (in module schicluster.cool.merge)</a>
+</li>
+      <li><a href="api/schicluster/zarr/loop_ds/index.html#schicluster.zarr.loop_ds.load_cool_ds_chrom">load_cool_ds_chrom() (in module schicluster.zarr.loop_ds)</a>
+</li>
+      <li><a href="api/comp_concatcell_chr/index.html#comp_concatcell_chr.load_cpg">load_cpg() (in module comp_concatcell_chr)</a>
+</li>
+      <li><a href="api/domain_concatcell_chr/index.html#domain_concatcell_chr.load_insulation">load_insulation() (in module domain_concatcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.log">log (in module schicluster.__main__)</a>
+
+      <ul>
+        <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.log">(in module schicluster._hicluster_internal)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.loop0">loop0 (in module schicluster.loop.compare_loop)</a>
+</li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#id0">loop1 (in module schicluster.loop.compare_loop)</a>, <a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.loop1">[1]</a>
+</li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#id1">loop2 (in module schicluster.loop.compare_loop)</a>, <a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.loop2">[1]</a>
+</li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.loop_background">loop_background() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li>
+    loop_bkg_cell
+
+      <ul>
+        <li><a href="api/loop_bkg_cell/index.html#module-loop_bkg_cell">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/loop_bkg_cell/index.html#loop_bkg_cell.loop_bkg_cell">loop_bkg_cell() (in module loop_bkg_cell)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.loop_bkg_cell_register_subparser">loop_bkg_cell_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li>
+    loop_mergechr
+
+      <ul>
+        <li><a href="api/loop_mergechr/index.html#module-loop_mergechr">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/loop_mergechr/index.html#loop_mergechr.loop_mergechr">loop_mergechr() (in module loop_mergechr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.loop_mergechr_register_subparser">loop_mergechr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/dev/loop_sc/index.html#schicluster.dev.loop_sc.loop_sc">loop_sc() (in module schicluster.dev.loop_sc)</a>
+</li>
+      <li>
+    loop_sumcell_chr
+
+      <ul>
+        <li><a href="api/loop_sumcell_chr/index.html#module-loop_sumcell_chr">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/loop_sumcell_chr/index.html#loop_sumcell_chr.loop_sumcell_chr">loop_sumcell_chr() (in module loop_sumcell_chr)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.loop_sumcell_chr_register_subparser">loop_sumcell_chr_register_subparser() (in module schicluster.__main__)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.main">main() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/embedding/calc_embedding/index.html#schicluster.embedding.calc_embedding.make_chrom_matrix">make_chrom_matrix() (in module schicluster.embedding.calc_embedding)</a>
+</li>
+      <li><a href="api/schicluster/embedding/calc_embedding/index.html#schicluster.embedding.calc_embedding.make_idx">make_idx() (in module schicluster.embedding.calc_embedding)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#schicluster.loop.merge_raw_matrix.make_raw_matrix_cell_table">make_raw_matrix_cell_table() (in module schicluster.loop.merge_raw_matrix)</a>
+</li>
+      <li><a href="api/schicluster/dev/merge_cell/index.html#schicluster.dev.merge_cell.merge_cell">merge_cell() (in module schicluster.dev.merge_cell)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.merge_cell_impute_matrix_internal_subparser">merge_cell_impute_matrix_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.merge_cell_loop_bkg_internal_subparser">merge_cell_loop_bkg_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/cool/merge/index.html#schicluster.cool.merge.merge_cell_raw">merge_cell_raw() (in module schicluster.cool.merge)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.merge_cell_raw_register_subparser">merge_cell_raw_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/impute/merge_cell_to_group/index.html#schicluster.impute.merge_cell_to_group.merge_cells_for_single_chromosome">merge_cells_for_single_chromosome() (in module schicluster.impute.merge_cell_to_group)</a>
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_cells_for_single_chromosome">(in module schicluster.loop.merge_cell_to_group)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.merge_cpu">merge_cpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.merge_gpu">merge_gpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.merge_group_chunks_internal_subparser">merge_group_chunks_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools">merge_group_chunks_to_group_cools() (in module schicluster.loop.merge_cell_to_group)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_group/index.html#schicluster.loop.merge_group.merge_group_to_bigger_group_cools">merge_group_to_bigger_group_cools() (in module schicluster.loop.merge_group)</a>
+</li>
+      <li><a href="api/schicluster/diff/loop/index.html#schicluster.diff.loop.merge_groups">merge_groups() (in module schicluster.diff.loop)</a>
+</li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.merge_loop">merge_loop() (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#schicluster.loop.merge_raw_matrix.merge_raw_scool_by_cluster">merge_raw_scool_by_cluster() (in module schicluster.loop.merge_raw_matrix)</a>
+</li>
+      <li><a href="api/schicluster/_hicluster_internal/index.html#schicluster._hicluster_internal.merge_raw_scool_internal_subparser">merge_raw_scool_internal_subparser() (in module schicluster._hicluster_internal)</a>
+</li>
+      <li><a href="api/schicluster/dev/imputecell/index.html#schicluster.dev.imputecell.mm10dim">mm10dim (in module schicluster.dev.imputecell)</a>
+</li>
+      <li>
+    module
+
+      <ul>
+        <li><a href="api/comp_concatcell_chr/index.html#module-comp_concatcell_chr">comp_concatcell_chr</a>
+</li>
+        <li><a href="api/comp_cpg_cell/index.html#module-comp_cpg_cell">comp_cpg_cell</a>
+</li>
+        <li><a href="api/domain_concatcell_chr/index.html#module-domain_concatcell_chr">domain_concatcell_chr</a>
+</li>
+        <li><a href="api/domain_insulation_cell/index.html#module-domain_insulation_cell">domain_insulation_cell</a>
+</li>
+        <li><a href="api/embed_concatcell_chr/index.html#module-embed_concatcell_chr">embed_concatcell_chr</a>
+</li>
+        <li><a href="api/embed_mergechr/index.html#module-embed_mergechr">embed_mergechr</a>
+</li>
+        <li><a href="api/gene_score/index.html#module-gene_score">gene_score</a>
+</li>
+        <li><a href="api/generatematrix_cell/index.html#module-generatematrix_cell">generatematrix_cell</a>
+</li>
+        <li><a href="api/impute_cell/index.html#module-impute_cell">impute_cell</a>
+</li>
+        <li><a href="api/loop_bkg_cell/index.html#module-loop_bkg_cell">loop_bkg_cell</a>
+</li>
+        <li><a href="api/loop_mergechr/index.html#module-loop_mergechr">loop_mergechr</a>
+</li>
+        <li><a href="api/loop_sumcell_chr/index.html#module-loop_sumcell_chr">loop_sumcell_chr</a>
+</li>
+        <li><a href="api/schicluster/index.html#module-schicluster">schicluster</a>
+</li>
+        <li><a href="api/schicluster/__main__/index.html#module-schicluster.__main__">schicluster.__main__</a>
+</li>
+        <li><a href="api/schicluster/_hicluster_internal/index.html#module-schicluster._hicluster_internal">schicluster._hicluster_internal</a>
+</li>
+        <li><a href="api/schicluster/_version/index.html#module-schicluster._version">schicluster._version</a>
+</li>
+        <li><a href="api/schicluster/compartment/index.html#module-schicluster.compartment">schicluster.compartment</a>
+</li>
+        <li><a href="api/schicluster/compartment/call_compartment/index.html#module-schicluster.compartment.call_compartment">schicluster.compartment.call_compartment</a>
+</li>
+        <li><a href="api/schicluster/cool/index.html#module-schicluster.cool">schicluster.cool</a>
+</li>
+        <li><a href="api/schicluster/cool/contact_distance/index.html#module-schicluster.cool.contact_distance">schicluster.cool.contact_distance</a>
+</li>
+        <li><a href="api/schicluster/cool/merge/index.html#module-schicluster.cool.merge">schicluster.cool.merge</a>
+</li>
+        <li><a href="api/schicluster/cool/remove_blacklist/index.html#module-schicluster.cool.remove_blacklist">schicluster.cool.remove_blacklist</a>
+</li>
+        <li><a href="api/schicluster/cool/scool/index.html#module-schicluster.cool.scool">schicluster.cool.scool</a>
+</li>
+        <li><a href="api/schicluster/cool/utilities/index.html#module-schicluster.cool.utilities">schicluster.cool.utilities</a>
+</li>
+        <li><a href="api/schicluster/dev/index.html#module-schicluster.dev">schicluster.dev</a>
+</li>
+        <li><a href="api/schicluster/dev/concat_cell/index.html#module-schicluster.dev.concat_cell">schicluster.dev.concat_cell</a>
+</li>
+        <li><a href="api/schicluster/dev/generate_matrix/index.html#module-schicluster.dev.generate_matrix">schicluster.dev.generate_matrix</a>
+</li>
+        <li><a href="api/schicluster/dev/imputecell/index.html#module-schicluster.dev.imputecell">schicluster.dev.imputecell</a>
+</li>
+        <li><a href="api/schicluster/dev/loop_sc/index.html#module-schicluster.dev.loop_sc">schicluster.dev.loop_sc</a>
+</li>
+        <li><a href="api/schicluster/dev/merge_cell/index.html#module-schicluster.dev.merge_cell">schicluster.dev.merge_cell</a>
+</li>
+        <li><a href="api/schicluster/diff/index.html#module-schicluster.diff">schicluster.diff</a>
+</li>
+        <li><a href="api/schicluster/diff/domain/index.html#module-schicluster.diff.domain">schicluster.diff.domain</a>
+</li>
+        <li><a href="api/schicluster/diff/loop/index.html#module-schicluster.diff.loop">schicluster.diff.loop</a>
+</li>
+        <li><a href="api/schicluster/domain/index.html#module-schicluster.domain">schicluster.domain</a>
+</li>
+        <li><a href="api/schicluster/domain/call_domain/index.html#module-schicluster.domain.call_domain">schicluster.domain.call_domain</a>
+</li>
+        <li><a href="api/schicluster/embedding/index.html#module-schicluster.embedding">schicluster.embedding</a>
+</li>
+        <li><a href="api/schicluster/embedding/calc_embedding/index.html#module-schicluster.embedding.calc_embedding">schicluster.embedding.calc_embedding</a>
+</li>
+        <li><a href="api/schicluster/impute/index.html#module-schicluster.impute">schicluster.impute</a>
+</li>
+        <li><a href="api/schicluster/impute/impute_chromosome/index.html#module-schicluster.impute.impute_chromosome">schicluster.impute.impute_chromosome</a>
+</li>
+        <li><a href="api/schicluster/impute/merge_cell_to_group/index.html#module-schicluster.impute.merge_cell_to_group">schicluster.impute.merge_cell_to_group</a>
+</li>
+        <li><a href="api/schicluster/impute/snakemake/index.html#module-schicluster.impute.snakemake">schicluster.impute.snakemake</a>
+</li>
+        <li><a href="api/schicluster/loop/index.html#module-schicluster.loop">schicluster.loop</a>
+</li>
+        <li><a href="api/schicluster/loop/compare_loop/index.html#module-schicluster.loop.compare_loop">schicluster.loop.compare_loop</a>
+</li>
+        <li><a href="api/schicluster/loop/loop_bkg/index.html#module-schicluster.loop.loop_bkg">schicluster.loop.loop_bkg</a>
+</li>
+        <li><a href="api/schicluster/loop/loop_calling/index.html#module-schicluster.loop.loop_calling">schicluster.loop.loop_calling</a>
+</li>
+        <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#module-schicluster.loop.merge_cell_to_group">schicluster.loop.merge_cell_to_group</a>
+</li>
+        <li><a href="api/schicluster/loop/merge_group/index.html#module-schicluster.loop.merge_group">schicluster.loop.merge_group</a>
+</li>
+        <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#module-schicluster.loop.merge_raw_matrix">schicluster.loop.merge_raw_matrix</a>
+</li>
+        <li><a href="api/schicluster/loop/shuffle_fdr/index.html#module-schicluster.loop.shuffle_fdr">schicluster.loop.shuffle_fdr</a>
+</li>
+        <li><a href="api/schicluster/loop/snakemake/index.html#module-schicluster.loop.snakemake">schicluster.loop.snakemake</a>
+</li>
+        <li><a href="api/schicluster/schicluster/index.html#module-schicluster.schicluster">schicluster.schicluster</a>
+</li>
+        <li><a href="api/schicluster/zarr/index.html#module-schicluster.zarr">schicluster.zarr</a>
+</li>
+        <li><a href="api/schicluster/zarr/cool_ds/index.html#module-schicluster.zarr.cool_ds">schicluster.zarr.cool_ds</a>
+</li>
+        <li><a href="api/schicluster/zarr/loop_ds/index.html#module-schicluster.zarr.loop_ds">schicluster.zarr.loop_ds</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/domain/index.html#schicluster.domain.multiple_call_domain_and_insulation">multiple_call_domain_and_insulation() (in module schicluster.domain)</a>
+
+      <ul>
+        <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.multiple_call_domain_and_insulation">(in module schicluster.domain.call_domain)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/compartment/index.html#schicluster.compartment.multiple_cell_compartment">multiple_cell_compartment() (in module schicluster.compartment)</a>
+
+      <ul>
+        <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.multiple_cell_compartment">(in module schicluster.compartment.call_compartment)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.neighbor_ave_cpu">neighbor_ave_cpu() (in module schicluster.schicluster)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.neighbor_ave_gpu">neighbor_ave_gpu() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.NiceFormatter">NiceFormatter (class in schicluster.__main__)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/diff/loop/index.html#schicluster.diff.loop.one_way_anova">one_way_anova() (in module schicluster.diff.loop)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.output_sparse">output_sparse() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.output_topdom">output_topdom() (in module schicluster.schicluster)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.PACKAGE_DIR">PACKAGE_DIR (in module schicluster.domain.call_domain)</a>
+
+      <ul>
+        <li><a href="api/schicluster/impute/snakemake/index.html#schicluster.impute.snakemake.PACKAGE_DIR">(in module schicluster.impute.snakemake)</a>
+</li>
+        <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.PACKAGE_DIR">(in module schicluster.loop.snakemake)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.paired_t_test">paired_t_test() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/dev/merge_cell/index.html#schicluster.dev.merge_cell.parser">parser (in module schicluster.dev.merge_cell)</a>
+</li>
+      <li><a href="api/schicluster/loop/shuffle_fdr/index.html#schicluster.loop.shuffle_fdr.permute_fdr">permute_fdr() (in module schicluster.loop.shuffle_fdr)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/cool/remove_blacklist/index.html#schicluster.cool.remove_blacklist.prepare_2d_blacklist_dict">prepare_2d_blacklist_dict() (in module schicluster.cool.remove_blacklist)</a>
+</li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.prepare_dir">prepare_dir() (in module schicluster.loop.snakemake)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.prepare_imputation_register_subparser">prepare_imputation_register_subparser() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/impute/index.html#schicluster.impute.prepare_impute">prepare_impute() (in module schicluster.impute)</a>
+
+      <ul>
+        <li><a href="api/schicluster/impute/snakemake/index.html#schicluster.impute.snakemake.prepare_impute">(in module schicluster.impute.snakemake)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.prepare_loop_snakemake">prepare_loop_snakemake() (in module schicluster.loop.snakemake)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/dev/imputecell/index.html#schicluster.dev.imputecell.random_walk_cpu">random_walk_cpu() (in module schicluster.dev.imputecell)</a>
+
+      <ul>
+        <li><a href="api/schicluster/impute/impute_chromosome/index.html#schicluster.impute.impute_chromosome.random_walk_cpu">(in module schicluster.impute.impute_chromosome)</a>
+</li>
+        <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.random_walk_cpu">(in module schicluster.schicluster)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.random_walk_gpu">random_walk_gpu() (in module schicluster.schicluster)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.raw_pca">raw_pca() (in module schicluster.schicluster)</a>
+</li>
+      <li><a href="api/schicluster/impute/merge_cell_to_group/index.html#schicluster.impute.merge_cell_to_group.read_chrom">read_chrom() (in module schicluster.impute.merge_cell_to_group)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.read_single_cool_chrom">read_single_cool_chrom() (in module schicluster.loop.merge_cell_to_group)</a>
+</li>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.res">res (in module schicluster.loop.compare_loop)</a>
+</li>
+      <li><a href="api/schicluster/dev/concat_cell/index.html#schicluster.dev.concat_cell.run_svd">run_svd() (in module schicluster.dev.concat_cell)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/zarr/loop_ds/index.html#schicluster.zarr.loop_ds.save_sample_chunk">save_sample_chunk() (in module schicluster.zarr.loop_ds)</a>
+</li>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.save_single_matrix_type">save_single_matrix_type() (in module schicluster.loop.merge_cell_to_group)</a>
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_group/index.html#schicluster.loop.merge_group.save_single_matrix_type">(in module schicluster.loop.merge_group)</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.scan_kernel">scan_kernel() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li>
+    schicluster
+
+      <ul>
+        <li><a href="api/schicluster/index.html#module-schicluster">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.__main__
+
+      <ul>
+        <li><a href="api/schicluster/__main__/index.html#module-schicluster.__main__">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster._hicluster_internal
+
+      <ul>
+        <li><a href="api/schicluster/_hicluster_internal/index.html#module-schicluster._hicluster_internal">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster._version
+
+      <ul>
+        <li><a href="api/schicluster/_version/index.html#module-schicluster._version">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.compartment
+
+      <ul>
+        <li><a href="api/schicluster/compartment/index.html#module-schicluster.compartment">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.compartment.call_compartment
+
+      <ul>
+        <li><a href="api/schicluster/compartment/call_compartment/index.html#module-schicluster.compartment.call_compartment">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool
+
+      <ul>
+        <li><a href="api/schicluster/cool/index.html#module-schicluster.cool">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.contact_distance
+
+      <ul>
+        <li><a href="api/schicluster/cool/contact_distance/index.html#module-schicluster.cool.contact_distance">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.merge
+
+      <ul>
+        <li><a href="api/schicluster/cool/merge/index.html#module-schicluster.cool.merge">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.remove_blacklist
+
+      <ul>
+        <li><a href="api/schicluster/cool/remove_blacklist/index.html#module-schicluster.cool.remove_blacklist">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.scool
+
+      <ul>
+        <li><a href="api/schicluster/cool/scool/index.html#module-schicluster.cool.scool">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.cool.utilities
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#module-schicluster.cool.utilities">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev
+
+      <ul>
+        <li><a href="api/schicluster/dev/index.html#module-schicluster.dev">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev.concat_cell
+
+      <ul>
+        <li><a href="api/schicluster/dev/concat_cell/index.html#module-schicluster.dev.concat_cell">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev.generate_matrix
+
+      <ul>
+        <li><a href="api/schicluster/dev/generate_matrix/index.html#module-schicluster.dev.generate_matrix">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev.imputecell
+
+      <ul>
+        <li><a href="api/schicluster/dev/imputecell/index.html#module-schicluster.dev.imputecell">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev.loop_sc
+
+      <ul>
+        <li><a href="api/schicluster/dev/loop_sc/index.html#module-schicluster.dev.loop_sc">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.dev.merge_cell
+
+      <ul>
+        <li><a href="api/schicluster/dev/merge_cell/index.html#module-schicluster.dev.merge_cell">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.diff
+
+      <ul>
+        <li><a href="api/schicluster/diff/index.html#module-schicluster.diff">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.diff.domain
+
+      <ul>
+        <li><a href="api/schicluster/diff/domain/index.html#module-schicluster.diff.domain">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.diff.loop
+
+      <ul>
+        <li><a href="api/schicluster/diff/loop/index.html#module-schicluster.diff.loop">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.domain
+
+      <ul>
+        <li><a href="api/schicluster/domain/index.html#module-schicluster.domain">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    schicluster.domain.call_domain
+
+      <ul>
+        <li><a href="api/schicluster/domain/call_domain/index.html#module-schicluster.domain.call_domain">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.embedding
+
+      <ul>
+        <li><a href="api/schicluster/embedding/index.html#module-schicluster.embedding">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.embedding.calc_embedding
+
+      <ul>
+        <li><a href="api/schicluster/embedding/calc_embedding/index.html#module-schicluster.embedding.calc_embedding">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.impute
+
+      <ul>
+        <li><a href="api/schicluster/impute/index.html#module-schicluster.impute">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.impute.impute_chromosome
+
+      <ul>
+        <li><a href="api/schicluster/impute/impute_chromosome/index.html#module-schicluster.impute.impute_chromosome">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.impute.merge_cell_to_group
+
+      <ul>
+        <li><a href="api/schicluster/impute/merge_cell_to_group/index.html#module-schicluster.impute.merge_cell_to_group">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.impute.snakemake
+
+      <ul>
+        <li><a href="api/schicluster/impute/snakemake/index.html#module-schicluster.impute.snakemake">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop
+
+      <ul>
+        <li><a href="api/schicluster/loop/index.html#module-schicluster.loop">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.compare_loop
+
+      <ul>
+        <li><a href="api/schicluster/loop/compare_loop/index.html#module-schicluster.loop.compare_loop">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.loop_bkg
+
+      <ul>
+        <li><a href="api/schicluster/loop/loop_bkg/index.html#module-schicluster.loop.loop_bkg">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.loop_calling
+
+      <ul>
+        <li><a href="api/schicluster/loop/loop_calling/index.html#module-schicluster.loop.loop_calling">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.merge_cell_to_group
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#module-schicluster.loop.merge_cell_to_group">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.merge_group
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_group/index.html#module-schicluster.loop.merge_group">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.merge_raw_matrix
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_raw_matrix/index.html#module-schicluster.loop.merge_raw_matrix">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.shuffle_fdr
+
+      <ul>
+        <li><a href="api/schicluster/loop/shuffle_fdr/index.html#module-schicluster.loop.shuffle_fdr">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.loop.snakemake
+
+      <ul>
+        <li><a href="api/schicluster/loop/snakemake/index.html#module-schicluster.loop.snakemake">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.schicluster
+
+      <ul>
+        <li><a href="api/schicluster/schicluster/index.html#module-schicluster.schicluster">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.zarr
+
+      <ul>
+        <li><a href="api/schicluster/zarr/index.html#module-schicluster.zarr">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.zarr.cool_ds
+
+      <ul>
+        <li><a href="api/schicluster/zarr/cool_ds/index.html#module-schicluster.zarr.cool_ds">module</a>
+</li>
+      </ul></li>
+      <li>
+    schicluster.zarr.loop_ds
+
+      <ul>
+        <li><a href="api/schicluster/zarr/loop_ds/index.html#module-schicluster.zarr.loop_ds">module</a>
+</li>
+      </ul></li>
+      <li><a href="api/schicluster/loop/loop_calling/index.html#schicluster.loop.loop_calling.select_loop_candidates">select_loop_candidates() (in module schicluster.loop.loop_calling)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.setup_logging">setup_logging() (in module schicluster.__main__)</a>
+</li>
+      <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.single_cell_compartment">single_cell_compartment() (in module schicluster.compartment.call_compartment)</a>
+</li>
+      <li><a href="api/schicluster/domain/call_domain/index.html#schicluster.domain.call_domain.single_chrom_calculate_insulation_score">single_chrom_calculate_insulation_score() (in module schicluster.domain.call_domain)</a>
+</li>
+      <li><a href="api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.single_chrom_compartment">single_chrom_compartment() (in module schicluster.compartment.call_compartment)</a>
+</li>
+      <li><a href="api/schicluster/zarr/cool_ds/index.html#schicluster.zarr.cool_ds.SMALL_SAMPLE_CHUNK">SMALL_SAMPLE_CHUNK (in module schicluster.zarr.cool_ds)</a>
+</li>
+      <li><a href="api/schicluster/embedding/calc_embedding/index.html#schicluster.embedding.calc_embedding.svd">svd() (in module schicluster.embedding.calc_embedding)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.tmp1">tmp1 (in module schicluster.loop.compare_loop)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/loop/compare_loop/index.html#schicluster.loop.compare_loop.tot">tot (in module schicluster.loop.compare_loop)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/loop/shuffle_fdr/index.html#schicluster.loop.shuffle_fdr.update_fdr_qval">update_fdr_qval() (in module schicluster.loop.shuffle_fdr)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.validate_environment">validate_environment() (in module schicluster.__main__)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/schicluster/cool/index.html#schicluster.cool.write_coo">write_coo() (in module schicluster.cool)</a>
+
+      <ul>
+        <li><a href="api/schicluster/cool/utilities/index.html#schicluster.cool.utilities.write_coo">(in module schicluster.cool.utilities)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jingtian Zhou
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+{
+  "api/comp_concatcell_chr/index": [],
+  "api/comp_cpg_cell/index": [],
+  "api/domain_concatcell_chr/index": [],
+  "api/domain_insulation_cell/index": [],
+  "api/embed_concatcell_chr/index": [],
+  "api/embed_mergechr/index": [],
+  "api/gene_score/index": [],
+  "api/generatematrix_cell/index": [],
+  "api/impute_cell/index": [],
+  "api/loop_bkg_cell/index": [],
+  "api/loop_mergechr/index": [],
+  "api/loop_sumcell_chr/index": [],
+  "api/schicluster/__main__/index": [
+    {
+      "source": "\"\"\"\nscHiCluster is a toolkit for single-cell HiC data preprocessing, imputation, and clustering analysis.\n\nCurrent Tool List in scHiCluster:\n\n\"\"\"",
+      "names": [],
+      "example": {
+        "document": "api/schicluster/__main__/index",
+        "ref_id": "module-contents",
+        "headings": [
+          "schicluster.__main__",
+          "Module Contents"
+        ]
+      },
+      "doc_lineno": 30
+    }
+  ],
+  "api/schicluster/_hicluster_internal/index": [
+    {
+      "source": "\"\"\"\nhic-internal is used for automation, not intend to be used by end user.\nUse hicluster instead.\n\"\"\"",
+      "names": [],
+      "example": {
+        "document": "api/schicluster/_hicluster_internal/index",
+        "ref_id": "module-contents",
+        "headings": [
+          "schicluster._hicluster_internal",
+          "Module Contents"
+        ]
+      },
+      "doc_lineno": 21
+    }
+  ],
+  "api/schicluster/_version/index": [],
+  "api/schicluster/compartment/call_compartment/index": [],
+  "api/schicluster/compartment/index": [],
+  "api/schicluster/cool/contact_distance/index": [],
+  "api/schicluster/cool/index": [],
+  "api/schicluster/cool/merge/index": [],
+  "api/schicluster/cool/remove_blacklist/index": [],
+  "api/schicluster/cool/scool/index": [],
+  "api/schicluster/cool/utilities/index": [],
+  "api/schicluster/dev/concat_cell/index": [],
+  "api/schicluster/dev/generate_matrix/index": [],
+  "api/schicluster/dev/imputecell/index": [],
+  "api/schicluster/dev/index": [],
+  "api/schicluster/dev/loop_sc/index": [],
+  "api/schicluster/dev/merge_cell/index": [],
+  "api/schicluster/diff/domain/index": [],
+  "api/schicluster/diff/index": [],
+  "api/schicluster/diff/loop/index": [],
+  "api/schicluster/domain/call_domain/index": [],
+  "api/schicluster/domain/index": [],
+  "api/schicluster/embedding/calc_embedding/index": [],
+  "api/schicluster/embedding/index": [],
+  "api/schicluster/impute/impute_chromosome/index": [],
+  "api/schicluster/impute/index": [],
+  "api/schicluster/impute/merge_cell_to_group/index": [],
+  "api/schicluster/impute/snakemake/index": [],
+  "api/schicluster/index": [],
+  "api/schicluster/loop/compare_loop/index": [],
+  "api/schicluster/loop/index": [],
+  "api/schicluster/loop/loop_bkg/index": [],
+  "api/schicluster/loop/loop_calling/index": [],
+  "api/schicluster/loop/merge_cell_to_group/index": [],
+  "api/schicluster/loop/merge_group/index": [],
+  "api/schicluster/loop/merge_raw_matrix/index": [],
+  "api/schicluster/loop/shuffle_fdr/index": [],
+  "api/schicluster/loop/snakemake/index": [],
+  "api/schicluster/schicluster/index": [],
+  "api/schicluster/zarr/cool_ds/index": [],
+  "api/schicluster/zarr/index": [],
+  "api/schicluster/zarr/loop_ds/index": [],
+  "command_line/hicluster_filter_contact": [],
+  "command_line/hicluster_prepare_impute": [],
+  "intro": []
+}
