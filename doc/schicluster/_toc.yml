@@ -42,9 +42,6 @@ parts:
         - file: hba/compartment_majortype/05.corr
         - file: hba/compartment_majortype/06.plot
       - file: hba/correlation_summary
-    #   - file: hba/decay
-    #     sections:
-    #     - file: hba/decay/01.decay
   - caption: COMMAND LINE TOOLS
     chapters:
     - file: command_line/hicluster_filter_contact
