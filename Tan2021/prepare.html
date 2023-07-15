@@ -1,0 +1,1369 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>Prepare pseudobulk analyses — scHiCluster</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/graphviz.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/sphinx_highlight.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../_static/sphinx-thebe.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'Tan2021/prepare';</script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="loop_blacklist.html" rel="next" title="Generate blacklist for loop calling"/>
+<link href="rna_3c_integrate.html" rel="prev" title="Assign DipC cells to RNA clusters"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">scHiCluster</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../intro.html">
+                    scHiCluster
+                </a>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Tan et al. Cell 2021.</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hba/compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../hba/correlation_summary.html">Correlation Summary</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2FTan2021/prepare.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/Tan2021/prepare.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Prepare pseudobulk analyses</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw">Raw</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note">Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loop">Loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domain">Domain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compartment">Compartment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Note</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="prepare-pseudobulk-analyses">
+<h1>Prepare pseudobulk analyses<a class="headerlink" href="#prepare-pseudobulk-analyses" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <a class="sphinx-codeautolink-a" href="../api/schicluster/index.html#module-schicluster" title="schicluster"><span class="nn">schicluster</span></a>
+<span class="n">PACKAGE_DIR</span> <span class="o">=</span> <span class="n">schicluster</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">metadata</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'Tan2021_dipc_cluster.csv.gz'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">' '</span><span class="p">,</span> <span class="s1">'_'</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'/'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">','</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">]</span>
+<span class="n">metadata</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>rnatype</th>
+<th>score</th>
+<th>dipctype</th>
+<th>dipcleiden</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>cortex-p028-cb_116</th>
+<td>Cortical_L6_Pyramidal_Cell</td>
+<td>0.999996</td>
+<td>Cortical L6 Pyramidal Cell</td>
+<td>5</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p007-b6_182</th>
+<td>Cortical_L6_Pyramidal_Cell</td>
+<td>0.999992</td>
+<td>Neuron</td>
+<td>2</td>
+</tr>
+<tr>
+<th>cortex-p028-cb_112</th>
+<td>Cortical_L6_Pyramidal_Cell</td>
+<td>0.999996</td>
+<td>Cortical L2–5 Pyramidal Cell</td>
+<td>5</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p001-b6_061</th>
+<td>Unknown_Interneuron_2</td>
+<td>0.330496</td>
+<td>Neuron</td>
+<td>2</td>
+</tr>
+<tr>
+<th>cortex-p056-cb_216</th>
+<td>Microglia_Etc</td>
+<td>0.999989</td>
+<td>Microglia Etc.</td>
+<td>14</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_090</th>
+<td>Mature_Oligodendrocyte</td>
+<td>0.999994</td>
+<td>Mature Oligodendrocyte</td>
+<td>16</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_012</th>
+<td>Cortical_L6_Pyramidal_Cell</td>
+<td>0.999997</td>
+<td>Neuron</td>
+<td>5</td>
+</tr>
+<tr>
+<th>hippocampus-p007-cb_046</th>
+<td>Microglia_Etc</td>
+<td>0.999993</td>
+<td>Microglia Etc.</td>
+<td>13</td>
+</tr>
+<tr>
+<th>cortex-visual-dark-p014-b6_106</th>
+<td>Microglia_Etc</td>
+<td>0.999994</td>
+<td>Microglia Etc.</td>
+<td>13</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_174</th>
+<td>Microglia_Etc</td>
+<td>0.999995</td>
+<td>Microglia Etc.</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+<p>3646 rows × 4 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">prepare_dir</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">chunk_df</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">output_dir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cell_table_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">cell_table.csv'</span>
+    <span class="n">chunk_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">cell_table_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">params_str</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s1">Snakefile_master'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">params_str</span> <span class="o">+</span> <span class="n">template</span><span class="p">)</span>
+    <span class="k">return</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="raw">
+<h2>Raw<a class="headerlink" href="#raw" title="Permalink to this heading">#</a></h2>
+<p>Generate pseudobulk cool files of raw contacts (before imputation) at 5kb resolution,
+so the mcool files contain 10kb, 25kb, and 100kb resolution.
+The files contain both cis and trans contacts.</p>
+<p>The code below divides large cell groups into chunks of 200 cells. “snakemake_cmd_step1.txt” contains commands to generate pseudobulk matrices for each chunk,
+and “snakemake_cmd_step2.txt” contains commands to merge chunks into cell groups.
+Both of them could be distributed across HPC.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'contact_table.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">'cell_id'</span><span class="p">,</span><span class="s1">'csv_path'</span><span class="p">])</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">cell_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>csv_path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>cortex-p028-cb_116</th>
+<td>/data/test_schicluster/Tan2021/raw/CTX_HIP/con...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p007-b6_182</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+<tr>
+<th>cortex-p028-cb_112</th>
+<td>/data/test_schicluster/Tan2021/raw/CTX_HIP/con...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p001-b6_061</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+<tr>
+<th>cortex-p056-cb_216</th>
+<td>/data/test_schicluster/Tan2021/raw/CTX_HIP/con...</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_090</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_012</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+<tr>
+<th>hippocampus-p007-cb_046</th>
+<td>/data/test_schicluster/Tan2021/raw/CTX_HIP/con...</td>
+</tr>
+<tr>
+<th>cortex-visual-dark-p014-b6_106</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_174</th>
+<td>/data/test_schicluster/Tan2021/raw/VIS/contact...</td>
+</tr>
+</tbody>
+</table>
+<p>3646 rows × 1 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cell_table</span><span class="p">[</span><span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/merged_raw/'</span>
+<span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="n">legtmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># group = cluster.replace(' ', '_').replace('/', '').replace(',', '').replace('.', '')</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1500</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">sub_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">chunk_start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">chunk_size</span><span class="p">)):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">_chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">tmp</span><span class="p">[</span><span class="s1">'csv_path'</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">chunk_start</span><span class="p">:(</span><span class="n">chunk_start</span><span class="o">+</span><span class="n">chunk_size</span><span class="p">)]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">_chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">/cell_table.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">legtmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">_chunk</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">'csv_path'</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">/cell_table.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">leg</span><span class="p">[</span><span class="n">cluster</span><span class="p">]</span> <span class="o">=</span> <span class="n">legtmp</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">tmp</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adult_Astrocyte 144
+Cajal-Retzius_Cell 23
+Cortical_L2-4_Pyramidal_Cell_Intermediate 37
+Cortical_L2-5_Pyramidal_Cell_Neonatal 211
+Cortical_L23_Pyramidal_Cell 204
+Cortical_L4_Pyramidal_Cell 195
+Cortical_L5_Pyramidal_Cell 98
+Cortical_L6_Pyramidal_Cell 333
+Hippocampal_CA1_Pyramidal_Cell 134
+Hippocampal_CA3_Pyramidal_Cell 70
+Hippocampal_Granuale_Cell 309
+Hippocampal_Pyramidal_Cell_Neonatal 93
+MEIS2_Interneuron 88
+Mature_Oligodendrocyte 210
+Medium_Spiny_Neuron 167
+Microglia_Etc 391
+NDNF_Interneuron 36
+Neonatal_Astrocyte 234
+Newly_Formed_Oligodendrocyte 27
+Oligodendrocyte_Progenitor 189
+PVSST_Interneuron_Neonatal 85
+PV_Interneuron 61
+SST_Interneuron 55
+Unknown_Interneuron_1 89
+Unknown_Interneuron_2 51
+VIP_Interneuron 112
+</pre></div>
+</div>
+</div>
+</div>
+<section id="note">
+<h3>Note<a class="headerlink" href="#note" title="Permalink to this heading">#</a></h3>
+<p>Run the merge command using batch job submission.</p>
+<p>The following code generates command files for step1 and step2.</p>
+<p>Each line of a file is a command and can be appended into the job submission template of users system.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step1.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step2.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="n">ct</span><span class="p">]:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'hicluster merge-cell-raw --cell_table </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">/cell_table.tsv --chrom_size_path /data/ref/mm10/genome/mm10.main.chrom.sizes --output_file </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">/raw.cool --chr1 1 --pos1 2 --chr2 3 --pos2 4'</span>
+        <span class="n">f1</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">ct</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="n">ct</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'rsync -arv </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">/raw.cool </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.raw.cool'</span>
+        <span class="n">f2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'cooler merge </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.raw.cool'</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="n">ct</span><span class="p">]:</span>
+            <span class="n">cmd</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">' </span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">/raw.cool'</span>
+        <span class="n">f2</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        
+<span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">f2</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h3>Note<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
+<p>Run the merge command on a single node, parallelized with snakemake.</p>
+<p>The following code generates Snakemake files for step1 and step2.</p>
+<p>The template notebook for step1 can be found at <a class="github reference external" href="https://github.com/zhoujt1994/scHiCluster/blob/master/schicluster/cool/01.merge_cell_to_chunk_raw.ipynb">zhoujt1994/scHiCluster</a>.</p>
+<p>The template notebook for step2 can be found at <a class="github reference external" href="https://github.com/zhoujt1994/scHiCluster/blob/master/schicluster/cool/01.merge_chunk_to_group_raw.ipynb">zhoujt1994/scHiCluster</a>.</p>
+<p>Each cell type is assigned to a separate folder and processed separately.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">gliderport.preset</span> <span class="kn">import</span> <span class="n">notebook_snakemake</span>
+
+<span class="n">notebook_snakemake</span><span class="p">(</span>
+    <span class="n">work_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">"merged_raw/"</span><span class="p">,</span>
+    <span class="n">notebook_dir</span><span class="o">=</span><span class="s2">"merged_raw/template_step1/"</span><span class="p">,</span>
+    <span class="n">groups</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">leg</span><span class="p">[</span><span class="n">xx</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">])</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">default_cpu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">default_mem_gb</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">redo_prepare</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span><span class="w"> </span>--keep-going
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">notebook_snakemake</span><span class="p">(</span>
+    <span class="n">work_dir</span><span class="o">=</span><span class="sa">f</span><span class="s2">"merged_raw/"</span><span class="p">,</span>
+    <span class="n">notebook_dir</span><span class="o">=</span><span class="s2">"merged_raw/template_step2/"</span><span class="p">,</span>
+    <span class="n">groups</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">leg</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+    <span class="n">default_cpu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">default_mem_gb</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">redo_prepare</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>snakemake<span class="w"> </span>--snakefile<span class="w"> </span>Snakefile<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span><span class="w"> </span>--keep-going
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="loop">
+<h2>Loop<a class="headerlink" href="#loop" title="Permalink to this heading">#</a></h2>
+<p>Identify pseudobulk loop pixels and summits at 10kb resolution with single-cell information.</p>
+<p>The code below generates a loop folder, with each cell group as a subfolder,
+and a file “snakemake_cmds.txt” with each line as a command to run loop calling for one cell group.</p>
+<p>Each command takes the imputed matrices of cells belonging to the same group as input,
+to generate for each cell group, a bedpe file of loops, and Q, E, T matrices for differential loop calling.
+The files only contain interations &lt; 5Mb.</p>
+<p>The command can be appended into the job submission template of users system.
+We suggest to distribute the cell groups across different computing nodes in HPC as separate job.</p>
+<p>On anvil standard node (128 CPUs), loop calling of a cell group with 2000 cells will take ~12 hours.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coollist</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">'/data/test_schicluster/Tan2021/scool/impute/10K/*/*.cool'</span><span class="p">)</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">coollist</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.cool'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">coollist</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'cool_path'</span><span class="p">])</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">cell_table</span><span class="p">[</span><span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">cell_table</span><span class="p">[</span><span class="s1">'cool_path'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_table</span><span class="p">[</span><span class="s1">'cool_path'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'/data/test_schicluster'</span><span class="p">,</span> <span class="s1">'/anvil/scratch/x-zhou'</span><span class="p">)</span>
+<span class="n">cell_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>cool_path</th>
+<th>cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>cortex-p028-cb_116</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p007-b6_182</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-p028-cb_112</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p001-b6_061</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Unknown_Interneuron_2</td>
+</tr>
+<tr>
+<th>cortex-p056-cb_216</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_090</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Mature_Oligodendrocyte</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_012</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>hippocampus-p007-cb_046</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-dark-p014-b6_106</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_174</th>
+<td>/anvil/scratch/x-zhou/Tan2021/scool/impute/10K...</td>
+<td>Microglia_Etc</td>
+</tr>
+</tbody>
+</table>
+<p>3646 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="s1">'Tan2021_loop/'</span>
+<span class="n">loop_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'/anvil/scratch/x-zhou/</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'cpu'</span><span class="p">:</span> <span class="mi">96</span><span class="p">,</span>
+    <span class="s1">'resolution'</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="s1">'chrom_size_path'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">loop_dir</span><span class="si">}</span><span class="s1">mm10.main20.chrom.sizes"'</span><span class="p">,</span>
+    <span class="s1">'black_list_path'</span><span class="p">:</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">loop_dir</span><span class="si">}</span><span class="s1">mm10.dipc.rowsum1000.blf50.merged.bed"'</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">PACKAGE_DIR</span><span class="si">}</span><span class="s1">/loop/snakemake_template_loop.txt'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">1500</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">sub_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="mi">1500</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">prepare_dir</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">/'</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmds.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+        <span class="n">cluster_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">loop_dir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">'</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">'snakemake -d </span><span class="si">{</span><span class="n">cluster_dir</span><span class="si">}</span><span class="s1"> -s </span><span class="si">{</span><span class="n">cluster_dir</span><span class="si">}</span><span class="s1">/Snakefile_master -j </span><span class="si">{</span><span class="n">params</span><span class="p">[</span><span class="s2">"cpu"</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>cp<span class="w"> </span>/data/ref/mm10/genome/mm10.main20.chrom.sizes<span class="w"> </span>Tan2021_loop/
+<span class="o">!</span>cp<span class="w"> </span>/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/mm10.dipc.rowsum1000.blf50.merged.bed<span class="w"> </span>Tan2021_loop/
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+/bin/bash: warning: setlocale: LC_ALL: cannot change locale (en_US.UTF-8)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="domain">
+<h2>Domain<a class="headerlink" href="#domain" title="Permalink to this heading">#</a></h2>
+<p>Generate pseudobulk cool files of imputed contacts at 25kb resolution by summing up imputed matrices of single cells.</p>
+<p>The code below divides large cell groups into chunks of 200 cells. “snakemake_cmd_step1.txt” contains commands to generate pseudobulk matrices for each chunk and could be distributed across HPC.</p>
+<p>“snakemake_cmd_step2.txt” contains a command to merge chunks into cell groups and could be run directly on a single node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coollist</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">'/data/test_schicluster/Tan2021/scool/impute/25K/*/*.cool'</span><span class="p">)</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">coollist</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.cool'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">coollist</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'cool_path'</span><span class="p">])</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">cell_table</span><span class="p">[</span><span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># cell_table['cool_path'] = cell_table['cool_path'].str.replace('/data/test_schicluster', '/anvil/scratch/x-zhou')</span>
+<span class="n">cell_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>cool_path</th>
+<th>cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>cortex-p028-cb_116</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p007-b6_182</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-p028-cb_112</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p001-b6_061</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Unknown_Interneuron_2</td>
+</tr>
+<tr>
+<th>cortex-p056-cb_216</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_090</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Mature_Oligodendrocyte</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_012</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>hippocampus-p007-cb_046</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-dark-p014-b6_106</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_174</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/25...</td>
+<td>Microglia_Etc</td>
+</tr>
+</tbody>
+</table>
+<p>3646 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/domain/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sub_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">/cell_table.csv'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">#with open(f'{cluster}/Snakefile_master', 'w') as f:</span>
+    <span class="c1">#    f.write(snakemake_str)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adult_Astrocyte 144
+Cajal-Retzius_Cell 23
+Cortical_L2-4_Pyramidal_Cell_Intermediate 37
+Cortical_L2-5_Pyramidal_Cell_Neonatal 211
+Cortical_L23_Pyramidal_Cell 204
+Cortical_L4_Pyramidal_Cell 195
+Cortical_L5_Pyramidal_Cell 98
+Cortical_L6_Pyramidal_Cell 333
+Hippocampal_CA1_Pyramidal_Cell 134
+Hippocampal_CA3_Pyramidal_Cell 70
+Hippocampal_Granuale_Cell 309
+Hippocampal_Pyramidal_Cell_Neonatal 93
+MEIS2_Interneuron 88
+Mature_Oligodendrocyte 210
+Medium_Spiny_Neuron 167
+Microglia_Etc 391
+NDNF_Interneuron 36
+Neonatal_Astrocyte 234
+Newly_Formed_Oligodendrocyte 27
+Oligodendrocyte_Progenitor 189
+PVSST_Interneuron_Neonatal 85
+PV_Interneuron 61
+SST_Interneuron 55
+Unknown_Interneuron_1 89
+Unknown_Interneuron_2 51
+VIP_Interneuron 112
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'resolution'</span><span class="p">:</span> <span class="mi">25000</span><span class="p">,</span>
+    <span class="s1">'chrom_size_path'</span><span class="p">:</span> <span class="s1">'"/data/ref/mm10/genome/mm10.main20.chrom.sizes"'</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">25000</span>
+<span class="n">total_chunk_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">group_chunks</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">PACKAGE_DIR</span><span class="si">}</span><span class="s1">/cool/Snakefile_chunk_template'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">group_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">group_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">chunk_size</span><span class="p">:</span>
+        <span class="n">this_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">_chunk0/'</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">'cell_table_path'</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">this_dir</span><span class="si">}</span><span class="s1">cell_table.csv"'</span>
+        <span class="n">prepare_dir</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="n">group_df</span><span class="p">,</span> <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">total_chunk_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+        <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">group_df</span><span class="p">[</span><span class="s1">'chunk'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">chunk_size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">group_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">chunk_df</span> <span class="ow">in</span> <span class="n">group_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'chunk'</span><span class="p">):</span>
+            <span class="n">this_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">_chunk</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s1">/'</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">'cell_table_path'</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">this_dir</span><span class="si">}</span><span class="s1">cell_table.csv"'</span>
+            <span class="n">prepare_dir</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="n">chunk_df</span><span class="p">,</span> <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+            <span class="n">total_chunk_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+            <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+
+            
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step1.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">chunk_dir</span> <span class="ow">in</span> <span class="n">total_chunk_dirs</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'snakemake -d </span><span class="si">{</span><span class="n">chunk_dir</span><span class="si">}</span><span class="s1"> --snakefile </span><span class="si">{</span><span class="n">chunk_dir</span><span class="si">}</span><span class="s1">Snakefile_master -j 5 --rerun-incomplete'</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'cell_table_path'</span><span class="p">)</span>
+<span class="n">params_str</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">PACKAGE_DIR</span><span class="si">}</span><span class="s1">/cool/Snakefile_group_template'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">GENERATE_MATRIX_GROUP_TEMPLATE</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">Snakefile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">params_str</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="n">GENERATE_MATRIX_GROUP_TEMPLATE</span><span class="p">)</span>
+    
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step2.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'snakemake -d </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1"> --snakefile </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">Snakefile -j 10 --rerun-incomplete'</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h3>Note<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>To merge a chunk of 200 cells, using 5 cpus on a nodes with 32 cpus and 128G memory takes ~10 minutes.</p>
+</section>
+</section>
+<section id="compartment">
+<h2>Compartment<a class="headerlink" href="#compartment" title="Permalink to this heading">#</a></h2>
+<p>Generate pseudobulk cool files of imputed contacts at 100kb resolution by summing up imputed matrices of single cells.</p>
+<p>The code below divides large cell groups into chunks of 200 cells. “snakemake_cmd_step1.txt” contains commands to generate pseudobulk matrices for each chunk and could be distributed across HPC.</p>
+<p>“snakemake_cmd_step2.txt” contains a command to merge chunks into cell groups and could be run directly on a single node.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coollist</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">'/data/test_schicluster/Tan2021/scool/impute/100K/*/*.cool'</span><span class="p">)</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">coollist</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'/'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'.cool'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">coollist</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'cool_path'</span><span class="p">])</span>
+<span class="n">cell_table</span> <span class="o">=</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">metadata</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">cell_table</span><span class="p">[</span><span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="c1"># cell_table['cool_path'] = cell_table['cool_path'].str.replace('/data/test_schicluster', '/anvil/scratch/x-zhou')</span>
+<span class="n">cell_table</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>cool_path</th>
+<th>cluster</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>cortex-p028-cb_116</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p007-b6_182</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-p028-cb_112</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p001-b6_061</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Unknown_Interneuron_2</td>
+</tr>
+<tr>
+<th>cortex-p056-cb_216</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_090</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Mature_Oligodendrocyte</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_012</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Cortical_L6_Pyramidal_Cell</td>
+</tr>
+<tr>
+<th>hippocampus-p007-cb_046</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-dark-p014-b6_106</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Microglia_Etc</td>
+</tr>
+<tr>
+<th>cortex-visual-control-p021-b6_174</th>
+<td>/data/test_schicluster/Tan2021/scool/impute/10...</td>
+<td>Microglia_Etc</td>
+</tr>
+</tbody>
+</table>
+<p>3646 rows × 2 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/compartment/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">sub_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">cluster</span><span class="si">}</span><span class="s1">/cell_table.csv'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">cluster</span><span class="p">,</span> <span class="n">sub_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Adult_Astrocyte 144
+Cajal-Retzius_Cell 23
+Cortical_L2-4_Pyramidal_Cell_Intermediate 37
+Cortical_L2-5_Pyramidal_Cell_Neonatal 211
+Cortical_L23_Pyramidal_Cell 204
+Cortical_L4_Pyramidal_Cell 195
+Cortical_L5_Pyramidal_Cell 98
+Cortical_L6_Pyramidal_Cell 333
+Hippocampal_CA1_Pyramidal_Cell 134
+Hippocampal_CA3_Pyramidal_Cell 70
+Hippocampal_Granuale_Cell 309
+Hippocampal_Pyramidal_Cell_Neonatal 93
+MEIS2_Interneuron 88
+Mature_Oligodendrocyte 210
+Medium_Spiny_Neuron 167
+Microglia_Etc 391
+NDNF_Interneuron 36
+Neonatal_Astrocyte 234
+Newly_Formed_Oligodendrocyte 27
+Oligodendrocyte_Progenitor 189
+PVSST_Interneuron_Neonatal 85
+PV_Interneuron 61
+SST_Interneuron 55
+Unknown_Interneuron_1 89
+Unknown_Interneuron_2 51
+VIP_Interneuron 112
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'resolution'</span><span class="p">:</span> <span class="mi">100000</span><span class="p">,</span>
+    <span class="s1">'chrom_size_path'</span><span class="p">:</span> <span class="s1">'"/data/ref/mm10/genome/mm10.main20.chrom.sizes"'</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">total_chunk_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">group_chunks</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">PACKAGE_DIR</span><span class="si">}</span><span class="s1">/cool/Snakefile_chunk_template'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">group_df</span> <span class="ow">in</span> <span class="n">cell_table</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'cluster'</span><span class="p">):</span>
+    <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">group_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">chunk_size</span><span class="p">:</span>
+        <span class="n">this_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">_chunk0/'</span>
+        <span class="n">params</span><span class="p">[</span><span class="s1">'cell_table_path'</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">this_dir</span><span class="si">}</span><span class="s1">cell_table.csv"'</span>
+        <span class="n">prepare_dir</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="n">group_df</span><span class="p">,</span> <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+        <span class="n">total_chunk_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+        <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">group_df</span><span class="p">[</span><span class="s1">'chunk'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="o">//</span> <span class="n">chunk_size</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">group_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">chunk</span><span class="p">,</span> <span class="n">chunk_df</span> <span class="ow">in</span> <span class="n">group_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'chunk'</span><span class="p">):</span>
+            <span class="n">this_dir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">_chunk</span><span class="si">{</span><span class="n">chunk</span><span class="si">}</span><span class="s1">/'</span>
+            <span class="n">params</span><span class="p">[</span><span class="s1">'cell_table_path'</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'"</span><span class="si">{</span><span class="n">this_dir</span><span class="si">}</span><span class="s1">cell_table.csv"'</span>
+            <span class="n">prepare_dir</span><span class="p">(</span><span class="n">this_dir</span><span class="p">,</span> <span class="n">chunk_df</span><span class="p">,</span> <span class="n">GENERATE_MATRIX_CHUNK_TEMPLATE</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+            <span class="n">total_chunk_dirs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+            <span class="n">group_chunks</span><span class="p">[</span><span class="n">group</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">this_dir</span><span class="p">)</span>
+
+            
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step1.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">chunk_dir</span> <span class="ow">in</span> <span class="n">total_chunk_dirs</span><span class="p">:</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'snakemake -d </span><span class="si">{</span><span class="n">chunk_dir</span><span class="si">}</span><span class="s1"> --snakefile </span><span class="si">{</span><span class="n">chunk_dir</span><span class="si">}</span><span class="s1">Snakefile_master -j 5 --rerun-incomplete'</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">'cell_table_path'</span><span class="p">)</span>
+<span class="n">params_str</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">PACKAGE_DIR</span><span class="si">}</span><span class="s1">/cool/Snakefile_group_template'</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="n">GENERATE_MATRIX_GROUP_TEMPLATE</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">Snakefile'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">params_str</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span> <span class="o">+</span> <span class="n">GENERATE_MATRIX_GROUP_TEMPLATE</span><span class="p">)</span>
+    
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">snakemake_cmd_step2.txt'</span><span class="p">,</span> <span class="s1">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'snakemake -d </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1"> --snakefile </span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">Snakefile -j 10 --rerun-incomplete'</span>
+    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd</span> <span class="o">+</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id3">
+<h3>Note<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>To merge a chunk of 200 cells, using 5 cpus on a nodes with 32 cpus and 128G memory takes ~5 minutes.</p>
+</section>
+</section>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Tan2021"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<div class="footer-article-items footer-article__inner">
+<div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="rna_3c_integrate.html" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">Assign DipC cells to RNA clusters</p>
+</div>
+</a>
+<a class="right-next" href="loop_blacklist.html" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">Generate blacklist for loop calling</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div></div>
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw">Raw</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#note">Note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loop">Loop</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#domain">Domain</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compartment">Compartment</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Note</a></li>
+</ul>
+</li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Jingtian Zhou
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>
