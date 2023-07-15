@@ -42,6 +42,7 @@ parts:
         - file: hba/compartment_majortype/05.corr
         - file: hba/compartment_majortype/06.plot
       - file: hba/correlation_summary
+      - file: hba/plot_example
   - caption: COMMAND LINE TOOLS
     chapters:
     - file: command_line/hicluster_filter_contact

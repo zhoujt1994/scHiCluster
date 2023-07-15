@@ -382,8 +382,31 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">chrom_sizes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0          248956422
+1          248956422
+2          248956422
+3          248956422
+4          248956422
+             ...    
+2873610     50818468
+2873611     50818468
+2873612     50818468
+2873613     50818468
+2873614     50818468
+Name: 0, Length: 2873615, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selb</span> <span class="o">=</span> <span class="p">((</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Qanova'</span><span class="p">])</span><span class="o">&gt;</span><span class="n">thres2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Tanova'</span><span class="p">])</span><span class="o">&gt;</span><span class="n">thres2</span><span class="p">))</span>
-<span class="n">distfilter</span> <span class="o">=</span> <span class="p">((</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">((</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">4950000</span><span class="p">)</span>
+<span class="n">distfilter</span> <span class="o">=</span> <span class="p">((</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">&gt;</span><span class="mi">100000</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">((</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">&lt;</span><span class="mi">4950000</span><span class="p">)</span> <span class="o">&amp;</span>  <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">res</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">chrom_sizes</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">res</span><span class="p">))</span>
 <span class="n">loopfilter</span> <span class="o">=</span> <span class="n">distfilter</span> <span class="o">&amp;</span> <span class="n">selb</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">selb</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">loopfilter</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 </pre></div>

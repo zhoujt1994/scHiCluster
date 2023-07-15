@@ -661,6 +661,7 @@ to generate for each cell group, a bedpe file of loops, and Q, E, T matrices for
 The files only contain interations &lt; 5Mb.</p>
 <p>The command can be appended into the job submission template of users system.
 We suggest to distribute the cell groups across different computing nodes in HPC as separate job.</p>
+<p>On anvil standard node (128 CPUs), loop calling of a cell group with 2000 cells will take ~12 hours.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">coollist</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="s1">'/data/test_schicluster/Tan2021/scool/impute/10K/*/*.cool'</span><span class="p">)</span>

@@ -5458,7 +5458,7 @@
       "doc_lineno": 60002
     },
     {
-      "source": "indir = '/data/hba/domain_majortype/'\noutdir = f'/home/jzhou_salk_edu/sky_workdir/hba/domain_majortype/diff/{group_name}/'\noutdir = './'",
+      "source": "indir = '/data/hba/domain_majortype/'\noutdir = f'/home/jzhou_salk_edu/sky_workdir/hba/domain_majortype/diff/{group_name}/'\n",
       "names": [],
       "example": {
         "document": "hba/domain_majortype/05.plot",
@@ -7057,7 +7057,7 @@
       "doc_lineno": 110002
     },
     {
-      "source": "selb = ((zscore(loopall['Qanova'])>thres2) & (zscore(loopall['Tanova'])>thres2))\ndistfilter = ((loopall[4]-loopall[1])>100000) & ((loopall[4]-loopall[1])<4950000)\nloopfilter = distfilter & selb\nprint(selb.sum(), loopfilter.sum())\n",
+      "source": "loopall[0].map(chrom_sizes)",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7069,7 +7069,7 @@
       "doc_lineno": 120002
     },
     {
-      "source": "loopall = loopall.loc[loopfilter]\nloopq = loopq.loc[loopfilter]\nloopt = loopt.loc[loopfilter]\n",
+      "source": "selb = ((zscore(loopall['Qanova'])>thres2) & (zscore(loopall['Tanova'])>thres2))\ndistfilter = ((loopall[4]-loopall[1])>100000) & ((loopall[4]-loopall[1])<4950000) &  (loopall[1] >= (10*res)) & (loopall[4] < (loopall[0].map(chrom_sizes) - 10*res))\nloopfilter = distfilter & selb\nprint(selb.sum(), loopfilter.sum())\n",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7081,7 +7081,7 @@
       "doc_lineno": 130002
     },
     {
-      "source": "loop_list = []\nfor ctlist in ctgroup:\n    fc1 = loopq[ctlist].mean(axis=1) / loopq.loc[:, ~loopq.columns.isin(ctlist)].mean(axis=1)\n    fc2 = loopt[ctlist].mean(axis=1) / loopt.loc[:, ~loopt.columns.isin(ctlist)].mean(axis=1)\n    loop_list.append(loopall.loc[(fc1>1.2) & (fc2>1.5)])\n",
+      "source": "loopall = loopall.loc[loopfilter]\nloopq = loopq.loc[loopfilter]\nloopt = loopt.loc[loopfilter]\n",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7093,7 +7093,7 @@
       "doc_lineno": 140002
     },
     {
-      "source": "[xx.shape[0] for xx in loop_list]",
+      "source": "loop_list = []\nfor ctlist in ctgroup:\n    fc1 = loopq[ctlist].mean(axis=1) / loopq.loc[:, ~loopq.columns.isin(ctlist)].mean(axis=1)\n    fc2 = loopt[ctlist].mean(axis=1) / loopt.loc[:, ~loopt.columns.isin(ctlist)].mean(axis=1)\n    loop_list.append(loopall.loc[(fc1>1.2) & (fc2>1.5)])\n",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7105,7 +7105,7 @@
       "doc_lineno": 150002
     },
     {
-      "source": "def apa(ct):\n    result = np.zeros((len(loop_list), 21, 21))\n    cool = cooler.Cooler(f'{indir}/{ct}/{ct}/{ct}.Q.cool')\n    for c in np.random.permutation(chrom_sizes.index[:-1]):\n        Q = cool.matrix(balance=False, sparse=True).fetch(c).toarray()\n        decay = np.array([np.mean(np.diag(Q, k)) for k in range(dist)])\n        E = np.zeros(Q.shape)\n        row, col = np.diag_indices(E.shape[0])\n        E[row, col] = 1\n        for k in range(1, 505):\n            E[row[:-k], col[k:]] = (Q[row[:-k], col[k:]]) / decay[k]\n        for j,loop in enumerate(loop_list):\n            looptmp = loop.loc[(loop[0]==c), [1,4]].values // res\n            for xx,yy in looptmp:\n                tmp = E[(xx-10):(xx+11), (yy-10):(yy+11)]\n                tmp = (tmp - tmp.min()) / (tmp.max() - tmp.min())\n                result[j] += tmp\n                \n    for j,loop in enumerate(loop_list):\n        result[j] /= loop.shape[0]\n        \n    return result\n",
+      "source": "[xx.shape[0] for xx in loop_list]",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7114,10 +7114,10 @@
           "Aggregate peak analysis of differential loops"
         ]
       },
-      "doc_lineno": 170002
+      "doc_lineno": 160002
     },
     {
-      "source": "cpu = 5\ndist = 505\nresult = np.zeros((len(leg), len(loop_list), 21, 21))\nwith ProcessPoolExecutor(cpu) as executor:\n    futures = {}\n    for i,ct in enumerate(leg):\n        future = executor.submit(\n            apa,\n            ct=ct,\n        )\n        futures[future] = i\n\n    for future in as_completed(futures):\n        idx = futures[future]\n        result[idx] = future.result()\n        print(f'{leg[idx]} finished')\n        ",
+      "source": "def apa(ct):\n    result = np.zeros((len(loop_list), 21, 21))\n    cool = cooler.Cooler(f'{indir}/{ct}/{ct}/{ct}.Q.cool')\n    for c in np.random.permutation(chrom_sizes.index[:-1]):\n        Q = cool.matrix(balance=False, sparse=True).fetch(c).toarray()\n        decay = np.array([np.mean(np.diag(Q, k)) for k in range(dist)])\n        E = np.zeros(Q.shape)\n        row, col = np.diag_indices(E.shape[0])\n        E[row, col] = 1\n        for k in range(1, 505):\n            E[row[:-k], col[k:]] = (Q[row[:-k], col[k:]]) / decay[k]\n        for j,loop in enumerate(loop_list):\n            looptmp = loop.loc[(loop[0]==c), [1,4]].values // res\n            for xx,yy in looptmp:\n                tmp = E[(xx-10):(xx+11), (yy-10):(yy+11)]\n                tmp = (tmp - tmp.min()) / (tmp.max() - tmp.min())\n                result[j] += tmp\n                \n    for j,loop in enumerate(loop_list):\n        result[j] /= loop.shape[0]\n        \n    return result\n",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7129,7 +7129,7 @@
       "doc_lineno": 180002
     },
     {
-      "source": "fig, axes = plt.subplots(len(leg), len(loop_list), figsize=(len(loop_list),len(leg)), \n                         sharex='all', sharey='all', dpi=300)\nfig.subplots_adjust(wspace=0.2, hspace=0.6)\nfor i,ct in enumerate(leg):\n    for j,loop in enumerate(loop_list):\n        ax = axes[i, j]\n        tmp = result[i, j]\n        apa = np.around(tmp[10,10]/tmp[-5:, :5].mean(), decimals=2)\n        ax.imshow(tmp, cmap='hot_r', vmax=0.8, vmin=0.2)\n        if i==0:\n            ax.set_title(f'{ctname[j]}\\n{apa}', fontsize=10)\n        else:\n            ax.set_title(apa, fontsize=10)\n            \nfor i,ct in enumerate(legname):\n    axes[i,0].set_ylabel(ct)\n        \nax.set_xticks([0, 20])\nax.set_xticklabels(['-100k', '+100k'])\nax.set_yticks([0, 20])\nax.set_yticklabels(['-100k', '+100k'])\n\n# plt.tight_layout()\n# plt.savefig(f'{indir}diff/plot/{group_name}_diffloop_apa.pdf', transparent=True)\n",
+      "source": "cpu = 5\ndist = 505\nresult = np.zeros((len(leg), len(loop_list), 21, 21))\nwith ProcessPoolExecutor(cpu) as executor:\n    futures = {}\n    for i,ct in enumerate(leg):\n        future = executor.submit(\n            apa,\n            ct=ct,\n        )\n        futures[future] = i\n\n    for future in as_completed(futures):\n        idx = futures[future]\n        result[idx] = future.result()\n        print(f'{leg[idx]} finished')\n        ",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7141,7 +7141,7 @@
       "doc_lineno": 190002
     },
     {
-      "source": "np.savez(f'{outdir}apa.npz', apa=result, leg=leg)\n",
+      "source": "fig, axes = plt.subplots(len(leg), len(loop_list), figsize=(len(loop_list),len(leg)), \n                         sharex='all', sharey='all', dpi=300)\nfig.subplots_adjust(wspace=0.2, hspace=0.6)\nfor i,ct in enumerate(leg):\n    for j,loop in enumerate(loop_list):\n        ax = axes[i, j]\n        tmp = result[i, j]\n        apa = np.around(tmp[10,10]/tmp[-5:, :5].mean(), decimals=2)\n        ax.imshow(tmp, cmap='hot_r', vmax=0.8, vmin=0.2)\n        if i==0:\n            ax.set_title(f'{ctname[j]}\\n{apa}', fontsize=10)\n        else:\n            ax.set_title(apa, fontsize=10)\n            \nfor i,ct in enumerate(legname):\n    axes[i,0].set_ylabel(ct)\n        \nax.set_xticks([0, 20])\nax.set_xticklabels(['-100k', '+100k'])\nax.set_yticks([0, 20])\nax.set_yticklabels(['-100k', '+100k'])\n\n# plt.tight_layout()\n# plt.savefig(f'{indir}diff/plot/{group_name}_diffloop_apa.pdf', transparent=True)\n",
       "names": [],
       "example": {
         "document": "hba/loop_majortype/03.apa",
@@ -7151,6 +7151,18 @@
         ]
       },
       "doc_lineno": 200002
+    },
+    {
+      "source": "np.savez(f'{outdir}apa.npz', apa=result, leg=leg)\n",
+      "names": [],
+      "example": {
+        "document": "hba/loop_majortype/03.apa",
+        "ref_id": "aggregate-peak-analysis-of-differential-loops",
+        "headings": [
+          "Aggregate peak analysis of differential loops"
+        ]
+      },
+      "doc_lineno": 210002
     }
   ],
   "hba/loop_majortype/04.corr": [
@@ -8874,6 +8886,218 @@
     }
   ],
   "hba/loop_majortype/intro": [],
+  "hba/plot_example": [
+    {
+      "source": "import os\nimport cooler\nimport numpy as np\nimport pandas as pd\nfrom scipy.stats import norm, zscore\n\nimport matplotlib as mpl\nimport matplotlib.pyplot as plt\nfrom matplotlib.patches import Polygon\nfrom matplotlib import cm as cm\nimport seaborn as sns\nfrom matplotlib.colors import LogNorm\n\nfrom itertools import cycle, islice\nimport xarray as xr\nfrom glob import glob\n\nmpl.style.use('default')\nmpl.rcParams['pdf.fonttype'] = 42\nmpl.rcParams['ps.fonttype'] = 42\nmpl.rcParams['font.family'] = 'sans-serif'\nmpl.rcParams['font.sans-serif'] = 'Helvetica'\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 10002
+    },
+    {
+      "source": "leg = ['L23_IT', 'L4_IT', 'L5_IT', 'L6_IT', 'L6_IT_Car3', 'L56_NP', 'L6_CT', 'L6b', 'L5_ET', 'Amy', \n       'Lamp5', 'Lamp5_LHX6', 'Sncg', 'Vip', 'Pvalb', 'Pvalb_ChC', 'Sst', 'CHD7', \n       'MSN_D1', 'MSN_D2', 'Foxp2', 'SubCtx', \n       'ASC', 'ODC', 'OPC', 'MGC', 'PC', 'EC', 'VLMC'\n      ]\nlegname = ['L2/3-IT', 'L4-IT', 'L5-IT', 'L6-IT', 'L6-IT-Car3', 'L5/6-NP', 'L6-CT', 'L6b', 'L5-ET', 'Amy-Exc', \n       'Lamp5', 'Lamp5-Lhx6', 'Sncg', 'Vip', 'Pvalb', 'Pvalb-ChC', 'Sst', 'Chd7', \n       'MSN-D1', 'MSN-D2', 'Foxp2', 'SubCtx-Cplx', \n       'ASC', 'ODC', 'OPC', 'MGC', 'PC', 'EC', 'VLMC'\n      ]\nleg2name = {xx:yy for xx,yy in zip(leg, legname)}\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 20002
+    },
+    {
+      "source": "leg = {'exc': ['L23_IT', 'L4_IT', 'L5_IT', 'L6_IT', 'L6_IT_Car3', 'L56_NP', 'L6_CT', 'L6b', 'Amy'], \n       'inh': ['Lamp5', 'Lamp5_LHX6', 'Sncg', 'Vip', 'Pvalb', 'Pvalb_ChC', 'Sst', 'CHD7'], \n       'msn': ['MSN_D1', 'MSN_D2', 'Foxp2'], \n       'sub': ['SubCtx'], \n       'glia': ['ASC', 'ODC', 'OPC'], \n       'mgc': ['MGC'], \n       'smc': ['PC'], \n       'endo': ['EC'], \n       'fibro': ['VLMC'],\n      }\nleg['neu'] = leg['exc'] + leg['inh'] + leg['msn'] + leg['sub']\nleg['all'] = leg['neu'] + leg['glia'] + leg['mgc'] + leg['smc'] + leg['endo'] + leg['fibro']\nleg['cge'] = ['Lamp5', 'Lamp5_LHX6', 'Sncg', 'Vip']\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 30002
+    },
+    {
+      "source": "group_name = 'cge'",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 40002
+    },
+    {
+      "source": "leg = pd.Index(leg[group_name])\nlegname = leg.map(leg2name)\nres = 25000",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 50002
+    },
+    {
+      "source": "indir = '/data/hba/domain_majortype/'\nddir = f'/home/jzhou_salk_edu/sky_workdir/hba/domain_majortype/diff/{group_name}/'\nldir = f'/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/diff/{group_name}/'\ncdir = f'/home/jzhou_salk_edu/sky_workdir/hba/compartment_majortype/diff/{group_name}/'\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 60002
+    },
+    {
+      "source": "chrom_size_path = '/home/jzhou_salk_edu/sky_workdir/hba/ref/hg38.main.chrom.sizes'\nchrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names=True)\nchrom_sizes = chrom_sizes.iloc[:-3]\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 70002
+    },
+    {
+      "source": "## Load boundary probability\n\nbound_count_ct = pd.read_hdf(f'{indir}MajorType_boundcount.hdf', key='data').loc[leg]\ncell_count_ct = pd.read_csv(f'{indir}MajorType_cellcount.csv.gz', index_col=0, header=0, squeeze=True).loc[leg]\nbound_prob_ct = bound_count_ct / cell_count_ct[:,None]\nbound_prob_ct\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 90002
+    },
+    {
+      "source": "## Load insulation score\n\nins_count = xr.open_dataset(f'{indir}MajorType_impute.insulation.nc')\nins_count = ins_count.sel({'bin': (ins_count['bin_chrom']!='chrX')})\nins_count['ratio'] = (ins_count.sel({'type':'inter'})['__xarray_dataarray_variable__'] / ins_count.sel({'type':'intra'}))['__xarray_dataarray_variable__']\nins = ins_count['ratio'].to_pandas().loc[leg]\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 100002
+    },
+    {
+      "source": "genemeta = pd.read_csv('/home/jzhou_salk_edu/sky_workdir/hba/ref/gencode.v33.bed', sep='\\t', header=None, index_col=4)\ngenemeta = genemeta[~genemeta.index.duplicated(keep='first')]\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 110002
+    },
+    {
+      "source": "gtmp = 'LAMP5'\nlslop, rslop = 1000000, 2000000\n\nchrom = genemeta.loc[gtmp, 0]\nif genemeta.loc[gtmp, 5]=='+':\n    tss = genemeta.loc[gtmp, 1]\n    tes = genemeta.loc[gtmp, 2]\nelse:\n    tss = genemeta.loc[gtmp, 2]\n    tes = genemeta.loc[gtmp, 1]\n\nll, rr = (tss - lslop), (tss + rslop)\nprint(chrom, ll, rr, genemeta.loc[gtmp, 5])\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 120002
+    },
+    {
+      "source": "## contact maps are plotted at loop resolution\n## select region to plot in Q matrix\n\nresl = 10000\nloopl, loopr = (ll//resl), (rr//resl)\nprint(loopl, loopr)\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 130002
+    },
+    {
+      "source": "indir = '/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/'",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 140002
+    },
+    {
+      "source": "## Load cell type Q\n\nfrom scipy import ndimage as nd\n\ndstall = []\nfor ct in leg:\n    cool = cooler.Cooler(f'{indir}{ct}/{ct}/{ct}.Q.cool')\n    Q = cool.matrix(balance=False, sparse=True).fetch(chrom).tocsr()\n    tmp = Q[loopl:loopr, loopl:loopr].toarray()\n    dstall.append(tmp)\n    print(ct)\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 150002
+    },
+    {
+      "source": "## select differential loop\n\nloopall = pd.read_hdf(f'{ldir}merged_loop.hdf', key='data')\nsell = ((loopall[0]==chrom) & \n        (zscore(np.log(loopall['Qanova']))>norm.isf(0.15)) & \n        (zscore(np.log(loopall['Tanova']))>norm.isf(0.15)) & \n        (loopall[1]>ll) & (loopall[5]<rr))\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 160002
+    },
+    {
+      "source": "## select differential boundary\n\nbinall = pd.read_hdf(f'{ddir}MajorType_boundary_stats.hdf', key='data')\nselb = (binall['chrom']==chrom) & (binall['start']>=ll) & (binall['start']<rr) & binall['bklfilter'] & binall['chi2filter'] & binall['ins_lm'] & (binall['probdiff']>0.05) & binall['diff_sc']\nprint(selb.sum())\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 170002
+    },
+    {
+      "source": "ins.columns = binall.index",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 180002
+    },
+    {
+      "source": "## select differential compartment\n\nresc = 100000\ncomp = pd.read_csv(f'{cdir}DifferentialResult/fdr_result/differential.intra_sample_combined.pcQnm.bedGraph', sep='\\t', header=0, index_col=None)\ncomp.index = comp['chr'] + '_' + (comp['start'] // resc).astype(str)\nbincomp = comp[['chr', 'start', 'end', 'sample_maha', 'pval', 'padj']]\ncomp = comp[leg]\nselc = (bincomp['chr']==chrom) & (bincomp['start']>=ll) & (bincomp['start']<rr) & (zscore(bincomp['sample_maha'])>norm.isf(0.025))\nprint(selc.sum())\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 190002
+    },
+    {
+      "source": "fig, axes = plt.subplots(3, len(leg), figsize=(5*len(leg), 7), sharex='col', sharey='row',\n                         gridspec_kw={'height_ratios':[5,1,1]}, dpi=300)\n\n## differential feature position\ntmpl = loopall.loc[sell, [1,4]].values // resl - loopl\ntmpd = binall.loc[selb, 'start'] // resl - loopl\ntmpc = bincomp.loc[selc, 'start'] // resl - loopl\n\nfor i in range(len(leg)):\n    ax = axes[0,i]\n    ax.axis('equal')\n    ax.set_title(legname[i], fontsize=16)\n    img = ax.imshow(dstall[i], cmap='afmhot_r', vmin=0, vmax=0.012, aspect='auto')\n    ax.set_yticks([])\n    ax.set_yticklabels([])\n    ax.set_xticklabels([])\n    ax.scatter(tmpl[:, 0], tmpl[:, 1], alpha=1, s=1, marker='o', edgecolors='none', color='c')\n\n    ax = axes[1,i]\n    ## plot boundary prob\n    sel = (binall['chrom']==chrom) & (binall['start']>=ll) & (binall['start']<rr)\n    ax.plot(binall.loc[sel, 'start'] // resl - loopl, \n            bound_prob_ct.loc[leg[i], sel].values, \n            c='C0', alpha=0.7)\n    ax.scatter(tmpd, np.zeros(len(tmpd))+0.05, color='r', s=4)\n    ax.set_ylim([0, 0.3])\n    ax2 = ax.twinx()\n    ## plot insulation score\n    ax2.plot(binall.loc[sel, 'start'] // resl - loopl, \n             ins.loc[leg[i], sel].values, \n             c='C1', alpha=0.7)\n    ax2.set_ylim([0.05, 0.4])\n    ax.set_xlim([0, loopr-loopl-1])\n    ax.set_xticks(np.arange(0, loopr-loopl+1, 100).tolist() + [tss//resl-loopl, tes//resl-loopl])\n    ax.set_xticklabels([])\n    \n    ax = axes[2,i]\n    sns.despine(bottom=True, ax=ax)\n    ## plot compartment\n    sel = (bincomp['chr']==chrom) & (bincomp['start']>=ll) & (bincomp['start']<rr)\n    x = bincomp.loc[sel, 'start'] // resl - loopl\n    y = comp.loc[sel, leg[i]].values\n    ax.fill_between(x, y, 0, where=y >= 0, facecolor='C3', interpolate=True)\n    ax.fill_between(x, y, 0, where=y <= 0, facecolor='C0', interpolate=True)\n    ax.scatter(tmpc, np.zeros(len(tmpc)), color='r', s=4)\n    ax.set_ylim([-3, 3])\n    ax.set_xlim([0, loopr-loopl-1])\n    ax.set_xticks(np.arange(0, loopr-loopl, 100).tolist() + [tss//resl-loopl, tes//resl-loopl])\n    ax.set_xticklabels([])\n    ax.set_xticklabels([f'{(xx+loopl)/100}M' for xx in np.arange(0, loopr-loopl, 100)]+['TSS','TES'])\n\n# plt.savefig(f'{group_name}_diff_{gtmp}.pdf', transparent=True, dpi=300)\n\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 200002
+    },
+    {
+      "source": "dstall = []\nfor ct in leg:\n    cool = cooler.Cooler(f'{indir}{ct}/{ct}/{ct}.Q.cool')\n    Q = cool.matrix(balance=False, sparse=True).fetch(chrom).tocsr()\n    tmp = Q[loopl:loopr, loopl:loopr].toarray()\n    dst = nd.rotate(tmp, 45, order=0, reshape=True, prefilter=False, cval=0)\n    dstall.append(dst)\n    print(ct)\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 210002
+    },
+    {
+      "source": "fig, axes = plt.subplots(len(leg)*2+1, 1, figsize=(10, np.sum([1] + np.tile([3.5,1],len(leg)).tolist())/2), \n                         gridspec_kw={'height_ratios':[1] + np.tile([3.5,1],len(leg)).tolist()}, dpi=300, sharex='all')\n\ntmpl = loopall.loc[sell, [1,4]].values // resl - loopl\ntmpd = binall.loc[selb, 'start'] // resl - loopl\ntmpc = bincomp.loc[selc, 'start'] // resl - loopl\n\nax = axes[0]\nsel = (binall['chrom']==chrom) & (binall['start']>=ll) & (binall['start']<rr)\nxpos = (binall.loc[sel, 'start'] // resl - loopl) * np.sqrt(2)\nax.plot(xpos, binall.loc[sel, 'chi2_sc'].values, \n        c='C0', alpha=0.7)\n\nax.set_title('Chi-Square', fontsize=10)\nax.set_xlim([0, (loopr-loopl-1)*np.sqrt(2)])\n\nfor i in range(len(leg)):\n    ax = axes[i*2+1]\n    ax.set_title(legname[i], fontsize=10)\n    ax.spines['right'].set_visible(False)\n    ax.spines['top'].set_visible(False)\n    ax.spines['bottom'].set_visible(False)\n    ax.spines['left'].set_visible(False)\n    img = ax.imshow(dstall[i], cmap='afmhot_r', vmin=0, vmax=0.012)\n    h = len(dstall[i])\n    ax.set_ylim([0.5*h, 0.4*h])\n    ax.set_xlim([0, h])\n    ax.set_yticks([])\n    ax.set_yticklabels([])\n    ax.scatter((tmpl[:, 0]+tmpl[:, 1])/np.sqrt(2), 0.5*h-(tmpl[:, 1]-tmpl[:, 0])/np.sqrt(2), \n           alpha=0.1, s=10, marker='D', edgecolors='c', color='none')\n\n    ax = axes[i*2+2]\n    ax.plot(xpos, bound_prob_ct.loc[leg[i], sel].values, c='C0', alpha=0.7)\n    ax.scatter(tmpd * np.sqrt(2), np.zeros(len(tmpd))+0.05, color='r', s=4)\n    ax.set_ylim([0, 0.3])\n    ax2 = ax.twinx()\n    ax2.plot(xpos, ins.loc[leg[i], sel].values, c='C1', alpha=0.7)\n    ax2.set_ylim([0.05, 0.4])\n    \nax.set_xlim([0, (loopr-loopl-1)*np.sqrt(2)])\nax.set_xticks(np.sqrt(2)*np.array(np.arange(0, loopr-loopl+1, 100).tolist() + [tss//resl-loopl, tes//resl-loopl]))\nax.set_xticklabels([])\nax.set_xticklabels([f'{(xx+loopl)/100}M' for xx in np.arange(0, loopr-loopl+1, 100)]+['TSS','TES'])\n\n# plt.savefig(f'/gale/netapp/entex/HBA/snm3C/plot/majortype_diff_FOXP2.pdf', transparent=True, dpi=300)\n\n",
+      "names": [],
+      "example": {
+        "document": "hba/plot_example",
+        "ref_id": null,
+        "headings": []
+      },
+      "doc_lineno": 220002
+    }
+  ],
   "hba/rna_majortype/01.deg": [
     {
       "source": "import numpy as np\nimport pandas as pd\nimport anndata\nimport scanpy as sc",
