@@ -91,16 +91,16 @@ def comp_cpg_cell_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--indir', type=str, default=None,
+    parser_req.add_argument('--indir', type=str, default=None, required=True,
                             help='Directory of raw/imputed matrices end with /')
 
-    parser_req.add_argument('--outdir', type=str, default=None,
+    parser_req.add_argument('--outdir', type=str, default=None, required=True,
                             help='Directory of compartment matrix end with /')
 
-    parser_req.add_argument('--cell', type=str, default=None,
+    parser_req.add_argument('--cell', type=str, default=None, required=True,
                             help='Specific identifier of a cell')
 
-    parser_req.add_argument('--chrom', type=str, default=None,
+    parser_req.add_argument('--chrom', type=str, default=None, required=True,
                             help='Chromosome to compute compartment')
 
     parser.add_argument('--mode', type=str, default=None,
@@ -116,10 +116,10 @@ def comp_concatcell_chr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_list', type=str, default=None,
+    parser_req.add_argument('--cell_list', type=str, default=None, required=True,
                             help='Full path of a file containing the full path of all CpG npy files to be concatenate')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of concatenated matrix including directory')
 
     parser.add_argument('--ncpus', type=int, default=10,
@@ -132,16 +132,16 @@ def domain_insulation_cell_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--indir', type=str, default=None,
+    parser_req.add_argument('--indir', type=str, default=None, required=True,
                             help='Directory of imputed matrices end with /')
 
-    parser_req.add_argument('--cell', type=str, default=None,
+    parser_req.add_argument('--cell', type=str, default=None, required=True,
                             help='Specific identifier of a cell')
 
-    parser_req.add_argument('--chrom', type=str, default=None,
+    parser_req.add_argument('--chrom', type=str, default=None, required=True,
                             help='Chromosome to compute insulation score')
 
-    parser_req.add_argument('--mode', type=str, default=None,
+    parser_req.add_argument('--mode', type=str, default=None, required=True,
                             help='Suffix of imputed matrix file names')
 
     parser.add_argument('--w', type=int, default=10,
@@ -154,13 +154,13 @@ def domain_concatcell_chr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_list', type=str, default=None,
+    parser_req.add_argument('--cell_list', type=str, default=None, required=True,
                             help='Full path of a file containing the full path of all insulation npy or domain txt files to be concatenate')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of concatenated matrix including directory')
 
-    parser_req.add_argument('--res', type=int, default=None,
+    parser_req.add_argument('--res', type=int, default=None, required=True,
                             help='Bin size as integer')
 
     parser.add_argument('--input_type', type=str, default='insulation',
@@ -176,13 +176,13 @@ def embed_concatcell_chr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_list', type=str, default=None,
+    parser_req.add_argument('--cell_list', type=str, default=None, required=True,
                             help='Full path of a file containing the full path to all imputed matrices to be concatenate')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of concatenated matrix including directory')
 
-    parser_req.add_argument('--res', type=int, default=None,
+    parser_req.add_argument('--res', type=int, default=None, required=True,
                             help='Bin size as integer of imputed matrices')
 
     parser.add_argument('--dist', type=int, default=10000000,
@@ -202,10 +202,10 @@ def embed_mergechr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--embed_list', type=str, default=None,
+    parser_req.add_argument('--embed_list', type=str, default=None, required=True,
                             help='Full path of a file containing the full path to dimension reduction files of all chromosomes')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of final dimension reduction file including directory')
 
     parser.add_argument('--dim', type=int, default=20,
@@ -222,19 +222,19 @@ def generatematrix_cell_register_subparser(subparser):
                                   help='')
 
     parser_req = parser.add_argument_group('required arguments')
-    parser_req.add_argument('--infile', type=str, default=None,
+    parser_req.add_argument('--infile', type=str, default=None, required=True,
                             help='Path to the short format contact file')
 
-    parser_req.add_argument('--outdir', type=str, default=None,
+    parser_req.add_argument('--outdir', type=str, default=None, required=True,
                             help='Output directory end with /')
 
-    parser_req.add_argument('--cell', type=str, default=None,
+    parser_req.add_argument('--cell', type=str, default=None, required=True,
                             help='Specific identifier of a cell')
 
-    parser_req.add_argument('--res', type=int, default=None,
+    parser_req.add_argument('--res', type=int, default=None, required=True,
                             help='Bin size as integer to generate contact matrix')
 
-    parser_req.add_argument('--chrom_file', type=str, default=None,
+    parser_req.add_argument('--chrom_file', type=str, default=None, required=True,
                             help='Path to the chromosome size files containing all chromosome to be analyzed as the first column')
 
     parser.add_argument('--split_file', type=str, default=None,
@@ -318,19 +318,19 @@ def loop_bkg_cell_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--indir', type=str, default=None,
+    parser_req.add_argument('--indir', type=str, default=None, required=True,
                             help='Directory of imputed matrix')
 
-    parser_req.add_argument('--cell', type=str, default=None,
+    parser_req.add_argument('--cell', type=str, default=None, required=True,
                             help='Specific identifier of a cell')
 
-    parser_req.add_argument('--chrom', type=str, default=None,
+    parser_req.add_argument('--chrom', type=str, default=None, required=True,
                             help='Chromosome to compute background')
 
-    parser_req.add_argument('--impute_mode', type=str, default=None,
+    parser_req.add_argument('--impute_mode', type=str, default=None, required=True,
                             help='Suffix of imputed matrix file names')
 
-    parser_req.add_argument('--res', type=int, default=None,
+    parser_req.add_argument('--res', type=int, default=None, required=True,
                             help='Bin size as integer to generate contact matrix')
 
     parser.add_argument('--dist', type=int, default=10050000,
@@ -355,13 +355,13 @@ def loop_sumcell_chr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_list', type=str, default=None,
+    parser_req.add_argument('--cell_list', type=str, default=None, required=True,
                             help='Full path of a file containing the full path of all imputed files to be summed without .hdf5 suffix')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of summed matrix including directory')
 
-    parser_req.add_argument('--res', type=int, default=None,
+    parser_req.add_argument('--res', type=int, default=None, required=True,
                             help='Bin size as integer of imputed matrices')
 
     parser.add_argument('--group_list', type=str, default=None,
@@ -400,13 +400,13 @@ def loop_mergechr_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--inprefix', type=str, default=None,
+    parser_req.add_argument('--inprefix', type=str, default=None, required=True,
                             help='Prefix of summed matrix including directory')
 
-    parser_req.add_argument('--outprefix', type=str, default=None,
+    parser_req.add_argument('--outprefix', type=str, default=None, required=True,
                             help='Prefix of loop files including directory')
 
-    parser_req.add_argument('--chrom_file', type=str, default=None,
+    parser_req.add_argument('--chrom_file', type=str, default=None, required=True,
                             help='Path to the chromosome size files containing all chromosome to be analyzed as the first column')
 
     parser.add_argument('--split_file', type=str, default=None,
@@ -444,25 +444,25 @@ def generate_scool_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--contacts_table', type=str, required=True, default=None,
+    parser_req.add_argument('--contacts_table', type=str, default=None, required=True,
                             help='tab-separated table containing tow columns, 1) cell id, '
                                  '2) cell contact file path (juicer-pre format). No header')
-    parser_req.add_argument('--output_prefix', type=str, required=True, default=None,
+    parser_req.add_argument('--output_prefix', type=str, default=None, required=True,
                             help='Output prefix of the scool files. '
                                  'Output path will be {output_prefix}.{resolution_str}.scool')
-    parser_req.add_argument('--chrom_size_path', type=str, required=True, default=None,
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True,
                             help='Path to the chromosome size file, this file should be in UCSC chrom.sizes format. '
                                  'We will use this file as the reference to create matrix. '
                                  'It is recommended to remove small contigs or chrM from this file.')
-    parser_req.add_argument('--resolutions', type=int, nargs='+', required=True, default=[],
+    parser_req.add_argument('--resolutions', type=int, nargs='+', default=[], required=True,
                             help='Resolutions to generate the matrix. '
                                  'You can provide multiple resolutions separated by space, '
                                  '(e.g., "--resolutions 10000 100000"). '
                                  'Each resolution will be stored in a separate file.')
-    parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
+    parser.add_argument('--blacklist_1d_path', type=str, default=None, required=False,
                         help='Path to blacklist region BED file, such as ENCODE blacklist. '
                              'Either side of the contact overlapping with a blacklist region will be removed.')
-    parser.add_argument('--blacklist_2d_path', type=str, required=False, default=None,
+    parser.add_argument('--blacklist_2d_path', type=str, default=None, required=False,
                         help='Path to blacklist region pair BEDPE file. '
                              'Both side of the contact overlapping with the same '
                              'blacklist region pair will be removed.')
@@ -472,14 +472,20 @@ def generate_scool_register_subparser(subparser):
                         help='If set, will NOT remove duplicated contacts based on '
                              '[chr1, pos1, chr2, pos2] values')
     parser.set_defaults(remove_duplicates=True)
-    parser.add_argument('--chr1', type=int, default=1, help='0 based index of chr1 column.')
-    parser.add_argument('--chr2', type=int, default=5, help='0 based index of chr2 column.')
-    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
-    parser.add_argument('--min_pos_dist', type=int, default=2500,
+    parser.add_argument('--chr1', type=int, default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--chr2', type=int, default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
+    parser.add_argument('--min_pos_dist', type=int, default=2500, required=False,
                         help='Minimum distance for a fragment to be considered.')
-    parser.add_argument('--cpu', type=int, default=1, help='number of cpus to parallel.')
-    parser.add_argument('--batch_n', type=int, default=50, help='number of cells to deal with in each cpu process.')
+    parser.add_argument('--cpu', type=int, default=1, required=False, 
+                        help='number of cpus to parallel.')
+    parser.add_argument('--batch_n', type=int, default=50, required=False, 
+                        help='number of cells to deal with in each cpu process.')
 
 
 def prepare_imputation_register_subparser(subparser):
@@ -648,21 +654,21 @@ def gene_score_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_table_path', type=str, default=None, 
+    parser_req.add_argument('--cell_table_path', type=str, default=None, required=True, 
                             help='Full path to cell cool table')
-    parser_req.add_argument('--gene_meta_path', type=str, default=None, 
+    parser_req.add_argument('--gene_meta_path', type=str, default=None, required=True, 
                             help='Full path to bed file with region id')
-    parser_req.add_argument('--resolution', type=int, default=10000, 
+    parser_req.add_argument('--resolution', type=int, default=10000, required=True, 
                             help='Resolution of cool file')
-    parser_req.add_argument('--output_hdf_path', type=str, default=None, 
+    parser_req.add_argument('--output_hdf_path', type=str, default=None, required=True, 
                             help='Full path to output file')
-    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
                             help='Chromsome size file with only chromosomes to use')
-    parser.add_argument('--cpu', type=int, default=10, 
+    parser.add_argument('--cpu', type=int, default=10, required=False, 
                         help='CPUs to use')
-    parser.add_argument('--slop', type=int, default=0, 
+    parser.add_argument('--slop', type=int, default=0, required=False, 
                         help='gene slop distance on both sides')
-    parser.add_argument('--mode', type=str, default='impute', 
+    parser.add_argument('--mode', type=str, default='impute', required=False, 
                         help='raw or impute')
     parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
                         help='0 based index of chr1 column.')
@@ -680,18 +686,23 @@ def merge_cell_raw_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--cell_table', type=str, default=None, 
+    parser_req.add_argument('--cell_table', type=str, default=None, required=True, 
                             help='Full path to cell cool table')
-    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
                             help='Chromsome size file with only chromosomes to use')
-    parser_req.add_argument('--output_file', type=str, default=None, 
+    parser_req.add_argument('--output_file', type=str, default=None, required=True, 
                             help='Full path to output file')
-    parser.add_argument('--resolution', type=int, default=5000, help='Resolution of cool file')
-    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
-    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
-    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
-    parser.add_argument('--min_pos_dist', type=int, default=2500,
+    parser.add_argument('--resolution', type=int, default=5000, required=False, 
+                        help='Resolution of cool file')
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
+    parser.add_argument('--min_pos_dist', type=int, default=2500, required=False,
                         help='Minimum distance for a fragment to be considered.')
 
 
@@ -701,33 +712,39 @@ def filter_contacts_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--contact_table', type=str, default=None, 
+    parser_req.add_argument('--contact_table', type=str, default=None, required=True, 
                             help='Contain all the cell contact file information in two tab-separated columns: 1. cell_uid, 2. file_path. No header')
-    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
                             help='Path to UCSC chrom size file'
                             'Contain all the chromosome information in two tab-separated columns: 1. chromosome name, 2. chromosome length. No header')
-    parser.add_argument('--output_dir', type=str, default=None, help='Path to the output directory of the contact files'
+    parser.add_argument('--output_dir', type=str, default=None, required=False, 
+                        help='Path to the output directory of the contact files'
                         'after blacklist filtering')
-    parser.add_argument('--blacklist_1d_path', type=str, required=False, default=None,
+    parser.add_argument('--blacklist_1d_path', type=str, default=None, required=False,
                         help='Path to blacklist region BED file, such as ENCODE blacklist. '
                              'Either side of the contact overlapping with a blacklist region will be removed.')
-    parser.add_argument('--blacklist_2d_path', type=str, required=False, default=None,
+    parser.add_argument('--blacklist_2d_path', type=str, default=None, required=False,
                         help='Path to blacklist region pair BEDPE file. '
                              'Both side of the contact overlapping with the same '
                              'blacklist region pair will be removed.')
     parser.add_argument('--blacklist_resolution', dest='resolution_2d', type=int, default=10000, required=False,
                         help='Resolution in bps when consider the 2D blacklist region pairs.')
-    parser.add_argument('--not_remove_duplicates', dest='remove_duplicates', action='store_false',
+    parser.add_argument('--not_remove_duplicates', dest='remove_duplicates', action='store_false', required=False,
                         help='If set, will NOT remove duplicated contacts based on '
                              '[chr1, pos1, chr2, pos2] values')
     parser.set_defaults(remove_duplicates=True)
-    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
-    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
-    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
-    parser.add_argument('--min_pos_dist', type=int, default=0,
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
+    parser.add_argument('--min_pos_dist', type=int, default=0, required=False,
                         help='Minimum distance for a contact to be kept.')
-    parser.add_argument('--cpu', type=int, default=20, help='Number of cpus to parallel.')
+    parser.add_argument('--cpu', type=int, default=20, required=False, 
+                        help='Number of cpus to parallel.')
 
 
 def contact_distance_register_subparser(subparser):
@@ -736,19 +753,24 @@ def contact_distance_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--contact_table', type=str, default=None, 
+    parser_req.add_argument('--contact_table', type=str, default=None, required=True, 
                             help='Full path to cell contact files')
-    parser_req.add_argument('--chrom_size_path', type=str, default=None, 
+    parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
                             help='Chromsome size file with only chromosomes to use')
-    parser_req.add_argument('--output_prefix', type=str, default=None, 
+    parser_req.add_argument('--output_prefix', type=str, default=None, required=True, 
                             help='Output hdf file prefix including the directory')
-    parser.add_argument('--resolution', type=int, default=10000, 
+    parser.add_argument('--resolution', type=int, default=10000, required=False, 
                         help='Resolution of cool file')
-    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, help='0 based index of chr1 column.')
-    parser.add_argument('--pos1', type=int, default=2, help='0 based index of pos1 column.')
-    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, help='0 based index of chr2 column.')
-    parser.add_argument('--pos2', type=int, default=6, help='0 based index of pos2 column.')
-    parser.add_argument('--cpu', type=int, default=20, help='number of cpus to parallel.')
+    parser.add_argument('--chr1', dest='chrom1', type=int, default=1, required=False, 
+                        help='0 based index of chr1 column.')
+    parser.add_argument('--pos1', type=int, default=2, required=False, 
+                        help='0 based index of pos1 column.')
+    parser.add_argument('--chr2', dest='chrom2', type=int, default=5, required=False, 
+                        help='0 based index of chr2 column.')
+    parser.add_argument('--pos2', type=int, default=6, required=False, 
+                        help='0 based index of pos2 column.')
+    parser.add_argument('--cpu', type=int, default=20, required=False, 
+                        help='number of cpus to parallel.')
 
 def main():
     parser = argparse.ArgumentParser(description=DESCRIPTION,
