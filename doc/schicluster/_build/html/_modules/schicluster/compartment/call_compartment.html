@@ -153,15 +153,24 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../hba/intro.html">Human Brain Atlas</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/rna_majortype/01.deg.html">DEG identification</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/loop_majortype/02.load.html">Load loop matrices and stats</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
@@ -169,7 +178,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/02.count.html">Domain count and size</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
@@ -178,7 +187,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
 </ul>
 </li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../hba/compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/compartment_majortype/01.call.html">Call compartment</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../hba/compartment_majortype/03.example.html">Plot example</a></li>
@@ -190,14 +199,11 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="../../../hba/correlation_summary.html">Correlation Summary</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
 </ul>
-</li>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
 </ul>
 
     </div>
@@ -347,22 +353,29 @@ document.write(`
                   
   <h1>Source code for schicluster.compartment.call_compartment</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">E</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">diags</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">diags</span><span class="p">,</span> <span class="n">csr_matrix</span>
 <span class="kn">import</span> <span class="nn">cooler</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
 
-<div class="viewcode-block" id="get_cpg_profile"><a class="viewcode-back" href="../../../api/schicluster/compartment/index.html#schicluster.compartment.call_compartment.get_cpg_profile">[docs]</a><span class="k">def</span> <span class="nf">get_cpg_profile</span><span class="p">(</span><span class="n">cell_url</span><span class="p">,</span> <span class="n">fasta_path</span><span class="p">,</span> <span class="n">hdf_output_path</span><span class="p">):</span>
+<div class="viewcode-block" id="get_cpg_profile"><a class="viewcode-back" href="../../../api/schicluster/compartment/index.html#schicluster.compartment.call_compartment.get_cpg_profile">[docs]</a><span class="k">def</span> <span class="nf">get_cpg_profile</span><span class="p">(</span><span class="n">fasta_path</span><span class="p">,</span> <span class="n">hdf_output_path</span><span class="p">,</span> <span class="n">cell_url</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chrom_size_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="mi">100000</span><span class="p">):</span>
     <span class="n">temp_bed_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">hdf_output_path</span><span class="si">}</span><span class="s1">_bins.bed&#39;</span>
     <span class="n">temp_cpg_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">hdf_output_path</span><span class="si">}</span><span class="s1">_cpg_profile.txt&#39;</span>
 
     <span class="c1"># count CpG per bin</span>
-    <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_url</span><span class="p">)</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">bins</span><span class="p">()[:]</span>
+    <span class="k">if</span> <span class="n">cell_url</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_url</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">bins</span><span class="p">()[:]</span>
+    <span class="k">elif</span> <span class="n">chrom_size_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">binnify</span><span class="p">(</span><span class="n">chrom_sizes</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR : Must provide either cell_url or chrom_size_path&#39;</span><span class="p">)</span>
     <span class="n">bins</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">temp_bed_path</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
         <span class="sa">f</span><span class="s1">&#39;bedtools nuc -fi </span><span class="si">{</span><span class="n">fasta_path</span><span class="si">}</span><span class="s1"> -bed </span><span class="si">{</span><span class="n">temp_bed_path</span><span class="si">}</span><span class="s1"> -pattern CG -C &gt; </span><span class="si">{</span><span class="n">temp_cpg_path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
@@ -402,9 +415,9 @@ document.write(`
 
 <div class="viewcode-block" id="single_chrom_compartment"><a class="viewcode-back" href="../../../api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.single_chrom_compartment">[docs]</a><span class="k">def</span> <span class="nf">single_chrom_compartment</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">cpg_ratio</span><span class="p">,</span> <span class="n">calc_strength</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">-</span> <span class="n">diags</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">diagonal</span><span class="p">())</span>  <span class="c1"># remove diag</span>
-    <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># make full matrix</span>
+    <span class="c1"># matrix = matrix + matrix.T  # make full matrix</span>
     <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">+</span> <span class="n">diags</span><span class="p">((</span><span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
-
+    <span class="n">matrix</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="c1"># weighted average of cpg density</span>
     <span class="n">comp</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">cpg_ratio</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])[:,</span> <span class="mi">0</span><span class="p">]</span>
 
@@ -415,17 +428,37 @@ document.write(`
     <span class="k">return</span> <span class="n">comp</span><span class="p">,</span> <span class="n">scores</span></div>
 
 
-<div class="viewcode-block" id="single_cell_compartment"><a class="viewcode-back" href="../../../api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.single_cell_compartment">[docs]</a><span class="k">def</span> <span class="nf">single_cell_compartment</span><span class="p">(</span><span class="n">cell_url</span><span class="p">,</span> <span class="n">cpg_profile_path</span><span class="p">,</span> <span class="n">calc_strength</span><span class="p">,</span>
-                            <span class="n">output_prefix</span><span class="p">):</span>
-    <span class="n">cpg_profile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">cpg_profile_path</span><span class="p">)</span>
-    <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_url</span><span class="p">)</span>
+<div class="viewcode-block" id="single_cell_compartment"><a class="viewcode-back" href="../../../api/schicluster/compartment/call_compartment/index.html#schicluster.compartment.call_compartment.single_cell_compartment">[docs]</a><span class="k">def</span> <span class="nf">single_cell_compartment</span><span class="p">(</span><span class="n">cell_url</span><span class="p">,</span> <span class="n">cpg_profile</span><span class="p">,</span> <span class="n">calc_strength</span><span class="p">,</span> <span class="n">output_prefix</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span>
+                            <span class="n">resolution</span><span class="p">,</span> <span class="n">chrom_sizes</span><span class="p">,</span> <span class="n">chrom1</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">chrom2</span><span class="p">,</span> <span class="n">pos2</span><span class="p">):</span>
 
+    <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;cool&#39;</span><span class="p">:</span>
+        <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_url</span><span class="p">)</span>
+        <span class="n">chroms</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">cool</span><span class="o">.</span><span class="n">chromnames</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">cpg_profile</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;tsv&#39;</span><span class="p">:</span>
+        <span class="n">chroms</span> <span class="o">=</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cell_url</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">data</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">==</span><span class="n">data</span><span class="p">[</span><span class="n">chrom2</span><span class="p">])</span> <span class="o">&amp;</span> <span class="n">data</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chroms</span><span class="p">)]</span>
     <span class="n">all_comp</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">cool</span><span class="o">.</span><span class="n">chromnames</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">chroms</span><span class="p">:</span>
         <span class="n">cpg_ratio</span> <span class="o">=</span> <span class="n">cpg_profile</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cpg_profile</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">chrom</span><span class="p">,</span> <span class="s1">&#39;cpg_ratio&#39;</span><span class="p">]</span>
-        <span class="n">matrix</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span>
-        <span class="n">comp</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">single_chrom_compartment</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;cool&#39;</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">n_bins</span> <span class="o">=</span> <span class="p">(</span><span class="n">chrom_sizes</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span> <span class="o">//</span> <span class="n">resolution</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">chrfilter</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">chrfilter</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">==</span><span class="n">chrfilter</span><span class="p">]</span>
+                <span class="n">matrix</span><span class="p">[[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">]]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">])[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">matrix</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">pos1</span><span class="p">],</span> <span class="n">matrix</span><span class="p">[</span><span class="n">pos2</span><span class="p">])),</span> <span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">+</span> <span class="n">matrix</span><span class="o">.</span><span class="n">T</span>
+        <span class="k">if</span> <span class="n">cpg_ratio</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="n">matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ERROR : cpg_ratio and chrom_size have different shapes at </span><span class="si">{</span><span class="n">chrom</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">comp</span><span class="p">,</span> <span class="n">scores</span> <span class="o">=</span> <span class="n">single_chrom_compartment</span><span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">tocsr</span><span class="p">(),</span>
                                                 <span class="n">cpg_ratio</span><span class="p">,</span>
                                                 <span class="n">calc_strength</span><span class="o">=</span><span class="n">calc_strength</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">calc_strength</span><span class="p">:</span>
@@ -476,16 +509,39 @@ document.write(`
                               <span class="n">output_prefix</span><span class="p">,</span>
                               <span class="n">cpg_profile_path</span><span class="p">,</span>
                               <span class="n">cpu</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                              <span class="n">calc_strength</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                              <span class="n">calc_strength</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                              <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;cool&#39;</span><span class="p">,</span>
+                              <span class="n">chrom_size_path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                              <span class="n">resolution</span><span class="o">=</span><span class="mi">100000</span><span class="p">,</span>
+                              <span class="n">chrom1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                              <span class="n">pos1</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                              <span class="n">chrom2</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                              <span class="n">pos2</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+
     <span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cell_table_path</span><span class="p">,</span>
                              <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
                              <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                             <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                             <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                             <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">cell_table</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;cells to calculate.&#39;</span><span class="p">)</span>
 
     <span class="n">temp_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">output_prefix</span><span class="si">}</span><span class="s1">_compartment_temp&#39;</span><span class="p">)</span>
     <span class="n">temp_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">cpg_profile</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="n">cpg_profile_path</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;tsv&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">chrom_size_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">bins</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">binnify</span><span class="p">(</span><span class="n">chrom_sizes</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR : need to provide chrom_size_path for tsv mode&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+    <span class="k">elif</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;cool&#39;</span><span class="p">:</span>
+        <span class="n">chrom_sizes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">cell_cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">cell_cool</span><span class="o">.</span><span class="n">bins</span><span class="p">()[:]</span>
+        <span class="n">bins</span> <span class="o">=</span> <span class="n">bins</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">bins</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">cpg_profile</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">])]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;ERROR : mode need to be cool or tsv&#39;</span><span class="p">)</span>
+        <span class="k">return</span>
 
     <span class="c1"># calculate individual cells</span>
     <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">exe</span><span class="p">:</span>
@@ -496,20 +552,22 @@ document.write(`
                 <span class="k">continue</span>
             <span class="n">future</span> <span class="o">=</span> <span class="n">exe</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">single_cell_compartment</span><span class="p">,</span>
                                 <span class="n">cell_url</span><span class="o">=</span><span class="n">cell_url</span><span class="p">,</span>
-                                <span class="n">cpg_profile_path</span><span class="o">=</span><span class="n">cpg_profile_path</span><span class="p">,</span>
+                                <span class="n">cpg_profile</span><span class="o">=</span><span class="n">cpg_profile</span><span class="p">,</span>
                                 <span class="n">output_prefix</span><span class="o">=</span><span class="n">cell_prefix</span><span class="p">,</span>
-                                <span class="n">calc_strength</span><span class="o">=</span><span class="n">calc_strength</span><span class="p">)</span>
+                                <span class="n">calc_strength</span><span class="o">=</span><span class="n">calc_strength</span><span class="p">,</span>
+                                <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+                                <span class="n">chrom_sizes</span><span class="o">=</span><span class="n">chrom_sizes</span><span class="p">,</span>
+                                <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span>
+                                <span class="n">chrom1</span><span class="o">=</span><span class="n">chrom1</span><span class="p">,</span>
+                                <span class="n">pos1</span><span class="o">=</span><span class="n">pos1</span><span class="p">,</span>
+                                <span class="n">chrom2</span><span class="o">=</span><span class="n">chrom2</span><span class="p">,</span>
+                                <span class="n">pos2</span><span class="o">=</span><span class="n">pos2</span><span class="p">)</span>
             <span class="n">future_dict</span><span class="p">[</span><span class="n">future</span><span class="p">]</span> <span class="o">=</span> <span class="n">cell_id</span>
 
         <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">future_dict</span><span class="p">):</span>
             <span class="n">cell_id</span> <span class="o">=</span> <span class="n">future_dict</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cell_id</span><span class="si">}</span><span class="s1"> finished.&#39;</span><span class="p">)</span>
             <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
-
-    <span class="c1"># read bins from one of the cooler file</span>
-    <span class="c1"># all cooler files should share the same bins</span>
-    <span class="n">cell_cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="n">cell_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="n">bins</span> <span class="o">=</span> <span class="n">cell_cool</span><span class="o">.</span><span class="n">bins</span><span class="p">()[:]</span>
 
     <span class="c1"># aggregate boundary</span>
     <span class="n">aggregate_compartment</span><span class="p">(</span><span class="n">cell_table</span><span class="o">=</span><span class="n">cell_table</span><span class="p">,</span>

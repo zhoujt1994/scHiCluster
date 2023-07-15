@@ -16,6 +16,6 @@ Submodules
 Package Contents
 ----------------
 
-.. py:function:: embedding(cell_table_path, output_dir, dim=50, dist=1000000, resolution=100000, scale_factor=100000, norm_sig=True, cpu=1, save_model=False, save_raw=True)
+.. py:function:: embedding(cell_table_path, output_dir, chrom_size_path=None, dim=50, dist=1000000, resolution=100000, scale_factor=100000, norm_sig=True, cpu=1, save_model=False, save_raw=True)
 
 
