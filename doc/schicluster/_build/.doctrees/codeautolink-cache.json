@@ -1,4 +1,435 @@
 {
+  "Tan2021/prepare": [
+    {
+      "source": "import os\nimport numpy as np\nimport pandas as pd\nfrom glob import glob\nimport schicluster\nPACKAGE_DIR = schicluster.__path__[0]\n",
+      "names": [
+        {
+          "import_components": [
+            "schicluster"
+          ],
+          "code_str": "schicluster",
+          "lineno": 5,
+          "end_lineno": 5,
+          "context": "import_target",
+          "resolved_location": "schicluster"
+        }
+      ],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "prepare-pseudobulk-analyses",
+        "headings": [
+          "Prepare pseudobulk analyses"
+        ]
+      },
+      "doc_lineno": 20002
+    },
+    {
+      "source": "metadata = pd.read_csv('Tan2021_dipc_cluster.csv.gz', header=0, index_col=0)\nmetadata['rnatype'] = [xx.replace(' ', '_').replace('/', '').replace(',', '').replace('.', '') for xx in metadata['rnatype'].values]\nmetadata\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "prepare-pseudobulk-analyses",
+        "headings": [
+          "Prepare pseudobulk analyses"
+        ]
+      },
+      "doc_lineno": 30002
+    },
+    {
+      "source": "def prepare_dir(output_dir, chunk_df, template, params):\n\n    os.makedirs(output_dir, exist_ok=True)\n    cell_table_path = f'{output_dir}cell_table.csv'\n    chunk_df.to_csv(cell_table_path, header=False, index=True)\n    params_str = '\\n'.join(f'{k} = {v}' for k, v in params.items())\n\n    with open(f'{output_dir}Snakefile_master', 'w') as f:\n        f.write(params_str + template)\n    return\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "prepare-pseudobulk-analyses",
+        "headings": [
+          "Prepare pseudobulk analyses"
+        ]
+      },
+      "doc_lineno": 40002
+    },
+    {
+      "source": "cell_table = pd.read_csv('contact_table.tsv', sep='\\t', header=None, index_col=0, names=['cell_id','csv_path'])\ncell_table = cell_table.loc[metadata.index]\ncell_table\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "raw",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw"
+        ]
+      },
+      "doc_lineno": 70002
+    },
+    {
+      "source": "cell_table['cluster'] = metadata['rnatype'].copy()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "raw",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw"
+        ]
+      },
+      "doc_lineno": 80002
+    },
+    {
+      "source": "leg = {}\nchunk_size = 200\noutdir = '/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/merged_raw/'\nfor cluster, sub_df in cell_table.groupby('cluster'):\n    legtmp = []\n    # group = cluster.replace(' ', '_').replace('/', '').replace(',', '').replace('.', '')\n    os.makedirs(f'{outdir}{cluster}', exist_ok=True)\n    if sub_df.shape[0]>1500:\n        tmp = sub_df.loc[np.random.choice(sub_df.index, 1500, False)]\n    else:\n        tmp = sub_df.copy()\n    for i,chunk_start in enumerate(np.arange(0, tmp.shape[0], chunk_size)):\n        os.makedirs(f'{outdir}{cluster}_chunk{i}', exist_ok=True)\n        tmp['csv_path'].iloc[chunk_start:(chunk_start+chunk_size)].to_csv(f'{outdir}{cluster}_chunk{i}/cell_table.tsv', sep='\\t', header=False, index=True)\n        legtmp.append(f'{cluster}_chunk{i}')\n    tmp['csv_path'].to_csv(f'{outdir}{cluster}/cell_table.tsv', sep='\\t', header=False, index=True)\n    leg[cluster] = legtmp\n    print(cluster, tmp.shape[0])\n    ",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "raw",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw"
+        ]
+      },
+      "doc_lineno": 90002
+    },
+    {
+      "source": "f1 = open(f'{outdir}snakemake_cmd_step1.txt', 'w')\nf2 = open(f'{outdir}snakemake_cmd_step2.txt', 'w')\nfor ct in leg:\n    for group in leg[ct]:\n        cmd = f'hicluster merge-cell-raw --cell_table {outdir}{group}/cell_table.tsv --chrom_size_path /data/ref/mm10/genome/mm10.main.chrom.sizes --output_file {outdir}{group}/raw.cool --chr1 1 --pos1 2 --chr2 3 --pos2 4'\n        f1.write(cmd + '\\n')\n    if len(leg[ct])<2:\n        group = leg[ct][0]\n        cmd = f'rsync -arv {outdir}{group}/raw.cool {outdir}{ct}/{ct}.raw.cool'\n        f2.write(cmd + '\\n')\n    else:\n        cmd = f'cooler merge {outdir}{ct}/{ct}.raw.cool'\n        for group in leg[ct]:\n            cmd += f' {outdir}{group}/raw.cool'\n        f2.write(cmd + '\\n')\n        \nf1.close()\nf2.close()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "note",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw",
+          "Note"
+        ]
+      },
+      "doc_lineno": 110002
+    },
+    {
+      "source": "from gliderport.preset import notebook_snakemake\n\nnotebook_snakemake(\n    work_dir=f\"merged_raw/\",\n    notebook_dir=\"merged_raw/template_step1/\",\n    groups=np.concatenate([leg[xx] for xx in leg]).tolist(),\n    default_cpu=1,\n    default_mem_gb=5,\n    redo_prepare=True,\n)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "id1",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw",
+          "Note"
+        ]
+      },
+      "doc_lineno": 130002
+    },
+    {
+      "source": "!snakemake --snakefile Snakefile -j 8 --keep-going",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "id1",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw",
+          "Note"
+        ]
+      },
+      "doc_lineno": 140002
+    },
+    {
+      "source": "notebook_snakemake(\n    work_dir=f\"merged_raw/\",\n    notebook_dir=\"merged_raw/template_step2/\",\n    groups=list(leg.keys()),\n    default_cpu=1,\n    default_mem_gb=5,\n    redo_prepare=True,\n)\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "id1",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw",
+          "Note"
+        ]
+      },
+      "doc_lineno": 150002
+    },
+    {
+      "source": "!snakemake --snakefile Snakefile -j 8 --keep-going",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "id1",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Raw",
+          "Note"
+        ]
+      },
+      "doc_lineno": 160002
+    },
+    {
+      "source": "coollist = glob('/data/test_schicluster/Tan2021/scool/impute/10K/*/*.cool')\ncell_table = pd.DataFrame(coollist, index=[xx.split('/')[-1].replace('.cool', '') for xx in coollist], columns=['cool_path'])\ncell_table = cell_table.loc[metadata.index]\ncell_table['cluster'] = metadata['rnatype'].copy()\ncell_table['cool_path'] = cell_table['cool_path'].str.replace('/data/test_schicluster', '/anvil/scratch/x-zhou')\ncell_table\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 190002
+    },
+    {
+      "source": "outdir = 'Tan2021_loop/'\nloop_dir = f'/anvil/scratch/x-zhou/{outdir}'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 200002
+    },
+    {
+      "source": "params = {\n    'cpu': 96,\n    'resolution': 10000,\n    'chrom_size_path': f'\"{loop_dir}mm10.main20.chrom.sizes\"',\n    'black_list_path': f'\"{loop_dir}mm10.dipc.rowsum1000.blf50.merged.bed\"',\n}",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 210002
+    },
+    {
+      "source": "with open(f'{PACKAGE_DIR}/loop/snakemake_template_loop.txt') as tmp:\n    GENERATE_MATRIX_CHUNK_TEMPLATE = tmp.read()\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 220002
+    },
+    {
+      "source": "for cluster, sub_df in cell_table.groupby('cluster'):\n    if sub_df.shape[0]>1500:\n        tmp = sub_df.loc[np.random.choice(sub_df.index, 1500, False)]\n    else:\n        tmp = sub_df.copy()\n    prepare_dir(f'{outdir}{cluster}/', tmp, GENERATE_MATRIX_CHUNK_TEMPLATE, params)\n    ",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 230002
+    },
+    {
+      "source": "with open(f'{outdir}snakemake_cmds.txt', 'w') as f:\n    for cluster, sub_df in cell_table.groupby('cluster'):\n        cluster_dir = f'{loop_dir}{cluster}'\n        f.write(f'snakemake -d {cluster_dir} -s {cluster_dir}/Snakefile_master -j {params[\"cpu\"]}\\n')\n        ",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 240002
+    },
+    {
+      "source": "!cp /data/ref/mm10/genome/mm10.main20.chrom.sizes Tan2021_loop/\n!cp /home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/mm10.dipc.rowsum1000.blf50.merged.bed Tan2021_loop/\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "loop",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Loop"
+        ]
+      },
+      "doc_lineno": 250002
+    },
+    {
+      "source": "coollist = glob('/data/test_schicluster/Tan2021/scool/impute/25K/*/*.cool')\ncell_table = pd.DataFrame(coollist, index=[xx.split('/')[-1].replace('.cool', '') for xx in coollist], columns=['cool_path'])\ncell_table = cell_table.loc[metadata.index]\ncell_table['cluster'] = metadata['rnatype'].copy()\n# cell_table['cool_path'] = cell_table['cool_path'].str.replace('/data/test_schicluster', '/anvil/scratch/x-zhou')\ncell_table\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 280002
+    },
+    {
+      "source": "outdir = '/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/domain/'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 290002
+    },
+    {
+      "source": "for cluster, sub_df in cell_table.groupby('cluster'):\n    os.makedirs(f'{outdir}{cluster}', exist_ok=True)\n    sub_df.to_csv(f'{outdir}{cluster}/cell_table.csv', header=False, index=True)\n    #with open(f'{cluster}/Snakefile_master', 'w') as f:\n    #    f.write(snakemake_str)\n    print(cluster, sub_df.shape[0])\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 300002
+    },
+    {
+      "source": "params = {\n    'resolution': 25000,\n    'chrom_size_path': '\"/data/ref/mm10/genome/mm10.main20.chrom.sizes\"',\n}\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 310002
+    },
+    {
+      "source": "chunk_size = 200\nres = 25000\ntotal_chunk_dirs = []\ngroup_chunks = {}\n\nwith open(f'{PACKAGE_DIR}/cool/Snakefile_chunk_template') as tmp:\n    GENERATE_MATRIX_CHUNK_TEMPLATE = tmp.read()\n\nfor group, group_df in cell_table.groupby('cluster'):\n    group_chunks[group] = []\n    if group_df.shape[0] <= chunk_size:\n        this_dir = f'{outdir}{group}_chunk0/'\n        params['cell_table_path'] = f'\"{this_dir}cell_table.csv\"'\n        prepare_dir(this_dir, group_df, GENERATE_MATRIX_CHUNK_TEMPLATE, params)\n        total_chunk_dirs.append(this_dir)\n        group_chunks[group].append(this_dir)\n    else:\n        group_df['chunk'] = [i // chunk_size for i in range(group_df.shape[0])]\n        for chunk, chunk_df in group_df.groupby('chunk'):\n            this_dir = f'{outdir}{group}_chunk{chunk}/'\n            params['cell_table_path'] = f'\"{this_dir}cell_table.csv\"'\n            prepare_dir(this_dir, chunk_df, GENERATE_MATRIX_CHUNK_TEMPLATE, params)\n            total_chunk_dirs.append(this_dir)\n            group_chunks[group].append(this_dir)\n\n            ",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 320002
+    },
+    {
+      "source": "with open(f'{outdir}snakemake_cmd_step1.txt', 'w') as f:\n    for chunk_dir in total_chunk_dirs:\n        cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}Snakefile_master -j 5 --rerun-incomplete'\n        f.write(cmd + '\\n')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 330002
+    },
+    {
+      "source": "params.pop('cell_table_path')\nparams_str = '\\n'.join(f'{k} = {v}' for k, v in params.items())\n\nwith open(f'{PACKAGE_DIR}/cool/Snakefile_group_template') as tmp:\n    GENERATE_MATRIX_GROUP_TEMPLATE = tmp.read()\n\nwith open(f'{outdir}Snakefile', 'w') as f:\n    f.write(params_str + '\\n' + GENERATE_MATRIX_GROUP_TEMPLATE)\n    \nwith open(f'{outdir}snakemake_cmd_step2.txt', 'w') as f:\n    cmd = f'snakemake -d {outdir} --snakefile {outdir}Snakefile -j 10 --rerun-incomplete'\n    f.write(cmd + '\\n')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "domain",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Domain"
+        ]
+      },
+      "doc_lineno": 340002
+    },
+    {
+      "source": "coollist = glob('/data/test_schicluster/Tan2021/scool/impute/100K/*/*.cool')\ncell_table = pd.DataFrame(coollist, index=[xx.split('/')[-1].replace('.cool', '') for xx in coollist], columns=['cool_path'])\ncell_table = cell_table.loc[metadata.index]\ncell_table['cluster'] = metadata['rnatype'].copy()\n# cell_table['cool_path'] = cell_table['cool_path'].str.replace('/data/test_schicluster', '/anvil/scratch/x-zhou')\ncell_table\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 380002
+    },
+    {
+      "source": "outdir = '/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/compartment/'\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 390002
+    },
+    {
+      "source": "for cluster, sub_df in cell_table.groupby('cluster'):\n    os.makedirs(f'{outdir}{cluster}', exist_ok=True)\n    sub_df.to_csv(f'{outdir}{cluster}/cell_table.csv', header=False, index=True)\n    print(cluster, sub_df.shape[0])\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 400002
+    },
+    {
+      "source": "params = {\n    'resolution': 100000,\n    'chrom_size_path': '\"/data/ref/mm10/genome/mm10.main20.chrom.sizes\"',\n}\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 410002
+    },
+    {
+      "source": "chunk_size = 200\ntotal_chunk_dirs = []\ngroup_chunks = {}\n\nwith open(f'{PACKAGE_DIR}/cool/Snakefile_chunk_template') as tmp:\n    GENERATE_MATRIX_CHUNK_TEMPLATE = tmp.read()\n\nfor group, group_df in cell_table.groupby('cluster'):\n    group_chunks[group] = []\n    if group_df.shape[0] <= chunk_size:\n        this_dir = f'{outdir}{group}_chunk0/'\n        params['cell_table_path'] = f'\"{this_dir}cell_table.csv\"'\n        prepare_dir(this_dir, group_df, GENERATE_MATRIX_CHUNK_TEMPLATE, params)\n        total_chunk_dirs.append(this_dir)\n        group_chunks[group].append(this_dir)\n    else:\n        group_df['chunk'] = [i // chunk_size for i in range(group_df.shape[0])]\n        for chunk, chunk_df in group_df.groupby('chunk'):\n            this_dir = f'{outdir}{group}_chunk{chunk}/'\n            params['cell_table_path'] = f'\"{this_dir}cell_table.csv\"'\n            prepare_dir(this_dir, chunk_df, GENERATE_MATRIX_CHUNK_TEMPLATE, params)\n            total_chunk_dirs.append(this_dir)\n            group_chunks[group].append(this_dir)\n\n            ",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 420002
+    },
+    {
+      "source": "with open(f'{outdir}snakemake_cmd_step1.txt', 'w') as f:\n    for chunk_dir in total_chunk_dirs:\n        cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}Snakefile_master -j 5 --rerun-incomplete'\n        f.write(cmd + '\\n')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 430002
+    },
+    {
+      "source": "params.pop('cell_table_path')\nparams_str = '\\n'.join(f'{k} = {v}' for k, v in params.items())\n\nwith open(f'{PACKAGE_DIR}/cool/Snakefile_group_template') as tmp:\n    GENERATE_MATRIX_GROUP_TEMPLATE = tmp.read()\n\nwith open(f'{outdir}Snakefile', 'w') as f:\n    f.write(params_str + '\\n' + GENERATE_MATRIX_GROUP_TEMPLATE)\n    \nwith open(f'{outdir}snakemake_cmd_step2.txt', 'w') as f:\n    cmd = f'snakemake -d {outdir} --snakefile {outdir}Snakefile -j 10 --rerun-incomplete'\n    f.write(cmd + '\\n')\n",
+      "names": [],
+      "example": {
+        "document": "Tan2021/prepare",
+        "ref_id": "compartment",
+        "headings": [
+          "Prepare pseudobulk analyses",
+          "Compartment"
+        ]
+      },
+      "doc_lineno": 440002
+    }
+  ],
   "api/comp_concatcell_chr/index": [],
   "api/comp_cpg_cell/index": [],
   "api/domain_concatcell_chr/index": [],
@@ -299,7 +730,7 @@
       "doc_lineno": 200002
     },
     {
-      "source": "fig, axes = plt.subplots(3, len(leg), figsize=(5*len(leg), 7), sharex='col', sharey='row',\n                         gridspec_kw={'height_ratios':[5,1,1]}, dpi=300)\n\n## differential feature position\ntmpl = loopall.loc[sell, [1,4]].values // resl - loopl\ntmpd = binall.loc[selb, 'start'] // resl - loopl\ntmpc = bincomp.loc[selc, 'start'] // resl - loopl\n\nfor i in range(len(leg)):\n    ax = axes[0,i]\n    ax.axis('equal')\n    ax.set_title(legname[i], fontsize=16)\n    img = ax.imshow(dstall[i], cmap='afmhot_r', vmin=0, vmax=0.012, aspect='auto')\n    ax.set_yticks([])\n    ax.set_yticklabels([])\n    ax.set_xticklabels([])\n    ax.scatter(tmpl[:, 0], tmpl[:, 1], alpha=1, s=1, marker='o', edgecolors='none', color='c')\n\n    ax = axes[1,i]\n    ## plot boundary prob\n    sel = (binall['chrom']==chrom) & (binall['start']>=ll) & (binall['start']<rr)\n    ax.plot(binall.loc[sel, 'start'] // resl - loopl, \n            bound_prob_ct.loc[leg[i], sel].values, \n            c='C0', alpha=0.7)\n    ax.scatter(tmpd, np.zeros(len(tmpd))+0.05, color='r', s=4)\n    ax.set_ylim([0, 0.3])\n    ax2 = ax.twinx()\n    ## plot insulation score\n    ax2.plot(binall.loc[sel, 'start'] // resl - loopl, \n             ins.loc[leg[i], sel].values, \n             c='C1', alpha=0.7)\n    ax2.set_ylim([0.05, 0.4])\n    ax.set_xlim([0, loopr-loopl-1])\n    ax.set_xticks(np.arange(0, loopr-loopl+1, 100).tolist() + [tss//resl-loopl, tes//resl-loopl])\n    ax.set_xticklabels([])\n    \n    ax = axes[2,i]\n    sns.despine(bottom=True, ax=ax)\n    ## plot compartment\n    sel = (bincomp['chr']==chrom) & (bincomp['start']>=ll) & (bincomp['start']<rr)\n    x = bincomp.loc[sel, 'start'] // resl - loopl\n    y = comp.loc[sel, leg[i]].values\n    ax.fill_between(x, y, 0, where=y >= 0, facecolor='C3', interpolate=True)\n    ax.fill_between(x, y, 0, where=y <= 0, facecolor='C0', interpolate=True)\n    ax.scatter(tmpc, np.zeros(len(tmpc)), color='r', s=4)\n    ax.set_ylim([-3, 3])\n    ax.set_xlim([0, loopr-loopl-1])\n    ax.set_xticks(np.arange(0, loopr-loopl, 100).tolist() + [tss//resl-loopl, tes//resl-loopl])\n    ax.set_xticklabels([])\n    ax.set_xticklabels([f'{(xx+loopl)/100}M' for xx in np.arange(0, loopr-loopl, 100)]+['TSS','TES'])\n\n# plt.savefig(f'{group_name}_diff_{gtmp}.pdf', transparent=True, dpi=300)\n\n",
+      "source": "fig, axes = plt.subplots(3, len(leg), figsize=(5*len(leg), 7), sharex='col', sharey='row',\n                         gridspec_kw={'height_ratios':[5,1,1]}, dpi=300)\n\n## differential feature position at 10k resolution\ntmpl = loopall.loc[sell, [1,4]].values // resl - loopl\ntmpd = binall.loc[selb, 'start'] // resl - loopl\ntmpc = bincomp.loc[selc, 'start'] // resl - loopl\n\nfor i in range(len(leg)):\n    ax = axes[0,i]\n    ax.axis('equal')\n    ax.set_title(legname[i], fontsize=16)\n    img = ax.imshow(dstall[i], cmap='afmhot_r', vmin=0, vmax=0.012, aspect='auto')\n    ax.set_yticks([])\n    ax.set_yticklabels([])\n    ax.set_xticklabels([])\n    ## plot diff loop\n    ax.scatter(tmpl[:, 0], tmpl[:, 1], alpha=1, s=1, marker='o', edgecolors='none', color='c')\n\n    ax = axes[1,i]\n    ## plot boundary prob, use 10k coordinate\n    sel = (binall['chrom']==chrom) & (binall['start']>=ll) & (binall['start']<rr)\n    ax.plot(binall.loc[sel, 'start'] // resl - loopl, \n            bound_prob_ct.loc[leg[i], sel].values, \n            c='C0', alpha=0.7)\n    ## plot diff boundary\n    ax.scatter(tmpd, np.zeros(len(tmpd))+0.05, color='r', s=4)\n    ax.set_ylim([0, 0.3])\n    ax2 = ax.twinx()\n    ## plot insulation score, use 10k coordinate\n    ax2.plot(binall.loc[sel, 'start'] // resl - loopl, \n             ins.loc[leg[i], sel].values, \n             c='C1', alpha=0.7)\n    ax2.set_ylim([0.05, 0.4])\n    ax.set_xlim([0, loopr-loopl-1])\n    ax.set_xticks(np.arange(0, loopr-loopl+1, 100).tolist() + [tss//resl-loopl, tes//resl-loopl])\n    ax.set_xticklabels([])\n    \n    ax = axes[2,i]\n    sns.despine(bottom=True, ax=ax)\n    ## plot compartment, use 10k coordinate\n    sel = (bincomp['chr']==chrom) & (bincomp['start']>=ll) & (bincomp['start']<rr)\n    x = bincomp.loc[sel, 'start'] // resl - loopl\n    y = comp.loc[sel, leg[i]].values\n    ax.fill_between(x, y, 0, where=y >= 0, facecolor='C3', interpolate=True)\n    ax.fill_between(x, y, 0, where=y <= 0, facecolor='C0', interpolate=True)\n    ## plot diff comp\n    ax.scatter(tmpc, np.zeros(len(tmpc)), color='r', s=4)\n    ax.set_ylim([-3, 3])\n    ax.set_xlim([-0.5, loopr-loopl-0.5])\n    ax.set_xticks(np.arange(-0.5, loopr-loopl, 100).tolist() + [tss//resl-loopl-0.5, tes//resl-loopl-0.5])\n    ax.set_xticklabels([])\n    ax.set_xticklabels([f'{(xx+loopl)/100}M' for xx in np.arange(0, loopr-loopl+1, 100)]+['TSS','TES'])\n\n# plt.savefig(f'{group_name}_diff_{gtmp}.pdf', transparent=True, dpi=300)\n\n",
       "names": [],
       "example": {
         "document": "hba/plot_example",
