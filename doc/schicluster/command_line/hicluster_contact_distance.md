@@ -2,9 +2,9 @@
 
 ## Command Docs
 ```bash
-usage: hicluster contact-distance [-h] [--contact_table CONTACT_TABLE]
-                                  [--chrom_size_path CHROM_SIZE_PATH]
-                                  [--output_prefix OUTPUT_PREFIX]
+usage: hicluster contact-distance [-h] --contact_table CONTACT_TABLE
+                                  --chrom_size_path CHROM_SIZE_PATH
+                                  --output_prefix OUTPUT_PREFIX
                                   [--resolution RESOLUTION] [--chr1 CHROM1]
                                   [--pos1 POS1] [--chr2 CHROM2] [--pos2 POS2]
                                   [--cpu CPU]

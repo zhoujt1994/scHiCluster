@@ -2,11 +2,10 @@
 
 ## Command Docs
 ```bash
-usage: hicluster gene-score [-h] [--cell_table_path CELL_TABLE_PATH]
-                            [--gene_meta_path GENE_META_PATH]
-                            [--resolution RESOLUTION]
-                            [--output_hdf_path OUTPUT_HDF_PATH]
-                            [--chrom_size_path CHROM_SIZE_PATH] [--cpu CPU]
+usage: hicluster gene-score [-h] --cell_table_path CELL_TABLE_PATH
+                            --gene_meta_path GENE_META_PATH --resolution
+                            RESOLUTION --output_hdf_path OUTPUT_HDF_PATH
+                            --chrom_size_path CHROM_SIZE_PATH [--cpu CPU]
                             [--slop SLOP] [--mode MODE] [--chr1 CHROM1]
                             [--chr2 CHROM2] [--pos1 POS1] [--pos2 POS2]
 

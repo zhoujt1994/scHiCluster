@@ -3,8 +3,8 @@ This step shows the first step for processing the HiC contact files.
 
 ## Command Docs
 ```bash
-usage: hicluster filter-contact [-h] [--contact_table CONTACT_TABLE]
-                                [--chrom_size_path CHROM_SIZE_PATH]
+usage: hicluster filter-contact [-h] --contact_table CONTACT_TABLE
+                                --chrom_size_path CHROM_SIZE_PATH
                                 [--output_dir OUTPUT_DIR]
                                 [--blacklist_1d_path BLACKLIST_1D_PATH]
                                 [--blacklist_2d_path BLACKLIST_2D_PATH]

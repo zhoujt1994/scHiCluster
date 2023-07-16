@@ -2,9 +2,8 @@
 
 ## Command Docs
 ```bash
-usage: hicluster merge-cell-raw [-h] [--cell_table CELL_TABLE]
-                                [--chrom_size_path CHROM_SIZE_PATH]
-                                [--output_file OUTPUT_FILE]
+usage: hicluster merge-cell-raw [-h] --cell_table CELL_TABLE --chrom_size_path
+                                CHROM_SIZE_PATH --output_file OUTPUT_FILE
                                 [--resolution RESOLUTION] [--chr1 CHROM1]
                                 [--pos1 POS1] [--chr2 CHROM2] [--pos2 POS2]
                                 [--min_pos_dist MIN_POS_DIST]
