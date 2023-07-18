@@ -1,11 +1,11 @@
-import pathlib
 import time
+import h5py
+import cooler
+import pathlib
 import numpy as np
+import pandas as pd
 from scipy.sparse import csr_matrix, load_npz, triu
 from ..cool import write_coo, get_chrom_offsets
-import cooler
-import pandas as pd
-import h5py
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 """
@@ -110,6 +110,32 @@ def save_single_matrix_type(input_cool_list,
     return
  
 
+def merge_cool(input_cool_list, output_cool):
+    # Input could be cool files of single cell or average over cells
+    # Output is average over cells
+    # total_cell is counted over cools according to group_n_cells, otherwise 1
+    input_cool_list = [pathlib.Path(cool).absolute() for cool in input_cool_list]
+    cool = cooler.Cooler(input_cool_list[0])
+    bins_df = cool.bins()[["chrom", "start", "end"]][:]
+    chrom_sizes = cool.chromsizes[:]
+    chrom_offset = get_chrom_offsets(chrom_sizes)
+    total_cells = 0
+    for cool_path in input_cool_list:
+        with h5py.File(cool_path, 'r') as f:
+            if 'group_n_cells' in f.attrs:
+                total_cells += f.attrs['group_n_cells']
+            else:
+                total_cells += 1
+
+    save_single_matrix_type(input_cool_list, 
+                            output_cool,
+                            bins_df,
+                            chrom_sizes,
+                            chrom_offset,
+                            total_cells)
+    return
+
+
 def merge_group_chunks_to_group_cools(chrom_size_path,
                                       resolution,
                                       group,
@@ -155,27 +181,52 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     return
 
 
-def merge_cool(input_cool_list, output_cool):
-    # Input could be cool files of single cell or average over cells
-    # Output is average over cells
-    # total_cell is counted over cools according to group_n_cells, otherwise 1
-    input_cool_list = [pathlib.Path(cool).absolute() for cool in input_cool_list]
-    cool = cooler.Cooler(input_cool_list[0])
-    bins_df = cool.bins()[["chrom", "start", "end"]][:]
-    chrom_sizes = cool.chromsizes[:]
-    chrom_offset = get_chrom_offsets(chrom_sizes)
-    total_cells = 0
-    for cool_path in input_cool_list:
-        with h5py.File(cool_path, 'r') as f:
-            if 'group_n_cells' in f.attrs:
-                total_cells += f.attrs['group_n_cells']
-            else:
-                total_cells += 1
+def merge_group_to_bigger_group_cools(chrom_size_path,
+                                      resolution,
+                                      group,
+                                      output_dir,
+                                      group_list,
+                                      shuffle,
+                                      matrix_types=('E', 'E2', 'T', 'T2', 'Q', 'Q2')):
+    """
+    Sum all the group average cool files,
+    and finally divide the total number of cells to
+    get a group cell number normalized cool file in the end.
+    """
+    # determine chunk dirs for the group:
+    output_dir = pathlib.Path(output_dir).absolute()
+    group_dir = output_dir / group
+    group_dir.mkdir(exist_ok=True, parents=True)
 
-    save_single_matrix_type(input_cool_list, 
-                            output_cool,
-                            bins_df,
-                            chrom_sizes,
-                            chrom_offset,
-                            total_cells)
+    group_list = [pathlib.Path(xx) for xx in group_list]
+    
+    # count total cells
+    total_cells = 0
+    for chunk_dir in group_list:
+        total_cells += pd.read_csv(chunk_dir / 'cell_table.csv', index_col=0).shape[0]
+    
+    if shuffle:
+        group_list = [xx / 'shuffle/' for xx in group_list]
+
+    chrom_sizes = cooler.read_chromsizes(chrom_size_path, all_names=True)
+    bins_df = cooler.binnify(chrom_sizes, resolution)
+    chrom_offset = get_chrom_offsets(bins_df)
+
+    with ProcessPoolExecutor(6) as exe:
+        futures = {}
+        for matrix_type in matrix_types:
+            output_cool = str(group_dir / f'{group}.{matrix_type}.cool')
+            input_cool_list = [list(group_dir.glob(f'*/*.{matrix_type}.cool'))[0] for group_dir in group_list]
+            future = exe.submit(save_single_matrix_type,
+                                input_cool_list=input_cool_list,
+                                output_cool=output_cool,
+                                bins_df=bins_df,
+                                chrom_sizes=chrom_sizes,
+                                chrom_offset=chrom_offset,
+                                total_cells=total_cells)
+            futures[future] = matrix_type
+        for future in as_completed(futures):
+            matrix_type = futures[future]
+            print(f'Matrix {matrix_type} generated')
+            future.result()
     return

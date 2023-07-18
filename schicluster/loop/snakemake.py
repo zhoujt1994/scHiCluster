@@ -8,7 +8,7 @@ import schicluster
 from .loop_calling import filter_loops, call_loops
 from .merge_raw_matrix import make_raw_matrix_cell_table
 from .shuffle_fdr import compute_t, permute_fdr, update_fdr_qval
-from .merge_group import merge_group_to_bigger_group_cools
+from .merge_cell_to_group import merge_group_to_bigger_group_cools
 
 PACKAGE_DIR = pathlib.Path(schicluster.__path__[0])
 
