@@ -622,17 +622,21 @@ def embedding_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--cell_table_path', type=str, required=True, default=None,
-                            help='Path to cell table file')
+                            help='Contain all the imputed contact files information in two'
+                            'tab-separated columns: 1. cell_uid, 2. file_path. No header')
     parser_req.add_argument('--output_dir', type=str, required=True, default=None,
-                            help='Path to embedding output dir')
+                            help='Path to the output directory of the embedding output')
     parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
-                            help='Path to chromosome sizes file')
+                            help='Path to UCSC chrom size fileContain all the chromosome'
+                            'information in two tab-separated columns:'
+                            '1. chromosome name, 2. chromosome length. No header')
     parser.add_argument('--dim', type=int, required=False, default=50,
                         help='')
     parser.add_argument('--dist', type=int, required=False, default=1000000,
                         help='')
     parser.add_argument('--resolution', type=int, required=False, default=100000,
-                        help='')
+                        help='Resolution for embedding.'
+                        'Consistent with resolution of imputed contact files')
     parser.add_argument('--scale_factor', type=int, required=False, default=100000,
                         help='')
     parser.add_argument('--cpu', type=int, required=False, default=1,

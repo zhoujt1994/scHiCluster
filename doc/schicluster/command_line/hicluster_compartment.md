@@ -1,4 +1,5 @@
 # hicluster compartment
+This step shows how we compute compartment score. 
 
 ## Command Docs
 ```bash
@@ -34,4 +35,41 @@ required arguments:
   --cpg_profile_path CPG_PROFILE_PATH
                         Genome bins CpG ratio. Use "schicluster cpg-ratio" to
                         calculate (default: None)
+
+```
+
+## Command Example
+This will compute compartment score using raw contact files.
+
+```bash
+hicluster compartment \
+--cell_table_path contact_table_rmbkl.tsv \
+--output_prefix  dataset/raw \
+--cpg_profile_path cpg_ratio_100k.hdf \
+--cpu 48 --resolution 100000 \
+--chr1 1 \
+--pos1 5 \
+--chr2 3 \
+--pos2 6 \
+--chrom_size_path /data/aging/ref/m3C/mm10.main.nochrM.nochrY.chrom.sizes \
+--mode tsv
+```
+
+This will compute compartment score using imputed contact files.
+```bash
+hicluster compartment \
+--cell_table_path impute/100K/cell_table.tsv \
+--output_prefix dataset/impute \
+--cpg_profile_path cpg_ratio_100k.hdf \
+--chr1 1 \
+--pos1 2 \
+--chr2 5 \
+--pos2 6 \
+--cpu 48
+```
+
+## Command Break Down
+
+
+```bash
 ```

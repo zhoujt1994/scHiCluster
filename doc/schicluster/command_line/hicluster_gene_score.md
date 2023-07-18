@@ -1,4 +1,5 @@
 # hicluster gene-score
+This command compute gene contact score
 
 ## Command Docs
 ```bash
@@ -31,4 +32,16 @@ required arguments:
   --chrom_size_path CHROM_SIZE_PATH
                         Chromsome size file with only chromosomes to use
                         (default: None)
+```
+
+## Command Examples
+```bash
+hicluster gene-score \
+--cell_table_path impute/10K/cell_table.tsv \
+--gene_meta_path /data/aging/ref/m3C/gencode.vM22.annotation.gene.sorted.bed.gz \
+--resolution 10000 \
+--output_hdf_path  geneimputescore.hdf \
+--chrom_size_path /data/aging/ref/m3C/mm10.main.nochrM.nochrY.chrom.sizes \
+--cpu 48 
+--mode impute
 ```
