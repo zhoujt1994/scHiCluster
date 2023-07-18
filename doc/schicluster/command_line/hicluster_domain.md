@@ -25,3 +25,13 @@ required arguments:
                         saved as {output_prefix}.insulation.nc
                         (xarray.DataSet) (default: None)
 ```
+
+## Command Examples
+```bash
+hicluster domain \
+--cell_table_path impute/25K/cell_table.tsv \
+--output_prefix dataset/domain \
+--resolution 25000 \
+--window_size 10 \
+--cpu 4 
+```

@@ -70,6 +70,7 @@ def embedding(cell_table_path,
                              index_col=0,
                              header=None).squeeze(axis=1)
     output_dir = pathlib.Path(output_dir).absolute()
+    output_dir.mkdir(parents=True, exist_ok=True)
     raw_dir = output_dir / 'raw'
     raw_dir.mkdir(exist_ok=True)
 
