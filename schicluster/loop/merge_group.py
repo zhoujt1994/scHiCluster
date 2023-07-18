@@ -18,7 +18,7 @@ def chrom_ave_iterator(chunk_dirs,
     print(f'Reading matrix {matrix_type}')
     for chrom in chrom_sizes.keys():
         cool_path = list(chunk_dirs[0].glob(f'*/*.{matrix_type}.cool'))
-        with h5py.File(cool_path, 'a') as f:
+        with h5py.File(cool_path, 'r') as f:
             matrix = read_single_cool_chrom(cool_path, chrom)
         for chunk_dir in chunk_dirs[1:]:
             cool_path = list(chunk_dir.glob(f'*/*.{matrix_type}.cool'))
@@ -105,5 +105,3 @@ def merge_group_to_bigger_group_cools(chrom_size_path,
             print(f'Matrix {matrix_type} generated')
             future.result()
     return
-
-
