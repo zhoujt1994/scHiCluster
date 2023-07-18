@@ -17,19 +17,12 @@ def chrom_ave_iterator(chunk_dirs,
                        total_cells):
     print(f'Reading matrix {matrix_type}')
     for chrom in chrom_sizes.keys():
-        # sum together multiple chunks
-        # first
-        cool_path = list(chunk_dirs[0].glob(f'*/*.{matrix_type}.cool'))[0]
+        cool_path = list(chunk_dirs[0].glob(f'*/*.{matrix_type}.cool'))
         with h5py.File(cool_path, 'a') as f:
-            n_cells = f.attrs['group_n_cells']
-        matrix = read_single_cool_chrom(cool_path, chrom) * n_cells
-        # others
+            matrix = read_single_cool_chrom(cool_path, chrom)
         for chunk_dir in chunk_dirs[1:]:
-            cool_path = list(chunk_dir.glob(f'*/*.{matrix_type}.cool'))[0]
-            with h5py.File(cool_path, 'a') as f:
-                n_cells = f.attrs['group_n_cells']
-            matrix += read_single_cool_chrom(cool_path, chrom) * n_cells
-
+            cool_path = list(chunk_dir.glob(f'*/*.{matrix_type}.cool'))
+            matrix += read_single_cool_chrom(cool_path, chrom)
         matrix = matrix.tocoo()
         pixel_df = pd.DataFrame({
             'bin1_id': matrix.row,
@@ -37,7 +30,6 @@ def chrom_ave_iterator(chunk_dirs,
             'count': matrix.data
         })
         pixel_df.iloc[:, :2] += chrom_offset[chrom]
-        # All the chunk
         pixel_df.iloc[:, -1] /= total_cells
         yield pixel_df
 

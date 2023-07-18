@@ -332,7 +332,7 @@ def merge_loop(group,
             f.write('42')
         return
     
-    cell_table = pd.concat([pd.read_csv(f'{xx}/cell_table.tsv', index_col=0, sep='\t', header=None, 
+    cell_table = pd.concat([pd.read_csv(f'{xx}/cell_table.csv', index_col=0, header=None, 
                                         names=['cell_id', 'cell_url', 'cell_group']) 
                             for xx in group_list], axis=0)
     cell_table['cell_group'] = group

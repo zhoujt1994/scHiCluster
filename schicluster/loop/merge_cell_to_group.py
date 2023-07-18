@@ -18,53 +18,37 @@ def merge_cells_for_single_chromosome(output_dir,
                                       output_prefix,
                                       merge_type='E'):
     """
-    Merge cell's E and T matrix to group matrices, sum only, not normalized by n_cells yet:
+    Merge cell's E and T matrix to group matrices, sum only, not normalized by n_cells yet
     E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
-    E2: E^2 of T, used to calculate global p values
+    E2: Sum of square of E, used to calculate global t statistics
     T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix),
     calculated from loop_bkg
-    T2: T^2 of T, used to calculate t test p values
+    T2: Sum of square of T, used to calculate local t statistics
     """
     start_time = time.time()
-    if merge_type.upper() == 'E':
-        print('Merging E (global diag norm), E2 (E^2 for global t-test).')
-        # get cell paths
-        cell_paths = [str(p) for p in pathlib.Path(output_dir).glob('*.E.npz')]
-        n_cells = len(cell_paths)
-        # get n_dims
-        matrix = load_npz(cell_paths[0])
-        n_dims = matrix.shape[0]
-        # initialize
-        e_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
-        e2_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
-        for i, chrom_path in enumerate(cell_paths):
-            matrix = load_npz(chrom_path)
-            e_sum += matrix
-            e2_sum += matrix.multiply(matrix)
-        write_coo(f'{output_prefix}.E.hdf', e_sum, chunk_size=None)
-        write_coo(f'{output_prefix}.E2.hdf', e2_sum, chunk_size=None)
-    else:
-        print('Merging T (global and local norm) and T2 (T^2, for t-test) matrix.')
-        # get cell paths
-        cell_paths = [str(p) for p in pathlib.Path(output_dir).glob('*.T.npz')]
-        n_cells = len(cell_paths)
-        # get n_dims
-        matrix = load_npz(cell_paths[0])
-        n_dims = matrix.shape[0]
-        # initialize
-        t_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
-        t2_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
-        for i, chrom_path in enumerate(cell_paths):
-            matrix = load_npz(chrom_path)
-            t_sum += matrix
-            t2_sum += matrix.multiply(matrix)
-        write_coo(f'{output_prefix}.T.hdf', t_sum, chunk_size=None)
-        write_coo(f'{output_prefix}.T2.hdf', t2_sum, chunk_size=None)
+    # get cell paths
+    cell_paths = [str(p) for p in pathlib.Path(output_dir).glob(f'*.{merge_type}.npz')]
+    n_cells = len(cell_paths)
+    # get n_dims
+    matrix = load_npz(cell_paths[0])
+    n_dims = matrix.shape[0]
+    # initialize
+    e_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
+    e2_sum = csr_matrix((n_dims, n_dims), dtype=np.float32)
+    for i, chrom_path in enumerate(cell_paths):
+        matrix = load_npz(chrom_path)
+        e_sum += matrix
+        e2_sum += matrix.multiply(matrix)
+    write_coo(f'{output_prefix}.{merge_type}.hdf', e_sum, chunk_size=None)
+    write_coo(f'{output_prefix}.{merge_type}2.hdf', e2_sum, chunk_size=None)
     print(f'Merge {n_cells} cells took {time.time() - start_time:.0f} seconds')
     return
 
 
 def read_single_cool_chrom(cool_path, chrom, chrom2=None):
+    # Used in chrom_sum_iterator, return the sum according to group_n_cells
+    # Also used in merge_raw_matrix and merge_group
+    # Output chrom matrix
     cool = cooler.Cooler(str(cool_path))
     selector = cool.matrix(balance=False, sparse=True)
     if chrom2 is None:
@@ -74,28 +58,24 @@ def read_single_cool_chrom(cool_path, chrom, chrom2=None):
             matrix = triu(selector.fetch(chrom, chrom2))
         else:
             matrix = selector.fetch(chrom, chrom2)
-    with h5py.File(cool_path, 'a') as f:
+    with h5py.File(cool_path, 'r') as f:
         if 'group_n_cells' in f.attrs:
             matrix.data *= f.attrs['group_n_cells']
     return matrix
 
 
-def chrom_sum_iterator(chunk_dirs,
+def chrom_sum_iterator(input_cool_list,
                        chrom_sizes,
-                       chrom_offset,
-                       matrix_type,
+                       chrom_offset, 
                        total_cells):
-    print(f'Reading matrix {matrix_type}')
+    # Used in save_single_matrix_type, return the average over cells
+    # total_cells need to be provided
+    # Output chrom df
     for chrom in chrom_sizes.keys():
-        # sum together multiple chunks
-        # first
-        cool_path = chunk_dirs[0] / f'{matrix_type}.cool'
+        cool_path = input_cool_list[0]
         matrix = read_single_cool_chrom(cool_path, chrom)
-        # others
-        for chunk_dir in chunk_dirs[1:]:
-            cool_path = chunk_dir / f'{matrix_type}.cool'
+        for cool_path in input_cool_list[1:]:
             matrix += read_single_cool_chrom(cool_path, chrom)
-
         matrix = matrix.tocoo()
         pixel_df = pd.DataFrame({
             'bin1_id': matrix.row,
@@ -103,43 +83,42 @@ def chrom_sum_iterator(chunk_dirs,
             'count': matrix.data
         })
         pixel_df.iloc[:, :2] += chrom_offset[chrom]
-        # All the chunk
         pixel_df.iloc[:, -1] /= total_cells
         yield pixel_df
 
 
-def save_single_matrix_type(cooler_path,
+def save_single_matrix_type(input_cool_list, 
+                            output_cool,
                             bins_df,
-                            chunk_dirs,
                             chrom_sizes,
                             chrom_offset,
-                            matrix_type,
                             total_cells):
-    chrom_iter = chrom_sum_iterator(chunk_dirs,
+    # Used by merge_group_chunks_to_group_cools and merge_cool
+    # total_cells need to be provided
+    # Output cool
+    chrom_iter = chrom_sum_iterator(input_cool_list,
                                     chrom_sizes,
                                     chrom_offset,
-                                    matrix_type,
                                     total_cells)
-    cooler.create_cooler(cool_uri=cooler_path,
+    cooler.create_cooler(cool_uri=output_cool,
                          bins=bins_df,
                          pixels=chrom_iter,
                          ordered=True,
                          dtypes={'count': np.float32})
-    with h5py.File(cooler_path, 'a') as f:
+    with h5py.File(output_cool, 'a') as f:
         f.attrs['group_n_cells'] = total_cells
     return
-
+ 
 
 def merge_group_chunks_to_group_cools(chrom_size_path,
                                       resolution,
                                       group,
                                       output_dir,
                                       matrix_types=('E', 'E2', 'T', 'T2', 'Q', 'Q2')):
-    """
-    Sum all the chunk sum cool files,
-    and finally divide the total number of cells to
-    get a group cell number normalized cool file in the end.
-    """
+    # Input is sum over cells per chunk
+    # Output is average over cells of all chunks
+    # total_cell is counted over cell_table.csv per chunk
+
     # determine chunk dirs for the group:
     output_dir = pathlib.Path(output_dir).absolute()
     group_dir = output_dir / group
@@ -159,18 +138,44 @@ def merge_group_chunks_to_group_cools(chrom_size_path,
     with ProcessPoolExecutor(6) as exe:
         futures = {}
         for matrix_type in matrix_types:
-            cooler_path = str(group_dir / f'{group}.{matrix_type}.cool')
+            output_cool = str(group_dir / f'{group}.{matrix_type}.cool')
+            input_cool_list = [chunk_dir / f'{matrix_type}.cool' for chunk_dir in chunk_dirs]
             future = exe.submit(save_single_matrix_type,
-                                cooler_path=cooler_path,
+                                input_cool_list=input_cool_list,
+                                output_cool=output_cool,
                                 bins_df=bins_df,
-                                chunk_dirs=chunk_dirs,
                                 chrom_sizes=chrom_sizes,
                                 chrom_offset=chrom_offset,
-                                matrix_type=matrix_type,
                                 total_cells=total_cells)
             futures[future] = matrix_type
         for future in as_completed(futures):
             matrix_type = futures[future]
             print(f'Matrix {matrix_type} generated')
             future.result()
+    return
+
+
+def merge_cool(input_cool_list, output_cool):
+    # Input could be cool files of single cell or average over cells
+    # Output is average over cells
+    # total_cell is counted over cools according to group_n_cells, otherwise 1
+    input_cool_list = [pathlib.Path(cool).absolute() for cool in input_cool_list]
+    cool = cooler.Cooler(input_cool_list[0])
+    bins_df = cool.bins()[["chrom", "start", "end"]][:]
+    chrom_sizes = cool.chromsizes[:]
+    chrom_offset = get_chrom_offsets(chrom_sizes)
+    total_cells = 0
+    for cool_path in input_cool_list:
+        with h5py.File(cool_path, 'r') as f:
+            if 'group_n_cells' in f.attrs:
+                total_cells += f.attrs['group_n_cells']
+            else:
+                total_cells += 1
+
+    save_single_matrix_type(input_cool_list, 
+                            output_cool,
+                            bins_df,
+                            chrom_sizes,
+                            chrom_offset,
+                            total_cells)
     return

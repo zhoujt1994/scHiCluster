@@ -706,6 +706,18 @@ def merge_cell_raw_register_subparser(subparser):
                         help='Minimum distance for a fragment to be considered.')
 
 
+def merge_cool_register_subparser(subparser):
+    parser = subparser.add_parser('merge-cool',
+                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+                                  help="")
+
+    parser_req = parser.add_argument_group("required arguments")
+    parser_req.add_argument('--input_cool_list', type=str, default=None, required=True, 
+                            help='Full path to cool table')
+    parser_req.add_argument('--output_cool', type=str, default=None, required=True, 
+                            help='Full path to output cool file')
+
+
 def filter_contacts_register_subparser(subparser):
     parser = subparser.add_parser('filter-contact',
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -853,6 +865,8 @@ def main():
         from .draft.gene_score import gene_score as func
     elif cur_command in ['merge-cell-raw']:
         from .cool.merge import merge_cell_raw as func
+    elif cur_command in ['merge-cool']:
+        from .loop.merge_cell_to_group import merge_cool as func
     elif cur_command in ['filter-contact']:
         from .cool.remove_blacklist import filter_contacts_wrapper as func
     elif cur_command in ['contact-distance']:
