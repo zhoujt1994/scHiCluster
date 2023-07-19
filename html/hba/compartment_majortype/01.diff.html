@@ -1,0 +1,1051 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Differential compartment calling with dcHiC &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'hba/compartment_majortype/01.diff';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Correlation between compartment and other modalities" href="02.corr.html" />
+    <link rel="prev" title="Differential compartments" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    scHiCluster
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/01.diff.html">Differential boundary</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/02.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/03.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="intro.html">Differential compartments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../correlation_summary.html">Correlation Summary</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/compartment_majortype/01.diff.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/hba/compartment_majortype/01.diff.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Differential compartment calling with dcHiC</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="differential-compartment-calling-with-dchic">
+<h1>Differential compartment calling with dcHiC<a class="headerlink" href="#differential-compartment-calling-with-dchic" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Helvetica&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L23_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT_Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L56_NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_ET&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5_LHX6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb_ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD7&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;MSN_D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN_D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">,</span> <span class="s1">&#39;SubCtx&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">,</span> <span class="s1">&#39;MGC&#39;</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">,</span> <span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;VLMC&#39;</span>
+      <span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;L2/3-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-IT-Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L5/6-NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6-CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;L5-ET&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy-Exc&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5-Lhx6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb-ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;Chd7&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;MSN-D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN-D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">,</span> <span class="s1">&#39;SubCtx-Cplx&#39;</span><span class="p">,</span> 
+       <span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">,</span> <span class="s1">&#39;MGC&#39;</span><span class="p">,</span> <span class="s1">&#39;PC&#39;</span><span class="p">,</span> <span class="s1">&#39;EC&#39;</span><span class="p">,</span> <span class="s1">&#39;VLMC&#39;</span>
+      <span class="p">]</span>
+<span class="n">leg2name</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leg</span><span class="p">,</span> <span class="n">legname</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;exc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;L23_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L4_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L5_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_IT_Car3&#39;</span><span class="p">,</span> <span class="s1">&#39;L56_NP&#39;</span><span class="p">,</span> <span class="s1">&#39;L6_CT&#39;</span><span class="p">,</span> <span class="s1">&#39;L6b&#39;</span><span class="p">,</span> <span class="s1">&#39;Amy&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;inh&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;Lamp5&#39;</span><span class="p">,</span> <span class="s1">&#39;Lamp5_LHX6&#39;</span><span class="p">,</span> <span class="s1">&#39;Sncg&#39;</span><span class="p">,</span> <span class="s1">&#39;Vip&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb&#39;</span><span class="p">,</span> <span class="s1">&#39;Pvalb_ChC&#39;</span><span class="p">,</span> <span class="s1">&#39;Sst&#39;</span><span class="p">,</span> <span class="s1">&#39;CHD7&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;msn&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MSN_D1&#39;</span><span class="p">,</span> <span class="s1">&#39;MSN_D2&#39;</span><span class="p">,</span> <span class="s1">&#39;Foxp2&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;sub&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;SubCtx&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;glia&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ASC&#39;</span><span class="p">,</span> <span class="s1">&#39;ODC&#39;</span><span class="p">,</span> <span class="s1">&#39;OPC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;mgc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;MGC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;smc&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;PC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;endo&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;EC&#39;</span><span class="p">],</span> 
+       <span class="s1">&#39;fibro&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;VLMC&#39;</span><span class="p">],</span>
+      <span class="p">}</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">&#39;neu&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;exc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;inh&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;msn&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;sub&#39;</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;neu&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;glia&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;mgc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;smc&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;endo&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">&#39;fibro&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span> <span class="o">=</span> <span class="s1">&#39;neu&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">group_name</span><span class="p">])</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">leg2name</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">100000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">&#39;/data/hba/compartment_majortype/&#39;</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/compartment_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">comp_raw_mergerawpca.hdf&#39;</span><span class="p">)</span>
+<span class="n">comp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>L23_IT</th>
+      <th>L4_IT</th>
+      <th>L56_NP</th>
+      <th>L5_ET</th>
+      <th>L5_IT</th>
+      <th>L6_CT</th>
+      <th>L6_IT</th>
+      <th>L6_IT_Car3</th>
+      <th>L6b</th>
+      <th>Lamp5</th>
+      <th>...</th>
+      <th>CHD7</th>
+      <th>Foxp2</th>
+      <th>ASC</th>
+      <th>ODC</th>
+      <th>OPC</th>
+      <th>MGC</th>
+      <th>EC</th>
+      <th>PC</th>
+      <th>VLMC</th>
+      <th>merged</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>chr1-18</th>
+      <td>4.532953</td>
+      <td>6.074816</td>
+      <td>4.745961</td>
+      <td>1.262724</td>
+      <td>5.044535</td>
+      <td>5.241165</td>
+      <td>4.385525</td>
+      <td>4.745368</td>
+      <td>3.601142</td>
+      <td>7.021493</td>
+      <td>...</td>
+      <td>6.350878</td>
+      <td>5.443851</td>
+      <td>6.038124</td>
+      <td>6.479689</td>
+      <td>8.545128</td>
+      <td>10.942541</td>
+      <td>6.193613</td>
+      <td>7.818554</td>
+      <td>7.010916</td>
+      <td>7.573896</td>
+    </tr>
+    <tr>
+      <th>chr1-19</th>
+      <td>4.742626</td>
+      <td>6.077094</td>
+      <td>5.227821</td>
+      <td>1.421160</td>
+      <td>5.186667</td>
+      <td>5.666524</td>
+      <td>4.640529</td>
+      <td>4.969541</td>
+      <td>4.122677</td>
+      <td>7.254596</td>
+      <td>...</td>
+      <td>7.296734</td>
+      <td>5.656314</td>
+      <td>6.461882</td>
+      <td>6.942686</td>
+      <td>9.275956</td>
+      <td>11.769346</td>
+      <td>6.530445</td>
+      <td>7.721279</td>
+      <td>6.664307</td>
+      <td>7.503558</td>
+    </tr>
+    <tr>
+      <th>chr1-20</th>
+      <td>4.882112</td>
+      <td>6.625833</td>
+      <td>4.720595</td>
+      <td>1.552144</td>
+      <td>5.603995</td>
+      <td>5.743913</td>
+      <td>4.805314</td>
+      <td>5.319397</td>
+      <td>4.070691</td>
+      <td>6.953638</td>
+      <td>...</td>
+      <td>7.294498</td>
+      <td>5.555722</td>
+      <td>6.827351</td>
+      <td>7.392001</td>
+      <td>9.471356</td>
+      <td>11.617200</td>
+      <td>6.113659</td>
+      <td>7.430872</td>
+      <td>6.832435</td>
+      <td>7.445576</td>
+    </tr>
+    <tr>
+      <th>chr1-21</th>
+      <td>4.409264</td>
+      <td>6.373844</td>
+      <td>4.495035</td>
+      <td>1.347600</td>
+      <td>5.239480</td>
+      <td>5.593628</td>
+      <td>4.654892</td>
+      <td>4.584552</td>
+      <td>3.944247</td>
+      <td>7.050535</td>
+      <td>...</td>
+      <td>6.668277</td>
+      <td>5.345105</td>
+      <td>6.756874</td>
+      <td>7.566949</td>
+      <td>8.932059</td>
+      <td>12.227214</td>
+      <td>6.573919</td>
+      <td>7.774136</td>
+      <td>6.692109</td>
+      <td>7.487518</td>
+    </tr>
+    <tr>
+      <th>chr1-22</th>
+      <td>4.792674</td>
+      <td>6.327627</td>
+      <td>4.606086</td>
+      <td>1.239676</td>
+      <td>5.004744</td>
+      <td>5.532068</td>
+      <td>4.451870</td>
+      <td>4.469162</td>
+      <td>3.724550</td>
+      <td>6.561917</td>
+      <td>...</td>
+      <td>6.683668</td>
+      <td>5.515938</td>
+      <td>6.677850</td>
+      <td>7.454593</td>
+      <td>9.066686</td>
+      <td>11.302973</td>
+      <td>6.756169</td>
+      <td>7.914874</td>
+      <td>6.736316</td>
+      <td>7.543835</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>chr22-498</th>
+      <td>-0.167683</td>
+      <td>0.066275</td>
+      <td>-0.193310</td>
+      <td>-0.642383</td>
+      <td>-0.007180</td>
+      <td>0.075564</td>
+      <td>0.063709</td>
+      <td>-0.003458</td>
+      <td>-0.012046</td>
+      <td>0.369045</td>
+      <td>...</td>
+      <td>0.219480</td>
+      <td>-0.721090</td>
+      <td>-0.508691</td>
+      <td>2.386674</td>
+      <td>-0.335253</td>
+      <td>2.522928</td>
+      <td>0.128222</td>
+      <td>0.416390</td>
+      <td>-0.067209</td>
+      <td>1.139465</td>
+    </tr>
+    <tr>
+      <th>chr22-499</th>
+      <td>0.374943</td>
+      <td>0.841765</td>
+      <td>-0.211688</td>
+      <td>-0.876948</td>
+      <td>0.673747</td>
+      <td>0.835991</td>
+      <td>0.760642</td>
+      <td>0.462583</td>
+      <td>0.422578</td>
+      <td>0.794520</td>
+      <td>...</td>
+      <td>0.490132</td>
+      <td>-0.535043</td>
+      <td>0.742954</td>
+      <td>4.393894</td>
+      <td>0.173314</td>
+      <td>4.390028</td>
+      <td>1.213310</td>
+      <td>1.763509</td>
+      <td>1.703635</td>
+      <td>2.549865</td>
+    </tr>
+    <tr>
+      <th>chr22-500</th>
+      <td>-0.451213</td>
+      <td>0.072616</td>
+      <td>-0.240891</td>
+      <td>-0.884130</td>
+      <td>0.192176</td>
+      <td>0.114169</td>
+      <td>0.411017</td>
+      <td>-0.222203</td>
+      <td>-0.067791</td>
+      <td>0.034812</td>
+      <td>...</td>
+      <td>0.084431</td>
+      <td>-0.478074</td>
+      <td>0.289802</td>
+      <td>-0.538458</td>
+      <td>-1.168219</td>
+      <td>1.133707</td>
+      <td>-0.305873</td>
+      <td>-2.942465</td>
+      <td>1.063949</td>
+      <td>0.564305</td>
+    </tr>
+    <tr>
+      <th>chr22-501</th>
+      <td>0.402952</td>
+      <td>1.649726</td>
+      <td>-0.046996</td>
+      <td>-0.659747</td>
+      <td>1.195990</td>
+      <td>0.905608</td>
+      <td>1.054437</td>
+      <td>0.106239</td>
+      <td>0.437586</td>
+      <td>1.438901</td>
+      <td>...</td>
+      <td>1.076683</td>
+      <td>-0.238773</td>
+      <td>0.962307</td>
+      <td>1.622971</td>
+      <td>0.114526</td>
+      <td>4.747499</td>
+      <td>0.257000</td>
+      <td>-0.837970</td>
+      <td>1.536778</td>
+      <td>2.990559</td>
+    </tr>
+    <tr>
+      <th>chr22-502</th>
+      <td>1.284506</td>
+      <td>1.998990</td>
+      <td>-0.104788</td>
+      <td>-0.350169</td>
+      <td>1.331522</td>
+      <td>1.420527</td>
+      <td>1.456426</td>
+      <td>0.676795</td>
+      <td>0.721309</td>
+      <td>1.474490</td>
+      <td>...</td>
+      <td>1.110074</td>
+      <td>0.780029</td>
+      <td>1.769825</td>
+      <td>4.341375</td>
+      <td>1.826384</td>
+      <td>5.515240</td>
+      <td>3.505156</td>
+      <td>3.665332</td>
+      <td>1.979127</td>
+      <td>5.275064</td>
+    </tr>
+  </tbody>
+</table>
+<p>24745 rows × 30 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">binall</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">binfilter_raw.npy&#39;</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">xx</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">binall</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]]))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>24745
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">binall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">comp</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">binall</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">binall</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">*</span> <span class="n">res</span>
+<span class="n">binall</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">binall</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">res</span>
+<span class="n">binall</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>start</th>
+      <th>end</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>chr1-18</th>
+      <td>chr1</td>
+      <td>1800000</td>
+      <td>1900000</td>
+    </tr>
+    <tr>
+      <th>chr1-19</th>
+      <td>chr1</td>
+      <td>1900000</td>
+      <td>2000000</td>
+    </tr>
+    <tr>
+      <th>chr1-20</th>
+      <td>chr1</td>
+      <td>2000000</td>
+      <td>2100000</td>
+    </tr>
+    <tr>
+      <th>chr1-21</th>
+      <td>chr1</td>
+      <td>2100000</td>
+      <td>2200000</td>
+    </tr>
+    <tr>
+      <th>chr1-22</th>
+      <td>chr1</td>
+      <td>2200000</td>
+      <td>2300000</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>chr22-498</th>
+      <td>chr22</td>
+      <td>49800000</td>
+      <td>49900000</td>
+    </tr>
+    <tr>
+      <th>chr22-499</th>
+      <td>chr22</td>
+      <td>49900000</td>
+      <td>50000000</td>
+    </tr>
+    <tr>
+      <th>chr22-500</th>
+      <td>chr22</td>
+      <td>50000000</td>
+      <td>50100000</td>
+    </tr>
+    <tr>
+      <th>chr22-501</th>
+      <td>chr22</td>
+      <td>50100000</td>
+      <td>50200000</td>
+    </tr>
+    <tr>
+      <th>chr22-502</th>
+      <td>chr22</td>
+      <td>50200000</td>
+      <td>50300000</td>
+    </tr>
+  </tbody>
+</table>
+<p>24745 rows × 3 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/hba/ref/hg38.main.chrom.sizes&#39;</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">xx</span><span class="si">}</span><span class="s1">_100Kb_pca/intra_pca/</span><span class="si">{</span><span class="n">xx</span><span class="si">}</span><span class="s1">_100Kb_mat/&#39;</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;pc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="n">xx</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]:</span>
+        <span class="n">tmp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">xx</span><span class="si">}</span><span class="s1">_100Kb_pca/intra_pca/</span><span class="si">{</span><span class="n">xx</span><span class="si">}</span><span class="s1">_100Kb_mat/</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1">.pc.bedGraph&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">leg</span><span class="p">)</span>
+<span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;matrix_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+<span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;bed_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+<span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">index</span> <span class="o">+</span> <span class="s1">&#39;_100Kb&#39;</span>
+<span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">index</span>
+<span class="n">tmp</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">input.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>Rscript<span class="w"> </span>~/software/dcHiC/dchicf.r<span class="w"> </span>--file<span class="w"> </span>input.txt<span class="w"> </span>--pcatype<span class="w"> </span>analyze<span class="w"> </span>--dirovwt<span class="w"> </span>T<span class="w"> </span>--diffdir<span class="w"> </span>.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba/compartment_majortype"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Differential compartments</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02.corr.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Correlation between compartment and other modalities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Jingtian Zhou
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

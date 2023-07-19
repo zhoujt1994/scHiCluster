@@ -1,0 +1,1200 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>DEG identification — scHiCluster</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/graphviz.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
+<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../../_static/sphinx-thebe.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'hba/rna_majortype/01.deg';</script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="02.loop_corr.html" rel="next" title="RNA correlated loop"/>
+<link href="intro.html" rel="prev" title="Differentially expressed genes"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../../intro.html">
+<p class="title logo__title">scHiCluster</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../../intro.html">
+                    scHiCluster
+                </a>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="intro.html">Differentially expressed genes</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/03.diff.html">Differential boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../correlation_summary.html">Correlation Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_example.html">Plot examples</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/rna_majortype/01.deg.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../../_sources/hba/rna_majortype/01.deg.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>DEG identification</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="deg-identification">
+<h1>DEG identification<a class="headerlink" href="#deg-identification" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">anndata</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/rna_majortype/'</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="n">indir</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/ref/gencode.v33.basic.annotation.gene.flat.tsv.gz'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">gene_meta</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>chrom</th>
+<th>source</th>
+<th>feature</th>
+<th>start</th>
+<th>end</th>
+<th>score</th>
+<th>strand</th>
+<th>phase</th>
+<th>transcript_id</th>
+<th>gene_type</th>
+<th>...</th>
+<th>gene_name</th>
+<th>transcript_type</th>
+<th>transcript_status</th>
+<th>transcript_name</th>
+<th>exon_number</th>
+<th>exon_id</th>
+<th>level</th>
+<th>hgnc_id</th>
+<th>havana_gene</th>
+<th>tag</th>
+</tr>
+<tr>
+<th>gene_id</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>ENSG00000223972.5</th>
+<td>chr1</td>
+<td>HAVANA</td>
+<td>gene</td>
+<td>11869</td>
+<td>14409</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>NaN</td>
+<td>transcribed_unprocessed_pseudogene</td>
+<td>...</td>
+<td>DDX11L1</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>2</td>
+<td>HGNC:37102</td>
+<td>OTTHUMG00000000961.2</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000227232.5</th>
+<td>chr1</td>
+<td>HAVANA</td>
+<td>gene</td>
+<td>14404</td>
+<td>29570</td>
+<td>.</td>
+<td>-</td>
+<td>.</td>
+<td>NaN</td>
+<td>unprocessed_pseudogene</td>
+<td>...</td>
+<td>WASH7P</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>2</td>
+<td>HGNC:38034</td>
+<td>OTTHUMG00000000958.1</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000278267.1</th>
+<td>chr1</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>17369</td>
+<td>17436</td>
+<td>.</td>
+<td>-</td>
+<td>.</td>
+<td>NaN</td>
+<td>miRNA</td>
+<td>...</td>
+<td>MIR6859-1</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:50039</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000243485.5</th>
+<td>chr1</td>
+<td>HAVANA</td>
+<td>gene</td>
+<td>29554</td>
+<td>31109</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>NaN</td>
+<td>lncRNA</td>
+<td>...</td>
+<td>MIR1302-2HG</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>2</td>
+<td>HGNC:52482</td>
+<td>OTTHUMG00000000959.2</td>
+<td>ncRNA_host</td>
+</tr>
+<tr>
+<th>ENSG00000284332.1</th>
+<td>chr1</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>30366</td>
+<td>30503</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>NaN</td>
+<td>miRNA</td>
+<td>...</td>
+<td>MIR1302-2</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:35294</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>ENSG00000198695.2</th>
+<td>chrM</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>14149</td>
+<td>14673</td>
+<td>.</td>
+<td>-</td>
+<td>.</td>
+<td>NaN</td>
+<td>protein_coding</td>
+<td>...</td>
+<td>MT-ND6</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:7462</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000210194.1</th>
+<td>chrM</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>14674</td>
+<td>14742</td>
+<td>.</td>
+<td>-</td>
+<td>.</td>
+<td>NaN</td>
+<td>Mt_tRNA</td>
+<td>...</td>
+<td>MT-TE</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:7479</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000198727.2</th>
+<td>chrM</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>14747</td>
+<td>15887</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>NaN</td>
+<td>protein_coding</td>
+<td>...</td>
+<td>MT-CYB</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:7427</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000210195.2</th>
+<td>chrM</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>15888</td>
+<td>15953</td>
+<td>.</td>
+<td>+</td>
+<td>.</td>
+<td>NaN</td>
+<td>Mt_tRNA</td>
+<td>...</td>
+<td>MT-TT</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:7499</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>ENSG00000210196.2</th>
+<td>chrM</td>
+<td>ENSEMBL</td>
+<td>gene</td>
+<td>15956</td>
+<td>16023</td>
+<td>.</td>
+<td>-</td>
+<td>.</td>
+<td>NaN</td>
+<td>Mt_tRNA</td>
+<td>...</td>
+<td>MT-TP</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>3</td>
+<td>HGNC:7494</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+<p>60662 rows × 21 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">rna_raw.h5ad'</span><span class="p">)</span>
+<span class="n">adata</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 29000 × 33387
+    obs: 'Class', 'Supercluster', 'Clusters', 'Age', 'Donor', 'Sex', 'Tissue', 'MajorType', 'Prob'
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'ncell'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[:,</span> <span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'ncell'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">gene_meta</span><span class="o">.</span><span class="n">index</span><span class="p">))]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'TotalUMI'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'TotalUMI'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'TotalUMI'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">"mean"</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">"std"</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">A1</span> <span class="o">-</span> <span class="p">(</span>
+    <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">"mean"</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s2">"std"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.7919453461654484e-05
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'exc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5_ET'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">],</span> 
+       <span class="s1">'inh'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">],</span> 
+       <span class="s1">'msn'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">],</span> 
+       <span class="s1">'sub'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'SubCtx'</span><span class="p">],</span> 
+       <span class="s1">'glia'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">],</span> 
+       <span class="s1">'mgc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MGC'</span><span class="p">],</span> 
+       <span class="s1">'smc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'PC'</span><span class="p">],</span> 
+       <span class="s1">'endo'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'EC'</span><span class="p">],</span> 
+       <span class="s1">'fibro'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'VLMC'</span><span class="p">],</span>
+      <span class="p">}</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'exc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'inh'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'msn'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'sub'</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'glia'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'mgc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'smc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'endo'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'fibro'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'MajorType'</span><span class="p">]</span><span class="o">==</span><span class="n">xx</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]],</span> <span class="n">index</span><span class="o">=</span><span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'MajorType'</span><span class="p">]</span><span class="o">==</span><span class="n">xx</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ranksums</span><span class="p">,</span> <span class="n">kruskal</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">from</span> <span class="nn">statsmodels.sandbox.stats.multicomp</span> <span class="kn">import</span> <span class="n">multipletests</span> <span class="k">as</span> <span class="n">FDR</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'all'</span><span class="p">,</span> <span class="s1">'neu'</span><span class="p">,</span> <span class="s1">'exc'</span><span class="p">,</span> <span class="s1">'inh'</span><span class="p">]:</span>
+    <span class="n">genefilter</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'MajorType'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">group</span><span class="p">])]</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">genefilter</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">ct</span><span class="p">][:,</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="n">group</span><span class="p">]]</span>
+            <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">kruskal</span><span class="p">(</span><span class="o">*</span><span class="n">tmp</span><span class="p">)</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">])</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span>
+    <span class="n">stats</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">FDR</span><span class="p">(</span><span class="n">stats</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">"fdr_bh"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">stats</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'stats'</span><span class="p">,</span> <span class="s1">'fdr'</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">genefilter</span><span class="p">])</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}{</span><span class="n">group</span><span class="si">}</span><span class="s1">_deg_stats.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>all
+neu
+exc
+inh
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L2/3-IT'</span><span class="p">,</span> <span class="s1">'L4-IT'</span><span class="p">,</span> <span class="s1">'L5-IT'</span><span class="p">,</span> <span class="s1">'L6-IT'</span><span class="p">,</span> <span class="s1">'L6-IT-Car3'</span><span class="p">,</span> <span class="s1">'L5/6-NP'</span><span class="p">,</span> <span class="s1">'L6-CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5-ET'</span><span class="p">,</span> <span class="s1">'Amy-Exc'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5-Lhx6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb-ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'Chd7'</span><span class="p">,</span> 
+       <span class="s1">'MSN-D1'</span><span class="p">,</span> <span class="s1">'MSN-D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> <span class="s1">'SubCtx-Cplx'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'VLMC'</span>
+      <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">diff_ranksum</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">data</span>
+    <span class="c1"># print(c1, c2)</span>
+    <span class="n">fc</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c2</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+    <span class="n">pv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">fc</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pv</span><span class="p">)):</span>
+        <span class="n">pv</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ranksums</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">c1</span><span class="p">][:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="n">c2</span><span class="p">][:,</span> <span class="n">i</span><span class="p">])[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">fdr</span> <span class="o">=</span> <span class="n">FDR</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s2">"fdr_bh"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">fc</span><span class="p">,</span> <span class="n">fdr</span><span class="p">]</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">DEG/'</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">c1</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)):</span>
+            <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+                <span class="n">diff_ranksum</span><span class="p">,</span>
+                <span class="n">c1</span><span class="o">=</span><span class="n">leg</span><span class="p">[</span><span class="n">c1</span><span class="p">],</span>
+                <span class="n">c2</span><span class="o">=</span><span class="n">leg</span><span class="p">[</span><span class="n">c2</span><span class="p">],</span>
+            <span class="p">)</span>
+            <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">())</span>
+        <span class="c1"># c1, c2 = result[-1][0], result[-1][1]</span>
+        <span class="c1"># print(f'{leg[c1]} vs {leg[c2]} finished')</span>
+        
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">savez</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">DEG/</span><span class="si">{</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">-</span><span class="si">{</span><span class="n">xx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">.npz'</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="n">xx</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">fdr</span><span class="o">=</span><span class="n">xx</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">count</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">leg</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="n">count</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xx</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">xx</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">1e-3</span><span class="p">))</span>
+
+<span class="n">count</span> <span class="o">=</span> <span class="n">count</span> <span class="o">+</span> <span class="n">count</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">legname</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">legname</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f8e84712f50&gt;
+</pre></div>
+</div>
+<img alt="../../_images/0a383baf2f8ec75ffa11c6f18bb1ee9703980237bf73f74c7df26bf9740a8d8b.png" src="../../_images/0a383baf2f8ec75ffa11c6f18bb1ee9703980237bf73f74c7df26bf9740a8d8b.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">count</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[:</span><span class="mi">22</span><span class="p">],</span> <span class="n">leg</span><span class="p">[:</span><span class="mi">22</span><span class="p">]],</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">legname</span><span class="p">[:</span><span class="mi">22</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="n">legname</span><span class="p">[:</span><span class="mi">22</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f8e843de250&gt;
+</pre></div>
+</div>
+<img alt="../../_images/9398e7e1207612fc264c755453fb8b104583b5af0104457926c551b64822ec07.png" src="../../_images/9398e7e1207612fc264c755453fb8b104583b5af0104457926c551b64822ec07.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">TruncatedSVD</span>
+<span class="kn">from</span> <span class="nn">ALLCools.plot</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">ALLCools.clustering</span> <span class="kn">import</span> <span class="n">significant_pc_test</span><span class="p">,</span> <span class="n">tsne</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">n_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="c1"># put manifold coordinates into adata.obs</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_dim</span><span class="p">):</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s2">"X_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">adata</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">data_reduce</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="n">data_reduce</span> <span class="o">/=</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'pca_all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_reduce</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">significant_pc_test</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">p_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">obsm</span><span class="o">=</span><span class="s2">"pca_all"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>49 components passed P cutoff of 0.1.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>49
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">npc</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">data_reduce</span><span class="p">[:,</span> <span class="p">:</span><span class="n">npc</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tsne</span><span class="p">(</span>
+    <span class="n">adata</span><span class="p">,</span>
+    <span class="n">obsm</span><span class="o">=</span><span class="s2">"X_pca"</span><span class="p">,</span>
+    <span class="n">metric</span><span class="o">=</span><span class="s2">"euclidean"</span><span class="p">,</span>
+    <span class="n">exaggeration</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">perplexity</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="s2">"tsne"</span><span class="p">)</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s2">"u</span><span class="si">{</span><span class="n">npc</span><span class="si">}</span><span class="s2">_tsne"</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s2">"X_tsne"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">coord_base</span> <span class="o">=</span> <span class="s1">'tsne'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">hba_data</span>
+<span class="n">ctdict</span> <span class="o">=</span> <span class="n">hba_data</span><span class="o">.</span><span class="n">internal</span><span class="o">.</span><span class="n">celltype</span><span class="o">.</span><span class="n">CellType</span><span class="o">.</span><span class="n">majortype_palette</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">'all'</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Supercluster'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Supercluster'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">tmp</span><span class="o">&gt;</span><span class="mi">50</span><span class="p">])]</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="n">coord_base</span><span class="p">,</span>
+                        <span class="n">s</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">'Supercluster'</span><span class="p">,</span>
+                        <span class="n">text_anno</span><span class="o">=</span><span class="s1">'Supercluster'</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                        <span class="n">max_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'rasterized'</span><span class="p">:</span><span class="kc">True</span><span class="p">},</span>
+                        <span class="c1">#show_legend=True,</span>
+                        <span class="c1">#legend_kws={'ncol':1},</span>
+                       <span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
+                        <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="n">coord_base</span><span class="p">,</span>
+                        <span class="n">s</span><span class="o">=</span><span class="n">ds</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">'MajorType'</span><span class="p">,</span>
+                        <span class="n">text_anno</span><span class="o">=</span><span class="s1">'MajorType'</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="n">ctdict</span><span class="p">,</span>
+                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                        <span class="n">max_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s1">'rasterized'</span><span class="p">:</span><span class="kc">True</span><span class="p">},</span>
+                        <span class="c1">#show_legend=True,</span>
+                        <span class="c1">#legend_kws={'ncol':1},</span>
+                       <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
+findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
+findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+</pre></div>
+</div>
+<img alt="../../_images/e7f6c9eb87bff0239f5ce97c809e424b7f7e01b87ffe7cf93602e3d955f6759e.png" src="../../_images/e7f6c9eb87bff0239f5ce97c809e424b7f7e01b87ffe7cf93602e3d955f6759e.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[[</span><span class="s1">'gene_name'</span><span class="p">,</span> <span class="s1">'chrom'</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]]</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="s1">'gene_name'</span><span class="p">,</span> <span class="s1">'chrom'</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[[</span><span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[[</span><span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">cell_</span><span class="si">{</span><span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">_rna.h5ad'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
+
+<span class="n">selg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[:</span><span class="mi">22</span><span class="p">])</span> <span class="ow">and</span> <span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[:</span><span class="mi">22</span><span class="p">]):</span>
+        <span class="n">rank</span> <span class="o">=</span> <span class="n">rankdata</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">selg</span><span class="p">[</span><span class="n">rank</span><span class="o">&lt;=</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">selg</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1173.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[:</span><span class="mi">22</span><span class="p">],</span> <span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">tmp</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'gene_name'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">z_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Reds'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">'cosine'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f8dc6837510&gt;
+</pre></div>
+</div>
+<img alt="../../_images/e34971299723b0ae03910e2ce069254594fb6a013e0b0c73fb9d349b008e7b8b.png" src="../../_images/e34971299723b0ae03910e2ce069254594fb6a013e0b0c73fb9d349b008e7b8b.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]</span> <span class="o">-</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">],</span> <span class="n">log_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">'percent'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'end'</span><span class="p">]</span> <span class="o">-</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'start'</span><span class="p">],</span> <span class="n">log_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">'percent'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel='Percent'&gt;
+</pre></div>
+</div>
+<img alt="../../_images/4ba1d31d78fa45268271125f259d3cf4e9891a39c88ed2a763c83f9f7c12ed34.png" src="../../_images/4ba1d31d78fa45268271125f259d3cf4e9891a39c88ed2a763c83f9f7c12ed34.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">cluster_expr.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">rankdata</span><span class="p">(</span><span class="n">xx</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+    <span class="n">selg</span><span class="p">[</span><span class="n">rank</span><span class="o">&lt;=</span><span class="mi">100</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">selg</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1439.0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">,</span> <span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">tmp</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'gene_name'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">z_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Reds'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">'cosine'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">8</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f8dc6503f10&gt;
+</pre></div>
+</div>
+<img alt="../../_images/5499f4cf979259110943518a051df0b36220ddcf5c847b9716013262fc9ea695.png" src="../../_images/5499f4cf979259110943518a051df0b36220ddcf5c847b9716013262fc9ea695.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">]</span> <span class="o">-</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selg</span><span class="o">==</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">],</span> <span class="n">log_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">'percent'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'end'</span><span class="p">]</span> <span class="o">-</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'start'</span><span class="p">],</span> <span class="n">log_scale</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s1">'percent'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:ylabel='Percent'&gt;
+</pre></div>
+</div>
+<img alt="../../_images/c4ade062dad9599e260ead1611f6de5bff8067b0db1f18ff3fda09c58748eef9.png" src="../../_images/c4ade062dad9599e260ead1611f6de5bff8067b0db1f18ff3fda09c58748eef9.png"/>
+</div>
+</div>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba/rna_majortype"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<div class="footer-article-items footer-article__inner">
+<div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="intro.html" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">Differentially expressed genes</p>
+</div>
+</a>
+<a class="right-next" href="02.loop_corr.html" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">RNA correlated loop</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div></div>
+</div>
+</footer>
+</div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Jingtian Zhou
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

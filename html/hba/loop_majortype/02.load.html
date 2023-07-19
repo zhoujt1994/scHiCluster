@@ -1,0 +1,1115 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>Load loop matrices and stats — scHiCluster</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/graphviz.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
+<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../../_static/sphinx-thebe.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'hba/loop_majortype/02.load';</script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="03.apa.html" rel="next" title="Aggregate peak analysis of differential loops"/>
+<link href="01.diff.html" rel="prev" title="ANOVA of loop matrices across cell types"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../../intro.html">
+<p class="title logo__title">scHiCluster</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../../intro.html">
+                    scHiCluster
+                </a>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="intro.html">Differential loops</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/03.diff.html">Differential boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../correlation_summary.html">Correlation Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_example.html">Plot examples</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/loop_majortype/02.load.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../../_sources/hba/loop_majortype/02.load.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Load loop matrices and stats</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-position-and-anova">Load Loop Position and ANOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-q">Load Loop Q</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="load-loop-matrices-and-stats">
+<h1>Load loop matrices and stats<a class="headerlink" href="#load-loop-matrices-and-stats" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">triu</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span><span class="p">,</span> <span class="n">zscore</span><span class="p">,</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5_ET'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">,</span> 
+       <span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> <span class="s1">'SubCtx'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'VLMC'</span>
+      <span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L2/3-IT'</span><span class="p">,</span> <span class="s1">'L4-IT'</span><span class="p">,</span> <span class="s1">'L5-IT'</span><span class="p">,</span> <span class="s1">'L6-IT'</span><span class="p">,</span> <span class="s1">'L6-IT-Car3'</span><span class="p">,</span> <span class="s1">'L5/6-NP'</span><span class="p">,</span> <span class="s1">'L6-CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5-ET'</span><span class="p">,</span> <span class="s1">'Amy-Exc'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5-Lhx6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb-ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'Chd7'</span><span class="p">,</span> 
+       <span class="s1">'MSN-D1'</span><span class="p">,</span> <span class="s1">'MSN-D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> <span class="s1">'SubCtx-Cplx'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'VLMC'</span>
+      <span class="p">]</span>
+<span class="n">leg2name</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leg</span><span class="p">,</span> <span class="n">legname</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'exc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">],</span> 
+       <span class="s1">'inh'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">],</span> 
+       <span class="s1">'cnu'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">],</span> 
+       <span class="s1">'sub'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'SubCtx'</span><span class="p">],</span> 
+       <span class="s1">'glia'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">],</span> 
+       <span class="s1">'mgc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MGC'</span><span class="p">],</span> 
+       <span class="s1">'smc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'PC'</span><span class="p">],</span> 
+       <span class="s1">'endo'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'EC'</span><span class="p">],</span> 
+       <span class="s1">'fibro'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'VLMC'</span><span class="p">],</span>
+      <span class="p">}</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'exc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'inh'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'cnu'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'sub'</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'glia'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'mgc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'smc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'endo'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'fibro'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_parameters docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span> <span class="o">=</span> <span class="s1">'neu'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ctgroup</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">if</span> <span class="s1">'_'</span> <span class="ow">in</span> <span class="n">group_name</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">group_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">):</span>
+        <span class="n">ctgroup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">xx</span><span class="p">])</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">[</span><span class="n">group_name</span><span class="p">]:</span>
+        <span class="n">ctgroup</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xx</span><span class="p">])</span>
+        
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">ctgroup</span><span class="p">))</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">leg2name</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">10000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/'</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">hg38_with_chrl.main.chrom.sizes'</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="load-loop-position-and-anova">
+<h2>Load Loop Position and ANOVA<a class="headerlink" href="#load-loop-position-and-anova" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.loop.bedpe'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">]</span>
+<span class="n">loopall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">loopall</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">loopall</span> <span class="o">=</span> <span class="n">loopall</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="mi">6</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">sort_values</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+<span class="n">loopall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">loopall</span><span class="p">[(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">loopall</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">loopall</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">loopall</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>chr1</td>
+<td>900000</td>
+<td>910000</td>
+<td>chr1</td>
+<td>960000</td>
+<td>970000</td>
+</tr>
+<tr>
+<th>1</th>
+<td>chr1</td>
+<td>900000</td>
+<td>910000</td>
+<td>chr1</td>
+<td>970000</td>
+<td>980000</td>
+</tr>
+<tr>
+<th>2</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>970000</td>
+<td>980000</td>
+</tr>
+<tr>
+<th>3</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>980000</td>
+<td>990000</td>
+</tr>
+<tr>
+<th>4</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>990000</td>
+<td>1000000</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2873610</th>
+<td>chr22</td>
+<td>50570000</td>
+<td>50580000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+</tr>
+<tr>
+<th>2873611</th>
+<td>chr22</td>
+<td>50580000</td>
+<td>50590000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+</tr>
+<tr>
+<th>2873612</th>
+<td>chr22</td>
+<td>50590000</td>
+<td>50600000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+</tr>
+<tr>
+<th>2873613</th>
+<td>chr22</td>
+<td>50600000</td>
+<td>50610000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+</tr>
+<tr>
+<th>2873614</th>
+<td>chr22</td>
+<td>50610000</td>
+<td>50620000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+</tr>
+</tbody>
+</table>
+<p>2873615 rows × 6 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.bedpe'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">loopall</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">loopfilter</span> <span class="o">=</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">looptmp</span> <span class="o">=</span> <span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">loopfilter</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span> <span class="o">//</span> <span class="n">res</span>
+    <span class="k">for</span> <span class="n">matrix</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'Q'</span><span class="p">,</span> <span class="s1">'E'</span><span class="p">,</span> <span class="s1">'T'</span><span class="p">]:</span>
+        <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">majortype_</span><span class="si">{</span><span class="n">matrix</span><span class="si">}</span><span class="s1">pv.cool'</span><span class="p">)</span>
+        <span class="n">pv</span> <span class="o">=</span> <span class="n">triu</span><span class="p">(</span><span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">c</span><span class="p">))</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+        <span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">loopfilter</span><span class="p">,</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">matrix</span><span class="si">}</span><span class="s1">anova'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pv</span><span class="p">[(</span><span class="n">looptmp</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">looptmp</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])]</span><span class="o">.</span><span class="n">A1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chr1
+chr2
+chr3
+chr4
+chr5
+chr6
+chr7
+chr8
+chr9
+chr10
+chr11
+chr12
+chr13
+chr14
+chr15
+chr16
+chr17
+chr18
+chr19
+chr20
+chr21
+chr22
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="load-loop-q">
+<h2>Load Loop Q<a class="headerlink" href="#load-loop-q" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">merged_loop.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<span class="n">loopall</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>Qanova</th>
+<th>Eanova</th>
+<th>Tanova</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>chr1</td>
+<td>900000</td>
+<td>910000</td>
+<td>chr1</td>
+<td>960000</td>
+<td>970000</td>
+<td>3.750881</td>
+<td>6.097476</td>
+<td>2.068213</td>
+</tr>
+<tr>
+<th>1</th>
+<td>chr1</td>
+<td>900000</td>
+<td>910000</td>
+<td>chr1</td>
+<td>970000</td>
+<td>980000</td>
+<td>3.322128</td>
+<td>6.001146</td>
+<td>2.007495</td>
+</tr>
+<tr>
+<th>2</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>970000</td>
+<td>980000</td>
+<td>3.293559</td>
+<td>5.439024</td>
+<td>2.229271</td>
+</tr>
+<tr>
+<th>3</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>980000</td>
+<td>990000</td>
+<td>2.704021</td>
+<td>5.648575</td>
+<td>2.289167</td>
+</tr>
+<tr>
+<th>4</th>
+<td>chr1</td>
+<td>910000</td>
+<td>920000</td>
+<td>chr1</td>
+<td>990000</td>
+<td>1000000</td>
+<td>2.819877</td>
+<td>5.675182</td>
+<td>1.669268</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>2873610</th>
+<td>chr22</td>
+<td>50570000</td>
+<td>50580000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+<td>1.646674</td>
+<td>11.822375</td>
+<td>1.625390</td>
+</tr>
+<tr>
+<th>2873611</th>
+<td>chr22</td>
+<td>50580000</td>
+<td>50590000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+<td>2.256175</td>
+<td>11.555016</td>
+<td>1.335000</td>
+</tr>
+<tr>
+<th>2873612</th>
+<td>chr22</td>
+<td>50590000</td>
+<td>50600000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+<td>3.531459</td>
+<td>11.165133</td>
+<td>1.195543</td>
+</tr>
+<tr>
+<th>2873613</th>
+<td>chr22</td>
+<td>50600000</td>
+<td>50610000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+<td>4.896728</td>
+<td>11.926161</td>
+<td>2.028210</td>
+</tr>
+<tr>
+<th>2873614</th>
+<td>chr22</td>
+<td>50610000</td>
+<td>50620000</td>
+<td>chr22</td>
+<td>50670000</td>
+<td>50680000</td>
+<td>5.475712</td>
+<td>13.031472</td>
+<td>3.153314</td>
+</tr>
+</tbody>
+</table>
+<p>2873615 rows × 9 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">load_Q</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">cool_file</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s1">.cool'</span><span class="p">)</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">mat</span> <span class="o">=</span> <span class="n">cool_file</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+        <span class="n">tmp</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mat</span><span class="p">[(</span><span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">//</span> <span class="n">res</span><span class="p">,</span> <span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">c</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">values</span> <span class="o">//</span> <span class="n">res</span><span class="p">)]</span><span class="o">.</span><span class="n">A1</span><span class="p">)</span>
+        <span class="c1"># print(ct, c)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">ct</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">tmp</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">load_Q</span><span class="p">,</span>
+            <span class="n">ct</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">=</span><span class="s1">'Q'</span>
+        <span class="p">)</span>
+        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+
+    <span class="n">loopq</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">loopq</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> finished'</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L23_IT finished
+L6_IT_Car3 finished
+L5_IT finished
+L6_IT finished
+L4_IT finished
+L56_NP finished
+L6_CT finished
+L6b finished
+Amy finished
+Lamp5 finished
+Lamp5_LHX6 finished
+Sncg finished
+Vip finished
+Pvalb finished
+Pvalb_ChC finished
+Sst finished
+CHD7 finished
+MSN_D1 finished
+MSN_D2 finished
+Foxp2 finished
+SubCtx finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">loopq</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">loopq</span> <span class="o">=</span> <span class="n">loopq</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopq</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_Q.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">load_Q</span><span class="p">,</span>
+            <span class="n">ct</span><span class="o">=</span><span class="n">xx</span><span class="p">,</span>
+            <span class="n">m</span><span class="o">=</span><span class="s1">'T'</span>
+        <span class="p">)</span>
+        <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">future</span><span class="p">)</span>
+
+    <span class="n">loopt</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">loopt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">tmp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> finished'</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L5_IT finished
+L23_IT finished
+L6_IT finished
+L4_IT finished
+L6_IT_Car3 finished
+L56_NP finished
+L6_CT finished
+L6b finished
+Amy finished
+Lamp5 finished
+Lamp5_LHX6 finished
+Sncg finished
+Vip finished
+Pvalb finished
+Pvalb_ChC finished
+Sst finished
+CHD7 finished
+MSN_D1 finished
+MSN_D2 finished
+Foxp2 finished
+SubCtx finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">loopt</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">loopt</span> <span class="o">=</span> <span class="n">loopt</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopt</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_T.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loopq</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_Q.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<span class="n">loopt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">loop_T.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Tanova'</span><span class="p">])),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">binrange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Tanova'</span><span class="p">]),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">binrange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
+findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+</pre></div>
+</div>
+<img alt="../../_images/2a920ef2ad558b77109344afab2e00274be1f8f19fbcc163d9f46d8005f80228.png" src="../../_images/2a920ef2ad558b77109344afab2e00274be1f8f19fbcc163d9f46d8005f80228.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Qanova'</span><span class="p">])),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">binrange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Qanova'</span><span class="p">]),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">binrange</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a6e138b6b7d595f57c17ae7cea2b12d46a994315fd1281316b533f454f591ac1.png" src="../../_images/a6e138b6b7d595f57c17ae7cea2b12d46a994315fd1281316b533f454f591ac1.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">thres1</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">isf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">)</span>
+<span class="n">thres2</span> <span class="o">=</span> <span class="n">norm</span><span class="o">.</span><span class="n">isf</span><span class="p">(</span><span class="mf">0.15</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">thres1</span><span class="p">,</span> <span class="n">thres2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.9599639845400545 1.0364333894937898
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">selb</span> <span class="o">=</span> <span class="p">((</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Qanova'</span><span class="p">])</span><span class="o">&gt;</span><span class="n">thres2</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Tanova'</span><span class="p">])</span><span class="o">&gt;</span><span class="n">thres2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmpq</span> <span class="o">=</span> <span class="n">loopq</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">tmpq</span> <span class="o">=</span> <span class="n">zscore</span><span class="p">(</span><span class="n">tmpq</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmpt</span> <span class="o">=</span> <span class="n">loopt</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selb</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">tmpt</span> <span class="o">=</span> <span class="n">zscore</span><span class="p">(</span><span class="n">tmpt</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpq</span><span class="p">)),</span> <span class="mi">2000</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cg</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">clustermap</span><span class="p">(</span><span class="n">tmpq</span><span class="p">[</span><span class="n">sel</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'bwr'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">metric</span><span class="o">=</span><span class="s1">'cosine'</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="n">leg</span><span class="p">,</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[],</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/a643c6c77833217a12155c1e16a59e1b7b9c7773d45902ec3aeaab05b4120e0b.png" src="../../_images/a643c6c77833217a12155c1e16a59e1b7b9c7773d45902ec3aeaab05b4120e0b.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rorder</span> <span class="o">=</span> <span class="n">cg</span><span class="o">.</span><span class="n">dendrogram_row</span><span class="o">.</span><span class="n">reordered_ind</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">corder</span> <span class="o">=</span> <span class="n">cg</span><span class="o">.</span><span class="n">dendrogram_col</span><span class="o">.</span><span class="n">reordered_ind</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">'all'</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">tmpq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">sel</span><span class="p">[</span><span class="n">rorder</span><span class="p">],</span> <span class="n">corder</span><span class="p">)],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'bwr'</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Q'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># sns.despine(ax=ax, left=True, bottom=True)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">legname</span><span class="p">[</span><span class="n">corder</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">tmpq</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> Diff Loop'</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">tmpt</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">sel</span><span class="p">[</span><span class="n">rorder</span><span class="p">],</span> <span class="n">corder</span><span class="p">)],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'bwr'</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">3</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'T'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="c1"># sns.despine(ax=ax, left=True, bottom=True)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">legname</span><span class="p">[</span><span class="n">corder</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9de93cd62f9d72e5c593f7c08b54141b0b87ab02cd775acd17424796de72ad6c.png" src="../../_images/9de93cd62f9d72e5c593f7c08b54141b0b87ab02cd775acd17424796de72ad6c.png"/>
+</div>
+</div>
+</section>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba/loop_majortype"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<div class="footer-article-items footer-article__inner">
+<div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="01.diff.html" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">ANOVA of loop matrices across cell types</p>
+</div>
+</a>
+<a class="right-next" href="03.apa.html" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">Aggregate peak analysis of differential loops</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div></div>
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-position-and-anova">Load Loop Position and ANOVA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-loop-q">Load Loop Q</a></li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Jingtian Zhou
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

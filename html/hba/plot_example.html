@@ -1,0 +1,886 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>Plot examples — scHiCluster</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/graphviz.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
+<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
+<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
+<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+<script src="../_static/jquery.js"></script>
+<script src="../_static/underscore.js"></script>
+<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../_static/doctools.js"></script>
+<script src="../_static/sphinx_highlight.js"></script>
+<script src="../_static/clipboard.min.js"></script>
+<script src="../_static/copybutton.js"></script>
+<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../_static/sphinx-thebe.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'hba/plot_example';</script>
+<link href="../genindex.html" rel="index" title="Index"/>
+<link href="../search.html" rel="search" title="Search"/>
+<link href="../command_line/hicluster_filter_contact.html" rel="next" title="hicluster filter-contact"/>
+<link href="correlation_summary.html" rel="prev" title="Correlation Summary"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../intro.html">
+<p class="title logo__title">scHiCluster</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../intro.html">
+                    scHiCluster
+                </a>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loop_majortype/02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_majortype/03.diff.html">Differential boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="compartment_majortype/intro.html">Differential compartments</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/01.call.html">Call compartment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/02.comC.html">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="compartment_majortype/06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="correlation_summary.html">Correlation Summary</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Plot examples</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/plot_example.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/hba/plot_example.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Plot examples</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="plot-examples">
+<h1>Plot examples<a class="headerlink" href="#plot-examples" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">norm</span><span class="p">,</span> <span class="n">zscore</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.patches</span> <span class="kn">import</span> <span class="n">Polygon</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">cm</span> <span class="k">as</span> <span class="n">cm</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib.colors</span> <span class="kn">import</span> <span class="n">LogNorm</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">islice</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5_ET'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">,</span> 
+       <span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> <span class="s1">'SubCtx'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'VLMC'</span>
+      <span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L2/3-IT'</span><span class="p">,</span> <span class="s1">'L4-IT'</span><span class="p">,</span> <span class="s1">'L5-IT'</span><span class="p">,</span> <span class="s1">'L6-IT'</span><span class="p">,</span> <span class="s1">'L6-IT-Car3'</span><span class="p">,</span> <span class="s1">'L5/6-NP'</span><span class="p">,</span> <span class="s1">'L6-CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'L5-ET'</span><span class="p">,</span> <span class="s1">'Amy-Exc'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5-Lhx6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb-ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'Chd7'</span><span class="p">,</span> 
+       <span class="s1">'MSN-D1'</span><span class="p">,</span> <span class="s1">'MSN-D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> <span class="s1">'SubCtx-Cplx'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'VLMC'</span>
+      <span class="p">]</span>
+<span class="n">leg2name</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">leg</span><span class="p">,</span> <span class="n">legname</span><span class="p">)}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">{</span><span class="s1">'exc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">],</span> 
+       <span class="s1">'inh'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">],</span> 
+       <span class="s1">'msn'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">],</span> 
+       <span class="s1">'sub'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'SubCtx'</span><span class="p">],</span> 
+       <span class="s1">'glia'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">],</span> 
+       <span class="s1">'mgc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'MGC'</span><span class="p">],</span> 
+       <span class="s1">'smc'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'PC'</span><span class="p">],</span> 
+       <span class="s1">'endo'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'EC'</span><span class="p">],</span> 
+       <span class="s1">'fibro'</span><span class="p">:</span> <span class="p">[</span><span class="s1">'VLMC'</span><span class="p">],</span>
+      <span class="p">}</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'exc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'inh'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'msn'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'sub'</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'neu'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'glia'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'mgc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'smc'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'endo'</span><span class="p">]</span> <span class="o">+</span> <span class="n">leg</span><span class="p">[</span><span class="s1">'fibro'</span><span class="p">]</span>
+<span class="n">leg</span><span class="p">[</span><span class="s1">'cge'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">group_name</span> <span class="o">=</span> <span class="s1">'cge'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">leg</span><span class="p">[</span><span class="n">group_name</span><span class="p">])</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="n">leg</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">leg2name</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="mi">25000</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/data/hba/domain_majortype/'</span>
+<span class="n">ddir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/domain_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/'</span>
+<span class="n">ldir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/'</span>
+<span class="n">cdir</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/compartment_majortype/diff/</span><span class="si">{</span><span class="n">group_name</span><span class="si">}</span><span class="s1">/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/ref/hg38.main.chrom.sizes'</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load boundary probability</span>
+
+<span class="n">bound_count_ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">MajorType_boundcount.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+<span class="n">cell_count_ct</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">MajorType_cellcount.csv.gz'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">squeeze</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+<span class="n">bound_prob_ct</span> <span class="o">=</span> <span class="n">bound_count_ct</span> <span class="o">/</span> <span class="n">cell_count_ct</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
+<span class="n">bound_prob_ct</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>chr1_0</th>
+<th>chr1_1</th>
+<th>chr1_2</th>
+<th>chr1_3</th>
+<th>chr1_4</th>
+<th>chr1_5</th>
+<th>chr1_6</th>
+<th>chr1_7</th>
+<th>chr1_8</th>
+<th>chr1_9</th>
+<th>...</th>
+<th>chr22_2023</th>
+<th>chr22_2024</th>
+<th>chr22_2025</th>
+<th>chr22_2026</th>
+<th>chr22_2027</th>
+<th>chr22_2028</th>
+<th>chr22_2029</th>
+<th>chr22_2030</th>
+<th>chr22_2031</th>
+<th>chr22_2032</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>Lamp5</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.076000</td>
+<td>0.074000</td>
+<td>0.084667</td>
+<td>0.092667</td>
+<td>0.083333</td>
+<td>0.062667</td>
+<td>0.039333</td>
+<td>0.024000</td>
+<td>0.033333</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>Lamp5_LHX6</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.075472</td>
+<td>0.059119</td>
+<td>0.069182</td>
+<td>0.077987</td>
+<td>0.091824</td>
+<td>0.076730</td>
+<td>0.031447</td>
+<td>0.018868</td>
+<td>0.038994</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>Sncg</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.071231</td>
+<td>0.053942</td>
+<td>0.085062</td>
+<td>0.080221</td>
+<td>0.081604</td>
+<td>0.060166</td>
+<td>0.034578</td>
+<td>0.028354</td>
+<td>0.032503</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>Vip</th>
+<td>1.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>...</td>
+<td>0.102000</td>
+<td>0.061333</td>
+<td>0.064000</td>
+<td>0.055333</td>
+<td>0.063333</td>
+<td>0.052000</td>
+<td>0.036667</td>
+<td>0.022000</td>
+<td>0.035333</td>
+<td>1.0</td>
+</tr>
+</tbody>
+</table>
+<p>4 rows × 115009 columns</p>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load insulation score</span>
+
+<span class="n">ins_count</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">open_dataset</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">MajorType_impute.insulation.nc'</span><span class="p">)</span>
+<span class="n">ins_count</span> <span class="o">=</span> <span class="n">ins_count</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s1">'bin'</span><span class="p">:</span> <span class="p">(</span><span class="n">ins_count</span><span class="p">[</span><span class="s1">'bin_chrom'</span><span class="p">]</span><span class="o">!=</span><span class="s1">'chrX'</span><span class="p">)})</span>
+<span class="n">ins_count</span><span class="p">[</span><span class="s1">'ratio'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ins_count</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s1">'type'</span><span class="p">:</span><span class="s1">'inter'</span><span class="p">})[</span><span class="s1">'__xarray_dataarray_variable__'</span><span class="p">]</span> <span class="o">/</span> <span class="n">ins_count</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s1">'type'</span><span class="p">:</span><span class="s1">'intra'</span><span class="p">}))[</span><span class="s1">'__xarray_dataarray_variable__'</span><span class="p">]</span>
+<span class="n">ins</span> <span class="o">=</span> <span class="n">ins_count</span><span class="p">[</span><span class="s1">'ratio'</span><span class="p">]</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">genemeta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/ref/gencode.v33.bed'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">genemeta</span> <span class="o">=</span> <span class="n">genemeta</span><span class="p">[</span><span class="o">~</span><span class="n">genemeta</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">keep</span><span class="o">=</span><span class="s1">'first'</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gtmp</span> <span class="o">=</span> <span class="s1">'LAMP5'</span>
+<span class="n">lslop</span><span class="p">,</span> <span class="n">rslop</span> <span class="o">=</span> <span class="mi">1000000</span><span class="p">,</span> <span class="mi">2000000</span>
+
+<span class="n">chrom</span> <span class="o">=</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">if</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span><span class="o">==</span><span class="s1">'+'</span><span class="p">:</span>
+    <span class="n">tss</span> <span class="o">=</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">tes</span> <span class="o">=</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">tss</span> <span class="o">=</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">tes</span> <span class="o">=</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">ll</span><span class="p">,</span> <span class="n">rr</span> <span class="o">=</span> <span class="p">(</span><span class="n">tss</span> <span class="o">-</span> <span class="n">lslop</span><span class="p">),</span> <span class="p">(</span><span class="n">tss</span> <span class="o">+</span> <span class="n">rslop</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">ll</span><span class="p">,</span> <span class="n">rr</span><span class="p">,</span> <span class="n">genemeta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gtmp</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>chr20 8514358 11514358 +
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## contact maps are plotted at loop resolution</span>
+<span class="c1">## select region to plot in Q matrix</span>
+
+<span class="n">resl</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">loopl</span><span class="p">,</span> <span class="n">loopr</span> <span class="o">=</span> <span class="p">(</span><span class="n">ll</span><span class="o">//</span><span class="n">resl</span><span class="p">),</span> <span class="p">(</span><span class="n">rr</span><span class="o">//</span><span class="n">resl</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">loopl</span><span class="p">,</span> <span class="n">loopr</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>851 1151
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/loop_majortype/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## Load cell type Q</span>
+
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">ndimage</span> <span class="k">as</span> <span class="n">nd</span>
+
+<span class="n">dstall</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+    <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.Q.cool'</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">loopl</span><span class="p">:</span><span class="n">loopr</span><span class="p">,</span> <span class="n">loopl</span><span class="p">:</span><span class="n">loopr</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="n">dstall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lamp5
+Lamp5_LHX6
+Sncg
+Vip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## select differential loop</span>
+
+<span class="n">loopall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">ldir</span><span class="si">}</span><span class="s1">merged_loop.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<span class="n">sell</span> <span class="o">=</span> <span class="p">((</span><span class="n">loopall</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> 
+        <span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Qanova'</span><span class="p">]))</span><span class="o">&gt;</span><span class="n">norm</span><span class="o">.</span><span class="n">isf</span><span class="p">(</span><span class="mf">0.15</span><span class="p">))</span> <span class="o">&amp;</span> 
+        <span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="s1">'Tanova'</span><span class="p">]))</span><span class="o">&gt;</span><span class="n">norm</span><span class="o">.</span><span class="n">isf</span><span class="p">(</span><span class="mf">0.15</span><span class="p">))</span> <span class="o">&amp;</span> 
+        <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">&gt;</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">loopall</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## select differential boundary</span>
+
+<span class="n">binall</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">ddir</span><span class="si">}</span><span class="s1">MajorType_boundary_stats.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<span class="n">selb</span> <span class="o">=</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">binall</span><span class="p">[</span><span class="s1">'bklfilter'</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">binall</span><span class="p">[</span><span class="s1">'chi2filter'</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">binall</span><span class="p">[</span><span class="s1">'ins_lm'</span><span class="p">]</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'probdiff'</span><span class="p">]</span><span class="o">&gt;</span><span class="mf">0.05</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">binall</span><span class="p">[</span><span class="s1">'diff_sc'</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selb</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ins</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">index</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## select differential compartment</span>
+
+<span class="n">resc</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">cdir</span><span class="si">}</span><span class="s1">DifferentialResult/fdr_result/differential.intra_sample_combined.pcQnm.bedGraph'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">comp</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="s1">'chr'</span><span class="p">]</span> <span class="o">+</span> <span class="s1">'_'</span> <span class="o">+</span> <span class="p">(</span><span class="n">comp</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resc</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">bincomp</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[[</span><span class="s1">'chr'</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">,</span> <span class="s1">'sample_maha'</span><span class="p">,</span> <span class="s1">'pval'</span><span class="p">,</span> <span class="s1">'padj'</span><span class="p">]]</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">comp</span><span class="p">[</span><span class="n">leg</span><span class="p">]</span>
+<span class="n">selc</span> <span class="o">=</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'chr'</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">zscore</span><span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'sample_maha'</span><span class="p">])</span><span class="o">&gt;</span><span class="n">norm</span><span class="o">.</span><span class="n">isf</span><span class="p">(</span><span class="mf">0.025</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">selc</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span> <span class="mi">7</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">'col'</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="s1">'row'</span><span class="p">,</span>
+                         <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'height_ratios'</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]},</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+
+<span class="c1">## differential feature position at 10k resolution</span>
+<span class="n">tmpl</span> <span class="o">=</span> <span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sell</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+<span class="n">tmpd</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selb</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+<span class="n">tmpc</span> <span class="o">=</span> <span class="n">bincomp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selc</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'equal'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">legname</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dstall</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'afmhot_r'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.012</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+    <span class="c1">## plot diff loop</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'o'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'c'</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1">## plot boundary prob, use 10k coordinate</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span><span class="p">,</span> 
+            <span class="n">bound_prob_ct</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+            <span class="n">c</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="c1">## plot diff boundary</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmpd</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpd</span><span class="p">))</span><span class="o">+</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+    <span class="c1">## plot insulation score, use 10k coordinate</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span><span class="p">,</span> 
+             <span class="n">ins</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+             <span class="n">c</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">tss</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="p">,</span> <span class="n">tes</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+    
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">despine</span><span class="p">(</span><span class="n">bottom</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+    <span class="c1">## plot compartment, use 10k coordinate</span>
+    <span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'chr'</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bincomp</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">bincomp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="n">leg</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">'C3'</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="c1">## plot diff comp</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmpc</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpc</span><span class="p">)),</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">tss</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">tes</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mf">0.5</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="p">(</span><span class="n">xx</span><span class="o">+</span><span class="n">loopl</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span><span class="si">}</span><span class="s1">M'</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="s1">'TSS'</span><span class="p">,</span><span class="s1">'TES'</span><span class="p">])</span>
+
+<span class="c1"># plt.savefig(f'{group_name}_diff_{gtmp}.pdf', transparent=True, dpi=300)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/36f1dc58594066d7d99bcb92d0d9c200b27689b8dbc437a1828f2f1752715f08.png" src="../_images/36f1dc58594066d7d99bcb92d0d9c200b27689b8dbc437a1828f2f1752715f08.png"/>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dstall</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">ct</span> <span class="ow">in</span> <span class="n">leg</span><span class="p">:</span>
+    <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.Q.cool'</span><span class="p">)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">loopl</span><span class="p">:</span><span class="n">loopr</span><span class="p">,</span> <span class="n">loopl</span><span class="p">:</span><span class="n">loopr</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">nd</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">reshape</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">prefilter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">cval</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dstall</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dst</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ct</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Lamp5
+Lamp5_LHX6
+Sncg
+Vip
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span><span class="o">/</span><span class="mi">2</span><span class="p">),</span> 
+                         <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'height_ratios'</span><span class="p">:[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">([</span><span class="mf">3.5</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()},</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="s1">'all'</span><span class="p">)</span>
+
+<span class="n">tmpl</span> <span class="o">=</span> <span class="n">loopall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sell</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+<span class="n">tmpd</span> <span class="o">=</span> <span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selb</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+<span class="n">tmpc</span> <span class="o">=</span> <span class="n">bincomp</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">selc</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sel</span> <span class="o">=</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&gt;=</span><span class="n">ll</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">binall</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span><span class="o">&lt;</span><span class="n">rr</span><span class="p">)</span>
+<span class="n">xpos</span> <span class="o">=</span> <span class="p">(</span><span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">resl</span> <span class="o">-</span> <span class="n">loopl</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span> <span class="n">binall</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">sel</span><span class="p">,</span> <span class="s1">'chi2_sc'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> 
+        <span class="n">c</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'Chi-Square'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">legname</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'right'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'top'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'bottom'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">spines</span><span class="p">[</span><span class="s1">'left'</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">dstall</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'afmhot_r'</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mf">0.012</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dstall</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.5</span><span class="o">*</span><span class="n">h</span><span class="p">,</span> <span class="mf">0.4</span><span class="o">*</span><span class="n">h</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="n">h</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">((</span><span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">h</span><span class="o">-</span><span class="p">(</span><span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">tmpl</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> 
+           <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">'D'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'c'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'none'</span><span class="p">)</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span> <span class="n">bound_prob_ct</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'C0'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">tmpd</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpd</span><span class="p">))</span><span class="o">+</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'r'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">])</span>
+    <span class="n">ax2</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">twinx</span><span class="p">()</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpos</span><span class="p">,</span> <span class="n">ins</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">leg</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">sel</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">'C1'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+    <span class="n">ax2</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">])</span>
+    
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span><span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span> <span class="o">+</span> <span class="p">[</span><span class="n">tss</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="p">,</span> <span class="n">tes</span><span class="o">//</span><span class="n">resl</span><span class="o">-</span><span class="n">loopl</span><span class="p">]))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="p">(</span><span class="n">xx</span><span class="o">+</span><span class="n">loopl</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span><span class="si">}</span><span class="s1">M'</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">loopr</span><span class="o">-</span><span class="n">loopl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span><span class="o">+</span><span class="p">[</span><span class="s1">'TSS'</span><span class="p">,</span><span class="s1">'TES'</span><span class="p">])</span>
+
+<span class="c1"># plt.savefig(f'/gale/netapp/entex/HBA/snm3C/plot/majortype_diff_FOXP2.pdf', transparent=True, dpi=300)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.0, 0, '8.51M'),
+ Text(141.4213562373095, 0, 'TSS'),
+ Text(282.842712474619, 0, '10.51M'),
+ Text(424.26406871192853, 0, '11.51M'),
+ Text(141.4213562373095, 0, 'TSS'),
+ Text(144.2497833620557, 0, 'TES')]
+</pre></div>
+</div>
+<img alt="../_images/14829a841f234f8030325967ee8ddf4322cc7cd58565e090528d04afea7a5597.png" src="../_images/14829a841f234f8030325967ee8ddf4322cc7cd58565e090528d04afea7a5597.png"/>
+</div>
+</div>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<div class="footer-article-items footer-article__inner">
+<div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="correlation_summary.html" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">Correlation Summary</p>
+</div>
+</a>
+<a class="right-next" href="../command_line/hicluster_filter_contact.html" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">hicluster filter-contact</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div></div>
+</div>
+</footer>
+</div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Jingtian Zhou
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>

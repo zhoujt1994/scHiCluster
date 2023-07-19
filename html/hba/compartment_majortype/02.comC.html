@@ -1,0 +1,987 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<title>Compare compartment with comethylation — scHiCluster</title>
+<script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+<!-- Loaded before other Sphinx assets -->
+<link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
+<link href="../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/graphviz.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<!-- Pre-loaded scripts that we'll load fully later -->
+<link as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
+<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
+<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+<script src="../../_static/jquery.js"></script>
+<script src="../../_static/underscore.js"></script>
+<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+<script src="../../_static/doctools.js"></script>
+<script src="../../_static/sphinx_highlight.js"></script>
+<script src="../../_static/clipboard.min.js"></script>
+<script src="../../_static/copybutton.js"></script>
+<script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<script>let toggleHintShow = 'Click to show';</script>
+<script>let toggleHintHide = 'Click to hide';</script>
+<script>let toggleOpenOnPrint = 'true';</script>
+<script src="../../_static/togglebutton.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script src="../../_static/design-tabs.js"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+<script async="async" src="../../_static/sphinx-thebe.js"></script>
+<script>DOCUMENTATION_OPTIONS.pagename = 'hba/compartment_majortype/02.comC';</script>
+<link href="../../genindex.html" rel="index" title="Index"/>
+<link href="../../search.html" rel="search" title="Search"/>
+<link href="03.example.html" rel="next" title="Plot example"/>
+<link href="01.call.html" rel="prev" title="Call compartment"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="en" name="docsearch:language"/>
+</head>
+<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
+<label class="overlay overlay-primary" for="__primary"></label>
+<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
+<label class="overlay overlay-secondary" for="__secondary"></label>
+<div class="search-button__wrapper">
+<div class="search-button__overlay"></div>
+<div class="search-button__search-container">
+<form action="../../search.html" class="bd-search d-flex align-items-center" method="get">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
+<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+</div>
+<nav class="bd-header navbar navbar-expand-lg bd-navbar">
+</nav>
+<div class="bd-container">
+<div class="bd-container__inner bd-page-width">
+<div class="bd-sidebar-primary bd-sidebar">
+<div class="sidebar-header-items sidebar-primary__section">
+</div>
+<div class="sidebar-primary-items__start sidebar-primary__section">
+<div class="sidebar-primary-item">
+<a class="navbar-brand logo" href="../../intro.html">
+<p class="title logo__title">scHiCluster</p>
+</a></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="bd-toc-item navbar-nav active">
+<ul class="nav bd-sidenav bd-sidenav__home-link">
+<li class="toctree-l1">
+<a class="reference internal" href="../../intro.html">
+                    scHiCluster
+                </a>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../Tan2021/intro.html">Tan et al. Cell 2021.</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/imputation.html">Prepare and run imputation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_clustering.html">scRNA(MALBAC) clustering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/dipc_clustering.html">DipC clustering at 100kb resolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/rna_3c_integrate.html">Assign DipC cells to RNA clusters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/prepare.html">Prepare pseudobulk analyses</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Tan2021/loop_blacklist.html">Generate blacklist for loop calling</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../intro.html">Human Brain Atlas</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../rna_majortype/intro.html">Differentially expressed genes</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/01.deg.html">DEG identification</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/02.loop_corr.html">RNA correlated loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/03.domain_corr.html">RNA correlated boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../rna_majortype/04.comp_corr.html">RNA correlated compartment</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../loop_majortype/intro.html">Differential loops</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/01.diff.html">ANOVA of loop matrices across cell types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/02.load.html">Load loop matrices and stats</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/03.apa.html">Aggregate peak analysis of differential loops</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/04.corr.html">Correlation between loop and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../loop_majortype/05.plot.html">Plot correlation between loop and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../domain_majortype/intro.html">Differential domain boundaries</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/01.call.html">Domain boundary prob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/02.count.html">Domain count and size</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/03.diff.html">Differential boundary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="intro.html">Differential compartments</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="01.call.html">Call compartment</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Compare compartment with comethylation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="03.example.html">Plot example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="04.diff.html">Differential compartment calling with dcHiC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="05.corr.html">Correlation between compartment and other modalities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="06.plot.html">Plot correlation between compartment and mC/ATAC/RNA</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../correlation_summary.html">Correlation Summary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plot_example.html">Plot examples</a></li>
+</ul>
+</li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">COMMAND LINE TOOLS</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+</ul>
+</div>
+</nav></div>
+</div>
+<div class="sidebar-primary-items__end sidebar-primary__section">
+</div>
+<div id="rtd-footer-container"></div>
+</div>
+<main class="bd-main" id="main-content">
+<div class="sbt-scroll-pixel-helper"></div>
+<div class="bd-content">
+<div class="bd-article-container">
+<div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+<div class="header-article-items__start">
+<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
+<span class="fa-solid fa-bars"></span>
+</label></div>
+</div>
+<div class="header-article-items__end">
+<div class="header-article-item">
+<div class="article-header-buttons">
+<div class="dropdown dropdown-source-buttons">
+<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fab fa-github"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+<span class="btn__icon-container">
+<i class="fab fa-github"></i>
+</span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2Fhba/compartment_majortype/02.comC.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+<span class="btn__icon-container">
+<i class="fas fa-lightbulb"></i>
+</span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+</ul>
+</div>
+<div class="dropdown dropdown-download-buttons">
+<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
+<i class="fas fa-download"></i>
+</button>
+<ul class="dropdown-menu">
+<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../../_sources/hba/compartment_majortype/02.comC.ipynb" target="_blank" title="Download source file">
+<span class="btn__icon-container">
+<i class="fas fa-file"></i>
+</span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+<li>
+<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+<span class="btn__icon-container">
+<i class="fas fa-file-pdf"></i>
+</span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+</ul>
+</div>
+<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+<span class="btn__icon-container">
+<i class="fas fa-expand"></i>
+</span>
+</button>
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__secondary" title="Toggle secondary sidebar">
+<span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+</div>
+</div>
+</div>
+<div class="onlyprint" id="jb-print-docs-body">
+<h1>Compare compartment with comethylation</h1>
+<!-- Table of contents -->
+<div id="print-main-content">
+<div id="jb-print-toc">
+<div>
+<h2> Contents </h2>
+</div>
+<nav aria-label="Page">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcg">mCG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mch">mCH</a></li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div id="searchbox"></div>
+<article class="bd-article" role="main">
+<section class="tex2jax_ignore mathjax_ignore" id="compare-compartment-with-comethylation">
+<h1>Compare compartment with comethylation<a class="headerlink" href="#compare-compartment-with-comethylation" title="Permalink to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">anndata</span>
+<span class="kn">import</span> <span class="nn">scanpy</span> <span class="k">as</span> <span class="nn">sc</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">cooler</span>
+<span class="kn">import</span> <span class="nn">hba_data</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span><span class="p">,</span> <span class="n">islice</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span><span class="p">,</span> <span class="n">as_completed</span>
+
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/data/hba/compartment_majortype/'</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/compartment_majortype/'</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">leg</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L23_IT'</span><span class="p">,</span> <span class="s1">'L4_IT'</span><span class="p">,</span> <span class="s1">'L56_NP'</span><span class="p">,</span> <span class="s1">'L5_ET'</span><span class="p">,</span> <span class="s1">'L5_IT'</span><span class="p">,</span> <span class="s1">'L6_CT'</span><span class="p">,</span> <span class="s1">'L6_IT'</span><span class="p">,</span> <span class="s1">'L6_IT_Car3'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5_LHX6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb_ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> 
+       <span class="s1">'MSN_D1'</span><span class="p">,</span> <span class="s1">'MSN_D2'</span><span class="p">,</span> <span class="s1">'SubCtx'</span><span class="p">,</span> <span class="s1">'Amy'</span><span class="p">,</span> <span class="s1">'CHD7'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'VLMC'</span><span class="p">,</span> <span class="s1">'merged'</span><span class="p">]</span>
+<span class="n">legname</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'L2/3-IT'</span><span class="p">,</span> <span class="s1">'L4-IT'</span><span class="p">,</span> <span class="s1">'L5/6-NP'</span><span class="p">,</span> <span class="s1">'L5-ET'</span><span class="p">,</span> <span class="s1">'L5-IT'</span><span class="p">,</span> <span class="s1">'L6-CT'</span><span class="p">,</span> <span class="s1">'L6-IT'</span><span class="p">,</span> <span class="s1">'L6-IT-Car3'</span><span class="p">,</span> <span class="s1">'L6b'</span><span class="p">,</span> 
+       <span class="s1">'Lamp5'</span><span class="p">,</span> <span class="s1">'Lamp5-Lhx6'</span><span class="p">,</span> <span class="s1">'Sncg'</span><span class="p">,</span> <span class="s1">'Vip'</span><span class="p">,</span> <span class="s1">'Pvalb'</span><span class="p">,</span> <span class="s1">'Pvalb-ChC'</span><span class="p">,</span> <span class="s1">'Sst'</span><span class="p">,</span> 
+       <span class="s1">'MSN-D1'</span><span class="p">,</span> <span class="s1">'MSN-D2'</span><span class="p">,</span> <span class="s1">'SubCtx-Cplx'</span><span class="p">,</span> <span class="s1">'Amy-Exc'</span><span class="p">,</span> <span class="s1">'Chd7'</span><span class="p">,</span> <span class="s1">'Foxp2'</span><span class="p">,</span> 
+       <span class="s1">'ASC'</span><span class="p">,</span> <span class="s1">'ODC'</span><span class="p">,</span> <span class="s1">'OPC'</span><span class="p">,</span> <span class="s1">'MGC'</span><span class="p">,</span> <span class="s1">'EC'</span><span class="p">,</span> <span class="s1">'PC'</span><span class="p">,</span> <span class="s1">'VLMC'</span><span class="p">,</span> <span class="s1">'merged'</span>
+      <span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="mi">100000</span>
+<span class="n">chrom_size_path</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/ref/hg38.main.chrom.sizes'</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">23</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mode</span> <span class="o">=</span> <span class="s1">'raw'</span>
+<span class="n">comp</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">comp_</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_mergerawpca.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<span class="n">comp</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>L5_ET</th>
+<th>L56_NP</th>
+<th>L23_IT</th>
+<th>L4_IT</th>
+<th>L6_IT</th>
+<th>L6b</th>
+<th>L5_IT</th>
+<th>L6_IT_Car3</th>
+<th>Lamp5</th>
+<th>L6_CT</th>
+<th>...</th>
+<th>CHD7</th>
+<th>Foxp2</th>
+<th>OPC</th>
+<th>ODC</th>
+<th>ASC</th>
+<th>VLMC</th>
+<th>EC</th>
+<th>PC</th>
+<th>MGC</th>
+<th>merged</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>chr1-18</th>
+<td>1.262724</td>
+<td>4.745961</td>
+<td>4.532953</td>
+<td>6.074816</td>
+<td>4.385525</td>
+<td>3.601142</td>
+<td>5.044535</td>
+<td>4.745368</td>
+<td>7.021493</td>
+<td>5.241165</td>
+<td>...</td>
+<td>6.350878</td>
+<td>5.443851</td>
+<td>8.545128</td>
+<td>6.479689</td>
+<td>6.038124</td>
+<td>7.010916</td>
+<td>6.193613</td>
+<td>7.818554</td>
+<td>10.942541</td>
+<td>7.573896</td>
+</tr>
+<tr>
+<th>chr1-19</th>
+<td>1.421160</td>
+<td>5.227821</td>
+<td>4.742626</td>
+<td>6.077094</td>
+<td>4.640529</td>
+<td>4.122677</td>
+<td>5.186667</td>
+<td>4.969541</td>
+<td>7.254596</td>
+<td>5.666524</td>
+<td>...</td>
+<td>7.296734</td>
+<td>5.656314</td>
+<td>9.275956</td>
+<td>6.942686</td>
+<td>6.461882</td>
+<td>6.664307</td>
+<td>6.530445</td>
+<td>7.721279</td>
+<td>11.769346</td>
+<td>7.503558</td>
+</tr>
+<tr>
+<th>chr1-20</th>
+<td>1.552144</td>
+<td>4.720595</td>
+<td>4.882112</td>
+<td>6.625833</td>
+<td>4.805314</td>
+<td>4.070691</td>
+<td>5.603995</td>
+<td>5.319397</td>
+<td>6.953638</td>
+<td>5.743913</td>
+<td>...</td>
+<td>7.294498</td>
+<td>5.555722</td>
+<td>9.471356</td>
+<td>7.392001</td>
+<td>6.827351</td>
+<td>6.832435</td>
+<td>6.113659</td>
+<td>7.430872</td>
+<td>11.617200</td>
+<td>7.445576</td>
+</tr>
+<tr>
+<th>chr1-21</th>
+<td>1.347600</td>
+<td>4.495035</td>
+<td>4.409264</td>
+<td>6.373844</td>
+<td>4.654892</td>
+<td>3.944247</td>
+<td>5.239480</td>
+<td>4.584552</td>
+<td>7.050535</td>
+<td>5.593628</td>
+<td>...</td>
+<td>6.668277</td>
+<td>5.345105</td>
+<td>8.932059</td>
+<td>7.566949</td>
+<td>6.756874</td>
+<td>6.692109</td>
+<td>6.573919</td>
+<td>7.774136</td>
+<td>12.227214</td>
+<td>7.487518</td>
+</tr>
+<tr>
+<th>chr1-22</th>
+<td>1.239676</td>
+<td>4.606086</td>
+<td>4.792674</td>
+<td>6.327627</td>
+<td>4.451870</td>
+<td>3.724550</td>
+<td>5.004744</td>
+<td>4.469162</td>
+<td>6.561917</td>
+<td>5.532068</td>
+<td>...</td>
+<td>6.683668</td>
+<td>5.515938</td>
+<td>9.066686</td>
+<td>7.454593</td>
+<td>6.677850</td>
+<td>6.736316</td>
+<td>6.756169</td>
+<td>7.914874</td>
+<td>11.302973</td>
+<td>7.543835</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>chr22-498</th>
+<td>-0.642383</td>
+<td>-0.193310</td>
+<td>-0.167683</td>
+<td>0.066275</td>
+<td>0.063709</td>
+<td>-0.012046</td>
+<td>-0.007180</td>
+<td>-0.003458</td>
+<td>0.369045</td>
+<td>0.075564</td>
+<td>...</td>
+<td>0.219480</td>
+<td>-0.721090</td>
+<td>-0.335253</td>
+<td>2.386674</td>
+<td>-0.508691</td>
+<td>-0.067209</td>
+<td>0.128222</td>
+<td>0.416390</td>
+<td>2.522928</td>
+<td>1.139465</td>
+</tr>
+<tr>
+<th>chr22-499</th>
+<td>-0.876948</td>
+<td>-0.211688</td>
+<td>0.374943</td>
+<td>0.841765</td>
+<td>0.760642</td>
+<td>0.422578</td>
+<td>0.673747</td>
+<td>0.462583</td>
+<td>0.794520</td>
+<td>0.835991</td>
+<td>...</td>
+<td>0.490132</td>
+<td>-0.535043</td>
+<td>0.173314</td>
+<td>4.393894</td>
+<td>0.742954</td>
+<td>1.703635</td>
+<td>1.213310</td>
+<td>1.763509</td>
+<td>4.390028</td>
+<td>2.549865</td>
+</tr>
+<tr>
+<th>chr22-500</th>
+<td>-0.884130</td>
+<td>-0.240891</td>
+<td>-0.451213</td>
+<td>0.072616</td>
+<td>0.411017</td>
+<td>-0.067791</td>
+<td>0.192176</td>
+<td>-0.222203</td>
+<td>0.034812</td>
+<td>0.114169</td>
+<td>...</td>
+<td>0.084431</td>
+<td>-0.478074</td>
+<td>-1.168219</td>
+<td>-0.538458</td>
+<td>0.289802</td>
+<td>1.063949</td>
+<td>-0.305873</td>
+<td>-2.942465</td>
+<td>1.133707</td>
+<td>0.564305</td>
+</tr>
+<tr>
+<th>chr22-501</th>
+<td>-0.659747</td>
+<td>-0.046996</td>
+<td>0.402952</td>
+<td>1.649726</td>
+<td>1.054437</td>
+<td>0.437586</td>
+<td>1.195990</td>
+<td>0.106239</td>
+<td>1.438901</td>
+<td>0.905608</td>
+<td>...</td>
+<td>1.076683</td>
+<td>-0.238773</td>
+<td>0.114526</td>
+<td>1.622971</td>
+<td>0.962307</td>
+<td>1.536778</td>
+<td>0.257000</td>
+<td>-0.837970</td>
+<td>4.747499</td>
+<td>2.990559</td>
+</tr>
+<tr>
+<th>chr22-502</th>
+<td>-0.350169</td>
+<td>-0.104788</td>
+<td>1.284506</td>
+<td>1.998990</td>
+<td>1.456426</td>
+<td>0.721309</td>
+<td>1.331522</td>
+<td>0.676795</td>
+<td>1.474490</td>
+<td>1.420527</td>
+<td>...</td>
+<td>1.110074</td>
+<td>0.780029</td>
+<td>1.826384</td>
+<td>4.341375</td>
+<td>1.769825</td>
+<td>1.979127</td>
+<td>3.505156</td>
+<td>3.665332</td>
+<td>5.515240</td>
+<td>5.275064</td>
+</tr>
+</tbody>
+</table>
+<p>24745 rows × 30 columns</p>
+</div></div></div>
+</div>
+<section id="mcg">
+<h2>mCG<a class="headerlink" href="#mcg" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">saddle</span><span class="p">(</span><span class="n">cool</span><span class="p">,</span> <span class="n">comp</span><span class="p">):</span>
+    <span class="n">sad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">index</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">cool</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">balance</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">sparse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">chrom</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">Q</span><span class="p">))</span>
+        <span class="n">pc</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">comp</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">chrom</span><span class="p">)]</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">pc</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">Q</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">pc</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+        <span class="n">labels</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">qcut</span><span class="p">(</span><span class="n">pc</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">retbins</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sad</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Q</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ix_</span><span class="p">(</span><span class="n">labels</span><span class="o">==</span><span class="n">i</span><span class="p">,</span> <span class="n">labels</span><span class="o">==</span><span class="n">j</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+        <span class="n">count</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[(</span><span class="n">labels</span><span class="o">==</span><span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="n">labels</span><span class="o">==</span><span class="n">j</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="n">sad</span><span class="p">,</span> <span class="n">count</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">ct</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leg</span><span class="p">):</span>
+        <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.CGcorr.cool'</span><span class="p">)</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">saddle</span><span class="p">,</span>
+            <span class="n">cool</span><span class="o">=</span><span class="n">cool</span><span class="p">,</span>
+            <span class="n">comp</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="n">ct</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
+        <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">sad</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">yy</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">zz</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">leg</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="si">}</span><span class="s1"> finished'</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L5_IT finished
+L23_IT finished
+L4_IT finished
+L6_IT_Car3 finished
+L56_NP finished
+L6_IT finished
+L5_ET finished
+Lamp5 finished
+L6_CT finished
+L6b finished
+Lamp5_LHX6 finished
+Sncg finished
+Pvalb finished
+Sst finished
+Vip finished
+Pvalb_ChC finished
+MSN_D1 finished
+MSN_D2 finished
+SubCtx finished
+Amy finished
+ASC finished
+CHD7 finished
+Foxp2 finished
+MGC finished
+EC finished
+PC finished
+ODC finished
+OPC finished
+VLMC finished
+merged finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sad</span> <span class="o">=</span> <span class="n">sad</span> <span class="o">/</span> <span class="n">count</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">saddle_</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_mergerawpca_CGcorr.npy'</span><span class="p">,</span> <span class="n">sad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raw</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">6</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'wspace'</span><span class="p">:</span><span class="mf">0.01</span><span class="p">},</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">xx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leg</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1"># plot = ax.imshow(np.log2(sad[i]+0.001), cmap='coolwarm', vmin=vmin, vmax=vmax)</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sad</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'coolwarm'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="c1"># ax.text(24.5, 24.5, np.around(compstr.loc[xx, 'strength'], decimals=3), ha='center', va='center', fontsize=15)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">set_clim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">([</span><span class="n">cbar</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">cbar</span><span class="o">.</span><span class="n">vmax</span><span class="p">],</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="n">cbar</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">cbar</span><span class="o">.</span><span class="n">vmax</span><span class="p">])</span>
+    
+<span class="c1"># cbar = plt.colorbar(plot, ax=axes.flatten()[len(leg)])</span>
+<span class="c1"># cbar.set_ticks([vmin,vmax])</span>
+<span class="c1"># cbar.set_label('CG corr')</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">):]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    
+<span class="c1"># plt.tight_layout()</span>
+<span class="c1"># plt.savefig(f'{indir}/plot/celltype_saddle_impute.pdf', transparent=True)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
+findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
+findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+</pre></div>
+</div>
+<img alt="../../_images/18558cc7c9dd66e66fe9dab7b7c5ab9785a964382c58538214057a63b4f8388b.png" src="../../_images/18558cc7c9dd66e66fe9dab7b7c5ab9785a964382c58538214057a63b4f8388b.png"/>
+</div>
+</div>
+</section>
+<section id="mch">
+<h2>mCH<a class="headerlink" href="#mch" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">),</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">(</span><span class="n">cpu</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
+    <span class="n">futures</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">t</span><span class="p">,</span><span class="n">ct</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leg</span><span class="p">):</span>
+        <span class="n">cool</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">Cooler</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}{</span><span class="n">ct</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">ct</span><span class="si">}</span><span class="s1">.CHcorr.cool'</span><span class="p">)</span>
+        <span class="n">future</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="n">saddle</span><span class="p">,</span>
+            <span class="n">cool</span><span class="o">=</span><span class="n">cool</span><span class="p">,</span>
+            <span class="n">comp</span><span class="o">=</span><span class="n">comp</span><span class="p">[</span><span class="n">ct</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span>
+
+    <span class="k">for</span> <span class="n">future</span> <span class="ow">in</span> <span class="n">as_completed</span><span class="p">(</span><span class="n">futures</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">futures</span><span class="p">[</span><span class="n">future</span><span class="p">]</span>
+        <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span> <span class="o">=</span> <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+        <span class="n">sad</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">yy</span>
+        <span class="n">count</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">+=</span> <span class="n">zz</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">leg</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="si">}</span><span class="s1"> finished'</span><span class="p">)</span>
+        
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L23_IT finished
+L5_IT finished
+L5_ET finished
+L56_NP finished
+L6_CT finished
+L4_IT finished
+L6_IT_Car3 finished
+L6b finished
+Lamp5 finished
+L6_IT finished
+Lamp5_LHX6 finished
+Sst finished
+Sncg finished
+Vip finished
+Pvalb finished
+MSN_D1 finished
+Pvalb_ChC finished
+MSN_D2 finished
+Amy finished
+SubCtx finished
+ASC finished
+CHD7 finished
+Foxp2 finished
+ODC finished
+OPC finished
+MGC finished
+EC finished
+PC finished
+merged finished
+VLMC finished
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sad</span> <span class="o">=</span> <span class="n">sad</span> <span class="o">/</span> <span class="n">count</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s1">saddle_</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s1">_mergerawpca_CHcorr.npy'</span><span class="p">,</span> <span class="n">sad</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raw</span>
+<span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(((</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">6</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="mi">6</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span> <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">'wspace'</span><span class="p">:</span><span class="mf">0.01</span><span class="p">},</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">xx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">leg</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="n">i</span><span class="p">]</span>
+    <span class="c1"># plot = ax.imshow(np.log2(sad[i]+0.001), cmap='coolwarm', vmin=vmin, vmax=vmax)</span>
+    <span class="n">plot</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">sad</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'coolwarm'</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+    <span class="c1"># ax.text(24.5, 24.5, np.around(compstr.loc[xx, 'strength'], decimals=3), ha='center', va='center', fontsize=15)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">shrink</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">fraction</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+    <span class="n">plot</span><span class="o">.</span><span class="n">set_clim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">([</span><span class="n">cbar</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">cbar</span><span class="o">.</span><span class="n">vmax</span><span class="p">],</span> <span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([</span><span class="n">cbar</span><span class="o">.</span><span class="n">vmin</span><span class="p">,</span> <span class="n">cbar</span><span class="o">.</span><span class="n">vmax</span><span class="p">])</span>
+    
+<span class="c1"># cbar = plt.colorbar(plot, ax=axes.flatten()[len(leg)])</span>
+<span class="c1"># cbar.set_ticks([vmin,vmax])</span>
+<span class="c1"># cbar.set_label('CG corr')</span>
+
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[</span><span class="nb">len</span><span class="p">(</span><span class="n">leg</span><span class="p">):]:</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+    
+<span class="c1"># plt.tight_layout()</span>
+<span class="c1"># plt.savefig(f'{indir}/plot/celltype_saddle_impute.pdf', transparent=True)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/b141a32646e632c6a61884649a4e83af1e367532d3a1c78c16e07931e330941a.png" src="../../_images/b141a32646e632c6a61884649a4e83af1e367532d3a1c78c16e07931e330941a.png"/>
+</div>
+</div>
+</section>
+</section>
+<script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./hba/compartment_majortype"
+        },
+        predefinedOutput: true
+    }
+    </script>
+<script>kernelName = 'python3'</script>
+</article>
+<footer class="bd-footer-article">
+<div class="footer-article-items footer-article__inner">
+<div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+<a class="left-prev" href="01.call.html" title="previous page">
+<i class="fa-solid fa-angle-left"></i>
+<div class="prev-next-info">
+<p class="prev-next-subtitle">previous</p>
+<p class="prev-next-title">Call compartment</p>
+</div>
+</a>
+<a class="right-next" href="03.example.html" title="next page">
+<div class="prev-next-info">
+<p class="prev-next-subtitle">next</p>
+<p class="prev-next-title">Plot example</p>
+</div>
+<i class="fa-solid fa-angle-right"></i>
+</a>
+</div></div>
+</div>
+</footer>
+</div>
+<div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+<div class="sidebar-secondary-item">
+<div class="page-toc tocsection onthispage">
+<i class="fa-solid fa-list"></i> Contents
+  </div>
+<nav class="bd-toc-nav page-toc">
+<ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mcg">mCG</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mch">mCH</a></li>
+</ul>
+</nav></div>
+</div></div>
+</div>
+<footer class="bd-footer-content">
+<div class="bd-footer-content__inner container">
+<div class="footer-item">
+<p class="component-author">
+By Jingtian Zhou
+</p>
+</div>
+<div class="footer-item">
+<p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+</p>
+</div>
+<div class="footer-item">
+</div>
+<div class="footer-item">
+</div>
+</div>
+</footer>
+</main>
+</div>
+</div>
+<!-- Scripts loaded after <body> so the DOM is not blocked -->
+<script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<footer class="bd-footer">
+</footer>
+</body>
+</html>
