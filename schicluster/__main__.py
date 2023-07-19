@@ -510,8 +510,8 @@ def prepare_imputation_register_subparser(subparser):
     parser.add_argument('--input_scool', type=str, required=False, default=None,
                         help='Path to input scool file')
     parser.add_argument('--cell_table', type=str, required=False, default=None, 
-                        help='Contain all the cell contact file after blacklist removal'
-                        'in two tab-separated columns: 1. cell_uid, 2. file_path.'
+                        help='Contain all the cell contact file after blacklist removal '
+                        'in two tab-separated columns: 1. cell_uid, 2. file_path. '
                         'No header')
     parser.add_argument('--batch_size', type=int, required=False, default=100,
                         help='Number of cells to include in each batch run')
@@ -557,7 +557,7 @@ def call_domain_register_subparser(subparser):
     parser.add_argument('--resolution', type=int, required=False, default=25000,
                         help='Matrix resolution')
     parser.add_argument('--window_size', type=int, required=False, default=10,
-                        help='Window size for calculating insulation score')
+                        help='The size in base pairs of sliding window for calculating insulation score')
     parser.add_argument('--cpu', type=int, required=False, default=10,
                         help='Number of CPUs to use')
 
@@ -569,11 +569,12 @@ def call_compartment_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--cell_table_path', type=str, required=True, default=None,
-                            help='Path to cell table file')
+                            help='Contain all the cell contact file information in two '
+                            'tab-separated columns: 1. cell_uid, 2. file_path. No header')
     parser_req.add_argument('--output_prefix', type=str, required=True, default=None,
                             help='Output files prefix. '
                                  'The compartment score matrix will be saved as '
-                                 '{output_prefix}.compartment.h5ad (anndata.AnnData).')
+                                 '{output_prefix}.compartment.nc (use xr.open_dataset() to load).')
     parser_req.add_argument('--cpg_profile_path', type=str, required=True, default=None,
                             help='Genome bins CpG ratio. Use "schicluster cpg-ratio" to calculate')
     parser.add_argument('--cpu', type=int, required=False, default=10,
@@ -584,7 +585,9 @@ def call_compartment_register_subparser(subparser):
     parser.add_argument('--mode', type=str, default='cool', required=False, choices=['tsv', 'cool'], 
                         help='cool or tsv')
     parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
-                            help='Path to chromosome sizes file')
+                            help='Path to UCSC chrom size fileContain all the chromosome '
+                                  'information in two tab-separated columns: '
+                                  '1. chromosome name, 2. chromosome length. No header')
     parser.add_argument('--resolution', type=int, required=False, default=100000,
                             help='')
     parser.add_argument('--chr1', type=int, dest='chrom1', default=1, required=False, 
@@ -606,13 +609,15 @@ def cpg_ratio_register_subparser(subparser):
     parser_req.add_argument('--fasta_path', type=str, required=True, default=None,
                             help='Path to genome FASTA file')
     parser_req.add_argument('--hdf_output_path', type=str, required=True, default=None,
-                            help='Output path of the CpG ratio')
+                            help='Output path of the CpG ratio hdf')
     parser.add_argument('--cell_url', type=str, required=False, default=None,
                             help='Path to a cell Cooler URL')
     parser.add_argument('--chrom_size_path', type=str, required=False, default=None,
-                            help='Path to chromosome sizes file')
+                            help='Path to UCSC chrom size fileContain all the chromosome '
+                            'information in two tab-separated columns: '
+                            '1. chromosome name, 2. chromosome length. No header')
     parser.add_argument('--resolution', type=int, required=False, default=100000,
-                            help='')
+                            help='Resolution of the bin size in output CpG file')
 
     
 def embedding_register_subparser(subparser):
@@ -659,15 +664,20 @@ def gene_score_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--cell_table_path', type=str, default=None, required=True, 
-                            help='Full path to cell cool table')
+                            help='Contain all the cool file information in two'
+                                'tab-separated columns: '
+                                '1. cell_uid, 2. file_path. No header')
     parser_req.add_argument('--gene_meta_path', type=str, default=None, required=True, 
-                            help='Full path to bed file with region id')
+                            help='Contain all gene information in four tab-seperated columns: '
+                            '1. chromosome, 2. start, 3. end, 4. gene_id. No header')
     parser_req.add_argument('--resolution', type=int, default=10000, required=True, 
-                            help='Resolution of cool file')
+                            help='Resolution of cool file; normally use resolution at 10k')
     parser_req.add_argument('--output_hdf_path', type=str, default=None, required=True, 
                             help='Full path to output file')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
-                            help='Chromsome size file with only chromosomes to use')
+                            help='Path to UCSC chrom size file. Contain all the chromosome '
+                                 'information in two tab-separated columns: '
+                                 '1. chromosome name, 2. chromosome length. No header')
     parser.add_argument('--cpu', type=int, default=10, required=False, 
                         help='CPUs to use')
     parser.add_argument('--slop', type=int, default=0, required=False, 
@@ -691,9 +701,13 @@ def merge_cell_raw_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--cell_table', type=str, default=None, required=True, 
-                            help='Full path to cell cool table')
+                            help='Contain all the cell contact file after blacklist'
+                            'removal in two tab-separated columns: '
+                            '1. cell_uid, 2.file_path. No header')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
-                            help='Chromsome size file with only chromosomes to use')
+                            help='Path to UCSC chrom size fileContain all the chromosome'
+                                'information in two tab-separated columns: '
+                                '1. chromosome name, 2. chromosome length. No header')
     parser_req.add_argument('--output_file', type=str, default=None, required=True, 
                             help='Full path to output file')
     parser.add_argument('--resolution', type=int, default=5000, required=False, 
@@ -716,10 +730,11 @@ def merge_cool_register_subparser(subparser):
                                   help="")
 
     parser_req = parser.add_argument_group("required arguments")
-    parser_req.add_argument('--input_cool_list', type=str, default=None, required=True, 
-                            help='Full path to cool table')
+    parser_req.add_argument('--input_cool_tsv_file', type=str, default=None, required=True, 
+                            help='Contain all the imputed cool file information in a tsv file: '
+                            '1. file_path. No header')
     parser_req.add_argument('--output_cool', type=str, default=None, required=True, 
-                            help='Full path to output cool file')
+                            help='Full path to output merged cool file')
 
 
 def filter_contacts_register_subparser(subparser):
@@ -770,13 +785,16 @@ def contact_distance_register_subparser(subparser):
 
     parser_req = parser.add_argument_group("required arguments")
     parser_req.add_argument('--contact_table', type=str, default=None, required=True, 
-                            help='Full path to cell contact files')
+                            help='Contain all the cell contact file after blacklist region removwl; '
+                            'information in two tab-separated columns: 1. cell_uid, 2. file_path. No header')
     parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
-                            help='Chromsome size file with only chromosomes to use')
+                            help='Path to UCSC chrom size fileContain all the chromosome'
+                                'information in two tab-separated columns: '
+                                '1.chromosome name, 2. chromosome length. No header')
     parser_req.add_argument('--output_prefix', type=str, default=None, required=True, 
                             help='Output hdf file prefix including the directory')
     parser.add_argument('--resolution', type=int, default=10000, required=False, 
-                        help='Resolution of cool file')
+                        help='Resolution of contact length')
     parser.add_argument('--chr1', dest='chrom1', type=int, default=1, required=False, 
                         help='0 based index of chr1 column.')
     parser.add_argument('--pos1', type=int, default=2, required=False, 

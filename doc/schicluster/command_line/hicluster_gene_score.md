@@ -1,5 +1,5 @@
 # hicluster gene-score
-This command compute gene contact score
+This command generate cell by gene hdf matrix.
 
 ## Command Docs
 ```bash
@@ -22,16 +22,24 @@ optional arguments:
 
 required arguments:
   --cell_table_path CELL_TABLE_PATH
-                        Full path to cell cool table (default: None)
+                        Contain all the cool file information in twotab-
+                        separated columns: 1. cell_uid, 2. file_path. No
+                        header (default: None)
   --gene_meta_path GENE_META_PATH
-                        Full path to bed file with region id (default: None)
+                        Contain all gene information in four tab-seperated
+                        columns: 1. chromosome, 2. start, 3. end, 4. gene_id.
+                        No header (default: None)
   --resolution RESOLUTION
-                        Resolution of cool file (default: 10000)
+                        Resolution of cool file; normally use resolution at
+                        10k (default: 10000)
   --output_hdf_path OUTPUT_HDF_PATH
                         Full path to output file (default: None)
   --chrom_size_path CHROM_SIZE_PATH
-                        Chromsome size file with only chromosomes to use
+                        Path to UCSC chrom size file. Contain all the
+                        chromosome information in two tab-separated columns:
+                        1. chromosome name, 2. chromosome length. No header
                         (default: None)
+
 ```
 
 ## Command Examples
@@ -45,3 +53,18 @@ hicluster gene-score \
 --cpu 48 
 --mode impute
 ```
+
+## Command Breakdown
+```bash
+--cell_table_path impute/10K/cell_table.tsv
+```
+Specify the file paths of the imputed cool files in this line(e.g. /home/qzeng_salk_edu/project/aging/230711_m3C/impute/10K/chunk0/AMB_220712_18mo_12D_13B_2_P4-1-I15-G2.cool). Here is an example of what the contact table looks like:
+
+```bash
+cell_1  imputed_hic_cool_path_1
+cell_2  imputed_hic_cool_path_2
+cell_3  imputed_hic_cool_path_3
+```
+The first column indicates the cell name (e.g. AAMB_220712_18mo_12D_13B_2_P4-1-I15-G2) whereas the second column indicates the imputed cool file path of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header.
+
+The output file is a cell by gene matrix, values indicating contact probability on each gene.

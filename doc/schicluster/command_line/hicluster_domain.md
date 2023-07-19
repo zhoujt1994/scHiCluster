@@ -1,4 +1,5 @@
 # hicluster domain
+This step calculstes domain boundary and insulation score. 
 
 ## Command Docs
 ```bash
@@ -11,8 +12,8 @@ optional arguments:
   --resolution RESOLUTION
                         Matrix resolution (default: 25000)
   --window_size WINDOW_SIZE
-                        Window size for calculating insulation score (default:
-                        10)
+                        The size in base pairs of sliding window for
+                        calculating insulation score (default: 10)
   --cpu CPU             Number of CPUs to use (default: 10)
 
 required arguments:
@@ -35,3 +36,4 @@ hicluster domain \
 --window_size 10 \
 --cpu 4 
 ```
+

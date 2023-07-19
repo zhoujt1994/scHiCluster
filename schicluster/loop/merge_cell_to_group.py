@@ -110,15 +110,17 @@ def save_single_matrix_type(input_cool_list,
     return
  
 
-def merge_cool(input_cool_list, output_cool):
+def merge_cool(input_cool_tsv_file, output_cool):
     # Input could be cool files of single cell or average over cells
     # Output is average over cells
     # total_cell is counted over cools according to group_n_cells, otherwise 1
-    input_cool_list = [pathlib.Path(cool).absolute() for cool in input_cool_list]
+    input_cool_list = pd.read_csv(input_cool_tsv_file).squeeze().tolist()
+    input_cool_list = [str(pathlib.Path(cool).absolute()) for cool in input_cool_list]
+    
     cool = cooler.Cooler(input_cool_list[0])
     bins_df = cool.bins()[["chrom", "start", "end"]][:]
     chrom_sizes = cool.chromsizes[:]
-    chrom_offset = get_chrom_offsets(chrom_sizes)
+    chrom_offset = get_chrom_offsets(bins_df)
     total_cells = 0
     for cool_path in input_cool_list:
         with h5py.File(cool_path, 'r') as f:

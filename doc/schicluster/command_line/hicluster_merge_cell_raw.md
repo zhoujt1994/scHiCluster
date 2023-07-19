@@ -1,4 +1,5 @@
 # hicluster merge-cell-raw
+This step merge single-cell contacts by summing up. 
 
 ## Command Docs
 ```bash
@@ -22,10 +23,27 @@ optional arguments:
 
 required arguments:
   --cell_table CELL_TABLE
-                        Full path to cell cool table (default: None)
+                        Contain all the cell contact file after
+                        blacklistremoval in two tab-separated columns: 1.
+                        cell_uid, 2.file_path. No header (default: None)
   --chrom_size_path CHROM_SIZE_PATH
-                        Chromsome size file with only chromosomes to use
+                        Path to UCSC chrom size fileContain all the
+                        chromosomeinformation in two tab-separated columns: 1.
+                        chromosome name, 2. chromosome length. No header
                         (default: None)
   --output_file OUTPUT_FILE
-                        Full path to output file (default: None)
+```
+
+## Command Examples
+```bash
+hicluster merge-cell-raw \
+--cell_table contact_table_rmbkl.tsv \
+--chrom_size_path /data/aging/ref/m3C/mm10.main.nochrM.nochrY.chrom.sizes \
+--output_file dataset/merge-cell-raw.5kb \
+--resolution 5000 \
+--chr1 1 \
+--pos1 2 \
+--chr2 5 \
+--pos2 6 \
+--min_pos_dist 2500
 ```
