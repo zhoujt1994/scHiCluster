@@ -1,5 +1,5 @@
 # hicluster embedding
-This step will generate cell by contact matrix which can be used for embedding
+This step will generate cell by 100kb-pair contact matrix which can be used for cell embedding
 
 ## Command Docs
 ```bash
@@ -19,8 +19,8 @@ optional arguments:
   --dim DIM
   --dist DIST
   --resolution RESOLUTION
-                        Resolution for embedding. Consistent with resolution
-                        of imputed contact files (default: 100000)
+                        Resolution for embedding.Consistent with resolution of
+                        imputed contact files (default: 100000)
   --scale_factor SCALE_FACTOR
   --cpu CPU
   --norm_sig
@@ -35,6 +35,7 @@ required arguments:
   --output_dir OUTPUT_DIR
                         Path to the output directory of the embedding output
                         (default: None)
+
 ```
 
 ## Command Example
@@ -69,6 +70,14 @@ The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I1
 ```bash
 --output_dir dataset/embedding
 ```
-The output folder for your out[ut files. This command will save output files in output_dir/raw and output_dir/decompThe output_dir/raw saves the raw chromosome by chromosome cis contact and the output_dir/decomp folder saves the raw chromosome by chromosome contacts in all chromosomea and also after dimension reduction.
+This is the path to the output folder for your output files and you don't need to create the folder before running. This command will save output files in output_dir/raw and output_dir/decomp. 
 
-You don't need to create the folder before running.
+The output_dir/raw: npz files of each chromosome, which contains the information of cell x 100kb-pair contacts matrix (e.g. chr1.npz). 
+
+The folder "output_dir/decomp": the concatenated contacts of all chromosomes after performing singular value decomposition (SVD) on each chromosome. (total_chrom_decomp_concat.npz). Additionally, the concatenated decomposition matrices of all chromosomes are further subjected to another round of SVD. (total_decomp.npz)
+
+For information regading loading npz files see [here] https://numpy.org/doc/stable/reference/generated/numpy.savez.html
+
+
+
+

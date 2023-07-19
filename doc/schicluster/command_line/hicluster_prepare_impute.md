@@ -93,7 +93,7 @@ cell_1 absolute_hic_rmbkl_contact_path_1
 cell_2 absolute_hic_rmbkl_contact_path_2
 cell_3 absolute_hic_rmbkl_contact_path_3
 ```
-The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-K1) whereas the second column indicates the HiC contact file path after removing blacklist of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header and index.
+The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-K1) whereas the second column indicates the HiC contact file path after removing blacklist of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header.
 
 
 You don't need to create the folder before running.
