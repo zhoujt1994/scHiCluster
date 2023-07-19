@@ -748,9 +748,9 @@ def filter_contacts_register_subparser(subparser):
     parser_req.add_argument('--chrom_size_path', type=str, default=None, required=True, 
                             help='Path to UCSC chrom size file'
                             'Contain all the chromosome information in two tab-separated columns: 1. chromosome name, 2. chromosome length. No header')
-    parser.add_argument('--output_dir', type=str, default=None, required=False, 
-                        help='Path to the output directory of the contact files'
-                        'after blacklist filtering')
+    parser_req.add_argument('--output_dir', type=str, default=None, required=True, 
+                            help='Path to the output directory of the contact files'
+                            'after blacklist filtering')
     parser.add_argument('--blacklist_1d_path', type=str, default=None, required=False,
                         help='Path to blacklist region BED file, such as ENCODE blacklist. '
                              'Either side of the contact overlapping with a blacklist region will be removed.')

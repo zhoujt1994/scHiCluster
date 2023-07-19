@@ -77,8 +77,8 @@ def filter_contacts(contact_path,
     if min_pos_dist>0:
         contacts = contacts[((contacts[pos2] - contacts[pos1]).abs() > min_pos_dist) |  (contacts[chrom1] != contacts[chrom2])]
 
-    chroms = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index
     # remove additional chroms not exist in chrom_size_path
+    chroms = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).index
     contacts = contacts[contacts[chrom1].isin(chroms) & contacts[chrom2].isin(chroms)].copy()
 
     if blacklist_1d_path is not None:
