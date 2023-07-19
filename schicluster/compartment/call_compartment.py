@@ -1,5 +1,4 @@
 import subprocess
-from tkinter import E
 import numpy as np
 import pandas as pd
 from scipy.sparse import diags, csr_matrix
@@ -96,7 +95,7 @@ def single_cell_compartment(cell_url, cpg_profile, calc_strength, output_prefix,
             if chrfilter.sum()==0:
                 matrix = csr_matrix((n_bins, n_bins))
             else:
-                matrix = data.loc[data[chrom1]==chrfilter]
+                matrix = data.loc[chrfilter]
                 matrix[[pos1, pos2]] = (matrix[[pos1, pos2]] - 1) // resolution
                 matrix = matrix.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
                 matrix = csr_matrix((matrix[chrom1].astype(np.int32), (matrix[pos1], matrix[pos2])), (n_bins, n_bins))

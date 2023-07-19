@@ -37,4 +37,4 @@ hicluster cpg-ratio \
 --chrom_size_path /data/aging/ref/m3C/mm10.main.nochrM.nochrY.chrom.sizes \
 --resolution 100000
 ```
-The code belowe will generate outfile named cpg_ratio_100k.hdf, which contains informatio of CpG ratio at each chromosome bin. This file will be needed in computing compartment scroe. 
+The code belowe will generate outfile named cpg_ratio_100k.hdf, which contains information of CpG ratio at each chromosome bin. This file will be needed in computing compartment score. 
