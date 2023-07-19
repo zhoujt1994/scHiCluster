@@ -54,6 +54,7 @@ parts:
     - file: command_line/hicluster_domain
     - file: command_line/hicluster_gene_score
     - file: command_line/hicluster_merge_cell_raw
+    - file: command_line/hicluster_merge_cool
     #   - file: hba/decay
     #     sections:
     #     - file: hba/decay/01.decay
