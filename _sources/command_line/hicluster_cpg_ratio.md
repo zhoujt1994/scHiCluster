@@ -3,7 +3,8 @@ This step willl calculate the genome bins CpG ratio.
 
 ## Command Docs
 
-```usage: hicluster cpg-ratio [-h] --fasta_path FASTA_PATH --hdf_output_path
+```bash
+usage: hicluster cpg-ratio [-h] --fasta_path FASTA_PATH --hdf_output_path
                            HDF_OUTPUT_PATH [--cell_url CELL_URL]
                            [--chrom_size_path CHROM_SIZE_PATH]
                            [--resolution RESOLUTION]

@@ -215,6 +215,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="hicluster_domain.html">hicluster domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hicluster_gene_score.html">hicluster gene-score</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -426,27 +427,28 @@ document.write(`
 <p>This step willl calculate the genome bins CpG ratio.</p>
 <section id="command-docs">
 <h2>Command Docs<a class="headerlink" href="#command-docs" title="Permalink to this heading">#</a></h2>
-<div class="highlight-usage: notranslate"><div class="highlight"><pre><span></span>                           HDF_OUTPUT_PATH [--cell_url CELL_URL]
-                           [--chrom_size_path CHROM_SIZE_PATH]
-                           [--resolution RESOLUTION]
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>usage:<span class="w"> </span>hicluster<span class="w"> </span>cpg-ratio<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span>--fasta_path<span class="w"> </span>FASTA_PATH<span class="w"> </span>--hdf_output_path
+<span class="w">                           </span>HDF_OUTPUT_PATH<span class="w"> </span><span class="o">[</span>--cell_url<span class="w"> </span>CELL_URL<span class="o">]</span>
+<span class="w">                           </span><span class="o">[</span>--chrom_size_path<span class="w"> </span>CHROM_SIZE_PATH<span class="o">]</span>
+<span class="w">                           </span><span class="o">[</span>--resolution<span class="w"> </span>RESOLUTION<span class="o">]</span>
 
-optional arguments:
-  -h, --help            show this help message and exit
-  --cell_url CELL_URL   Path to a cell Cooler URL (default: None)
-  --chrom_size_path CHROM_SIZE_PATH
-                        Path to UCSC chrom size fileContain all the chromosome
-                        information in two tab-separated columns: 1.
-                        chromosome name, 2. chromosome length. No header
-                        (default: None)
-  --resolution RESOLUTION
-                        Resolution of the bin size in output CpG file
-                        (default: 100000)
+optional<span class="w"> </span>arguments:
+<span class="w">  </span>-h,<span class="w"> </span>--help<span class="w">            </span>show<span class="w"> </span>this<span class="w"> </span><span class="nb">help</span><span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span><span class="nb">exit</span>
+<span class="w">  </span>--cell_url<span class="w"> </span>CELL_URL<span class="w">   </span>Path<span class="w"> </span>to<span class="w"> </span>a<span class="w"> </span>cell<span class="w"> </span>Cooler<span class="w"> </span>URL<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>None<span class="o">)</span>
+<span class="w">  </span>--chrom_size_path<span class="w"> </span>CHROM_SIZE_PATH
+<span class="w">                        </span>Path<span class="w"> </span>to<span class="w"> </span>UCSC<span class="w"> </span>chrom<span class="w"> </span>size<span class="w"> </span>fileContain<span class="w"> </span>all<span class="w"> </span>the<span class="w"> </span>chromosome
+<span class="w">                        </span>information<span class="w"> </span><span class="k">in</span><span class="w"> </span>two<span class="w"> </span>tab-separated<span class="w"> </span>columns:<span class="w"> </span><span class="m">1</span>.
+<span class="w">                        </span>chromosome<span class="w"> </span>name,<span class="w"> </span><span class="m">2</span>.<span class="w"> </span>chromosome<span class="w"> </span>length.<span class="w"> </span>No<span class="w"> </span>header
+<span class="w">                        </span><span class="o">(</span>default:<span class="w"> </span>None<span class="o">)</span>
+<span class="w">  </span>--resolution<span class="w"> </span>RESOLUTION
+<span class="w">                        </span>Resolution<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>bin<span class="w"> </span>size<span class="w"> </span><span class="k">in</span><span class="w"> </span>output<span class="w"> </span>CpG<span class="w"> </span>file
+<span class="w">                        </span><span class="o">(</span>default:<span class="w"> </span><span class="m">100000</span><span class="o">)</span>
 
-required arguments:
-  --fasta_path FASTA_PATH
-                        Path to genome FASTA file (default: None)
-  --hdf_output_path HDF_OUTPUT_PATH
-                        Output path of the CpG ratio hdf (default: None)
+required<span class="w"> </span>arguments:
+<span class="w">  </span>--fasta_path<span class="w"> </span>FASTA_PATH
+<span class="w">                        </span>Path<span class="w"> </span>to<span class="w"> </span>genome<span class="w"> </span>FASTA<span class="w"> </span>file<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>None<span class="o">)</span>
+<span class="w">  </span>--hdf_output_path<span class="w"> </span>HDF_OUTPUT_PATH
+<span class="w">                        </span>Output<span class="w"> </span>path<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>CpG<span class="w"> </span>ratio<span class="w"> </span>hdf<span class="w"> </span><span class="o">(</span>default:<span class="w"> </span>None<span class="o">)</span>
 </pre></div>
 </div>
 </section>
