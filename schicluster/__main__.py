@@ -490,6 +490,7 @@ def generate_scool_register_subparser(subparser):
 
 def prepare_imputation_register_subparser(subparser):
     parser = subparser.add_parser('prepare-impute',
+                                  aliases=['imputation'],
                                   formatter_class=argparse.ArgumentDefaultsHelpFormatter,
                                   help="")
 
