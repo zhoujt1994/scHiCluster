@@ -873,7 +873,7 @@ def main():
         from .draft.comp_concatcell_chr import comp_concatcell_chr as func
     elif cur_command in ['generate-scool', 'scool']:
         from .cool import generate_scool as func
-    elif cur_command in ['prepare-impute']:
+    elif cur_command in ['prepare-impute', 'imputation']:
         from .impute import prepare_impute as func
     elif cur_command in ['domain']:
         from .domain import multiple_call_domain_and_insulation as func
