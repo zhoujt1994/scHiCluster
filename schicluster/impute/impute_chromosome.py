@@ -65,13 +65,23 @@ def impute_chromosome(chrom,
     elif contact_path is not None:
         if chrom_size_path is not None:
             chrom_sizes = pd.read_csv(chrom_size_path, sep='\t', index_col=0, header=None).squeeze(axis=1)
-            n_bins = (chrom_sizes.loc[chrom] // resolution) + 1
+            if chrom=='all':
+                from schicluster.cool.utilities import get_chrom_offsets
+                bins_df = cooler.binnify(chrom_sizes, resolution)
+                chrom_offset = get_chrom_offsets(bins_df)
+                n_bins = bins_df.shape[0]
+            else:
+                n_bins = (chrom_sizes.loc[chrom] // resolution) + 1
         else:
             print("ERROR : Must provide chrom_size_path if using contact file as input")
             return
         A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None, comment='#')[[chrom1, pos1, chrom2, pos2]]
-        A = A.loc[(A[chrom1]==chrom) & (A[chrom2]==chrom)]
-        A[[pos1, pos2]] = (A[[pos1, pos2]] - 1) // resolution
+        if chrom=='all':
+            A[pos1] = A[chrom1].map(chrom_offset) + (A[pos1] - 1) // resolution
+            A[pos2] = A[chrom2].map(chrom_offset) + (A[pos2] - 1) // resolution
+        else:
+            A = A.loc[(A[chrom1]==chrom) & (A[chrom2]==chrom)]
+            A[[pos1, pos2]] = (A[[pos1, pos2]] - 1) // resolution
         A = A.groupby(by=[pos1, pos2])[chrom1].count().reset_index()
         A = csr_matrix((A[chrom1].astype(np.int32), (A[pos1], A[pos2])), (n_bins, n_bins))
         A = A + A.T
