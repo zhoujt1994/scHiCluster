@@ -77,6 +77,7 @@ def impute_chromosome(chrom,
             return
         A = pd.read_csv(contact_path, sep='\t', header=None, index_col=None, comment='#')[[chrom1, pos1, chrom2, pos2]]
         if chrom=='all':
+            A = A[A[chrom1].isin(chrom_offset) & A[chrom2].isin(chrom_offset)]
             A[pos1] = A[chrom1].map(chrom_offset) + (A[pos1] - 1) // resolution
             A[pos2] = A[chrom2].map(chrom_offset) + (A[pos2] - 1) // resolution
         else:
