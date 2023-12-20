@@ -82,6 +82,6 @@ def prepare_impute(output_dir,
 
     with open(output_dir / 'snakemake_cmd.txt', 'w') as f:
         for chunk_dir in chunk_dirs:
-            cmd = f'snakemake -d {chunk_dir} --snakefile {chunk_dir}/Snakefile -j {cpu_per_job}'
+            cmd = f'snakemake --rerun-incomplete --scheduler greedy -d {chunk_dir} --snakefile {chunk_dir}/Snakefile -j {cpu_per_job}'
             f.write(cmd + '\n')
     return
