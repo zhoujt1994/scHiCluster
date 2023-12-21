@@ -20,7 +20,7 @@ rule summary:
     input:
         expand('{cell_id}.cool', cell_id = cell_ids)
     shell:
-        'touch Success && rm -rf impute_*_tmp && rm -rf .snakemake'
+        'touch Success && rm -rf impute_*_tmp'
 
 # Impute each chromosome of each cell
 if 'input_scool' in locals():
