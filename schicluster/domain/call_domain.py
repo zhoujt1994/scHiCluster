@@ -71,7 +71,7 @@ def call_domain_and_insulation(cell_url,
                                output_prefix,
                                resolution=25000,
                                window_size=10,
-                               save_count=save_count):
+                               save_count=False):
     r.source(str(PACKAGE_DIR / 'domain/TopDom.R'))
     pandas2ri.activate()
     numpy2ri.activate()
