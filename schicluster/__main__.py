@@ -559,9 +559,10 @@ def call_domain_register_subparser(subparser):
                         help='Matrix resolution')
     parser.add_argument('--window_size', type=int, required=False, default=10,
                         help='The size in base pairs of sliding window for calculating insulation score')
+    parser.add_argument('--save_count', dest='save_count', action='store_true', required=False,
+                        help='to save intra and inter separately')
     parser.add_argument('--cpu', type=int, required=False, default=10,
                         help='Number of CPUs to use')
-
 
 def call_compartment_register_subparser(subparser):
     parser = subparser.add_parser('compartment',

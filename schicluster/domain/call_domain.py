@@ -44,10 +44,12 @@ def domain_df_to_boundary(cool, total_results, resolution):
     return bin_loc_data
 
 
-def single_chrom_calculate_insulation_score(matrix, window_size=10):
+def single_chrom_calculate_insulation_score(matrix, window_size=10, save_count=False):
     w = window_size
-    score = np.ones(matrix.shape[0])
-    # score = np.ones((matrix.shape[0], 2))
+    if save_count:
+        score = np.ones((matrix.shape[0], 2))
+    else:
+        score = np.ones(matrix.shape[0])
     for i in range(1, matrix.shape[0]):
         if i < w:
             intra = (matrix[:i, :i].sum() +
@@ -58,15 +60,18 @@ def single_chrom_calculate_insulation_score(matrix, window_size=10):
             intra = (matrix[(i - w):i, (i - w):i].sum() +
                      matrix[i:(i + w), i:(i + w)].sum()) / (w * (w + 1))
             inter = matrix[(i - w):i, i:(i + w)].sum() / (w * w)
-        score[i] = inter / (inter + intra)
-        # score[i] = [inter, intra]
+        if save_count:
+            score[i] = [inter, intra]
+        else:
+            score[i] = inter / (inter + intra)
     return score
 
 
 def call_domain_and_insulation(cell_url,
                                output_prefix,
                                resolution=25000,
-                               window_size=10):
+                               window_size=10,
+                               save_count=save_count):
     r.source(str(PACKAGE_DIR / 'domain/TopDom.R'))
     pandas2ri.activate()
     numpy2ri.activate()
@@ -97,7 +102,7 @@ def call_domain_and_insulation(cell_url,
             except RRuntimeError:
                 print('Got R error at', cell_url, chrom, matrix.shape, matrix.data.size, bins.shape)
         total_insulation_score.append(
-            single_chrom_calculate_insulation_score(matrix, window_size))
+            single_chrom_calculate_insulation_score(matrix, window_size, save_count))
     if len(total_domain_results) == 0:
         total_domain_results = pd.DataFrame([], columns=['chrom', 'chromStart', 'chromEnd', 'name'])
     else:
@@ -128,7 +133,7 @@ def aggregate_boundary(cell_table, temp_dir, bins, output_path):
     return
 
 
-def aggregate_insulation(cell_table, temp_dir, bins, output_path):
+def aggregate_insulation(cell_table, temp_dir, bins, output_path, save_count=False):
     total_insulation = []
     for cell_id, cell_url in cell_table.items():
         insulation_path = f'{temp_dir}/{cell_id}.insulation.npz'
@@ -139,18 +144,20 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path):
                                     columns=bins.index)
     total_insulation.index.name = 'cell'
     total_insulation.columns.name = 'bin'
-    total_insulation = xr.DataArray(total_insulation)
-    total_insulation.coords['bin_chrom'] = bins['chrom']
-    total_insulation.coords['bin_start'] = bins['start']
-    total_insulation.coords['bin_end'] = bins['end']
-#     total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
-#                                     coords={'cell':('cell', cell_table.index), 
-#                                             'bin':('bin', bins.index), 
-#                                             'type':('type', ['inter','intra']),
-#                                             'bin_chrom':('bin', bins['chrom']), 
-#                                             'bin_start':('bin', bins['start']),
-#                                             'bin_end':('bin', bins['end']) 
-#                                     })
+    if save_count:
+        total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
+                                        coords={'cell':('cell', cell_table.index), 
+                                                'bin':('bin', bins.index), 
+                                                'type':('type', ['inter','intra']),
+                                                'bin_chrom':('bin', bins['chrom']), 
+                                                'bin_start':('bin', bins['start']),
+                                                'bin_end':('bin', bins['end']) 
+                                        })
+    else:
+        total_insulation = xr.DataArray(total_insulation)
+        total_insulation.coords['bin_chrom'] = bins['chrom']
+        total_insulation.coords['bin_start'] = bins['start']
+        total_insulation.coords['bin_end'] = bins['end']
     total_insulation.to_netcdf(output_path)
     return
 
@@ -159,6 +166,7 @@ def multiple_call_domain_and_insulation(cell_table_path,
                                         output_prefix,
                                         resolution=25000,
                                         window_size=10,
+                                        save_count=False,
                                         cpu=10):
     # install R package Matrix
     install_r_package('Matrix')
@@ -183,7 +191,8 @@ def multiple_call_domain_and_insulation(cell_table_path,
                                 cell_url,
                                 cell_prefix,
                                 resolution=resolution,
-                                window_size=window_size)
+                                window_size=window_size,
+                                save_count=save_count)
             future_dict[future] = cell_id
 
         for future in as_completed(future_dict):
@@ -206,7 +215,8 @@ def multiple_call_domain_and_insulation(cell_table_path,
     aggregate_insulation(cell_table=cell_table,
                          temp_dir=temp_dir,
                          bins=bins,
-                         output_path=f'{output_prefix}.insulation.nc')
+                         output_path=f'{output_prefix}.insulation.nc',
+                         save_count=save_count)
 
     # cleanup
     subprocess.run(f'rm -rf {temp_dir}', shell=True)
