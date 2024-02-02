@@ -138,12 +138,6 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path, save_count=Fal
     for cell_id, cell_url in cell_table.items():
         insulation_path = f'{temp_dir}/{cell_id}.insulation.npz'
         total_insulation.append(np.load(insulation_path)['arr_0'][None,:])
-    total_insulation = np.concatenate(total_insulation, axis=0)
-    total_insulation = pd.DataFrame(total_insulation,
-                                    index=cell_table.index,
-                                    columns=bins.index)
-    total_insulation.index.name = 'cell'
-    total_insulation.columns.name = 'bin'
     if save_count:
         total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
                                         coords={'cell':('cell', cell_table.index), 
@@ -154,6 +148,11 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path, save_count=Fal
                                                 'bin_end':('bin', bins['end']) 
                                         })
     else:
+        total_insulation = pd.DataFrame(total_insulation,
+                                        index=cell_table.index,
+                                        columns=bins.index)
+        total_insulation.index.name = 'cell'
+        total_insulation.columns.name = 'bin'
         total_insulation = xr.DataArray(total_insulation)
         total_insulation.coords['bin_chrom'] = bins['chrom']
         total_insulation.coords['bin_start'] = bins['start']
