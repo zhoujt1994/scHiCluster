@@ -138,6 +138,7 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path, save_count=Fal
     for cell_id, cell_url in cell_table.items():
         insulation_path = f'{temp_dir}/{cell_id}.insulation.npz'
         total_insulation.append(np.load(insulation_path)['arr_0'][None,:])
+    total_insulation = np.concatenate(total_insulation, axis=0)
     if save_count:
         total_insulation = xr.DataArray(data=total_insulation, dims=['cell','bin','type'], 
                                         coords={'cell':('cell', cell_table.index), 
