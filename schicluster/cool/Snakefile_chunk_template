@@ -24,7 +24,7 @@ rule summary:
     input:
         expand('{matrix_type}.cool', matrix_type=matrix_types)
     shell:
-        cleanup_cmd + ' && touch finish'
+        cleanup_cmd + ' && touch finish && rm -rf .snakemake'
 
 
 # merge chromosomes into a single cool file
