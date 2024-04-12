@@ -47,7 +47,7 @@ Module Contents
 
    
 
-.. py:class:: NiceFormatter(fmt=None, datefmt=None, style='%')
+.. py:class:: NiceFormatter(fmt=None, datefmt=None, style='%', validate=True)
 
 
    Bases: :py:obj:`logging.Formatter`

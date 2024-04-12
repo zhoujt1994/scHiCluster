@@ -1,58 +1,54 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html data-content_root="../../" lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Differential boundary — scHiCluster</title>
 <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
 <!-- Loaded before other Sphinx assets -->
-<link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
-<link href="../../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/graphviz.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
-<link href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet"/>
+<link href="../../_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet"/>
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet"/>
+<link href="../../_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
+<link as="font" crossorigin="" href="../../_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
+<link href="../../_static/pygments.css?v=fa44fd50" rel="stylesheet" type="text/css"/>
+<link href="../../_static/styles/sphinx-book-theme.css?v=384b581d" rel="stylesheet" type="text/css"/>
+<link href="../../_static/togglebutton.css?v=13237357" rel="stylesheet" type="text/css"/>
+<link href="../../_static/copybutton.css?v=76b2166b" rel="stylesheet" type="text/css"/>
+<link href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-thebe.css?v=4fa983c6" rel="stylesheet" type="text/css"/>
+<link href="../../_static/graphviz.css?v=eafc0fe6" rel="stylesheet" type="text/css"/>
+<link href="../../_static/sphinx-codeautolink.css?v=125d5c1c" rel="stylesheet" type="text/css"/>
+<link href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" rel="stylesheet" type="text/css"/>
 <!-- Pre-loaded scripts that we'll load fully later -->
-<link as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
-<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
-<script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-<script src="../../_static/jquery.js"></script>
-<script src="../../_static/underscore.js"></script>
-<script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script src="../../_static/doctools.js"></script>
-<script src="../../_static/sphinx_highlight.js"></script>
-<script src="../../_static/clipboard.min.js"></script>
-<script src="../../_static/copybutton.js"></script>
-<script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+<link as="script" href="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" rel="preload"/>
+<link as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" rel="preload"/>
+<script src="../../_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+<script src="../../_static/doctools.js?v=888ff710"></script>
+<script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+<script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+<script src="../../_static/copybutton.js?v=f281be69"></script>
+<script src="../../_static/scripts/sphinx-book-theme.js?v=efea14e4"></script>
 <script>let toggleHintShow = 'Click to show';</script>
 <script>let toggleHintHide = 'Click to hide';</script>
 <script>let toggleOpenOnPrint = 'true';</script>
-<script src="../../_static/togglebutton.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+<script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
 <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-<script src="../../_static/design-tabs.js"></script>
-<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-<script async="async" src="../../_static/sphinx-thebe.js"></script>
+<script src="../../_static/design-tabs.js?v=36754332"></script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+<script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
 <script>DOCUMENTATION_OPTIONS.pagename = 'hba/domain_majortype/03.diff';</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
 <link href="../../genindex.html" rel="index" title="Index"/>
 <link href="../../search.html" rel="search" title="Search"/>
 <link href="04.corr.html" rel="next" title="Correlation between boundary and other modalities"/>
@@ -61,7 +57,12 @@ const thebe_selector_output = ".output, .cell_output"
 <meta content="en" name="docsearch:language"/>
 </head>
 <body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" href="#main-content" id="pst-skip-link">Skip to main content</a>
+<div id="pst-scroll-pixel-helper"></div>
+<button class="btn rounded-pill" id="pst-back-to-top" type="button">
+<i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
 <input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
 <label class="overlay overlay-primary" for="__primary"></label>
 <input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
@@ -75,8 +76,8 @@ const thebe_selector_output = ".output, .cell_output"
 <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
 </div>
-<nav class="bd-header navbar navbar-expand-lg bd-navbar">
-</nav>
+<header class="bd-header navbar navbar-expand-lg bd-navbar">
+</header>
 <div class="bd-container">
 <div class="bd-container__inner bd-page-width">
 <div class="bd-sidebar-primary bd-sidebar">
@@ -87,7 +88,17 @@ const thebe_selector_output = ".output, .cell_output"
 <a class="navbar-brand logo" href="../../intro.html">
 <p class="title logo__title">scHiCluster</p>
 </a></div>
-<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
+<div class="sidebar-primary-item">
+<script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links bd-docs-nav">
 <div class="bd-toc-item navbar-nav active">
 <ul class="nav bd-sidenav bd-sidenav__home-link">
 <li class="toctree-l1">
@@ -156,6 +167,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_domain.html">hicluster domain</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 </div>
 </nav></div>
@@ -228,17 +240,17 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
   </button>
 `);
 </script>
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -267,9 +279,9 @@ document.write(`
 </div>
 </div>
 <div id="searchbox"></div>
-<article class="bd-article" role="main">
+<article class="bd-article">
 <section class="tex2jax_ignore mathjax_ignore" id="differential-boundary">
-<h1>Differential boundary<a class="headerlink" href="#differential-boundary" title="Permalink to this heading">#</a></h1>
+<h1>Differential boundary<a class="headerlink" href="#differential-boundary" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -345,14 +357,14 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/hba/ref/hg38.main.chrom.sizes'</span>
 <span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">cooler</span><span class="o">.</span><span class="n">read_chromsizes</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">all_names</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">chrom_sizes</span> <span class="o">=</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">22</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="naive-differential-boundary-sc">
-<h1>naive differential boundary sc<a class="headerlink" href="#naive-differential-boundary-sc" title="Permalink to this heading">#</a></h1>
+<h1>naive differential boundary sc<a class="headerlink" href="#naive-differential-boundary-sc" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.sandbox.stats.multicomp</span> <span class="kn">import</span> <span class="n">multipletests</span> <span class="k">as</span> <span class="n">FDR</span>
@@ -368,7 +380,7 @@ document.write(`
             <span class="n">contig</span> <span class="o">=</span> <span class="p">[</span><span class="n">bound_count_ct</span><span class="p">[:,</span><span class="n">i</span><span class="p">],</span> <span class="n">tmp</span><span class="p">[:,</span><span class="n">i</span><span class="p">]]</span>
             <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">contig</span><span class="p">)</span>
     <span class="n">fdr</span> <span class="o">=</span> <span class="n">FDR</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">'fdr_bh'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">pv</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">fdr</span>
 
 <span class="k">def</span> <span class="nf">shuffle_ct</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
     <span class="k">global</span> <span class="n">cell_count_ct</span><span class="p">,</span> <span class="n">sc_border</span><span class="p">,</span> <span class="n">leg</span>
@@ -386,7 +398,7 @@ document.write(`
         <span class="k">if</span> <span class="n">binfilter</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
             <span class="n">stats</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">pv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">chi2_contingency</span><span class="p">(</span><span class="n">ins_count</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">])</span>
     <span class="n">fdr</span> <span class="o">=</span> <span class="n">FDR</span><span class="p">(</span><span class="n">pv</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="s1">'fdr_bh'</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">pv</span>
+    <span class="k">return</span> <span class="n">stats</span><span class="p">,</span> <span class="n">fdr</span>
 </pre></div>
 </div>
 </div>
@@ -860,7 +872,7 @@ Data variables:
 
 <span class="n">binall</span><span class="p">[</span><span class="s1">'probdiff'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">bound_prob_ct</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">bound_prob_ct</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
 <span class="n">binall</span><span class="p">[</span><span class="s1">'chi2_sc'</span><span class="p">]</span> <span class="o">=</span> <span class="n">chi2sc</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">binall</span><span class="p">[</span><span class="s1">'insfc'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ins</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.01</span> <span class="o">/</span> <span class="n">ins</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.01</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+<span class="n">binall</span><span class="p">[</span><span class="s1">'insfc'</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">ins</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.01</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ins</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">+</span><span class="mf">0.01</span><span class="p">))</span><span class="o">.</span><span class="n">values</span>
 </pre></div>
 </div>
 </div>
@@ -925,9 +937,7 @@ Data variables:
     </script>
 <script>kernelName = 'python3'</script>
 </article>
-<footer class="bd-footer-article">
-<div class="footer-article-items footer-article__inner">
-<div class="footer-article-item"><!-- Previous / next buttons -->
+<footer class="prev-next-footer">
 <div class="prev-next-area">
 <a class="left-prev" href="02.count.html" title="previous page">
 <i class="fa-solid fa-angle-left"></i>
@@ -943,7 +953,6 @@ Data variables:
 </div>
 <i class="fa-solid fa-angle-right"></i>
 </a>
-</div></div>
 </div>
 </footer>
 </div>
@@ -970,7 +979,7 @@ By Jingtian Zhou
 <div class="footer-item">
 <p class="copyright">
     
-      © Copyright 2022.
+      © Copyright 2023.
       <br/>
 </p>
 </div>
@@ -984,8 +993,8 @@ By Jingtian Zhou
 </div>
 </div>
 <!-- Scripts loaded after <body> so the DOM is not blocked -->
-<script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
 <footer class="bd-footer">
 </footer>
 </body>
