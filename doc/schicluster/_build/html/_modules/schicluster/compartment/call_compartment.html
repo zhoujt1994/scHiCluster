@@ -205,6 +205,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -354,7 +362,6 @@ document.write(`
                   
   <h1>Source code for schicluster.compartment.call_compartment</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">subprocess</span>
-<span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="n">E</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">diags</span><span class="p">,</span> <span class="n">csr_matrix</span>
@@ -451,7 +458,7 @@ document.write(`
             <span class="k">if</span> <span class="n">chrfilter</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
                 <span class="n">matrix</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">matrix</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">==</span><span class="n">chrfilter</span><span class="p">]</span>
+                <span class="n">matrix</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">chrfilter</span><span class="p">]</span>
                 <span class="n">matrix</span><span class="p">[[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">]]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">resolution</span>
                 <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="n">pos1</span><span class="p">,</span> <span class="n">pos2</span><span class="p">])[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
                 <span class="n">matrix</span> <span class="o">=</span> <span class="n">csr_matrix</span><span class="p">((</span><span class="n">matrix</span><span class="p">[</span><span class="n">chrom1</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">),</span> <span class="p">(</span><span class="n">matrix</span><span class="p">[</span><span class="n">pos1</span><span class="p">],</span> <span class="n">matrix</span><span class="p">[</span><span class="n">pos2</span><span class="p">])),</span> <span class="p">(</span><span class="n">n_bins</span><span class="p">,</span> <span class="n">n_bins</span><span class="p">))</span>

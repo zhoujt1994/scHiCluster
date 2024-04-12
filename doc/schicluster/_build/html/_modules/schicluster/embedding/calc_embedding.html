@@ -205,6 +205,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -425,6 +433,7 @@ document.write(`
                              <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                              <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">output_dir</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span><span class="o">.</span><span class="n">absolute</span><span class="p">()</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">raw_dir</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s1">&#39;raw&#39;</span>
     <span class="n">raw_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 

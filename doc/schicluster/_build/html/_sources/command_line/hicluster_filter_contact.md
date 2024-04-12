@@ -1,10 +1,10 @@
 # hicluster filter-contact
-This step shows the first step for processing the HiC contact files. 
+This step shows the first step for processing the HiC contact files, involving remove blacklist regions and filter the minimum length of contacts.
 
 ## Command Docs
 ```bash
-usage: hicluster filter-contact [-h] [--contact_table CONTACT_TABLE]
-                                [--chrom_size_path CHROM_SIZE_PATH]
+usage: hicluster filter-contact [-h] --contact_table CONTACT_TABLE
+                                --chrom_size_path CHROM_SIZE_PATH
                                 [--output_dir OUTPUT_DIR]
                                 [--blacklist_1d_path BLACKLIST_1D_PATH]
                                 [--blacklist_2d_path BLACKLIST_2D_PATH]
@@ -52,6 +52,7 @@ required arguments:
                         chromosome name, 2. chromosome length. No header
                         (default: None)
 ```
+
 ## Command Example
 Here is an example of processing snm3C-seq data of mouse brain.
 ```bash
@@ -79,7 +80,7 @@ cell_1  absolute_hic_contact_path_1
 cell_2  absolute_hic_contact_path_2
 cell_3  absolute_hic_contact_path_3
 ```
-The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-A13) whereas the second column indicates the hic contact file path of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header and index.
+The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-A13) whereas the second column indicates the hic contact file path of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header.
 
 ```bash
 --output_dir rmbkl

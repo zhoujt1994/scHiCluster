@@ -29,7 +29,6 @@ Submodules
 
    __main__/index.rst
    _hicluster_internal/index.rst
-   _version/index.rst
    schicluster/index.rst
 
 

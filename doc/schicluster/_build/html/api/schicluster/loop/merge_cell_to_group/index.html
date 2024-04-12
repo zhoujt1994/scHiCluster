@@ -206,6 +206,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -404,7 +412,9 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.read_single_cool_chrom"><code class="docutils literal notranslate"><span class="pre">read_single_cool_chrom()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.chrom_sum_iterator"><code class="docutils literal notranslate"><span class="pre">chrom_sum_iterator()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.save_single_matrix_type"><code class="docutils literal notranslate"><span class="pre">save_single_matrix_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_cool"><code class="docutils literal notranslate"><span class="pre">merge_cool()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools"><code class="docutils literal notranslate"><span class="pre">merge_group_chunks_to_group_cools()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_group_to_bigger_group_cools"><code class="docutils literal notranslate"><span class="pre">merge_group_to_bigger_group_cools()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -425,12 +435,12 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.merge_cells_for_single_chromosome">
 <span class="sig-name descname"><span class="pre">merge_cells_for_single_chromosome</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_prefix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">merge_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'E'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#merge_cells_for_single_chromosome"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.merge_cells_for_single_chromosome" title="Permalink to this definition">#</a></dt>
-<dd><p>Merge cell’s E and T matrix to group matrices, sum only, not normalized by n_cells yet:
+<dd><p>Merge cell’s E and T matrix to group matrices, sum only, not normalized by n_cells yet
 E: Matrix normalized by global diagonal backgrounds, calculated from loop_bkg
-E2: E^2 of T, used to calculate global p values
+E2: Sum of square of E, used to calculate global t statistics
 T: Matrix normalized by global diagonal and local backgrounds, then minus E (T is the delta matrix),
 calculated from loop_bkg
-T2: T^2 of T, used to calculate t test p values</p>
+T2: Sum of square of T, used to calculate local t statistics</p>
 </dd></dl>
 
 <dl class="py function">
@@ -440,18 +450,28 @@ T2: T^2 of T, used to calculate t test p values</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.chrom_sum_iterator">
-<span class="sig-name descname"><span class="pre">chrom_sum_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chunk_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_sizes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_cells</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#chrom_sum_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.chrom_sum_iterator" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">chrom_sum_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_cool_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_sizes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_cells</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#chrom_sum_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.chrom_sum_iterator" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.save_single_matrix_type">
-<span class="sig-name descname"><span class="pre">save_single_matrix_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cooler_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_dirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_sizes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_cells</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#save_single_matrix_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.save_single_matrix_type" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">save_single_matrix_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_cool_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_cool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bins_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_sizes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chrom_offset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">total_cells</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#save_single_matrix_type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.save_single_matrix_type" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.merge_cool">
+<span class="sig-name descname"><span class="pre">merge_cool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_cool_tsv_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_cool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#merge_cool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.merge_cool" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools">
 <span class="sig-name descname"><span class="pre">merge_group_chunks_to_group_cools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom_size_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('E',</span> <span class="pre">'E2',</span> <span class="pre">'T',</span> <span class="pre">'T2',</span> <span class="pre">'Q',</span> <span class="pre">'Q2')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#merge_group_chunks_to_group_cools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools" title="Permalink to this definition">#</a></dt>
-<dd><p>Sum all the chunk sum cool files,
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="schicluster.loop.merge_cell_to_group.merge_group_to_bigger_group_cools">
+<span class="sig-name descname"><span class="pre">merge_group_to_bigger_group_cools</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chrom_size_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">matrix_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('E',</span> <span class="pre">'E2',</span> <span class="pre">'T',</span> <span class="pre">'T2',</span> <span class="pre">'Q',</span> <span class="pre">'Q2')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/schicluster/loop/merge_cell_to_group.html#merge_group_to_bigger_group_cools"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#schicluster.loop.merge_cell_to_group.merge_group_to_bigger_group_cools" title="Permalink to this definition">#</a></dt>
+<dd><p>Sum all the group average cool files,
 and finally divide the total number of cells to
 get a group cell number normalized cool file in the end.</p>
 </dd></dl>
@@ -513,7 +533,9 @@ get a group cell number normalized cool file in the end.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.read_single_cool_chrom"><code class="docutils literal notranslate"><span class="pre">read_single_cool_chrom()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.chrom_sum_iterator"><code class="docutils literal notranslate"><span class="pre">chrom_sum_iterator()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.save_single_matrix_type"><code class="docutils literal notranslate"><span class="pre">save_single_matrix_type()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_cool"><code class="docutils literal notranslate"><span class="pre">merge_cool()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools"><code class="docutils literal notranslate"><span class="pre">merge_group_chunks_to_group_cools()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#schicluster.loop.merge_cell_to_group.merge_group_to_bigger_group_cools"><code class="docutils literal notranslate"><span class="pre">merge_group_to_bigger_group_cools()</span></code></a></li>
 </ul>
 </li>
 </ul>

@@ -205,6 +205,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -363,7 +371,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">.loop_calling</span> <span class="kn">import</span> <span class="n">filter_loops</span><span class="p">,</span> <span class="n">call_loops</span>
 <span class="kn">from</span> <span class="nn">.merge_raw_matrix</span> <span class="kn">import</span> <span class="n">make_raw_matrix_cell_table</span>
 <span class="kn">from</span> <span class="nn">.shuffle_fdr</span> <span class="kn">import</span> <span class="n">compute_t</span><span class="p">,</span> <span class="n">permute_fdr</span><span class="p">,</span> <span class="n">update_fdr_qval</span>
-<span class="kn">from</span> <span class="nn">.merge_group</span> <span class="kn">import</span> <span class="n">merge_group_to_bigger_group_cools</span>
+<span class="kn">from</span> <span class="nn">.merge_cell_to_group</span> <span class="kn">import</span> <span class="n">merge_group_to_bigger_group_cools</span>
 
 <div class="viewcode-block" id="PACKAGE_DIR"><a class="viewcode-back" href="../../../api/schicluster/loop/snakemake/index.html#schicluster.loop.PACKAGE_DIR">[docs]</a><span class="n">PACKAGE_DIR</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">schicluster</span><span class="o">.</span><span class="n">__path__</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
 
@@ -687,7 +695,7 @@ document.write(`
             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
         <span class="k">return</span>
     
-    <span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">xx</span><span class="si">}</span><span class="s1">/cell_table.tsv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+    <span class="n">cell_table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">xx</span><span class="si">}</span><span class="s1">/cell_table.csv&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
                                         <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cell_id&#39;</span><span class="p">,</span> <span class="s1">&#39;cell_url&#39;</span><span class="p">,</span> <span class="s1">&#39;cell_group&#39;</span><span class="p">])</span> 
                             <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">group_list</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">cell_table</span><span class="p">[</span><span class="s1">&#39;cell_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>

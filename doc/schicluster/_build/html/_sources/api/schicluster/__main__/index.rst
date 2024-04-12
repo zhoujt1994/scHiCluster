@@ -141,6 +141,9 @@ Module Contents
 .. py:function:: merge_cell_raw_register_subparser(subparser)
 
 
+.. py:function:: merge_cool_register_subparser(subparser)
+
+
 .. py:function:: filter_contacts_register_subparser(subparser)
 
 

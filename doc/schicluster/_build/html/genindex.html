@@ -205,6 +205,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -889,6 +897,10 @@ document.write(`
         <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_cells_for_single_chromosome">(in module schicluster.loop.merge_cell_to_group)</a>
 </li>
       </ul></li>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_cool">merge_cool() (in module schicluster.loop.merge_cell_to_group)</a>
+</li>
+      <li><a href="api/schicluster/__main__/index.html#schicluster.__main__.merge_cool_register_subparser">merge_cool_register_subparser() (in module schicluster.__main__)</a>
+</li>
       <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.merge_cpu">merge_cpu() (in module schicluster.schicluster)</a>
 </li>
       <li><a href="api/schicluster/schicluster/index.html#schicluster.schicluster.merge_gpu">merge_gpu() (in module schicluster.schicluster)</a>
@@ -897,8 +909,12 @@ document.write(`
 </li>
       <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_group_chunks_to_group_cools">merge_group_chunks_to_group_cools() (in module schicluster.loop.merge_cell_to_group)</a>
 </li>
-      <li><a href="api/schicluster/loop/merge_group/index.html#schicluster.loop.merge_group.merge_group_to_bigger_group_cools">merge_group_to_bigger_group_cools() (in module schicluster.loop.merge_group)</a>
+      <li><a href="api/schicluster/loop/merge_cell_to_group/index.html#schicluster.loop.merge_cell_to_group.merge_group_to_bigger_group_cools">merge_group_to_bigger_group_cools() (in module schicluster.loop.merge_cell_to_group)</a>
+
+      <ul>
+        <li><a href="api/schicluster/loop/merge_group/index.html#schicluster.loop.merge_group.merge_group_to_bigger_group_cools">(in module schicluster.loop.merge_group)</a>
 </li>
+      </ul></li>
       <li><a href="api/schicluster/diff/loop/index.html#schicluster.diff.loop.merge_groups">merge_groups() (in module schicluster.diff.loop)</a>
 </li>
       <li><a href="api/schicluster/loop/snakemake/index.html#schicluster.loop.snakemake.merge_loop">merge_loop() (in module schicluster.loop.snakemake)</a>
@@ -942,8 +958,6 @@ document.write(`
         <li><a href="api/schicluster/__main__/index.html#module-schicluster.__main__">schicluster.__main__</a>
 </li>
         <li><a href="api/schicluster/_hicluster_internal/index.html#module-schicluster._hicluster_internal">schicluster._hicluster_internal</a>
-</li>
-        <li><a href="api/schicluster/_version/index.html#module-schicluster._version">schicluster._version</a>
 </li>
         <li><a href="api/schicluster/compartment/index.html#module-schicluster.compartment">schicluster.compartment</a>
 </li>
@@ -1163,13 +1177,6 @@ document.write(`
 
       <ul>
         <li><a href="api/schicluster/_hicluster_internal/index.html#module-schicluster._hicluster_internal">module</a>
-</li>
-      </ul></li>
-      <li>
-    schicluster._version
-
-      <ul>
-        <li><a href="api/schicluster/_version/index.html#module-schicluster._version">module</a>
 </li>
       </ul></li>
       <li>

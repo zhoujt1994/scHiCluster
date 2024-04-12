@@ -205,6 +205,14 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../command_line/hicluster_merge_cool.html">hicluster merge-cool</a></li>
 </ul>
 
     </div>
@@ -372,19 +380,12 @@ document.write(`
                        <span class="n">total_cells</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Reading matrix </span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">chrom</span> <span class="ow">in</span> <span class="n">chrom_sizes</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-        <span class="c1"># sum together multiple chunks</span>
-        <span class="c1"># first</span>
-        <span class="n">cool_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chunk_dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*/*.</span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1">.cool&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">n_cells</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;group_n_cells&#39;</span><span class="p">]</span>
-        <span class="n">matrix</span> <span class="o">=</span> <span class="n">read_single_cool_chrom</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_cells</span>
-        <span class="c1"># others</span>
+        <span class="n">cool_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chunk_dirs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*/*.</span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1">.cool&#39;</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">matrix</span> <span class="o">=</span> <span class="n">read_single_cool_chrom</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">chunk_dir</span> <span class="ow">in</span> <span class="n">chunk_dirs</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-            <span class="n">cool_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chunk_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*/*.</span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1">.cool&#39;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">with</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                <span class="n">n_cells</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s1">&#39;group_n_cells&#39;</span><span class="p">]</span>
-            <span class="n">matrix</span> <span class="o">+=</span> <span class="n">read_single_cool_chrom</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span> <span class="o">*</span> <span class="n">n_cells</span>
-
+            <span class="n">cool_path</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chunk_dir</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;*/*.</span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1">.cool&#39;</span><span class="p">))</span>
+            <span class="n">matrix</span> <span class="o">+=</span> <span class="n">read_single_cool_chrom</span><span class="p">(</span><span class="n">cool_path</span><span class="p">,</span> <span class="n">chrom</span><span class="p">)</span>
         <span class="n">matrix</span> <span class="o">=</span> <span class="n">matrix</span><span class="o">.</span><span class="n">tocoo</span><span class="p">()</span>
         <span class="n">pixel_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
             <span class="s1">&#39;bin1_id&#39;</span><span class="p">:</span> <span class="n">matrix</span><span class="o">.</span><span class="n">row</span><span class="p">,</span>
@@ -392,7 +393,6 @@ document.write(`
             <span class="s1">&#39;count&#39;</span><span class="p">:</span> <span class="n">matrix</span><span class="o">.</span><span class="n">data</span>
         <span class="p">})</span>
         <span class="n">pixel_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">chrom_offset</span><span class="p">[</span><span class="n">chrom</span><span class="p">]</span>
-        <span class="c1"># All the chunk</span>
         <span class="n">pixel_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">/=</span> <span class="n">total_cells</span>
         <span class="k">yield</span> <span class="n">pixel_df</span></div>
 
@@ -468,8 +468,6 @@ document.write(`
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Matrix </span><span class="si">{</span><span class="n">matrix_type</span><span class="si">}</span><span class="s1"> generated&#39;</span><span class="p">)</span>
             <span class="n">future</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
     <span class="k">return</span></div>
-
-
 </pre></div>
 
                 </article>

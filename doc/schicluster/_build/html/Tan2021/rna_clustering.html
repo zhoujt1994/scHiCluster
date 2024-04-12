@@ -1,102 +1,160 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>scRNA(MALBAC) clustering — scHiCluster</title>
-<script data-cfasync="false">
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>scRNA(MALBAC) clustering &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-<!-- Loaded before other Sphinx assets -->
-<link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
-<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/graphviz.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
-<!-- Pre-loaded scripts that we'll load fully later -->
-<link as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
-<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-<script src="../_static/jquery.js"></script>
-<script src="../_static/underscore.js"></script>
-<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script src="../_static/doctools.js"></script>
-<script src="../_static/sphinx_highlight.js"></script>
-<script src="../_static/clipboard.min.js"></script>
-<script src="../_static/copybutton.js"></script>
-<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-<script>let toggleHintShow = 'Click to show';</script>
-<script>let toggleHintHide = 'Click to hide';</script>
-<script>let toggleOpenOnPrint = 'true';</script>
-<script src="../_static/togglebutton.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-<script src="../_static/design-tabs.js"></script>
-<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-codeautolink.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-<script async="async" src="../_static/sphinx-thebe.js"></script>
-<script>DOCUMENTATION_OPTIONS.pagename = 'Tan2021/rna_clustering';</script>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="dipc_clustering.html" rel="next" title="DipC clustering at 100kb resolution"/>
-<link href="imputation.html" rel="prev" title="Prepare and run imputation"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="en" name="docsearch:language"/>
-</head>
-<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
-<label class="overlay overlay-primary" for="__primary"></label>
-<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
-<label class="overlay overlay-secondary" for="__secondary"></label>
-<div class="search-button__wrapper">
-<div class="search-button__overlay"></div>
-<div class="search-button__search-container">
-<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
-<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tan2021/rna_clustering';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DipC clustering at 100kb resolution" href="dipc_clustering.html" />
+    <link rel="prev" title="Prepare and run imputation" href="imputation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
-</div>
-<nav class="bd-header navbar navbar-expand-lg bd-navbar">
-</nav>
-<div class="bd-container">
-<div class="bd-container__inner bd-page-width">
-<div class="bd-sidebar-primary bd-sidebar">
-<div class="sidebar-header-items sidebar-primary__section">
-</div>
-<div class="sidebar-primary-items__start sidebar-primary__section">
-<div class="sidebar-primary-item">
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
 <a class="navbar-brand logo" href="../intro.html">
-<p class="title logo__title">scHiCluster</p>
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
 </a></div>
-<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
-<div class="bd-toc-item navbar-nav active">
-<ul class="nav bd-sidenav bd-sidenav__home-link">
-<li class="toctree-l1">
-<a class="reference internal" href="../intro.html">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
                     scHiCluster
                 </a>
-</li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Tan et al. Cell 2021.</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="imputation.html">Prepare and run imputation</a></li>
@@ -127,6 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/02.count.html">Domain count and size</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
+
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
 </ul>
@@ -149,76 +208,166 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
 </ul>
-</div>
+
+    </div>
 </nav></div>
-</div>
-<div class="sidebar-primary-items__end sidebar-primary__section">
-</div>
-<div id="rtd-footer-container"></div>
-</div>
-<main class="bd-main" id="main-content">
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
 <div class="sbt-scroll-pixel-helper"></div>
-<div class="bd-content">
-<div class="bd-article-container">
-<div class="bd-header-article">
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
-<div class="header-article-items__start">
-<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
-<span class="fa-solid fa-bars"></span>
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
 </label></div>
-</div>
-<div class="header-article-items__end">
-<div class="header-article-item">
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
 <div class="article-header-buttons">
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
-<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fab fa-github"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fab fa-github"></i>
-</span>
+  <i class="fab fa-github"></i>
+  </span>
 <span class="btn__text-container">Repository</span>
 </a>
 </li>
-<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2FTan2021/rna_clustering.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2FTan2021/rna_clustering.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-lightbulb"></i>
-</span>
+  <i class="fas fa-lightbulb"></i>
+  </span>
 <span class="btn__text-container">Open issue</span>
 </a>
 </li>
-</ul>
+      
+  </ul>
 </div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
-<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fas fa-download"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/Tan2021/rna_clustering.ipynb" target="_blank" title="Download source file">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Tan2021/rna_clustering.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file"></i>
-</span>
+  <i class="fas fa-file"></i>
+  </span>
 <span class="btn__text-container">.ipynb</span>
 </a>
 </li>
-<li>
-<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file-pdf"></i>
-</span>
+  <i class="fas fa-file-pdf"></i>
+  </span>
 <span class="btn__text-container">.pdf</span>
 </button>
 </li>
-</ul>
+      
+  </ul>
 </div>
-<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-expand"></i>
-</span>
+  <i class="fas fa-expand"></i>
+  </span>
+
 </button>
+
+
 <script>
 document.write(`
   <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -228,6 +377,7 @@ document.write(`
   </button>
 `);
 </script>
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -235,21 +385,32 @@ document.write(`
   </button>
 `);
 </script>
+
 </div></div>
+      
+    </div>
+  
 </div>
 </div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>scRNA(MALBAC) clustering</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
 </div>
-<div class="onlyprint" id="jb-print-docs-body">
-<h1>scRNA(MALBAC) clustering</h1>
-<!-- Table of contents -->
-<div id="print-main-content">
-<div id="jb-print-toc">
-</div>
-</div>
-</div>
+
+              
+                
 <div id="searchbox"></div>
-<article class="bd-article" role="main">
-<section class="tex2jax_ignore mathjax_ignore" id="scrna-malbac-clustering">
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="scrna-malbac-clustering">
 <h1>scRNA(MALBAC) clustering<a class="headerlink" href="#scrna-malbac-clustering" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -269,32 +430,32 @@ document.write(`
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">TruncatedSVD</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span>
 
-<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Helvetica&#39;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/'</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/&#39;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">other_data/GSE162509_UMIcount_mouse_decon_filtered_genes.tsv.gz'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">other_data/GSE162509_UMIcount_mouse_decon_filtered_genes.tsv.gz&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">data</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -308,312 +469,312 @@ document.write(`
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Gnai3</th>
-<th>Cdc45</th>
-<th>H19</th>
-<th>Scml2</th>
-<th>Apoh</th>
-<th>Narf</th>
-<th>Cav2</th>
-<th>Klf6</th>
-<th>Scmh1</th>
-<th>Cox5a</th>
-<th>...</th>
-<th>AC154500.1</th>
-<th>AC114990.3</th>
-<th>AC169675.1</th>
-<th>AC109261.3</th>
-<th>AC109261.4</th>
-<th>AC154486.3</th>
-<th>CAAA01189291.2</th>
-<th>CT025659.3</th>
-<th>AC136921.2</th>
-<th>AC134446.1</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>PR10_HCA_P14HM-1_01</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>2</td>
-<td>2</td>
-<td>1</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_02</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>2</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_03</th>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>2</td>
-<td>0</td>
-<td>7</td>
-<td>3</td>
-<td>1</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_04</th>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_07</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>3</td>
-<td>0</td>
-<td>3</td>
-<td>4</td>
-<td>1</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_92</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>16</td>
-<td>3</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_93</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_94</th>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_95</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>8</td>
-<td>1</td>
-<td>3</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_96</th>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>...</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Gnai3</th>
+      <th>Cdc45</th>
+      <th>H19</th>
+      <th>Scml2</th>
+      <th>Apoh</th>
+      <th>Narf</th>
+      <th>Cav2</th>
+      <th>Klf6</th>
+      <th>Scmh1</th>
+      <th>Cox5a</th>
+      <th>...</th>
+      <th>AC154500.1</th>
+      <th>AC114990.3</th>
+      <th>AC169675.1</th>
+      <th>AC109261.3</th>
+      <th>AC109261.4</th>
+      <th>AC154486.3</th>
+      <th>CAAA01189291.2</th>
+      <th>CT025659.3</th>
+      <th>AC136921.2</th>
+      <th>AC134446.1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PR10_HCA_P14HM-1_01</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>2</td>
+      <td>2</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_02</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_03</th>
+      <td>2</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>2</td>
+      <td>0</td>
+      <td>7</td>
+      <td>3</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_04</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_07</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>3</td>
+      <td>0</td>
+      <td>3</td>
+      <td>4</td>
+      <td>1</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_92</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>16</td>
+      <td>3</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_93</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_94</th>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_95</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>8</td>
+      <td>1</td>
+      <td>3</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_96</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
 </table>
 <p>3517 rows × 40760 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">other_data/GSE162509_mapStat_mouse_filter.txt.gz'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">other_data/GSE162509_mapStat_mouse_filter.txt.gz&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">meta</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -627,252 +788,252 @@ document.write(`
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>Reads</th>
-<th>Uniquely</th>
-<th>Uniquely_ratio</th>
-<th>Multi</th>
-<th>Multi_ratio</th>
-<th>Many</th>
-<th>Many_ratio</th>
-<th>A_ratio</th>
-<th>Mapping_ratio</th>
-<th>Genes</th>
-<th>nUMI</th>
-<th>mito</th>
-<th>ERCC</th>
-<th>assigned_ratio</th>
-<th>avg.cor</th>
-<th>keep</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>PR10_HCA_P14HM-1_01</th>
-<td>3815377</td>
-<td>3558074</td>
-<td>0.9326</td>
-<td>65771</td>
-<td>0.0172</td>
-<td>8865</td>
-<td>0.0023</td>
-<td>0.988705</td>
-<td>0.9521</td>
-<td>6414</td>
-<td>36609</td>
-<td>0.002103</td>
-<td>0.020966</td>
-<td>0.211559</td>
-<td>0.418141</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_02</th>
-<td>936833</td>
-<td>867607</td>
-<td>0.9261</td>
-<td>19886</td>
-<td>0.0212</td>
-<td>2618</td>
-<td>0.0028</td>
-<td>0.985054</td>
-<td>0.9501</td>
-<td>3184</td>
-<td>7940</td>
-<td>0.011083</td>
-<td>0.074592</td>
-<td>0.215140</td>
-<td>0.352350</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_03</th>
-<td>2196459</td>
-<td>2059892</td>
-<td>0.9378</td>
-<td>35331</td>
-<td>0.0161</td>
-<td>3744</td>
-<td>0.0017</td>
-<td>0.988487</td>
-<td>0.9556</td>
-<td>4710</td>
-<td>16613</td>
-<td>0.004093</td>
-<td>0.028139</td>
-<td>0.197201</td>
-<td>0.393179</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_04</th>
-<td>1334069</td>
-<td>1229429</td>
-<td>0.9216</td>
-<td>28281</td>
-<td>0.0212</td>
-<td>4119</td>
-<td>0.0031</td>
-<td>0.986058</td>
-<td>0.9459</td>
-<td>3825</td>
-<td>10736</td>
-<td>0.002701</td>
-<td>0.056673</td>
-<td>0.233741</td>
-<td>0.364440</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P14HM-1_05</th>
-<td>268103</td>
-<td>187902</td>
-<td>0.7009</td>
-<td>6316</td>
-<td>0.0236</td>
-<td>950</td>
-<td>0.0035</td>
-<td>0.968316</td>
-<td>0.7280</td>
-<td>1223</td>
-<td>2617</td>
-<td>0.049675</td>
-<td>0.216936</td>
-<td>0.355089</td>
-<td>0.218429</td>
-<td>False</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_92</th>
-<td>1287766</td>
-<td>1177633</td>
-<td>0.9145</td>
-<td>28821</td>
-<td>0.0224</td>
-<td>5017</td>
-<td>0.0039</td>
-<td>0.978918</td>
-<td>0.9408</td>
-<td>3593</td>
-<td>11865</td>
-<td>0.005057</td>
-<td>0.056011</td>
-<td>0.199417</td>
-<td>0.356637</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_93</th>
-<td>676788</td>
-<td>607913</td>
-<td>0.8982</td>
-<td>13266</td>
-<td>0.0196</td>
-<td>1459</td>
-<td>0.0022</td>
-<td>0.978000</td>
-<td>0.9200</td>
-<td>1945</td>
-<td>4458</td>
-<td>0.026918</td>
-<td>0.108400</td>
-<td>0.251697</td>
-<td>0.294853</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_94</th>
-<td>2375796</td>
-<td>2074957</td>
-<td>0.8734</td>
-<td>39335</td>
-<td>0.0166</td>
-<td>5894</td>
-<td>0.0025</td>
-<td>0.970208</td>
-<td>0.8925</td>
-<td>4040</td>
-<td>18380</td>
-<td>0.004570</td>
-<td>0.050914</td>
-<td>0.195646</td>
-<td>0.369667</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_95</th>
-<td>1585829</td>
-<td>1425909</td>
-<td>0.8992</td>
-<td>24091</td>
-<td>0.0152</td>
-<td>2937</td>
-<td>0.0019</td>
-<td>0.962138</td>
-<td>0.9163</td>
-<td>3752</td>
-<td>16077</td>
-<td>0.005411</td>
-<td>0.059164</td>
-<td>0.267316</td>
-<td>0.368889</td>
-<td>True</td>
-</tr>
-<tr>
-<th>PR10_HCA_P7PC-3_96</th>
-<td>1821256</td>
-<td>1614804</td>
-<td>0.8866</td>
-<td>40218</td>
-<td>0.0221</td>
-<td>6150</td>
-<td>0.0034</td>
-<td>0.973619</td>
-<td>0.9121</td>
-<td>4087</td>
-<td>27057</td>
-<td>0.020993</td>
-<td>0.052792</td>
-<td>0.279251</td>
-<td>0.373820</td>
-<td>True</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Reads</th>
+      <th>Uniquely</th>
+      <th>Uniquely_ratio</th>
+      <th>Multi</th>
+      <th>Multi_ratio</th>
+      <th>Many</th>
+      <th>Many_ratio</th>
+      <th>A_ratio</th>
+      <th>Mapping_ratio</th>
+      <th>Genes</th>
+      <th>nUMI</th>
+      <th>mito</th>
+      <th>ERCC</th>
+      <th>assigned_ratio</th>
+      <th>avg.cor</th>
+      <th>keep</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>PR10_HCA_P14HM-1_01</th>
+      <td>3815377</td>
+      <td>3558074</td>
+      <td>0.9326</td>
+      <td>65771</td>
+      <td>0.0172</td>
+      <td>8865</td>
+      <td>0.0023</td>
+      <td>0.988705</td>
+      <td>0.9521</td>
+      <td>6414</td>
+      <td>36609</td>
+      <td>0.002103</td>
+      <td>0.020966</td>
+      <td>0.211559</td>
+      <td>0.418141</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_02</th>
+      <td>936833</td>
+      <td>867607</td>
+      <td>0.9261</td>
+      <td>19886</td>
+      <td>0.0212</td>
+      <td>2618</td>
+      <td>0.0028</td>
+      <td>0.985054</td>
+      <td>0.9501</td>
+      <td>3184</td>
+      <td>7940</td>
+      <td>0.011083</td>
+      <td>0.074592</td>
+      <td>0.215140</td>
+      <td>0.352350</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_03</th>
+      <td>2196459</td>
+      <td>2059892</td>
+      <td>0.9378</td>
+      <td>35331</td>
+      <td>0.0161</td>
+      <td>3744</td>
+      <td>0.0017</td>
+      <td>0.988487</td>
+      <td>0.9556</td>
+      <td>4710</td>
+      <td>16613</td>
+      <td>0.004093</td>
+      <td>0.028139</td>
+      <td>0.197201</td>
+      <td>0.393179</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_04</th>
+      <td>1334069</td>
+      <td>1229429</td>
+      <td>0.9216</td>
+      <td>28281</td>
+      <td>0.0212</td>
+      <td>4119</td>
+      <td>0.0031</td>
+      <td>0.986058</td>
+      <td>0.9459</td>
+      <td>3825</td>
+      <td>10736</td>
+      <td>0.002701</td>
+      <td>0.056673</td>
+      <td>0.233741</td>
+      <td>0.364440</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P14HM-1_05</th>
+      <td>268103</td>
+      <td>187902</td>
+      <td>0.7009</td>
+      <td>6316</td>
+      <td>0.0236</td>
+      <td>950</td>
+      <td>0.0035</td>
+      <td>0.968316</td>
+      <td>0.7280</td>
+      <td>1223</td>
+      <td>2617</td>
+      <td>0.049675</td>
+      <td>0.216936</td>
+      <td>0.355089</td>
+      <td>0.218429</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_92</th>
+      <td>1287766</td>
+      <td>1177633</td>
+      <td>0.9145</td>
+      <td>28821</td>
+      <td>0.0224</td>
+      <td>5017</td>
+      <td>0.0039</td>
+      <td>0.978918</td>
+      <td>0.9408</td>
+      <td>3593</td>
+      <td>11865</td>
+      <td>0.005057</td>
+      <td>0.056011</td>
+      <td>0.199417</td>
+      <td>0.356637</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_93</th>
+      <td>676788</td>
+      <td>607913</td>
+      <td>0.8982</td>
+      <td>13266</td>
+      <td>0.0196</td>
+      <td>1459</td>
+      <td>0.0022</td>
+      <td>0.978000</td>
+      <td>0.9200</td>
+      <td>1945</td>
+      <td>4458</td>
+      <td>0.026918</td>
+      <td>0.108400</td>
+      <td>0.251697</td>
+      <td>0.294853</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_94</th>
+      <td>2375796</td>
+      <td>2074957</td>
+      <td>0.8734</td>
+      <td>39335</td>
+      <td>0.0166</td>
+      <td>5894</td>
+      <td>0.0025</td>
+      <td>0.970208</td>
+      <td>0.8925</td>
+      <td>4040</td>
+      <td>18380</td>
+      <td>0.004570</td>
+      <td>0.050914</td>
+      <td>0.195646</td>
+      <td>0.369667</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_95</th>
+      <td>1585829</td>
+      <td>1425909</td>
+      <td>0.8992</td>
+      <td>24091</td>
+      <td>0.0152</td>
+      <td>2937</td>
+      <td>0.0019</td>
+      <td>0.962138</td>
+      <td>0.9163</td>
+      <td>3752</td>
+      <td>16077</td>
+      <td>0.005411</td>
+      <td>0.059164</td>
+      <td>0.267316</td>
+      <td>0.368889</td>
+      <td>True</td>
+    </tr>
+    <tr>
+      <th>PR10_HCA_P7PC-3_96</th>
+      <td>1821256</td>
+      <td>1614804</td>
+      <td>0.8866</td>
+      <td>40218</td>
+      <td>0.0221</td>
+      <td>6150</td>
+      <td>0.0034</td>
+      <td>0.973619</td>
+      <td>0.9121</td>
+      <td>4087</td>
+      <td>27057</td>
+      <td>0.020993</td>
+      <td>0.052792</td>
+      <td>0.279251</td>
+      <td>0.373820</td>
+      <td>True</td>
+    </tr>
+  </tbody>
 </table>
 <p>4032 rows × 16 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">'/data/ref/mm10/gencode/vm22/gencode.vM22.annotation.gene.flat.tsv.gz'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;/data/ref/mm10/gencode/vm22/gencode.vM22.annotation.gene.flat.tsv.gz&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="n">gene_meta</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -886,306 +1047,306 @@ document.write(`
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>chrom</th>
-<th>source</th>
-<th>feature</th>
-<th>start</th>
-<th>end</th>
-<th>score</th>
-<th>strand</th>
-<th>phase</th>
-<th>gene_id</th>
-<th>transcript_id</th>
-<th>...</th>
-<th>gene_name</th>
-<th>transcript_type</th>
-<th>transcript_status</th>
-<th>transcript_name</th>
-<th>exon_number</th>
-<th>exon_id</th>
-<th>level</th>
-<th>mgi_id</th>
-<th>havana_gene</th>
-<th>tag</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3073253</td>
-<td>3074322</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>ENSMUSG00000102693.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>4933401J01Rik</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:1918292</td>
-<td>OTTMUSG00000049935.1</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>1</th>
-<td>chr1</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>3102016</td>
-<td>3102125</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>ENSMUSG00000064842.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>Gm26206</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:5455983</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>2</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3205901</td>
-<td>3671498</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>ENSMUSG00000051951.5</td>
-<td>NaN</td>
-<td>...</td>
-<td>Xkr4</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:3528744</td>
-<td>OTTMUSG00000026353.2</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>3</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3252757</td>
-<td>3253236</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>ENSMUSG00000102851.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>Gm18956</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>MGI:5011141</td>
-<td>OTTMUSG00000049958.1</td>
-<td>pseudo_consens</td>
-</tr>
-<tr>
-<th>4</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3365731</td>
-<td>3368549</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>ENSMUSG00000103377.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>Gm37180</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:5610408</td>
-<td>OTTMUSG00000049960.1</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>55482</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>13552</td>
-<td>14070</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>ENSMUSG00000064368.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>mt-Nd6</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102495</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>55483</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14071</td>
-<td>14139</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>ENSMUSG00000064369.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>mt-Te</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102488</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>55484</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14145</td>
-<td>15288</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>ENSMUSG00000064370.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>mt-Cytb</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102501</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>55485</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15289</td>
-<td>15355</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>ENSMUSG00000064371.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>mt-Tt</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102473</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>55486</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15356</td>
-<td>15422</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>ENSMUSG00000064372.1</td>
-<td>NaN</td>
-<td>...</td>
-<td>mt-Tp</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102478</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>source</th>
+      <th>feature</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>gene_id</th>
+      <th>transcript_id</th>
+      <th>...</th>
+      <th>gene_name</th>
+      <th>transcript_type</th>
+      <th>transcript_status</th>
+      <th>transcript_name</th>
+      <th>exon_number</th>
+      <th>exon_id</th>
+      <th>level</th>
+      <th>mgi_id</th>
+      <th>havana_gene</th>
+      <th>tag</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3073253</td>
+      <td>3074322</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>ENSMUSG00000102693.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>4933401J01Rik</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:1918292</td>
+      <td>OTTMUSG00000049935.1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>chr1</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>3102016</td>
+      <td>3102125</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>ENSMUSG00000064842.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Gm26206</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:5455983</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3205901</td>
+      <td>3671498</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>ENSMUSG00000051951.5</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Xkr4</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:3528744</td>
+      <td>OTTMUSG00000026353.2</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3252757</td>
+      <td>3253236</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>ENSMUSG00000102851.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Gm18956</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>MGI:5011141</td>
+      <td>OTTMUSG00000049958.1</td>
+      <td>pseudo_consens</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3365731</td>
+      <td>3368549</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>ENSMUSG00000103377.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>Gm37180</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:5610408</td>
+      <td>OTTMUSG00000049960.1</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>55482</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>13552</td>
+      <td>14070</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>ENSMUSG00000064368.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mt-Nd6</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>55483</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14071</td>
+      <td>14139</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>ENSMUSG00000064369.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mt-Te</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102488</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>55484</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14145</td>
+      <td>15288</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>ENSMUSG00000064370.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mt-Cytb</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102501</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>55485</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15289</td>
+      <td>15355</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>ENSMUSG00000064371.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mt-Tt</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102473</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>55486</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15356</td>
+      <td>15422</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>ENSMUSG00000064372.1</td>
+      <td>NaN</td>
+      <td>...</td>
+      <td>mt-Tp</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102478</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
 </table>
 <p>55487 rows × 22 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'gene_name'</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
-<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">'gene_name'</span><span class="p">)[[</span><span class="s1">'chrom'</span><span class="p">,</span> <span class="s1">'start'</span><span class="p">,</span> <span class="s1">'end'</span><span class="p">,</span> <span class="s1">'gene_id'</span><span class="p">,</span> <span class="s1">'strand'</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;gene_name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()]</span>
+<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;gene_name&#39;</span><span class="p">)[[</span><span class="s1">&#39;chrom&#39;</span><span class="p">,</span> <span class="s1">&#39;start&#39;</span><span class="p">,</span> <span class="s1">&#39;end&#39;</span><span class="p">,</span> <span class="s1">&#39;gene_id&#39;</span><span class="p">,</span> <span class="s1">&#39;strand&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -1200,7 +1361,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">AnnData</span><span class="p">(</span><span class="n">csr_matrix</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> 
-                        <span class="n">obs</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="s1">'Genes'</span><span class="p">,</span> <span class="s1">'nUMI'</span><span class="p">]],</span>
+                        <span class="n">obs</span><span class="o">=</span><span class="n">meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Genes&#39;</span><span class="p">,</span> <span class="s1">&#39;nUMI&#39;</span><span class="p">]],</span>
                         <span class="n">var</span><span class="o">=</span><span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
                       <span class="p">)</span>
 <span class="n">adata</span>
@@ -1209,41 +1370,41 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3517 × 39990
-    obs: 'Genes', 'nUMI'
-    var: 'chrom', 'start', 'end', 'gene_id', 'strand'
+    obs: &#39;Genes&#39;, &#39;nUMI&#39;
+    var: &#39;chrom&#39;, &#39;start&#39;, &#39;end&#39;, &#39;gene_id&#39;, &#39;strand&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">'Tan2021_rna.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">&#39;Tan2021_rna.h5ad&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s1">'Tan2021_rna.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="s1">&#39;Tan2021_rna.h5ad&#39;</span><span class="p">)</span>
 <span class="n">adata</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3517 × 3000
-    obs: 'Genes', 'nUMI', 'umap_0', 'umap_1', 'age', 'region'
-    var: 'chrom', 'start', 'end', 'gene_id', 'strand', 'n_cells', 'highly_variable', 'highly_variable_rank', 'means', 'variances', 'variances_norm'
-    uns: 'hvg', 'log1p', 'neighbors', 'umap'
-    obsm: 'X_pca', 'X_umap', 'rna_pca_all'
-    obsp: 'connectivities', 'distances'
+    obs: &#39;Genes&#39;, &#39;nUMI&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;age&#39;, &#39;region&#39;
+    var: &#39;chrom&#39;, &#39;start&#39;, &#39;end&#39;, &#39;gene_id&#39;, &#39;strand&#39;, &#39;n_cells&#39;, &#39;highly_variable&#39;, &#39;highly_variable_rank&#39;, &#39;means&#39;, &#39;variances&#39;, &#39;variances_norm&#39;
+    uns: &#39;hvg&#39;, &#39;log1p&#39;, &#39;neighbors&#39;, &#39;umap&#39;
+    obsm: &#39;X_pca&#39;, &#39;X_umap&#39;, &#39;rna_pca_all&#39;
+    obsp: &#39;connectivities&#39;, &#39;distances&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">metadata_major_cell_types.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">cluster_neu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">metadata_neuron_cell_types.txt'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">metadata_major_cell_types.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">cluster_neu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">metadata_neuron_cell_types.txt&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
 <span class="n">cluster</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cluster_neu</span><span class="o">.</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster_neu</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">cluster</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
@@ -1283,10 +1444,10 @@ Name: 1, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'region'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'-'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">'_'</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
-<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;region&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">xx</span> <span class="ow">in</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">index</span><span class="p">]</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1300,10 +1461,10 @@ Name: 1, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">highly_variable_genes</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">n_top_genes</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="s1">'seurat_v3'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">highly_variable_genes</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">n_top_genes</span><span class="o">=</span><span class="mi">3000</span><span class="p">,</span> <span class="n">flavor</span><span class="o">=</span><span class="s1">&#39;seurat_v3&#39;</span><span class="p">)</span>
 <span class="n">adata</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">adata</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[:,</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'highly_variable'</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'nUMI'</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'nUMI'</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">adata</span><span class="p">[:,</span> <span class="n">adata</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;highly_variable&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;nUMI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;nUMI&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">median</span><span class="p">()</span>
 <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">adata</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1311,7 +1472,7 @@ Name: 1, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">'arpack'</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;arpack&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 <span class="n">sel_dim</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">sel_dim</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
@@ -1327,14 +1488,14 @@ Name: 1, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
-<span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'rna_pca_all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
+<span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">significant_pc_test</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">p_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">obsm</span><span class="o">=</span><span class="s1">'rna_pca_all'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">significant_pc_test</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">p_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">obsm</span><span class="o">=</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1349,7 +1510,7 @@ Name: 1, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'rna_pca_all'</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1359,7 +1520,7 @@ Name: 1, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">n_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="c1"># put manifold coordinates into adata.obs</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_dim</span><span class="p">):</span>
-        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s1">'X_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;X_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">adata</span>
 </pre></div>
 </div>
@@ -1368,9 +1529,9 @@ Name: 1, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knn</span> <span class="o">=</span> <span class="mi">25</span>
-<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">'X_pca'</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">&#39;X_pca&#39;</span><span class="p">)</span>
 <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">adata</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="s1">'umap'</span><span class="p">)</span>
+<span class="n">adata</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="s1">&#39;umap&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1380,33 +1541,33 @@ Name: 1, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">continuous_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                        <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                       <span class="n">hue</span><span class="o">=</span><span class="s1">'Genes'</span><span class="p">,</span>
-                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
+                       <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Genes&#39;</span><span class="p">,</span>
+                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
                        <span class="c1">#max_points=None,</span>
                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                        <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'rainbow'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'region'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='region',</span>
-                        <span class="c1"># palette='tab10',</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;region&#39;,</span>
+                        <span class="c1"># palette=&#39;tab10&#39;,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span>
                        <span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1"># show_legend=True</span>
                        <span class="p">)</span>
@@ -1414,7 +1575,7 @@ Name: 1, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/e0de4d91b09a3e7732d833432eb7ef9cec6841a0482fea01e7c7942879bd1384.png" src="../_images/e0de4d91b09a3e7732d833432eb7ef9cec6841a0482fea01e7c7942879bd1384.png"/>
+<img alt="../_images/e0de4d91b09a3e7732d833432eb7ef9cec6841a0482fea01e7c7942879bd1384.png" src="../_images/e0de4d91b09a3e7732d833432eb7ef9cec6841a0482fea01e7c7942879bd1384.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1422,33 +1583,33 @@ Name: 1, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">continuous_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                        <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                       <span class="n">hue</span><span class="o">=</span><span class="s1">'Genes'</span><span class="p">,</span>
-                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
+                       <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Genes&#39;</span><span class="p">,</span>
+                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
                        <span class="c1">#max_points=None,</span>
                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                        <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'rainbow'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'region'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='region',</span>
-                        <span class="c1"># palette='tab10',</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;region&#39;,</span>
+                        <span class="c1"># palette=&#39;tab10&#39;,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span>
                        <span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1"># show_legend=True</span>
                        <span class="p">)</span>
@@ -1459,7 +1620,7 @@ Name: 1, dtype: int64
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(0.0, 1.0, 0.0, 1.0)
 </pre></div>
 </div>
-<img alt="../_images/f6b53f59bfe1648c9a4b0dcb4a05d07b9eb0a05b09ff90826d159b541fc41cb9.png" src="../_images/f6b53f59bfe1648c9a4b0dcb4a05d07b9eb0a05b09ff90826d159b541fc41cb9.png"/>
+<img alt="../_images/f6b53f59bfe1648c9a4b0dcb4a05d07b9eb0a05b09ff90826d159b541fc41cb9.png" src="../_images/f6b53f59bfe1648c9a4b0dcb4a05d07b9eb0a05b09ff90826d159b541fc41cb9.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1467,33 +1628,33 @@ Name: 1, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">continuous_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                        <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                       <span class="n">hue</span><span class="o">=</span><span class="s1">'Genes'</span><span class="p">,</span>
-                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
+                       <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;Genes&#39;</span><span class="p">,</span>
+                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
                        <span class="c1">#max_points=None,</span>
                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                        <span class="n">s</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'rainbow'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'region'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='region',</span>
-                        <span class="c1"># palette='tab10',</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;region&#39;,</span>
+                        <span class="c1"># palette=&#39;tab10&#39;,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span>
                        <span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1"># show_legend=True</span>
                        <span class="p">)</span>
@@ -1501,18 +1662,19 @@ Name: 1, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/bdfecda4b90c7b6a6bdcaa17f06273beb5eed8ecde6a3acd21c18531870e4fc3.png" src="../_images/bdfecda4b90c7b6a6bdcaa17f06273beb5eed8ecde6a3acd21c18531870e4fc3.png"/>
+<img alt="../_images/bdfecda4b90c7b6a6bdcaa17f06273beb5eed8ecde6a3acd21c18531870e4fc3.png" src="../_images/bdfecda4b90c7b6a6bdcaa17f06273beb5eed8ecde6a3acd21c18531870e4fc3.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">'Tan2021_rna.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">&#39;Tan2021_rna.h5ad&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<script type="text/x-thebe-config">
+
+    <script type="text/x-thebe-config">
     {
         requestKernel: true,
         binderOptions: {
@@ -1530,58 +1692,93 @@ Name: 1, dtype: int64
         predefinedOutput: true
     }
     </script>
-<script>kernelName = 'python3'</script>
-</article>
-<footer class="bd-footer-article">
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
 <div class="footer-article-items footer-article__inner">
-<div class="footer-article-item"><!-- Previous / next buttons -->
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-<a class="left-prev" href="imputation.html" title="previous page">
-<i class="fa-solid fa-angle-left"></i>
-<div class="prev-next-info">
-<p class="prev-next-subtitle">previous</p>
-<p class="prev-next-title">Prepare and run imputation</p>
-</div>
-</a>
-<a class="right-next" href="dipc_clustering.html" title="next page">
-<div class="prev-next-info">
-<p class="prev-next-subtitle">next</p>
-<p class="prev-next-title">DipC clustering at 100kb resolution</p>
-</div>
-<i class="fa-solid fa-angle-right"></i>
-</a>
+    <a class="left-prev"
+       href="imputation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Prepare and run imputation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="dipc_clustering.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">DipC clustering at 100kb resolution</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
+  
 </div>
-</footer>
-</div>
-</div>
-<footer class="bd-footer-content">
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
 <div class="bd-footer-content__inner container">
-<div class="footer-item">
+  
+  <div class="footer-item">
+    
 <p class="component-author">
 By Jingtian Zhou
 </p>
-</div>
-<div class="footer-item">
-<p class="copyright">
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
     
       © Copyright 2022.
       <br/>
-</p>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
-<div class="footer-item">
-</div>
-<div class="footer-item">
-</div>
-</div>
-</footer>
-</main>
-</div>
-</div>
-<!-- Scripts loaded after <body> so the DOM is not blocked -->
-<script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
 <script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
-<footer class="bd-footer">
-</footer>
-</body>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>

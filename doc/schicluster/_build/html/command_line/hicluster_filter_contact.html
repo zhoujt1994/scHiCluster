@@ -208,6 +208,13 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
 </ul>
 
     </div>
@@ -417,11 +424,11 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="hicluster-filter-contact">
 <h1>hicluster filter-contact<a class="headerlink" href="#hicluster-filter-contact" title="Permalink to this heading">#</a></h1>
-<p>This step shows the first step for processing the HiC contact files.</p>
+<p>This step shows the first step for processing the HiC contact files, involving remove blacklist regions and filter the minimum length of contacts.</p>
 <section id="command-docs">
 <h2>Command Docs<a class="headerlink" href="#command-docs" title="Permalink to this heading">#</a></h2>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>usage:<span class="w"> </span>hicluster<span class="w"> </span>filter-contact<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span><span class="o">[</span>--contact_table<span class="w"> </span>CONTACT_TABLE<span class="o">]</span>
-<span class="w">                                </span><span class="o">[</span>--chrom_size_path<span class="w"> </span>CHROM_SIZE_PATH<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>usage:<span class="w"> </span>hicluster<span class="w"> </span>filter-contact<span class="w"> </span><span class="o">[</span>-h<span class="o">]</span><span class="w"> </span>--contact_table<span class="w"> </span>CONTACT_TABLE
+<span class="w">                                </span>--chrom_size_path<span class="w"> </span>CHROM_SIZE_PATH
 <span class="w">                                </span><span class="o">[</span>--output_dir<span class="w"> </span>OUTPUT_DIR<span class="o">]</span>
 <span class="w">                                </span><span class="o">[</span>--blacklist_1d_path<span class="w"> </span>BLACKLIST_1D_PATH<span class="o">]</span>
 <span class="w">                                </span><span class="o">[</span>--blacklist_2d_path<span class="w"> </span>BLACKLIST_2D_PATH<span class="o">]</span>
@@ -499,7 +506,7 @@ cell_2<span class="w">  </span>absolute_hic_contact_path_2
 cell_3<span class="w">  </span>absolute_hic_contact_path_3
 </pre></div>
 </div>
-<p>The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-A13) whereas the second column indicates the hic contact file path of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header and index.</p>
+<p>The first column indicates the cell name (e.g. AMB_220712_18mo_12D_13B_2_P4-1-I15-A13) whereas the second column indicates the hic contact file path of the cell. Make sure the two parts are separated by a tab; also make sure the file has no header.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--output_dir<span class="w"> </span>rmbkl
 </pre></div>
 </div>

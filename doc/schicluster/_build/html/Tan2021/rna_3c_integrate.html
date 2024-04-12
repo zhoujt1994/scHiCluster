@@ -1,102 +1,160 @@
 
+
 <!DOCTYPE html>
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="Docutils 0.18.1: http://docutils.sourceforge.net/" name="generator"/>
-<title>Assign DipC cells to RNA clusters — scHiCluster</title>
-<script data-cfasync="false">
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Assign DipC cells to RNA clusters &#8212; scHiCluster</title>
+  
+  
+  
+  <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
   </script>
-<!-- Loaded before other Sphinx assets -->
-<link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" rel="preload" type="font/woff2"/>
-<link as="font" crossorigin="" href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" rel="preload" type="font/woff2"/>
-<link href="../_static/pygments.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" rel="stylesheet" type="text/css"/>
-<link href="../_static/togglebutton.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/copybutton.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sphinx-thebe.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/graphviz.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/sphinx-codeautolink.css" rel="stylesheet" type="text/css"/>
-<link href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" rel="stylesheet" type="text/css"/>
-<!-- Pre-loaded scripts that we'll load fully later -->
-<link as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" rel="preload"/>
-<link as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" rel="preload"/>
-<script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-<script src="../_static/jquery.js"></script>
-<script src="../_static/underscore.js"></script>
-<script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-<script src="../_static/doctools.js"></script>
-<script src="../_static/sphinx_highlight.js"></script>
-<script src="../_static/clipboard.min.js"></script>
-<script src="../_static/copybutton.js"></script>
-<script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
-<script>let toggleHintShow = 'Click to show';</script>
-<script>let toggleHintHide = 'Click to hide';</script>
-<script>let toggleOpenOnPrint = 'true';</script>
-<script src="../_static/togglebutton.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-<script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-<script src="../_static/design-tabs.js"></script>
-<script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-codeautolink.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/sphinx_highlight.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
-<script async="async" src="../_static/sphinx-thebe.js"></script>
-<script>DOCUMENTATION_OPTIONS.pagename = 'Tan2021/rna_3c_integrate';</script>
-<link href="../genindex.html" rel="index" title="Index"/>
-<link href="../search.html" rel="search" title="Search"/>
-<link href="prepare.html" rel="next" title="Prepare pseudobulk analyses"/>
-<link href="dipc_clustering.html" rel="prev" title="DipC clustering at 100kb resolution"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<meta content="en" name="docsearch:language"/>
-</head>
-<body data-bs-root-margin="0px 0px -60%" data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-default-mode="" data-offset="180">
-<a class="skip-link" href="#main-content">Skip to main content</a>
-<input class="sidebar-toggle" id="__primary" name="__primary" type="checkbox"/>
-<label class="overlay overlay-primary" for="__primary"></label>
-<input class="sidebar-toggle" id="__secondary" name="__secondary" type="checkbox"/>
-<label class="overlay overlay-secondary" for="__secondary"></label>
-<div class="search-button__wrapper">
-<div class="search-button__overlay"></div>
-<div class="search-button__search-container">
-<form action="../search.html" class="bd-search d-flex align-items-center" method="get">
-<i class="fa-solid fa-magnifying-glass"></i>
-<input aria-label="Search this book..." autocapitalize="off" autocomplete="off" autocorrect="off" class="form-control" id="search-input" name="q" placeholder="Search this book..." spellcheck="false" type="search"/>
-<span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Tan2021/rna_3c_integrate';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Prepare pseudobulk analyses" href="prepare.html" />
+    <link rel="prev" title="DipC clustering at 100kb resolution" href="dipc_clustering.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
-</div>
-<nav class="bd-header navbar navbar-expand-lg bd-navbar">
-</nav>
-<div class="bd-container">
-<div class="bd-container__inner bd-page-width">
-<div class="bd-sidebar-primary bd-sidebar">
-<div class="sidebar-header-items sidebar-primary__section">
-</div>
-<div class="sidebar-primary-items__start sidebar-primary__section">
-<div class="sidebar-primary-item">
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
 <a class="navbar-brand logo" href="../intro.html">
-<p class="title logo__title">scHiCluster</p>
+  
+  
+  
+  
+  
+    <p class="title logo__title">scHiCluster</p>
+  
 </a></div>
-<div class="sidebar-primary-item"><nav aria-label="Main" class="bd-links" id="bd-docs-nav">
-<div class="bd-toc-item navbar-nav active">
-<ul class="nav bd-sidenav bd-sidenav__home-link">
-<li class="toctree-l1">
-<a class="reference internal" href="../intro.html">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
                     scHiCluster
                 </a>
-</li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="intro.html">Tan et al. Cell 2021.</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="imputation.html">Prepare and run imputation</a></li>
@@ -127,6 +185,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/01.call.html">Domain boundary prob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/02.count.html">Domain count and size</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/03.diff.html">Differential boundary</a></li>
+
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/04.corr.html">Correlation between boundary and other modalities</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../hba/domain_majortype/05.plot.html">Plot correlation between boundary and mC/ATAC/RNA</a></li>
 </ul>
@@ -149,76 +208,166 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_filter_contact.html">hicluster filter-contact</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_prepare_impute.html">hicluster prepare-impute</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_contact_distance.html">hicluster contact-distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_embedding.html">hicluster embedding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_cpg_ratio.html">hicluster cpg-ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_compartment.html">hicluster compartment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_domain.html">hicluster domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_gene_score.html">hicluster gene-score</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command_line/hicluster_merge_cell_raw.html">hicluster merge-cell-raw</a></li>
 </ul>
-</div>
+
+    </div>
 </nav></div>
-</div>
-<div class="sidebar-primary-items__end sidebar-primary__section">
-</div>
-<div id="rtd-footer-container"></div>
-</div>
-<main class="bd-main" id="main-content">
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
 <div class="sbt-scroll-pixel-helper"></div>
-<div class="bd-content">
-<div class="bd-article-container">
-<div class="bd-header-article">
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
 <div class="header-article-items header-article__inner">
-<div class="header-article-items__start">
-<div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" data-bs-placement="bottom" data-bs-toggle="tooltip" for="__primary" title="Toggle primary sidebar">
-<span class="fa-solid fa-bars"></span>
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
 </label></div>
-</div>
-<div class="header-article-items__end">
-<div class="header-article-item">
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
 <div class="article-header-buttons">
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
-<button aria-expanded="false" aria-label="Source repositories" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fab fa-github"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-source-repository-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster" target="_blank" title="Source repository">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fab fa-github"></i>
-</span>
+  <i class="fab fa-github"></i>
+  </span>
 <span class="btn__text-container">Repository</span>
 </a>
 </li>
-<li><a class="btn btn-sm btn-source-issues-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2FTan2021/rna_3c_integrate.html&amp;body=Your%20issue%20content%20here." target="_blank" title="Open an issue">
+      
+      
+      
+      
+      <li><a href="https://github.com/zhoujt1994/scHiCluster/issues/new?title=Issue%20on%20page%20%2FTan2021/rna_3c_integrate.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-lightbulb"></i>
-</span>
+  <i class="fas fa-lightbulb"></i>
+  </span>
 <span class="btn__text-container">Open issue</span>
 </a>
 </li>
-</ul>
+      
+  </ul>
 </div>
+
+
+
+
+
+
 <div class="dropdown dropdown-download-buttons">
-<button aria-expanded="false" aria-label="Download this page" class="btn dropdown-toggle" data-bs-toggle="dropdown" type="button">
-<i class="fas fa-download"></i>
-</button>
-<ul class="dropdown-menu">
-<li><a class="btn btn-sm btn-download-source-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" href="../_sources/Tan2021/rna_3c_integrate.ipynb" target="_blank" title="Download source file">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Tan2021/rna_3c_integrate.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file"></i>
-</span>
+  <i class="fas fa-file"></i>
+  </span>
 <span class="btn__text-container">.ipynb</span>
 </a>
 </li>
-<li>
-<button class="btn btn-sm btn-download-pdf-button dropdown-item" data-bs-placement="left" data-bs-toggle="tooltip" onclick="window.print()" title="Print to PDF">
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-file-pdf"></i>
-</span>
+  <i class="fas fa-file-pdf"></i>
+  </span>
 <span class="btn__text-container">.pdf</span>
 </button>
 </li>
-</ul>
+      
+  </ul>
 </div>
-<button class="btn btn-sm btn-fullscreen-button" data-bs-placement="bottom" data-bs-toggle="tooltip" onclick="toggleFullScreen()" title="Fullscreen mode">
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
 <span class="btn__icon-container">
-<i class="fas fa-expand"></i>
-</span>
+  <i class="fas fa-expand"></i>
+  </span>
+
 </button>
+
+
 <script>
 document.write(`
   <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -228,6 +377,7 @@ document.write(`
   </button>
 `);
 </script>
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -235,21 +385,32 @@ document.write(`
   </button>
 `);
 </script>
+
 </div></div>
+      
+    </div>
+  
 </div>
 </div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Assign DipC cells to RNA clusters</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
 </div>
-<div class="onlyprint" id="jb-print-docs-body">
-<h1>Assign DipC cells to RNA clusters</h1>
-<!-- Table of contents -->
-<div id="print-main-content">
-<div id="jb-print-toc">
-</div>
-</div>
-</div>
+
+              
+                
 <div id="searchbox"></div>
-<article class="bd-article" role="main">
-<section class="tex2jax_ignore mathjax_ignore" id="assign-dipc-cells-to-rna-clusters">
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="assign-dipc-cells-to-rna-clusters">
 <h1>Assign DipC cells to RNA clusters<a class="headerlink" href="#assign-dipc-cells-to-rna-clusters" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -273,18 +434,18 @@ document.write(`
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">normalize</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
 <span class="kn">import</span> <span class="nn">pynndescent</span>
 
-<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">'default'</span><span class="p">)</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'pdf.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'ps.fonttype'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.family'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'sans-serif'</span>
-<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">'font.sans-serif'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Helvetica'</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">)</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;pdf.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;ps.fonttype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.family&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;sans-serif&#39;</span>
+<span class="n">mpl</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.sans-serif&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Helvetica&#39;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_hdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">'/data/test_schicluster/Tan2021/scool/dataset/Tan2021.geneimputescore.hdf'</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">'data'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene_hdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_hdf</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/data/test_schicluster/Tan2021/scool/dataset/Tan2021.geneimputescore.hdf&#39;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -292,35 +453,35 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="mi">10000</span>
-<span class="n">gene_meta_path</span> <span class="o">=</span> <span class="s1">'/data/ref/mm10/gencode/vm22/gencode.vM22.annotation.gene.flat.tsv.gz'</span>
-<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">gene_meta_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">'gene_id'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">)</span>
-<span class="n">gene_meta</span><span class="p">[</span><span class="s1">'bin_len'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'end'</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<span class="c1">#gene_meta['weight'] = gene_meta['bin_len'] * (gene_meta['bin_len'] + 1) / 2</span>
-<span class="n">gene_meta</span><span class="p">[</span><span class="s1">'weight'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'bin_len'</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'bin_len'</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
-<span class="c1">#gene_meta['weight'] = gene_meta['bin_len'].copy()</span>
+<span class="n">gene_meta_path</span> <span class="o">=</span> <span class="s1">&#39;/data/ref/mm10/gencode/vm22/gencode.vM22.annotation.gene.flat.tsv.gz&#39;</span>
+<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">gene_meta_path</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;gene_id&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;bin_len&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;end&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;start&#39;</span><span class="p">]</span> <span class="o">//</span> <span class="n">res</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="c1">#gene_meta[&#39;weight&#39;] = gene_meta[&#39;bin_len&#39;] * (gene_meta[&#39;bin_len&#39;] + 1) / 2</span>
+<span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;weight&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;bin_len&#39;</span><span class="p">]</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;bin_len&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="c1">#gene_meta[&#39;weight&#39;] = gene_meta[&#39;bin_len&#39;].copy()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">'/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/'</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">indir</span> <span class="o">=</span> <span class="s1">&#39;/home/jzhou_salk_edu/sky_workdir/test_schicluster/Tan2021/&#39;</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="s1">'/data/ref/mm10/genome/mm10.main.chrom.sizes'</span>
-<span class="n">chromsize</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">'</span><span class="se">\t</span><span class="s1">'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="p">[</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chromsize</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_size_path</span> <span class="o">=</span> <span class="s1">&#39;/data/ref/mm10/genome/mm10.main.chrom.sizes&#39;</span>
+<span class="n">chromsize</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">chrom_size_path</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">gene_meta</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="p">[</span><span class="n">gene_meta</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chromsize</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
 <span class="n">gene_meta</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -334,329 +495,329 @@ document.write(`
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>chrom</th>
-<th>source</th>
-<th>feature</th>
-<th>start</th>
-<th>end</th>
-<th>score</th>
-<th>strand</th>
-<th>phase</th>
-<th>transcript_id</th>
-<th>gene_type</th>
-<th>...</th>
-<th>transcript_status</th>
-<th>transcript_name</th>
-<th>exon_number</th>
-<th>exon_id</th>
-<th>level</th>
-<th>mgi_id</th>
-<th>havana_gene</th>
-<th>tag</th>
-<th>bin_len</th>
-<th>weight</th>
-</tr>
-<tr>
-<th>gene_id</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>ENSMUSG00000102693.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3073253</td>
-<td>3074322</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>TEC</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:1918292</td>
-<td>OTTMUSG00000049935.1</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064842.1</th>
-<td>chr1</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>3102016</td>
-<td>3102125</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>snRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:5455983</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000051951.5</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3205901</td>
-<td>3671498</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:3528744</td>
-<td>OTTMUSG00000026353.2</td>
-<td>NaN</td>
-<td>48</td>
-<td>1225.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000102851.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3252757</td>
-<td>3253236</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>processed_pseudogene</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>MGI:5011141</td>
-<td>OTTMUSG00000049958.1</td>
-<td>pseudo_consens</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000103377.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3365731</td>
-<td>3368549</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>TEC</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:5610408</td>
-<td>OTTMUSG00000049960.1</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064368.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>13552</td>
-<td>14070</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102495</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064369.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14071</td>
-<td>14139</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102488</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064370.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14145</td>
-<td>15288</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102501</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064371.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15289</td>
-<td>15355</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102473</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064372.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15356</td>
-<td>15422</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102478</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>source</th>
+      <th>feature</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>transcript_id</th>
+      <th>gene_type</th>
+      <th>...</th>
+      <th>transcript_status</th>
+      <th>transcript_name</th>
+      <th>exon_number</th>
+      <th>exon_id</th>
+      <th>level</th>
+      <th>mgi_id</th>
+      <th>havana_gene</th>
+      <th>tag</th>
+      <th>bin_len</th>
+      <th>weight</th>
+    </tr>
+    <tr>
+      <th>gene_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ENSMUSG00000102693.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3073253</td>
+      <td>3074322</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>TEC</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:1918292</td>
+      <td>OTTMUSG00000049935.1</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064842.1</th>
+      <td>chr1</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>3102016</td>
+      <td>3102125</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>snRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:5455983</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000051951.5</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3205901</td>
+      <td>3671498</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:3528744</td>
+      <td>OTTMUSG00000026353.2</td>
+      <td>NaN</td>
+      <td>48</td>
+      <td>1225.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000102851.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3252757</td>
+      <td>3253236</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>processed_pseudogene</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>MGI:5011141</td>
+      <td>OTTMUSG00000049958.1</td>
+      <td>pseudo_consens</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000103377.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3365731</td>
+      <td>3368549</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>TEC</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:5610408</td>
+      <td>OTTMUSG00000049960.1</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064368.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>13552</td>
+      <td>14070</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064369.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14071</td>
+      <td>14139</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102488</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064370.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14145</td>
+      <td>15288</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102501</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064371.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15289</td>
+      <td>15355</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102473</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064372.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15356</td>
+      <td>15422</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102478</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+  </tbody>
 </table>
 <p>55487 rows × 23 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#gene_hdf = gene_hdf * gene_meta.loc[gene_hdf.columns, 'weight']</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#gene_hdf = gene_hdf * gene_meta.loc[gene_hdf.columns, &#39;weight&#39;]</span>
 <span class="p">(</span><span class="n">gene_hdf</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -680,17 +841,17 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">Tan2021_dipc.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">Tan2021_dipc.h5ad&#39;</span><span class="p">)</span>
 <span class="n">adata</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3646 × 1
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    uns: 'leiden', 'neighbors', 'umap'
-    obsm: 'X_pca', 'X_umap', 'dipc_pca_all'
-    obsp: 'connectivities', 'distances'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    uns: &#39;leiden&#39;, &#39;neighbors&#39;, &#39;umap&#39;
+    obsm: &#39;X_pca&#39;, &#39;X_umap&#39;, &#39;dipc_pca_all&#39;
+    obsp: &#39;connectivities&#39;, &#39;distances&#39;
 </pre></div>
 </div>
 </div>
@@ -704,16 +865,16 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3646 × 51259
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    var: 'chrom', 'source', 'feature', 'start', 'end', 'score', 'strand', 'phase', 'transcript_id', 'gene_type', 'gene_status', 'gene_name', 'transcript_type', 'transcript_status', 'transcript_name', 'exon_number', 'exon_id', 'level', 'mgi_id', 'havana_gene', 'tag', 'bin_len', 'weight'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    var: &#39;chrom&#39;, &#39;source&#39;, &#39;feature&#39;, &#39;start&#39;, &#39;end&#39;, &#39;score&#39;, &#39;strand&#39;, &#39;phase&#39;, &#39;transcript_id&#39;, &#39;gene_type&#39;, &#39;gene_status&#39;, &#39;gene_name&#39;, &#39;transcript_type&#39;, &#39;transcript_status&#39;, &#39;transcript_name&#39;, &#39;exon_number&#39;, &#39;exon_id&#39;, &#39;level&#39;, &#39;mgi_id&#39;, &#39;havana_gene&#39;, &#39;tag&#39;, &#39;bin_len&#39;, &#39;weight&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'chrL'</span><span class="p">,</span> <span class="s1">'chrM'</span><span class="p">,</span> <span class="s1">'chrX'</span><span class="p">,</span> <span class="s1">'chrY'</span><span class="p">]</span>
-<span class="n">chrfilter</span> <span class="o">=</span> <span class="o">~</span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'chrom'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chrom_to_remove</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chrom_to_remove</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chrL&#39;</span><span class="p">,</span> <span class="s1">&#39;chrM&#39;</span><span class="p">,</span> <span class="s1">&#39;chrX&#39;</span><span class="p">,</span> <span class="s1">&#39;chrY&#39;</span><span class="p">]</span>
+<span class="n">chrfilter</span> <span class="o">=</span> <span class="o">~</span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;chrom&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">chrom_to_remove</span><span class="p">)</span>
 <span class="n">gene3c</span> <span class="o">=</span> <span class="n">gene3c</span><span class="p">[:,</span> <span class="n">chrfilter</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -729,15 +890,15 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>View of AnnData object with n_obs × n_vars = 3646 × 51097
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    var: 'chrom', 'source', 'feature', 'start', 'end', 'score', 'strand', 'phase', 'transcript_id', 'gene_type', 'gene_status', 'gene_name', 'transcript_type', 'transcript_status', 'transcript_name', 'exon_number', 'exon_id', 'level', 'mgi_id', 'havana_gene', 'tag', 'bin_len', 'weight'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    var: &#39;chrom&#39;, &#39;source&#39;, &#39;feature&#39;, &#39;start&#39;, &#39;end&#39;, &#39;score&#39;, &#39;strand&#39;, &#39;phase&#39;, &#39;transcript_id&#39;, &#39;gene_type&#39;, &#39;gene_status&#39;, &#39;gene_name&#39;, &#39;transcript_type&#39;, &#39;transcript_status&#39;, &#39;transcript_name&#39;, &#39;exon_number&#39;, &#39;exon_id&#39;, &#39;level&#39;, &#39;mgi_id&#39;, &#39;havana_gene&#39;, &#39;tag&#39;, &#39;bin_len&#39;, &#39;weight&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">'gene_id'</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;gene_id&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -745,24 +906,24 @@ Length: 3646, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">gene3c</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="c1">#sc.pp.highly_variable_genes(gene3c, n_top_genes=2000, flavor='seurat_v3')</span>
-<span class="n">gene3c</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">'cell_</span><span class="si">{</span><span class="n">gene3c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">_gene3C.h5ad'</span><span class="p">)</span>
+<span class="c1">#sc.pp.highly_variable_genes(gene3c, n_top_genes=2000, flavor=&#39;seurat_v3&#39;)</span>
+<span class="n">gene3c</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cell_</span><span class="si">{</span><span class="n">gene3c</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">_gene3C.h5ad&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gene3c = anndata.read_h5ad(f'{indir}cell_8225_gene3C_impute.h5ad')</span>
-<span class="n">gene3c</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">'cell_*_gene3C.h5ad'</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># gene3c = anndata.read_h5ad(f&#39;{indir}cell_8225_gene3C_impute.h5ad&#39;)</span>
+<span class="n">gene3c</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;cell_*_gene3C.h5ad&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">gene3c</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3646 × 51097
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    var: 'chrom', 'source', 'feature', 'start', 'end', 'score', 'strand', 'phase', 'transcript_id', 'gene_type', 'gene_status', 'gene_name', 'transcript_type', 'transcript_status', 'transcript_name', 'exon_number', 'exon_id', 'level', 'mgi_id', 'havana_gene', 'tag', 'bin_len', 'weight'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    var: &#39;chrom&#39;, &#39;source&#39;, &#39;feature&#39;, &#39;start&#39;, &#39;end&#39;, &#39;score&#39;, &#39;strand&#39;, &#39;phase&#39;, &#39;transcript_id&#39;, &#39;gene_type&#39;, &#39;gene_status&#39;, &#39;gene_name&#39;, &#39;transcript_type&#39;, &#39;transcript_status&#39;, &#39;transcript_name&#39;, &#39;exon_number&#39;, &#39;exon_id&#39;, &#39;level&#39;, &#39;mgi_id&#39;, &#39;havana_gene&#39;, &#39;tag&#39;, &#39;bin_len&#39;, &#39;weight&#39;
 </pre></div>
 </div>
 </div>
@@ -775,7 +936,7 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -789,329 +950,329 @@ Length: 3646, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>chrom</th>
-<th>source</th>
-<th>feature</th>
-<th>start</th>
-<th>end</th>
-<th>score</th>
-<th>strand</th>
-<th>phase</th>
-<th>transcript_id</th>
-<th>gene_type</th>
-<th>...</th>
-<th>transcript_status</th>
-<th>transcript_name</th>
-<th>exon_number</th>
-<th>exon_id</th>
-<th>level</th>
-<th>mgi_id</th>
-<th>havana_gene</th>
-<th>tag</th>
-<th>bin_len</th>
-<th>weight</th>
-</tr>
-<tr>
-<th>gene_id</th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>ENSMUSG00000102693.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3073253</td>
-<td>3074322</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>TEC</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:1918292</td>
-<td>OTTMUSG00000049935.1</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064842.1</th>
-<td>chr1</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>3102016</td>
-<td>3102125</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>snRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:5455983</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000051951.5</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3205901</td>
-<td>3671498</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:3528744</td>
-<td>OTTMUSG00000026353.2</td>
-<td>NaN</td>
-<td>48</td>
-<td>1225.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000102851.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3252757</td>
-<td>3253236</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>processed_pseudogene</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>MGI:5011141</td>
-<td>OTTMUSG00000049958.1</td>
-<td>pseudo_consens</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000103377.1</th>
-<td>chr1</td>
-<td>HAVANA</td>
-<td>gene</td>
-<td>3365731</td>
-<td>3368549</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>TEC</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2</td>
-<td>MGI:5610408</td>
-<td>OTTMUSG00000049960.1</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064368.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>13552</td>
-<td>14070</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102495</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064369.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14071</td>
-<td>14139</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102488</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064370.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>14145</td>
-<td>15288</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>protein_coding</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102501</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064371.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15289</td>
-<td>15355</td>
-<td>.</td>
-<td>+</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102473</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-<tr>
-<th>ENSMUSG00000064372.1</th>
-<td>chrM</td>
-<td>ENSEMBL</td>
-<td>gene</td>
-<td>15356</td>
-<td>15422</td>
-<td>.</td>
-<td>-</td>
-<td>.</td>
-<td>NaN</td>
-<td>Mt_tRNA</td>
-<td>...</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>3</td>
-<td>MGI:102478</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>1</td>
-<td>3.0</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>chrom</th>
+      <th>source</th>
+      <th>feature</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>transcript_id</th>
+      <th>gene_type</th>
+      <th>...</th>
+      <th>transcript_status</th>
+      <th>transcript_name</th>
+      <th>exon_number</th>
+      <th>exon_id</th>
+      <th>level</th>
+      <th>mgi_id</th>
+      <th>havana_gene</th>
+      <th>tag</th>
+      <th>bin_len</th>
+      <th>weight</th>
+    </tr>
+    <tr>
+      <th>gene_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>ENSMUSG00000102693.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3073253</td>
+      <td>3074322</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>TEC</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:1918292</td>
+      <td>OTTMUSG00000049935.1</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064842.1</th>
+      <td>chr1</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>3102016</td>
+      <td>3102125</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>snRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:5455983</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000051951.5</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3205901</td>
+      <td>3671498</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:3528744</td>
+      <td>OTTMUSG00000026353.2</td>
+      <td>NaN</td>
+      <td>48</td>
+      <td>1225.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000102851.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3252757</td>
+      <td>3253236</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>processed_pseudogene</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>MGI:5011141</td>
+      <td>OTTMUSG00000049958.1</td>
+      <td>pseudo_consens</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000103377.1</th>
+      <td>chr1</td>
+      <td>HAVANA</td>
+      <td>gene</td>
+      <td>3365731</td>
+      <td>3368549</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>TEC</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>2</td>
+      <td>MGI:5610408</td>
+      <td>OTTMUSG00000049960.1</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064368.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>13552</td>
+      <td>14070</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102495</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064369.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14071</td>
+      <td>14139</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102488</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064370.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>14145</td>
+      <td>15288</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>protein_coding</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102501</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064371.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15289</td>
+      <td>15355</td>
+      <td>.</td>
+      <td>+</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102473</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <th>ENSMUSG00000064372.1</th>
+      <td>chrM</td>
+      <td>ENSEMBL</td>
+      <td>gene</td>
+      <td>15356</td>
+      <td>15422</td>
+      <td>.</td>
+      <td>-</td>
+      <td>.</td>
+      <td>NaN</td>
+      <td>Mt_tRNA</td>
+      <td>...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>3</td>
+      <td>MGI:102478</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+  </tbody>
 </table>
 <p>55487 rows × 23 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">'gene_name'</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">gene_meta</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s1">&#39;gene_name&#39;</span><span class="p">]</span>
 <span class="n">gene3c</span><span class="o">.</span><span class="n">var_names_make_unique</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1126,18 +1287,18 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">Tan2021_rna.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="o">=</span> <span class="n">anndata</span><span class="o">.</span><span class="n">read_h5ad</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">indir</span><span class="si">}</span><span class="s1">Tan2021_rna.h5ad&#39;</span><span class="p">)</span>
 <span class="n">expr</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 3517 × 3000
-    obs: 'Genes', 'nUMI', 'umap_0', 'umap_1', 'age', 'region', 'cluster'
-    var: 'chrom', 'start', 'end', 'gene_id', 'strand', 'n_cells', 'highly_variable', 'highly_variable_rank', 'means', 'variances', 'variances_norm'
-    uns: 'hvg', 'log1p', 'neighbors', 'umap'
-    obsm: 'X_pca', 'X_umap', 'rna_pca_all'
-    obsp: 'connectivities', 'distances'
+    obs: &#39;Genes&#39;, &#39;nUMI&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;age&#39;, &#39;region&#39;, &#39;cluster&#39;
+    var: &#39;chrom&#39;, &#39;start&#39;, &#39;end&#39;, &#39;gene_id&#39;, &#39;strand&#39;, &#39;n_cells&#39;, &#39;highly_variable&#39;, &#39;highly_variable_rank&#39;, &#39;means&#39;, &#39;variances&#39;, &#39;variances_norm&#39;
+    uns: &#39;hvg&#39;, &#39;log1p&#39;, &#39;neighbors&#39;, &#39;umap&#39;
+    obsm: &#39;X_pca&#39;, &#39;X_umap&#39;, &#39;rna_pca_all&#39;
+    obsp: &#39;connectivities&#39;, &#39;distances&#39;
 </pre></div>
 </div>
 </div>
@@ -1152,11 +1313,11 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>View of AnnData object with n_obs × n_vars = 3517 × 24511
-    obs: 'Genes', 'nUMI', 'umap_0', 'umap_1', 'age', 'region', 'cluster'
-    var: 'chrom', 'start', 'end', 'gene_id', 'strand', 'n_cells', 'highly_variable', 'highly_variable_rank', 'means', 'variances', 'variances_norm'
-    uns: 'hvg', 'log1p', 'neighbors', 'umap'
-    obsm: 'X_pca', 'X_umap', 'rna_pca_all'
-    obsp: 'connectivities', 'distances'
+    obs: &#39;Genes&#39;, &#39;nUMI&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;age&#39;, &#39;region&#39;, &#39;cluster&#39;
+    var: &#39;chrom&#39;, &#39;start&#39;, &#39;end&#39;, &#39;gene_id&#39;, &#39;strand&#39;, &#39;n_cells&#39;, &#39;highly_variable&#39;, &#39;highly_variable_rank&#39;, &#39;means&#39;, &#39;variances&#39;, &#39;variances_norm&#39;
+    uns: &#39;hvg&#39;, &#39;log1p&#39;, &#39;neighbors&#39;, &#39;umap&#39;
+    obsm: &#39;X_pca&#39;, &#39;X_umap&#39;, &#39;rna_pca_all&#39;
+    obsp: &#39;connectivities&#39;, &#39;distances&#39;
 </pre></div>
 </div>
 </div>
@@ -1170,8 +1331,8 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>View of AnnData object with n_obs × n_vars = 3646 × 24511
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    var: 'chrom', 'source', 'feature', 'start', 'end', 'score', 'strand', 'phase', 'transcript_id', 'gene_type', 'gene_status', 'gene_name', 'transcript_type', 'transcript_status', 'transcript_name', 'exon_number', 'exon_id', 'level', 'mgi_id', 'havana_gene', 'tag', 'bin_len', 'weight'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    var: &#39;chrom&#39;, &#39;source&#39;, &#39;feature&#39;, &#39;start&#39;, &#39;end&#39;, &#39;score&#39;, &#39;strand&#39;, &#39;phase&#39;, &#39;transcript_id&#39;, &#39;gene_type&#39;, &#39;gene_status&#39;, &#39;gene_name&#39;, &#39;transcript_type&#39;, &#39;transcript_status&#39;, &#39;transcript_name&#39;, &#39;exon_number&#39;, &#39;exon_id&#39;, &#39;level&#39;, &#39;mgi_id&#39;, &#39;havana_gene&#39;, &#39;tag&#39;, &#39;bin_len&#39;, &#39;weight&#39;
 </pre></div>
 </div>
 </div>
@@ -1181,14 +1342,14 @@ Length: 3646, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tmp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">gene3c</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
 <span class="n">tmp</span> <span class="o">=</span> <span class="n">rankdata</span><span class="p">(</span><span class="o">-</span><span class="n">tmp</span><span class="p">)</span>
-<span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'highly_variable'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;highly_variable&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp</span><span class="o">&lt;</span><span class="mi">2000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span> <span class="o">=</span> <span class="n">gene3c</span><span class="p">[:,</span> <span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">'highly_variable'</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span> <span class="o">=</span> <span class="n">gene3c</span><span class="p">[:,</span> <span class="n">gene3c</span><span class="o">.</span><span class="n">var</span><span class="p">[</span><span class="s1">&#39;highly_variable&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -1204,7 +1365,7 @@ Length: 3646, dtype: int64
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># sc.pp.highly_variable_genes(expr, n_top_genes=2000)</span>
 <span class="c1"># expr = expr[:, expr.var.highly_variable]</span>
-<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">regress_out</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">[</span><span class="s1">'nUMI'</span><span class="p">])</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">regress_out</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;nUMI&#39;</span><span class="p">])</span>
 <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1213,7 +1374,7 @@ Length: 3646, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dim</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">'arpack'</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">TruncatedSVD</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">algorithm</span><span class="o">=</span><span class="s1">&#39;arpack&#39;</span><span class="p">)</span>
 <span class="n">matrix_reduce</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
 <span class="n">matrix_reduce</span> <span class="o">=</span> <span class="n">matrix_reduce</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
 </pre></div>
@@ -1222,8 +1383,8 @@ Length: 3646, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'rna_pca_all'</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_reduce</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">significant_pc_test</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">p_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">obsm</span><span class="o">=</span><span class="s1">'rna_pca_all'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix_reduce</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">significant_pc_test</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">p_cutoff</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">update</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">obsm</span><span class="o">=</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1241,7 +1402,7 @@ Length: 3646, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dump_embedding</span><span class="p">(</span><span class="n">adata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">n_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
     <span class="c1"># put manifold coordinates into adata.obs</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_dim</span><span class="p">):</span>
-        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s1">'X_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">'</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">adata</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;X_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">adata</span>
 </pre></div>
 </div>
@@ -1250,8 +1411,8 @@ Length: 3646, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knn</span> <span class="o">=</span> <span class="mi">25</span>
-<span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'rna_pca_all'</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">'X_pca'</span><span class="p">)</span>
+<span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;rna_pca_all&#39;</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">&#39;X_pca&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1259,8 +1420,8 @@ Length: 3646, dtype: int64
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">expr</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s1">'umap'</span><span class="p">)</span>
-<span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'rna_u30_umap'</span><span class="p">]</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_umap'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">expr</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="s1">&#39;umap&#39;</span><span class="p">)</span>
+<span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;rna_u30_umap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">expr</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_umap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1270,33 +1431,33 @@ Length: 3646, dtype: int64
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">continuous_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                        <span class="n">data</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                       <span class="n">hue</span><span class="o">=</span><span class="s1">'nUMI'</span><span class="p">,</span>
-                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
+                       <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;nUMI&#39;</span><span class="p">,</span>
+                       <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
                        <span class="n">max_points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                        <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                        <span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'rainbow'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;rainbow&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'region'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='region',</span>
-                        <span class="c1"># palette='tab10',</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;region&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;region&#39;,</span>
+                        <span class="c1"># palette=&#39;tab10&#39;,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span>
                        <span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
                         <span class="n">data</span><span class="o">=</span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1"># show_legend=True</span>
                        <span class="p">)</span>
@@ -1304,11 +1465,11 @@ Length: 3646, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
-findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family [&#39;sans-serif&#39;] not found. Falling back to DejaVu Sans.
+findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: Helvetica
 </pre></div>
 </div>
-<img alt="../_images/dcd3fb6ea24a041dad64ef6b5e64be4a2403fbd6005088bec4bd597f8af570a6.png" src="../_images/dcd3fb6ea24a041dad64ef6b5e64be4a2403fbd6005088bec4bd597f8af570a6.png"/>
+<img alt="../_images/dcd3fb6ea24a041dad64ef6b5e64be4a2403fbd6005088bec4bd597f8af570a6.png" src="../_images/dcd3fb6ea24a041dad64ef6b5e64be4a2403fbd6005088bec4bd597f8af570a6.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1319,15 +1480,15 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>View of AnnData object with n_obs × n_vars = 3646 × 1999
-    obs: 'tissue', 'treatment', 'age', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'umap_0', 'umap_1', 'leiden'
-    var: 'chrom', 'source', 'feature', 'start', 'end', 'score', 'strand', 'phase', 'transcript_id', 'gene_type', 'gene_status', 'gene_name', 'transcript_type', 'transcript_status', 'transcript_name', 'exon_number', 'exon_id', 'level', 'mgi_id', 'havana_gene', 'tag', 'bin_len', 'weight', 'highly_variable'
+    obs: &#39;tissue&#39;, &#39;treatment&#39;, &#39;age&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;leiden&#39;
+    var: &#39;chrom&#39;, &#39;source&#39;, &#39;feature&#39;, &#39;start&#39;, &#39;end&#39;, &#39;score&#39;, &#39;strand&#39;, &#39;phase&#39;, &#39;transcript_id&#39;, &#39;gene_type&#39;, &#39;gene_status&#39;, &#39;gene_name&#39;, &#39;transcript_type&#39;, &#39;transcript_status&#39;, &#39;transcript_name&#39;, &#39;exon_number&#39;, &#39;exon_id&#39;, &#39;level&#39;, &#39;mgi_id&#39;, &#39;havana_gene&#39;, &#39;tag&#39;, &#39;bin_len&#39;, &#39;weight&#39;, &#39;highly_variable&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">regress_out</span><span class="p">(</span><span class="n">gene3c</span><span class="p">,</span> <span class="p">[</span><span class="s1">'contacts'</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">regress_out</span><span class="p">(</span><span class="n">gene3c</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;contacts&#39;</span><span class="p">])</span>
 <span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">gene3c</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1335,16 +1496,16 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gene3c</span><span class="o">.</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
-<span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">gene3c</span><span class="o">.</span><span class="n">X</span><span class="p">)</span> <span class="o">/</span> <span class="n">model</span><span class="o">.</span><span class="n">singular_values_</span>
+<span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">gene3c</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'RNA'</span>
-<span class="n">gene3c</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'3C'</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expr</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;RNA&#39;</span>
+<span class="n">gene3c</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;3C&#39;</span>
 </pre></div>
 </div>
 </div>
@@ -1367,10 +1528,10 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">anchor</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">find_anchor</span><span class="p">(</span><span class="n">adata_list</span><span class="p">,</span>
                                 <span class="n">k_local</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                <span class="n">key_local</span><span class="o">=</span><span class="s1">'X_pca'</span><span class="p">,</span>
+                                <span class="n">key_local</span><span class="o">=</span><span class="s1">&#39;X_pca&#39;</span><span class="p">,</span>
                                 <span class="n">k_anchor</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                                <span class="n">key_anchor</span><span class="o">=</span><span class="s1">'X'</span><span class="p">,</span>
-                                <span class="n">dim_red</span><span class="o">=</span><span class="s1">'cca'</span><span class="p">,</span>
+                                <span class="n">key_anchor</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span>
+                                <span class="n">dim_red</span><span class="o">=</span><span class="s1">&#39;cca&#39;</span><span class="p">,</span>
                                 <span class="n">max_cc_cells</span><span class="o">=</span><span class="mi">50000</span><span class="p">,</span>
                                 <span class="n">k_score</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                                 <span class="n">k_filter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -1397,7 +1558,7 @@ Identified 6894 anchors between datasets 0 and 1.
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">corrected</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">key_correct</span><span class="o">=</span><span class="s1">'X_pca'</span><span class="p">,</span>
+<span class="n">corrected</span> <span class="o">=</span> <span class="n">integrator</span><span class="o">.</span><span class="n">integrate</span><span class="p">(</span><span class="n">key_correct</span><span class="o">=</span><span class="s1">&#39;X_pca&#39;</span><span class="p">,</span>
                                  <span class="n">row_normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                  <span class="n">n_components</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                                  <span class="n">k_weight</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
@@ -1432,17 +1593,17 @@ Transform data
 </div>
 <div class="cell_output docutils container">
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AnnData object with n_obs × n_vars = 7163 × 1
-    obs: 'Genes', 'nUMI', 'umap_0', 'umap_1', 'age', 'region', 'cluster', 'Modality', 'tissue', 'treatment', 'sex', 'father', 'mother', 'restriction enzyme', 'cell-type cluster', 'contacts', 'leiden'
+    obs: &#39;Genes&#39;, &#39;nUMI&#39;, &#39;umap_0&#39;, &#39;umap_1&#39;, &#39;age&#39;, &#39;region&#39;, &#39;cluster&#39;, &#39;Modality&#39;, &#39;tissue&#39;, &#39;treatment&#39;, &#39;sex&#39;, &#39;father&#39;, &#39;mother&#39;, &#39;restriction enzyme&#39;, &#39;cell-type cluster&#39;, &#39;contacts&#39;, &#39;leiden&#39;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'u30_seuratcc30nofilter'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">corrected</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'u30_seuratcc30nofilter'</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="c1"># sce.pp.harmony_integrate(adata_merge, 'Modality', max_iter_harmony=30, random_state=0)</span>
-<span class="c1"># adata_merge.obsm['log_reghvg_cca_u25hm'] = adata_merge.obsm['X_pca_harmony'].copy()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;u30_seuratcc30nofilter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">corrected</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">normalize</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;u30_seuratcc30nofilter&#39;</span><span class="p">][:,</span> <span class="p">:</span><span class="mi">30</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c1"># sce.pp.harmony_integrate(adata_merge, &#39;Modality&#39;, max_iter_harmony=30, random_state=0)</span>
+<span class="c1"># adata_merge.obsm[&#39;log_reghvg_cca_u25hm&#39;] = adata_merge.obsm[&#39;X_pca_harmony&#39;].copy()</span>
 </pre></div>
 </div>
 </div>
@@ -1450,70 +1611,70 @@ Transform data
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">knn</span> <span class="o">=</span> <span class="mi">25</span>
-<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">adata_merge</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">'u30_seuratcc30nofilter'</span><span class="p">)</span>
+<span class="n">sc</span><span class="o">.</span><span class="n">pp</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">adata_merge</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="n">knn</span><span class="p">,</span> <span class="n">use_rep</span><span class="o">=</span><span class="s1">&#39;u30_seuratcc30nofilter&#39;</span><span class="p">)</span>
 <span class="n">sc</span><span class="o">.</span><span class="n">tl</span><span class="o">.</span><span class="n">umap</span><span class="p">(</span><span class="n">adata_merge</span><span class="p">,</span> <span class="n">maxiter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">adata_merge</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">adata_merge</span><span class="p">,</span> <span class="s1">'umap'</span><span class="p">)</span>
-<span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'u30_seuratcc30nofilter_u30_umap'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_umap'</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">adata_merge</span> <span class="o">=</span> <span class="n">dump_embedding</span><span class="p">(</span><span class="n">adata_merge</span><span class="p">,</span> <span class="s1">&#39;umap&#39;</span><span class="p">)</span>
+<span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;u30_seuratcc30nofilter_u30_umap&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_umap&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">legage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'age'</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
-<span class="n">palage</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">legage</span><span class="p">,</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">'hls'</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">legage</span><span class="p">)))}</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">legage</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
+<span class="n">palage</span> <span class="o">=</span> <span class="p">{</span><span class="n">xx</span><span class="p">:</span><span class="n">yy</span> <span class="k">for</span> <span class="n">xx</span><span class="p">,</span><span class="n">yy</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">legage</span><span class="p">,</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s1">&#39;hls&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">legage</span><span class="p">)))}</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adata_merge.obsm['X_umap'] = adata_merge.obsm['u50_seuratcc30nofilter_u30_umap'].copy()</span>
-<span class="c1"># dump_embedding(adata_merge, 'umap')</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adata_merge.obsm[&#39;X_umap&#39;] = adata_merge.obsm[&#39;u50_seuratcc30nofilter_u30_umap&#39;].copy()</span>
+<span class="c1"># dump_embedding(adata_merge, &#39;umap&#39;)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'3C'</span><span class="p">]</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;3C&#39;</span><span class="p">]</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
                         <span class="n">palette</span><span class="o">=</span><span class="n">palage</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'leiden'</span><span class="p">,</span>
-                        <span class="n">text_anno</span><span class="o">=</span><span class="s1">'leiden'</span><span class="p">,</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;leiden&#39;</span><span class="p">,</span>
+                        <span class="n">text_anno</span><span class="o">=</span><span class="s1">&#39;leiden&#39;</span><span class="p">,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1">#show_legend=True</span>
                        <span class="p">)</span>
 
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'RNA'</span><span class="p">]</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;RNA&#39;</span><span class="p">]</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
                         <span class="n">palette</span><span class="o">=</span><span class="n">palage</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1">#show_legend=True</span>
                        <span class="p">)</span>
@@ -1521,31 +1682,31 @@ Transform data
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family ['sans-serif'] not found. Falling back to DejaVu Sans.
-findfont: Generic family 'sans-serif' not found because none of the following families were found: Helvetica
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>findfont: Font family [&#39;sans-serif&#39;] not found. Falling back to DejaVu Sans.
+findfont: Generic family &#39;sans-serif&#39; not found because none of the following families were found: Helvetica
 </pre></div>
 </div>
-<img alt="../_images/8a0bf8d4d66185260b784f2335b93abdfe86ddeda474979ca3e582046cb7ad04.png" src="../_images/8a0bf8d4d66185260b784f2335b93abdfe86ddeda474979ca3e582046cb7ad04.png"/>
+<img alt="../_images/8a0bf8d4d66185260b784f2335b93abdfe86ddeda474979ca3e582046cb7ad04.png" src="../_images/8a0bf8d4d66185260b784f2335b93abdfe86ddeda474979ca3e582046cb7ad04.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">'object'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">'object'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
-<span class="n">adata_merge</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">'Tan2021_rna3c.h5ad'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">dtypes</span> <span class="o">==</span> <span class="s1">&#39;object&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">adata_merge</span><span class="o">.</span><span class="n">write_h5ad</span><span class="p">(</span><span class="s1">&#39;Tan2021_rna3c.h5ad&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_cell</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'RNA'</span><span class="p">)</span>
-<span class="n">hic_cell</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'3C'</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rna_cell</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;RNA&#39;</span><span class="p">)</span>
+<span class="n">hic_cell</span> <span class="o">=</span> <span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;3C&#39;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">rna_cell</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="n">hic_cell</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
 
 <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="n">index</span> <span class="o">=</span> <span class="n">pynndescent</span><span class="o">.</span><span class="n">NNDescent</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">][</span><span class="n">rna_cell</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="s1">'euclidean'</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">index</span> <span class="o">=</span> <span class="n">pynndescent</span><span class="o">.</span><span class="n">NNDescent</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">][</span><span class="n">rna_cell</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-<span class="n">G</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">'X_pca'</span><span class="p">][</span><span class="n">hic_cell</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">G</span><span class="p">,</span> <span class="n">D</span> <span class="o">=</span> <span class="n">index</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obsm</span><span class="p">[</span><span class="s1">&#39;X_pca&#39;</span><span class="p">][</span><span class="n">hic_cell</span><span class="p">],</span> <span class="n">k</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1589,9 +1750,9 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">enc</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">()</span>
-<span class="c1"># enc.fit(adata_merge.obs.loc[aibs_cell, ['L3']].values.astype(str))</span>
-<span class="n">labelref</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rna_cell</span><span class="p">,</span> <span class="s1">'cluster'</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">])</span>
-<span class="n">cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">hic_cell</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">,</span> <span class="s1">'score'</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+<span class="c1"># enc.fit(adata_merge.obs.loc[aibs_cell, [&#39;L3&#39;]].values.astype(str))</span>
+<span class="n">labelref</span> <span class="o">=</span> <span class="n">enc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">rna_cell</span><span class="p">,</span> <span class="s1">&#39;cluster&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">cluster</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">hic_cell</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rnatype&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">chunk_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">hic_cell</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">):</span>
     <span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">D</span><span class="p">[</span><span class="n">chunk_start</span> <span class="p">:</span> <span class="p">(</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">),</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span>
@@ -1604,13 +1765,13 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
         <span class="n">columns</span><span class="o">=</span><span class="n">enc</span><span class="o">.</span><span class="n">categories_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">index</span><span class="o">=</span><span class="n">hic_cell</span><span class="p">[</span><span class="n">chunk_start</span> <span class="p">:</span> <span class="p">(</span><span class="n">chunk_start</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">)],</span>
     <span class="p">)</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">!=</span> <span class="s2">"nan"</span><span class="p">]</span>
-    <span class="n">cluster</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">"rnatype"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">cluster</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">result</span><span class="o">.</span><span class="n">columns</span> <span class="o">!=</span> <span class="s2">&quot;nan&quot;</span><span class="p">]</span>
+    <span class="n">cluster</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;rnatype&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">idxmax</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">cluster</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">result</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;score&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">chunk_start</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">)</span>
-<span class="n">cluster</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">"DipC_rnacluster.hdf"</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"data"</span><span class="p">)</span>
+<span class="n">cluster</span><span class="o">.</span><span class="n">to_hdf</span><span class="p">(</span><span class="s2">&quot;DipC_rnacluster.hdf&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1623,60 +1784,60 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">'dipctype'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">'cell-type cluster'</span><span class="p">]</span>
-<span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">'cluster'</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;dipctype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">&#39;cell-type cluster&#39;</span><span class="p">]</span>
+<span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">&#39;cluster&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;rnatype&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adata_merge.obsm['X_umap'] = adata_merge.obsm['u50_seuratcc30nofilter_u30_umap'].copy()</span>
-<span class="c1"># dump_embedding(adata_merge, 'umap')</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># adata_merge.obsm[&#39;X_umap&#39;] = adata_merge.obsm[&#39;u50_seuratcc30nofilter_u30_umap&#39;].copy()</span>
+<span class="c1"># dump_embedding(adata_merge, &#39;umap&#39;)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'3C'</span><span class="p">]</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;3C&#39;</span><span class="p">]</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
                         <span class="n">palette</span><span class="o">=</span><span class="n">palage</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='celltype',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;celltype&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1">#show_legend=True</span>
                        <span class="p">)</span>
 
-<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'Modality'</span><span class="p">]</span><span class="o">==</span><span class="s1">'RNA'</span><span class="p">]</span>
+<span class="n">tmp</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;Modality&#39;</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;RNA&#39;</span><span class="p">]</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'age'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;age&#39;</span><span class="p">,</span>
                         <span class="n">palette</span><span class="o">=</span><span class="n">palage</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_0'</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">'umap_1'</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">'#e0e0e0'</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_0&#39;</span><span class="p">],</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="p">[</span><span class="s1">&#39;umap_1&#39;</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;#e0e0e0&#39;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">rasterized</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">_</span> <span class="o">=</span> <span class="n">categorical_scatter</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">tmp</span><span class="p">,</span>
                         <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
-                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">'umap'</span><span class="p">,</span>
-                        <span class="n">hue</span><span class="o">=</span><span class="s1">'cluster'</span><span class="p">,</span>
-                        <span class="c1"># text_anno='cluster',</span>
-                        <span class="n">palette</span><span class="o">=</span><span class="s1">'tab20'</span><span class="p">,</span>
+                        <span class="n">coord_base</span><span class="o">=</span><span class="s1">&#39;umap&#39;</span><span class="p">,</span>
+                        <span class="n">hue</span><span class="o">=</span><span class="s1">&#39;cluster&#39;</span><span class="p">,</span>
+                        <span class="c1"># text_anno=&#39;cluster&#39;,</span>
+                        <span class="n">palette</span><span class="o">=</span><span class="s1">&#39;tab20&#39;</span><span class="p">,</span>
                         <span class="n">labelsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
                         <span class="c1">#show_legend=True</span>
                        <span class="p">)</span>
@@ -1684,12 +1845,12 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/6501bcd97ca1616cf5f4d3eaeedb86bb69aeb409511b9332b0daf58c652f56e8.png" src="../_images/6501bcd97ca1616cf5f4d3eaeedb86bb69aeb409511b9332b0daf58c652f56e8.png"/>
+<img alt="../_images/6501bcd97ca1616cf5f4d3eaeedb86bb69aeb409511b9332b0daf58c652f56e8.png" src="../_images/6501bcd97ca1616cf5f4d3eaeedb86bb69aeb409511b9332b0daf58c652f56e8.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[[</span><span class="s1">'dipctype'</span><span class="p">,</span><span class="s1">'rnatype'</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[[</span><span class="s1">&#39;dipctype&#39;</span><span class="p">,</span><span class="s1">&#39;rnatype&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cf_matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cf_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span><span class="kc">None</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cf_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1710,15 +1871,15 @@ findfont: Generic family 'sans-serif' not found because none of the following fa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel='rnatype', ylabel='dipctype'&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;AxesSubplot:xlabel=&#39;rnatype&#39;, ylabel=&#39;dipctype&#39;&gt;
 </pre></div>
 </div>
-<img alt="../_images/cba54f7e1ff880c7469f07c956be3e29848c166d487736ff3caeeba4c3d3c6e9.png" src="../_images/cba54f7e1ff880c7469f07c956be3e29848c166d487736ff3caeeba4c3d3c6e9.png"/>
+<img alt="../_images/cba54f7e1ff880c7469f07c956be3e29848c166d487736ff3caeeba4c3d3c6e9.png" src="../_images/cba54f7e1ff880c7469f07c956be3e29848c166d487736ff3caeeba4c3d3c6e9.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">'rnatype'</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;rnatype&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -1756,13 +1917,13 @@ Name: rnatype, dtype: int64
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">'Tan2021_dipc_cluster.csv.gz'</span><span class="p">,</span> <span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Tan2021_dipc_cluster.csv.gz&#39;</span><span class="p">,</span> <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output text_html"><div>
-<style scoped="">
+<style scoped>
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1776,102 +1937,102 @@ Name: rnatype, dtype: int64
     }
 </style>
 <table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>rnatype</th>
-<th>score</th>
-<th>dipctype</th>
-<th>dipcleiden</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>cortex-p028-cb_116</th>
-<td>Cortical L6 Pyramidal Cell</td>
-<td>0.999996</td>
-<td>Cortical L6 Pyramidal Cell</td>
-<td>5</td>
-</tr>
-<tr>
-<th>cortex-visual-control-p007-b6_182</th>
-<td>Cortical L6 Pyramidal Cell</td>
-<td>0.999992</td>
-<td>Neuron</td>
-<td>2</td>
-</tr>
-<tr>
-<th>cortex-p028-cb_112</th>
-<td>Cortical L6 Pyramidal Cell</td>
-<td>0.999996</td>
-<td>Cortical L2–5 Pyramidal Cell</td>
-<td>5</td>
-</tr>
-<tr>
-<th>cortex-visual-control-p001-b6_061</th>
-<td>Unknown Interneuron 2</td>
-<td>0.330496</td>
-<td>Neuron</td>
-<td>2</td>
-</tr>
-<tr>
-<th>cortex-p056-cb_216</th>
-<td>Microglia Etc.</td>
-<td>0.999989</td>
-<td>Microglia Etc.</td>
-<td>14</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>cortex-visual-control-p021-b6_090</th>
-<td>Mature Oligodendrocyte</td>
-<td>0.999994</td>
-<td>Mature Oligodendrocyte</td>
-<td>16</td>
-</tr>
-<tr>
-<th>cortex-visual-control-p021-b6_012</th>
-<td>Cortical L6 Pyramidal Cell</td>
-<td>0.999997</td>
-<td>Neuron</td>
-<td>5</td>
-</tr>
-<tr>
-<th>hippocampus-p007-cb_046</th>
-<td>Microglia Etc.</td>
-<td>0.999993</td>
-<td>Microglia Etc.</td>
-<td>13</td>
-</tr>
-<tr>
-<th>cortex-visual-dark-p014-b6_106</th>
-<td>Microglia Etc.</td>
-<td>0.999994</td>
-<td>Microglia Etc.</td>
-<td>13</td>
-</tr>
-<tr>
-<th>cortex-visual-control-p021-b6_174</th>
-<td>Microglia Etc.</td>
-<td>0.999995</td>
-<td>Microglia Etc.</td>
-<td>13</td>
-</tr>
-</tbody>
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>rnatype</th>
+      <th>score</th>
+      <th>dipctype</th>
+      <th>dipcleiden</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>cortex-p028-cb_116</th>
+      <td>Cortical L6 Pyramidal Cell</td>
+      <td>0.999996</td>
+      <td>Cortical L6 Pyramidal Cell</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-control-p007-b6_182</th>
+      <td>Cortical L6 Pyramidal Cell</td>
+      <td>0.999992</td>
+      <td>Neuron</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>cortex-p028-cb_112</th>
+      <td>Cortical L6 Pyramidal Cell</td>
+      <td>0.999996</td>
+      <td>Cortical L2–5 Pyramidal Cell</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-control-p001-b6_061</th>
+      <td>Unknown Interneuron 2</td>
+      <td>0.330496</td>
+      <td>Neuron</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>cortex-p056-cb_216</th>
+      <td>Microglia Etc.</td>
+      <td>0.999989</td>
+      <td>Microglia Etc.</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-control-p021-b6_090</th>
+      <td>Mature Oligodendrocyte</td>
+      <td>0.999994</td>
+      <td>Mature Oligodendrocyte</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-control-p021-b6_012</th>
+      <td>Cortical L6 Pyramidal Cell</td>
+      <td>0.999997</td>
+      <td>Neuron</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>hippocampus-p007-cb_046</th>
+      <td>Microglia Etc.</td>
+      <td>0.999993</td>
+      <td>Microglia Etc.</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-dark-p014-b6_106</th>
+      <td>Microglia Etc.</td>
+      <td>0.999994</td>
+      <td>Microglia Etc.</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>cortex-visual-control-p021-b6_174</th>
+      <td>Microglia Etc.</td>
+      <td>0.999995</td>
+      <td>Microglia Etc.</td>
+      <td>13</td>
+    </tr>
+  </tbody>
 </table>
 <p>3646 rows × 4 columns</p>
 </div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">'dipcleiden'</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">'leiden'</span><span class="p">]</span>
-<span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[[</span><span class="s1">'dipcleiden'</span><span class="p">,</span><span class="s1">'rnatype'</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cluster</span><span class="p">[</span><span class="s1">&#39;dipcleiden&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">adata_merge</span><span class="o">.</span><span class="n">obs</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hic_cell</span><span class="p">,</span> <span class="s1">&#39;leiden&#39;</span><span class="p">]</span>
+<span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cluster</span><span class="p">[[</span><span class="s1">&#39;dipcleiden&#39;</span><span class="p">,</span><span class="s1">&#39;rnatype&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">cf_matrix</span> <span class="o">=</span> <span class="n">cf_matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cf_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span><span class="kc">None</span><span class="p">])</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cf_matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">idx</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">cf_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">cf_matrix</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 </pre></div>
@@ -1888,11 +2049,12 @@ Name: rnatype, dtype: int64
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;seaborn.matrix.ClusterGrid at 0x7f0f48f22f50&gt;
 </pre></div>
 </div>
-<img alt="../_images/19c59490a59a99bce9f97dda168cca4df9ed5c8d0d70eeb91f1407563a1ef4b3.png" src="../_images/19c59490a59a99bce9f97dda168cca4df9ed5c8d0d70eeb91f1407563a1ef4b3.png"/>
+<img alt="../_images/19c59490a59a99bce9f97dda168cca4df9ed5c8d0d70eeb91f1407563a1ef4b3.png" src="../_images/19c59490a59a99bce9f97dda168cca4df9ed5c8d0d70eeb91f1407563a1ef4b3.png" />
 </div>
 </div>
 </section>
-<script type="text/x-thebe-config">
+
+    <script type="text/x-thebe-config">
     {
         requestKernel: true,
         binderOptions: {
@@ -1910,58 +2072,93 @@ Name: rnatype, dtype: int64
         predefinedOutput: true
     }
     </script>
-<script>kernelName = 'python3'</script>
-</article>
-<footer class="bd-footer-article">
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
 <div class="footer-article-items footer-article__inner">
-<div class="footer-article-item"><!-- Previous / next buttons -->
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-<a class="left-prev" href="dipc_clustering.html" title="previous page">
-<i class="fa-solid fa-angle-left"></i>
-<div class="prev-next-info">
-<p class="prev-next-subtitle">previous</p>
-<p class="prev-next-title">DipC clustering at 100kb resolution</p>
-</div>
-</a>
-<a class="right-next" href="prepare.html" title="next page">
-<div class="prev-next-info">
-<p class="prev-next-subtitle">next</p>
-<p class="prev-next-title">Prepare pseudobulk analyses</p>
-</div>
-<i class="fa-solid fa-angle-right"></i>
-</a>
+    <a class="left-prev"
+       href="dipc_clustering.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">DipC clustering at 100kb resolution</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="prepare.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Prepare pseudobulk analyses</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div></div>
+  
 </div>
-</footer>
-</div>
-</div>
-<footer class="bd-footer-content">
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
 <div class="bd-footer-content__inner container">
-<div class="footer-item">
+  
+  <div class="footer-item">
+    
 <p class="component-author">
 By Jingtian Zhou
 </p>
-</div>
-<div class="footer-item">
-<p class="copyright">
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
     
       © Copyright 2022.
       <br/>
-</p>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
-<div class="footer-item">
-</div>
-<div class="footer-item">
-</div>
-</div>
-</footer>
-</main>
-</div>
-</div>
-<!-- Scripts loaded after <body> so the DOM is not blocked -->
-<script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
 <script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
-<footer class="bd-footer">
-</footer>
-</body>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
 </html>
