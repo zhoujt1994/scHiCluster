@@ -248,17 +248,21 @@ def call_loops(group_prefix,
     total_loops.dropna(subset=['local_pval', 'global_pval'],
                        how='any',
                        inplace=True)
-    local_qs = []
-    global_qs = []
-    for dist in total_loops['distance'].unique():
-        p_values = total_loops.loc[total_loops['distance'] == dist,
-                                   ['local_pval', 'global_pval']]
-        _, local_q, *_ = multipletests(p_values['local_pval'])
-        local_qs.append(pd.Series(local_q, index=p_values.index))
-        _, global_q, *_ = multipletests(p_values['global_pval'])
-        global_qs.append(pd.Series(global_q, index=p_values.index))
-    local_qs = pd.concat(local_qs).sort_index()
-    global_qs = pd.concat(global_qs).sort_index()
+    if total_loop.shape[0]>0:
+        local_qs = []
+        global_qs = []
+        for dist in total_loops['distance'].unique():
+            p_values = total_loops.loc[total_loops['distance'] == dist,
+                                       ['local_pval', 'global_pval']]
+            _, local_q, *_ = multipletests(p_values['local_pval'])
+            local_qs.append(pd.Series(local_q, index=p_values.index))
+            _, global_q, *_ = multipletests(p_values['global_pval'])
+            global_qs.append(pd.Series(global_q, index=p_values.index))
+        local_qs = pd.concat(local_qs).sort_index()
+        global_qs = pd.concat(global_qs).sort_index()
+    else:
+        local_qs = pd.Series()
+        global_qs = pd.Series()
     total_loops['local_qval'] = local_qs
     total_loops['global_qval'] = global_qs
 
