@@ -248,7 +248,7 @@ def call_loops(group_prefix,
     total_loops.dropna(subset=['local_pval', 'global_pval'],
                        how='any',
                        inplace=True)
-    if total_loop.shape[0]>0:
+    if total_loops.shape[0]>0:
         local_qs = []
         global_qs = []
         for dist in total_loops['distance'].unique():
