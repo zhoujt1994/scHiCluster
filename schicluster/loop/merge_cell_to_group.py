@@ -114,7 +114,7 @@ def merge_cool(input_cool_tsv_file, output_cool):
     # Input could be cool files of single cell or average over cells
     # Output is average over cells
     # total_cell is counted over cools according to group_n_cells, otherwise 1
-    input_cool_list = pd.read_csv(input_cool_tsv_file).squeeze(axis=1).tolist()
+    input_cool_list = pd.read_csv(input_cool_tsv_file, header=None, index_col=None).squeeze(axis=1).tolist()
     input_cool_list = [str(pathlib.Path(cool).absolute()) for cool in input_cool_list]
     
     cool = cooler.Cooler(input_cool_list[0])
