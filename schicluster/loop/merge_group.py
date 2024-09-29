@@ -78,7 +78,7 @@ def merge_group_to_bigger_group_cools(chrom_size_path,
     # count total cells
     total_cells = 0
     for chunk_dir in group_list:
-        total_cells += pd.read_csv(chunk_dir / 'cell_table.tsv', index_col=0).shape[0]
+        total_cells += pd.read_csv(chunk_dir / 'cell_table.tsv', index_col=0, header=None).shape[0]
     
     if shuffle:
         group_list = [xx / 'shuffle/' for xx in group_list]
