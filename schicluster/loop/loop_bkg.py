@@ -88,8 +88,7 @@ def calculate_chrom_background_normalization(cell_url,
                 tmp2 = np.where(tmp2 < cutoff, tmp2, cutoff)
                 tmp2 = zscore(tmp2)
                 tmp2[np.isnan(tmp2)] = 0
-                tmp2[tmp2 > cap] = cap
-                tmp2[tmp2 < -cap] = -cap
+            tmp2 = np.clip(tmp2, a_min=-cap, a_max=cap)
             tmp[~tmp_filter] = tmp2.min()
             tmp[tmp_filter] = tmp2.copy()
             if shuffle:
