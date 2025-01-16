@@ -155,9 +155,11 @@ def aggregate_insulation(cell_table, temp_dir, bins, output_path, save_count=Fal
         total_insulation.index.name = 'cell'
         total_insulation.columns.name = 'bin'
         total_insulation = xr.DataArray(total_insulation)
-        total_insulation.coords['bin_chrom'] = bins['chrom']
-        total_insulation.coords['bin_start'] = bins['start']
-        total_insulation.coords['bin_end'] = bins['end']
+        for key in ['chrom', 'start', 'end']:
+            total_insulation = total_insulation.assign_coords({f'bin_{key}': ('bin', bins[key])})
+        # total_insulation.coords['bin_chrom'] = bins['chrom']
+        # total_insulation.coords['bin_start'] = bins['start']
+        # total_insulation.coords['bin_end'] = bins['end']
     total_insulation.to_netcdf(output_path)
     return
 
