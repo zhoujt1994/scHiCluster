@@ -127,9 +127,9 @@ def update_fdr_qval(chrom_size_path,
         tmp = data.loc[tmpfilter, ['x1', 'y1']].values // res
         coord = (tmp[:, 0], tmp[:, 1])
         tmp = load_npz(f'{shuffle_group_prefix}_{chrom}.permutefdrlocal.npz')
-        data.loc[tmpfilter, 'local_qval'] = tmp[coord].toarray().ravel()
+        data.loc[tmpfilter, 'local_qval'] = np.array(tmp[coord]).ravel()
         tmp = load_npz(f'{shuffle_group_prefix}_{chrom}.permutefdrglobal.npz')
-        data.loc[tmpfilter, 'global_qval'] = tmp[coord].toarray().ravel()
+        data.loc[tmpfilter, 'global_qval'] = np.array(tmp[coord]).ravel()
 
     data.to_hdf(f'{real_group_prefix}.totalloop_info.hdf',
                 key='data',
