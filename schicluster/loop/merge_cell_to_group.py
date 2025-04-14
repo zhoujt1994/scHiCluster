@@ -76,6 +76,8 @@ def chrom_sum_iterator(input_cool_list,
     for chrom in chrom_sizes.keys():
         if include_trans:
             for chrom2 in chrom_sizes.keys():
+                if chrom_offset[chrom]>chrom_offset[chrom2]:
+                    continue
                 cool_path = input_cool_list[0]
                 matrix = read_single_cool_chrom(cool_path, chrom, chrom2)
                 for cool_path in input_cool_list[1:]:
