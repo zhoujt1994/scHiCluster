@@ -737,6 +737,9 @@ def merge_cool_register_subparser(subparser):
                             '1. file_path. No header')
     parser_req.add_argument('--output_cool', type=str, default=None, required=True, 
                             help='Full path to output merged cool file')
+    parser.add_argument('--include_trans', dest='include_trans', action='store_true',
+                        help='Include trans-chromosomal contacts')
+    parser.set_defaults(include_trans=False)
 
 
 def filter_contacts_register_subparser(subparser):
