@@ -32,37 +32,46 @@ def write_coo(path, matrix, chunk_size=5000000):
 
 
 def chrom_iterator(input_dir, chrom_order, chrom_offset, chrom_wildcard='{chrom}.hdf', csr=False):
-    for chrom in chrom_order:
-        logging.debug(chrom)
-        chrom_file = chrom_wildcard.format(chrom=chrom)
-        output_path = f'{input_dir}/{chrom_file}'
-        if not pathlib.Path(output_path).exists():
-            continue
-        if (not csr) and (chrom_wildcard[-3:]=='hdf'):
-            with pd.HDFStore(output_path, 'r') as hdf:
-                logging.debug(chrom)
-                keys = {int(i[2:]): i for i in hdf.keys()}
-                for i in sorted(keys.keys()):
-                    key = keys[i]
-                    chunk = hdf[key]
+    chunk_size = 5000000
+    if chrom_wildcard=='all.npz':
+        output_path = f'{input_dir}/{chrom_wildcard}'
+        Q = load_npz(output_path).tocoo()
+        df = pd.DataFrame({'bin1_id': Q.row, 'bin2_id': Q.col, 'count': Q.data})
+        df = df[df['bin1_id'] <= df['bin2_id']]
+        for i, chunk_start in enumerate(range(0, df.shape[0], chunk_size)):
+            chunk = df.iloc[chunk_start:chunk_start + chunk_size]
+            yield chunk
+    else:
+        for chrom in chrom_order:
+            logging.debug(chrom)
+            chrom_file = chrom_wildcard.format(chrom=chrom)
+            output_path = f'{input_dir}/{chrom_file}'
+            if not pathlib.Path(output_path).exists():
+                continue
+            if (not csr) and (chrom_wildcard[-3:]=='hdf'):
+                with pd.HDFStore(output_path, 'r') as hdf:
+                    logging.debug(chrom)
+                    keys = {int(i[2:]): i for i in hdf.keys()}
+                    for i in sorted(keys.keys()):
+                        key = keys[i]
+                        chunk = hdf[key]
+                        chunk.iloc[:, :2] += chrom_offset[chrom]
+                        yield chunk
+            else:
+                if (chrom_wildcard[-3:]=='npz'):
+                    Q = load_npz(output_path).tocoo()
+                elif csr and (chrom_wildcard[-3:]=='hdf'):
+                    f = h5py.File(output_path, 'r')
+                    g = f['Matrix']
+                    Q = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
+                df = pd.DataFrame({'bin1_id': Q.row, 'bin2_id': Q.col, 'count': Q.data})
+                df = df[df['bin1_id'] <= df['bin2_id']]
+                for i, chunk_start in enumerate(range(0, df.shape[0], chunk_size)):
+                    chunk = df.iloc[chunk_start:chunk_start + chunk_size]
                     chunk.iloc[:, :2] += chrom_offset[chrom]
                     yield chunk
-        else:
-            chunk_size = 5000000
-            if (chrom_wildcard[-3:]=='npz'):
-                Q = load_npz(output_path).tocoo()
-            elif csr and (chrom_wildcard[-3:]=='hdf'):
-                f = h5py.File(output_path, 'r')
-                g = f['Matrix']
-                Q = csr_matrix((g['data'][()], g['indices'][()], g['indptr'][()]), g.attrs['shape']).tocoo()
-            df = pd.DataFrame({'bin1_id': Q.row, 'bin2_id': Q.col, 'count': Q.data})
-            df = df[df['bin1_id'] <= df['bin2_id']]
-            for i, chunk_start in enumerate(range(0, df.shape[0], chunk_size)):
-                chunk = df.iloc[chunk_start:chunk_start + chunk_size]
-                chunk.iloc[:, :2] += chrom_offset[chrom]
-                yield chunk
-            if csr and (chrom_wildcard[-3:]=='hdf'):
-                f.close()
+                if csr and (chrom_wildcard[-3:]=='hdf'):
+                    f.close()
 
 def aggregate_chromosomes(chrom_size_path,
                           resolution,

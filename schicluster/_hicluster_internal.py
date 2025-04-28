@@ -94,7 +94,7 @@ def impute_chromosome_internal_subparser(subparser):
     parser.add_argument(
         "--window_size",
         type=int,
-        default=500000000
+        default=5000000000
     )
 
     parser.add_argument(
@@ -106,7 +106,7 @@ def impute_chromosome_internal_subparser(subparser):
     parser.add_argument(
         "--output_dist",
         type=int,
-        default=500000000
+        default=5000000000
     )
 
     parser.add_argument(
