@@ -74,11 +74,11 @@ def chrom_sum_iterator(input_cool_list,
     # total_cells need to be provided
     # Output chrom df
     chunk_size = 5000000
-    cool = cooler.Cooler(input_cool_list[0])
+    cool = cooler.Cooler(str(input_cool_list[0]))
     if cool.shape[0] < 100000:
         matrix = cool.matrix(balance=False, sparse=True)[:]
         for cool_path in input_cool_list[1:]:
-            cool = cooler.Cooler(cool_path)
+            cool = cooler.Cooler(str(cool_path))
             matrix += cool.matrix(balance=False, sparse=True)[:]
         matrix = matrix.tocoo()
         df = pd.DataFrame({'bin1_id': matrix.row, 'bin2_id': matrix.col, 'count': matrix.data/total_cells})
