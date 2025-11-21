@@ -1,3 +1,4 @@
+import os
 import pathlib
 import subprocess
 
@@ -242,15 +243,18 @@ def call_loop(cell_table_path,
         real_dir = output_dir
         shuffle_dir = f'{output_dir}/shuffle'
         pathlib.Path(shuffle_dir).mkdir(exist_ok=True, parents=True)
-        prepare_loop_snakemake(shuffle=False, output_dir=real_dir, **_use_kwargs)
-        prepare_loop_snakemake(shuffle=True, output_dir=shuffle_dir, **_use_kwargs)
-        _run_snakemake(real_dir)
-        _run_snakemake(shuffle_dir)
+        if not os.path.exists(f'{real_dir}/finish'):
+            prepare_loop_snakemake(shuffle=False, output_dir=real_dir, **_use_kwargs)
+            _run_snakemake(real_dir)
+        if not os.path.exists(f'{shuffle_dir}/finish'):
+            prepare_loop_snakemake(shuffle=True, output_dir=shuffle_dir, **_use_kwargs)
+            _run_snakemake(shuffle_dir)
     else:
         # not shuffle, just use normal loop pipeline
-        prepare_loop_snakemake(shuffle=False, **_use_kwargs)
         output_dir = _use_kwargs.pop('output_dir')
-        _run_snakemake(output_dir)
+        if not os.path.exists(f'{output_dir}/finish'):
+            prepare_loop_snakemake(shuffle=False, **_use_kwargs)
+            _run_snakemake(output_dir)
 
     # final call loop if shuffle
     if shuffle:
